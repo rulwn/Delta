@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.95"
         app:maxImageSize="26dp"
-        app:shapeAppearance="0dp">
+        app:shapeAppearance="@drawable/circle1">
 
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
     <com.google.android.material.bottomnavigation.BottomNavigationView
