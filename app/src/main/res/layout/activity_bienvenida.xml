@@ -10,17 +10,17 @@
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="413dp"
-        android:layout_height="842dp"
+        android:layout_height="846dp"
         android:layout_marginTop="66dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imgCirculoazul"
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/gradient_azul_background" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imgCirculoazul"
         android:layout_width="342dp"
         android:layout_height="342dp"
         android:layout_marginEnd="152dp"
@@ -30,7 +30,7 @@
         app:srcCompat="@drawable/circulo_azul_bienvenida1" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imgDoctora"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -40,5 +40,50 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.17"
         app:srcCompat="@drawable/circulo_foto_bienvenida" />
+
+    <Button
+        android:id="@+id/btnContinuar"
+        style="@style/Widget.Material3.Button.ElevatedButton"
+        android:layout_width="295dp"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/Azul2"
+        android:fontFamily="@font/poppins_medium"
+        android:foregroundTint="#FFFFFF"
+        android:text="Continuar"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:cornerRadius="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.804" />
+
+    <TextView
+        android:id="@+id/txtOnBoardTitle"
+        android:layout_width="265dp"
+        android:layout_height="60dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="Encuentra doctores de confianza"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/txtOnBoard"
+        app:layout_constraintTop_toBottomOf="@+id/imgDoctora"
+        app:layout_constraintVertical_bias="0.71"
+        tools:layout_editor_absoluteX="73dp" />
+
+    <TextView
+        android:id="@+id/txtOnBoard"
+        android:layout_width="256dp"
+        android:layout_height="47dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="Lleva todas tus necesidades  medicas en la palma de tu mano"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnContinuar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.919"
+        tools:layout_editor_absoluteX="77dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
