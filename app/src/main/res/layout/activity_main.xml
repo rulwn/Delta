@@ -54,6 +54,7 @@
         android:background="@drawable/circle1"
         android:backgroundTint="@color/Azul1"
         android:elevation="10dp"
+        android:contentDescription="Agendar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

@@ -69,9 +69,10 @@
         android:textColor="#000000"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/txtOnBoard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgDoctora"
-        app:layout_constraintVertical_bias="0.71"
-        tools:layout_editor_absoluteX="73dp" />
+        app:layout_constraintVertical_bias="0.71" />
 
     <TextView
         android:id="@+id/txtOnBoard"
@@ -82,8 +83,9 @@
         android:textAlignment="center"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/btnContinuar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.919"
-        tools:layout_editor_absoluteX="77dp" />
+        app:layout_constraintVertical_bias="0.919" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

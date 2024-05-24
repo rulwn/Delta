@@ -23,25 +23,32 @@
         android:id="@+id/txtOnBoardTitle"
         android:layout_width="267dp"
         android:layout_height="36dp"
+        android:layout_marginBottom="16dp"
         android:fontFamily="@font/poppins_semibold"
         android:text="Bienvenido de nuevo!"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="24sp"
-        tools:layout_editor_absoluteX="72dp"
-        tools:layout_editor_absoluteY="111dp" />
+        app:layout_constraintBottom_toTopOf="@+id/txtOnBoard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/txtOnBoard"
         android:layout_width="306dp"
         android:layout_height="44dp"
-        android:layout_marginTop="152dp"
         android:fontFamily="@font/poppins_regular"
         android:text="Actualiza lo que has dejado plantado y aspira a mejorar."
         android:textAlignment="center"
         android:textColor="@color/GrisHumo"
         android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="52dp" />
+        app:layout_constraintVertical_bias="0.163" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
