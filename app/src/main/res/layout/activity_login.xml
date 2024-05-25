@@ -19,6 +19,40 @@
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/gradient_azul_background" />
 
+    <Button
+        android:id="@+id/btnContinuar"
+        style="@style/Widget.Material3.Button.ElevatedButton"
+        android:layout_width="295dp"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/Azul2"
+        android:fontFamily="@font/poppins_medium"
+        android:foregroundTint="#FFFFFF"
+        android:text="Iniciar sesión"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:cornerRadius="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.521" />
+
+    <TextView
+        android:id="@+id/txtOnBoard"
+        android:layout_width="306dp"
+        android:layout_height="44dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="Actualiza lo que has dejado plantado y aspira a mejorar."
+        android:textAlignment="center"
+        android:textColor="@color/GrisHumo"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.199" />
+
     <TextView
         android:id="@+id/txtOnBoardTitle"
         android:layout_width="267dp"
@@ -35,20 +69,49 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
-    <TextView
-        android:id="@+id/txtOnBoard"
-        android:layout_width="306dp"
-        android:layout_height="44dp"
-        android:fontFamily="@font/poppins_regular"
-        android:text="Actualiza lo que has dejado plantado y aspira a mejorar."
-        android:textAlignment="center"
-        android:textColor="@color/GrisHumo"
+    <EditText
+        android:id="@+id/emailEditText"
+        android:layout_width="355dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/textboxprueba"
+        android:drawableEnd="@drawable/ic_check"
+        android:hint=" Email"
+        android:inputType="textEmailAddress"
+        android:padding="8dp"
+        android:textColor="@color/GrisAzulito"
         android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtOnBoard"
+        app:layout_constraintVertical_bias="0.333" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
+        android:layout_width="355dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="255dp"
+        android:layout_marginBottom="208dp"
+        app:boxStrokeWidth="0dp"
+        app:endIconMode="password_toggle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.163" />
+        app:layout_constraintTop_toTopOf="@+id/imageView3"
+        app:layout_constraintVertical_bias="0.188">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:background="@drawable/textboxprueba"
+            android:hint="Contraseña"
+            android:inputType="textPassword"
+            android:padding="8dp"
+            android:textColor="@color/GrisAzulito"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
