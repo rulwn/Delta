@@ -13,6 +13,18 @@
         android:theme="@style/Theme.DeltaMedic"
         tools:targetApi="31">
         <activity
+            android:name=".activity_register4"
+            android:exported="false" />
+        <activity
+            android:name=".activity_register3"
+            android:exported="false" />
+        <activity
+            android:name=".activity_register2"
+            android:exported="false" />
+        <activity
+            android:name=".activity_register1"
+            android:exported="false" />
+        <activity
             android:name=".activity_login"
             android:exported="false" />
         <activity
@@ -24,12 +36,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name">
-        </activity>
+            android:label="@string/app_name" />
 
         <meta-data
             android:name="preloaded_fonts"
