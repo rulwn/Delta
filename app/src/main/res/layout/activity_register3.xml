@@ -8,15 +8,6 @@
     tools:context=".activity_register3">
 
     <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@tools:sample/avatars"
-        tools:layout_editor_absoluteX="141dp"
-        tools:layout_editor_absoluteY="252dp"
-        tools:ignore="MissingConstraints" />
-
-    <ImageView
         android:id="@+id/imageView8"
         android:layout_width="512dp"
         android:layout_height="736dp"
@@ -246,22 +237,21 @@
         android:layout_width="109dp"
         android:layout_height="115dp"
         app:srcCompat="@drawable/ic_profile_edit"
+        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="151dp"
-        tools:layout_editor_absoluteY="252dp"
-        tools:ignore="MissingConstraints" />
+        tools:layout_editor_absoluteY="252dp" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
         android:fontFamily="@font/poppins_medium"
         android:text="Omitir"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+        tools:layout_editor_absoluteY="464dp" />
 
     <Button
         android:id="@+id/btnSiguiente3"
