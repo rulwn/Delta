@@ -8,7 +8,7 @@
     tools:context=".activity_bienvenida">
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/imgFondo"
         android:layout_width="413dp"
         android:layout_height="846dp"
         android:layout_marginTop="66dp"

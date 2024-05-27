@@ -153,10 +153,10 @@
         android:layout_height="34dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imageView16"
-        app:layout_constraintHorizontal_bias="0.619"
+        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.081"
+        app:layout_constraintVertical_bias="0.064"
         app:srcCompat="@drawable/ic_arrow_back" />
 
     <TextView
@@ -169,7 +169,6 @@
         android:textColor="@color/black"
         android:textSize="30sp"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOn="@+id/imageButton13"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageButton13"
