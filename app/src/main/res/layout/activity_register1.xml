@@ -76,20 +76,6 @@
         app:layout_constraintVertical_bias="0.159"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
-        android:id="@+id/imgCirculo3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/textView7"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.587"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.511"
-        app:srcCompat="@drawable/ic_circle_pasos"
-        app:tint="@color/GrisAzulito"
-        tools:ignore="MissingConstraints" />
-
     <TextView
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
@@ -163,6 +149,34 @@
         app:layout_constraintVertical_bias="0.76"
         tools:ignore="NotSibling" />
 
+    <ImageView
+        android:id="@+id/imgCirculo2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/textView7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.401"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.555"
+        app:srcCompat="@drawable/ic_circle_pasos"
+        app:tint="@color/GrisAzulito"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/imgCirculo3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/textView7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.587"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.555"
+        app:srcCompat="@drawable/ic_circle_pasos"
+        app:tint="@color/GrisAzulito"
+        tools:ignore="MissingConstraints" />
+
     <ImageButton
         android:id="@+id/imgBarra1"
         android:layout_width="80dp"
@@ -174,7 +188,7 @@
         app:layout_constraintHorizontal_bias="0.299"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.487"
+        app:layout_constraintVertical_bias="0.521"
         app:srcCompat="@android:drawable/dialog_holo_light_frame"
         tools:ignore="MissingConstraints,UseAppTint" />
 
@@ -188,7 +202,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.487"
+        app:layout_constraintVertical_bias="0.521"
         app:srcCompat="@android:drawable/dialog_holo_light_frame"
         app:tint="@color/GrisAzulito"
         tools:ignore="MissingConstraints" />
@@ -203,7 +217,7 @@
         app:layout_constraintHorizontal_bias="0.703"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.487"
+        app:layout_constraintVertical_bias="0.521"
         app:srcCompat="@android:drawable/dialog_holo_light_frame"
         app:tint="@color/GrisAzulito"
         tools:ignore="MissingConstraints" />
@@ -220,7 +234,7 @@
         app:layout_constraintHorizontal_bias="0.578"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.49" />
+        app:layout_constraintVertical_bias="0.534" />
 
     <ImageView
         android:id="@+id/imgCirculo4"
@@ -231,38 +245,10 @@
         app:layout_constraintHorizontal_bias="0.773"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.511"
+        app:layout_constraintVertical_bias="0.555"
         app:srcCompat="@drawable/ic_circle_pasos"
         app:tint="@color/GrisAzulito"
         tools:ignore="MissingConstraints" />
-
-    <ImageView
-        android:id="@+id/imgCirculo2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/textView7"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.401"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.511"
-        app:srcCompat="@drawable/ic_circle_pasos"
-        app:tint="@color/GrisAzulito"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_medium"
-        android:text="4"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/textView7"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.758"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.49" />
 
     <ImageView
         android:id="@+id/imgCirculo1"
@@ -273,7 +259,7 @@
         app:layout_constraintHorizontal_bias="0.22"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.511"
+        app:layout_constraintVertical_bias="0.555"
         app:srcCompat="@drawable/ic_circle_pasos"
         tools:ignore="MissingConstraints" />
 
@@ -291,7 +277,7 @@
         app:layout_constraintHorizontal_bias="0.246"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.495" />
+        app:layout_constraintVertical_bias="0.533" />
 
     <TextView
         android:id="@+id/textView4"
@@ -305,7 +291,21 @@
         app:layout_constraintHorizontal_bias="0.406"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.514" />
+        app:layout_constraintVertical_bias="0.554" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
+        android:text="4"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/textView7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.758"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.534" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
