@@ -246,7 +246,6 @@
         app:layout_constraintHorizontal_bias="0.617"
         app:layout_constraintStart_toEndOf="@+id/amoEditText"
         app:layout_constraintTop_toBottomOf="@+id/btnMujer"
-        app:layout_constraintVertical_bias="0.47000003"
         tools:ignore="NotSibling" />
 
     <EditText
@@ -273,11 +272,11 @@
         android:layout_width="150dp"
         android:layout_height="44dp"
         android:layout_marginBottom="420dp"
-        android:backgroundTint="@color/Azul2"
+        android:backgroundTint="@drawable/btn_selector"
         android:fontFamily="@font/poppins_regular"
         android:foregroundTint="#FFFFFF"
         android:text="Hombre"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="16sp"
         app:cornerRadius="360dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -286,7 +285,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7"
         app:layout_constraintVertical_bias="0.402"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp"
         tools:ignore="NotSibling" />
+
 
     <Button
         android:id="@+id/btnMujer"
@@ -295,7 +297,7 @@
         android:layout_height="44dp"
         android:layout_marginEnd="28dp"
         android:layout_marginBottom="420dp"
-        android:backgroundTint="@color/BlancoHueso"
+        android:backgroundTint="@drawable/btn_selector"
         android:fontFamily="@font/poppins_regular"
         android:foregroundTint="#FFFFFF"
         android:text="Mujer"
@@ -310,11 +312,11 @@
         app:strokeWidth="1dp"
         tools:ignore="NotSibling" />
 
+
     <EditText
         android:id="@+id/mesEditText"
         android:layout_width="90dp"
         android:layout_height="54dp"
-        android:layout_marginTop="24dp"
         android:background="@drawable/textboxprueba"
         android:drawableEnd="@drawable/ic_arrow_down"
         android:fontFamily="@font/poppins_regular"
@@ -327,7 +329,6 @@
         app:layout_constraintHorizontal_bias="0.38"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnHombre"
-        app:layout_constraintVertical_bias="0.1"
         tools:ignore="NotSibling" />
 
     <TextView

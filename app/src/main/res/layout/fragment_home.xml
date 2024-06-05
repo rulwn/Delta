@@ -10,6 +10,7 @@
         android:id="@+id/imageView"
         android:layout_width="411dp"
         android:layout_height="213dp"
+        android:layout_marginBottom="632dp"
         android:src="@drawable/degradado_pantalla_principal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,16 +21,21 @@
 
     <TextView
         android:id="@+id/text_home"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="122dp"
+        android:layout_width="360dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="484dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
+        android:fontFamily="@font/poppins_bold"
+        android:textAlignment="viewStart"
+        android:textColor="#FFFFFF"
+        android:textSize="26sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.207"
+        tools:text="Bienvenido " />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
