@@ -14,10 +14,9 @@
         android:layout_marginTop="66dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.685"
         app:srcCompat="@drawable/gradient_azul_background" />
 
     <Button
@@ -74,7 +73,7 @@
         android:id="@+id/txtEmail"
         android:layout_width="355dp"
         android:layout_height="54dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="72dp"
         android:background="@drawable/textboxprueba"
         android:drawableEnd="@drawable/ic_check"
         android:hint=" Email"
@@ -82,11 +81,11 @@
         android:padding="8dp"
         android:textColor="@color/GrisAzulito"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtOnBoard"
-        app:layout_constraintVertical_bias="0.333" />
+        app:layout_constraintTop_toBottomOf="@+id/txtOnBoardTitle"
+        app:layout_constraintVertical_bias="0.002" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
@@ -124,11 +123,13 @@
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/imgFondo"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnContinuar"
-        app:layout_constraintVertical_bias="0.056" />
+        app:layout_constraintVertical_bias="0.115" />
 
     <View
+        android:id="@+id/view"
         android:layout_width="340dp"
         android:layout_height="1dp"
         android:layout_gravity="center"
@@ -148,7 +149,6 @@
         android:backgroundTint="@color/white"
         android:fontFamily="@font/poppins_medium"
         android:foregroundTint="@color/black"
-        android:drawableLeft="@drawable/ic_google_icon"
         android:text="Iniciar sesión con Google"
         android:textAlignment="textEnd"
         android:textColor="@color/black"
@@ -175,6 +175,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtOlvidarContra"
         app:layout_constraintVertical_bias="0.913" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
