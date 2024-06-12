@@ -274,7 +274,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.369"
         tools:ignore="NotSibling" />
 
     <EditText
@@ -292,7 +292,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.274" />
 
     <RadioGroup
         android:id="@+id/radioGroupGender"
@@ -363,7 +363,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnSiguiente2"
-        app:layout_constraintVertical_bias="0.776"
+        app:layout_constraintVertical_bias="0.746"
         tools:ignore="MissingConstraints" />
 
     <ImageView
