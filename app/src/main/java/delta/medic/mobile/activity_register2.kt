@@ -24,16 +24,7 @@ class activity_register2 : AppCompatActivity() {
             val intent = Intent(this, activity_register3::class.java)
             startActivity(intent)
         }
-        val btnHombre: Button = findViewById(R.id.btnHombre)
 
-        btnHombre.setOnClickListener {
-            it.isSelected = !it.isSelected
-        }
-        val btnMujer: Button = findViewById(R.id.btnMujer)
-
-        btnHombre.setOnClickListener {
-            it.isSelected = !it.isSelected
-        }
 
     }
 }
