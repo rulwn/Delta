@@ -32,4 +32,9 @@
         android:name="delta.medic.mobile.fragment_usuario"
         android:label="fragment_usuario"
         tools:layout="@layout/fragment_usuario" />
+    <fragment
+        android:id="@+id/fragment_Resultados"
+        android:name="delta.medic.mobile.fragment_Resultados"
+        android:label="fragment__resultados"
+        tools:layout="@layout/fragment__resultados" />
 </navigation>
