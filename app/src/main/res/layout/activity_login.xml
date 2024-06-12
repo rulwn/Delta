@@ -14,7 +14,6 @@
         android:layout_marginTop="66dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
@@ -36,7 +35,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.521" />
+        app:layout_constraintVertical_bias="0.545" />
 
     <TextView
         android:id="@+id/txtOnBoard"
@@ -52,7 +51,7 @@
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.709" />
+        app:layout_constraintVertical_bias="0.757" />
 
     <TextView
         android:id="@+id/txtOnBoardTitle"
@@ -68,7 +67,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.981" />
 
     <EditText
         android:id="@+id/txtEmail"
@@ -85,7 +84,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.893" />
+        app:layout_constraintVertical_bias="0.89" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
@@ -98,7 +97,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imgFondo"
-        app:layout_constraintVertical_bias="0.589">
+        app:layout_constraintVertical_bias="0.748">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtClave"
@@ -124,9 +123,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnContinuar"
-        app:layout_constraintVertical_bias="0.056" />
+        app:layout_constraintVertical_bias="0.066" />
 
     <View
+        android:id="@+id/view"
         android:layout_width="340dp"
         android:layout_height="1dp"
         android:layout_gravity="center"
@@ -136,7 +136,7 @@
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtOlvidarContra"
-        app:layout_constraintVertical_bias="0.078" />
+        app:layout_constraintVertical_bias="0.041" />
 
     <Button
         android:id="@+id/btnGoogle"
@@ -144,9 +144,9 @@
         android:layout_width="295dp"
         android:layout_height="60dp"
         android:backgroundTint="@color/white"
+        android:drawableLeft="@drawable/ic_google_icon"
         android:fontFamily="@font/poppins_medium"
         android:foregroundTint="@color/black"
-        android:drawableLeft="@drawable/ic_google_icon"
         android:text="Iniciar sesión con Google"
         android:textAlignment="textEnd"
         android:textColor="@color/black"
@@ -156,7 +156,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.753" />
+        app:layout_constraintVertical_bias="0.737" />
 
     <TextView
         android:id="@+id/txtNoTienesCuenta"
@@ -173,6 +173,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtOlvidarContra"
         app:layout_constraintVertical_bias="0.913" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

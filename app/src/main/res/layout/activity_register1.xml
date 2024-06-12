@@ -79,17 +79,15 @@
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:fontFamily="@font/poppins_regular"
         android:text="Comencemos con lo básico"
         android:textColor="@color/black"
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/nombreEditText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7"
-        app:layout_constraintVertical_bias="0.004"
+        app:layout_constraintVertical_bias="0.0"
         tools:ignore="MissingConstraints" />
 
     <EditText
@@ -340,11 +338,11 @@
         android:textColor="@color/white"
         android:textSize="20sp"
         app:cornerRadius="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/textView9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.893"
+        app:layout_constraintVertical_bias="0.936"
         tools:ignore="NotSibling" />
 
     <TextView
