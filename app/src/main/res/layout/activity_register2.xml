@@ -216,6 +216,7 @@
         android:id="@+id/telefonoEditText"
         android:layout_width="355dp"
         android:layout_height="54dp"
+        android:layout_marginTop="424dp"
         android:background="@drawable/textboxprueba"
         android:fontFamily="@font/poppins_regular"
         android:hint="Teléfono"
@@ -223,50 +224,27 @@
         android:padding="8dp"
         android:textColor="@color/GrisAzulito"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/seguroEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8"
-        app:layout_constraintVertical_bias="0.863"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="NotSibling" />
 
     <EditText
-        android:id="@+id/diaEditText"
-        android:layout_width="90dp"
+        android:id="@+id/FechaEditText"
+        android:layout_width="355dp"
         android:layout_height="54dp"
+        android:layout_marginTop="344dp"
         android:background="@drawable/textboxprueba"
-        android:drawableEnd="@drawable/ic_arrow_down"
         android:fontFamily="@font/poppins_regular"
-        android:hint="Día"
+        android:hint="Fecha de nacimiento"
         android:padding="8dp"
         android:textColor="@color/GrisAzulito"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/telefonoEditText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.617"
-        app:layout_constraintStart_toEndOf="@+id/amoEditText"
-        app:layout_constraintTop_toBottomOf="@+id/btnMujer"
-        tools:ignore="NotSibling" />
-
-    <EditText
-        android:id="@+id/amoEditText"
-        android:layout_width="90dp"
-        android:layout_height="54dp"
-        android:background="@drawable/textboxprueba"
-        android:drawableEnd="@drawable/ic_arrow_down"
-        android:fontFamily="@font/poppins_regular"
-        android:hint="Año"
-        android:padding="8dp"
-        android:textColor="@color/GrisAzulito"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/telefonoEditText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnHombre"
-        tools:ignore="NotSibling" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <!--<Button
         android:id="@+id/btnHombre"
         style="@style/Widget.Material3.Button.ElevatedButton"
         android:layout_width="150dp"
@@ -310,70 +288,48 @@
         app:layout_constraintVertical_bias="0.402"
         app:strokeColor="@color/black"
         app:strokeWidth="1dp"
-        tools:ignore="NotSibling" />
+        tools:ignore="NotSibling" />-->
 
-
-    <EditText
-        android:id="@+id/mesEditText"
-        android:layout_width="90dp"
-        android:layout_height="54dp"
-        android:background="@drawable/textboxprueba"
-        android:drawableEnd="@drawable/ic_arrow_down"
-        android:fontFamily="@font/poppins_regular"
-        android:hint="Mes"
-        android:padding="8dp"
-        android:textColor="@color/GrisAzulito"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/telefonoEditText"
-        app:layout_constraintEnd_toStartOf="@+id/amoEditText"
-        app:layout_constraintHorizontal_bias="0.38"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnHombre"
-        tools:ignore="NotSibling" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="355dp"
-        android:layout_height="22dp"
-        android:drawableStart="@drawable/ic_circle2"
-        android:fontFamily="@font/poppins_regular"
-        android:text="Estoy de acuerdo con los Términos y Condiciones."
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imgFondo"
+    <RadioGroup
+        android:id="@+id/radioGroupGender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/FechaEditText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seguroEditText"
-        app:layout_constraintVertical_bias="0.027"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toTopOf="@+id/imgFondo"
+        app:layout_constraintVertical_bias="0.93">
 
-    <EditText
-        android:id="@+id/seguroEditText"
-        android:layout_width="355dp"
-        android:layout_height="54dp"
-        android:layout_marginBottom="280dp"
-        android:background="@drawable/textboxprueba"
-        android:drawableEnd="@drawable/ic_arrow_down"
-        android:fontFamily="@font/poppins_regular"
-        android:hint="Seguro"
-        android:padding="8dp"
-        android:textColor="@color/GrisAzulito"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.535"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnMujer"
-        app:layout_constraintVertical_bias="1.0"
-        tools:ignore="NotSibling" />
+        <RadioButton
+            android:id="@+id/radioButtonMale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_selector"
+            android:button="@null"
+            android:padding="10dp"
+            android:text="Hombre"
+            android:textColor="@color/black" />
+
+        <RadioButton
+            android:id="@+id/radioButtonFemale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_selector"
+            android:button="@null"
+            android:padding="10dp"
+            android:text="Mujer"
+            android:textColor="@color/black" />
+
+    </RadioGroup>
+
 
     <Button
         android:id="@+id/btnSiguiente2"
         style="@style/Widget.Material3.Button.ElevatedButton"
         android:layout_width="295dp"
         android:layout_height="60dp"
+        android:layout_marginBottom="76dp"
         android:backgroundTint="@color/Azul2"
         android:fontFamily="@font/poppins_medium"
         android:foregroundTint="#FFFFFF"
@@ -384,7 +340,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9"
         tools:ignore="NotSibling" />
 
     <TextView
@@ -413,5 +368,26 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.607"
         app:srcCompat="@drawable/ic_arrow_back" />
+
+    <Spinner
+        android:id="@+id/seguroSpinner"
+        android:layout_width="355dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="504dp"
+        android:background="@drawable/textboxprueba"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioButton
+        android:id="@+id/radioButton"
+        android:layout_width="355dp"
+        android:layout_height="25dp"
+        android:text="Estoy de acuerdo con los Términos y Condiciones."
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="566dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -47,12 +47,12 @@
         android:textAlignment="center"
         android:textColor="@color/GrisHumo"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/txtEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.199" />
+        app:layout_constraintVertical_bias="0.709" />
 
     <TextView
         android:id="@+id/txtOnBoardTitle"
@@ -74,7 +74,6 @@
         android:id="@+id/txtEmail"
         android:layout_width="355dp"
         android:layout_height="54dp"
-        android:layout_marginTop="24dp"
         android:background="@drawable/textboxprueba"
         android:drawableEnd="@drawable/ic_check"
         android:hint=" Email"
@@ -85,22 +84,21 @@
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtOnBoard"
-        app:layout_constraintVertical_bias="0.333" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.893" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
         android:layout_width="355dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="255dp"
-        android:layout_marginBottom="208dp"
         app:boxStrokeWidth="0dp"
         app:endIconMode="password_toggle"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnContinuar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imgFondo"
-        app:layout_constraintVertical_bias="0.188">
+        app:layout_constraintVertical_bias="0.589">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtClave"
