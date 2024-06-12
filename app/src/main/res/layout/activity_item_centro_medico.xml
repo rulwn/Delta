@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".item_CentroMedico">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:background="@drawable/fondo_redondo_centro">
+
+        <ImageView
+            android:id="@+id/doctor_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/doctor_image"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/circle_background"
+            android:scaleType="centerCrop"/>
+
+        <TextView
+            android:id="@+id/doctor_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dra. Luz María"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_toEndOf="@id/doctor_image"
+            android:layout_alignTop="@id/doctor_image"
+            android:textColor="@android:color/white"/>
+
+        <TextView
+            android:id="@+id/doctor_specialty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Odontología"
+            android:textSize="14sp"
+            android:layout_toEndOf="@id/doctor_image"
+            android:layout_below="@id/doctor_name"
+            android:textColor="@android:color/white"/>
+
+        <TextView
+            android:id="@+id/clinic_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clinica escalon n97, Av Sur"
+            android:textSize="14sp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:textColor="@android:color/white"/>
+
+        <TextView
+            android:id="@+id/consultation_fee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chequeo: $30.00"
+            android:textSize="14sp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/clinic_address"
+            android:textColor="@android:color/white"/>
+
+        <ImageView
+            android:id="@+id/background_image"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"
+            android:alpha="0.6"/>
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
