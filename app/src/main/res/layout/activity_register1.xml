@@ -35,7 +35,7 @@
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
@@ -45,7 +45,6 @@
         android:id="@+id/direccionEditText"
         android:layout_width="355dp"
         android:layout_height="54dp"
-        android:layout_marginTop="196dp"
         android:background="@drawable/textboxprueba"
         android:fontFamily="@font/poppins_regular"
         android:hint="Dirección"
@@ -56,8 +55,8 @@
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nombreEditText"
-        app:layout_constraintVertical_bias="0.066"
+        app:layout_constraintTop_toTopOf="@+id/imgFondo"
+        app:layout_constraintVertical_bias="0.949"
         tools:ignore="NotSibling" />
 
     <TextView
@@ -80,24 +79,21 @@
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:fontFamily="@font/poppins_regular"
         android:text="Comencemos con lo básico"
         android:textColor="@color/black"
         android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imgFondo"
+        app:layout_constraintBottom_toTopOf="@+id/nombreEditText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7"
-        app:layout_constraintVertical_bias="0.004"
+        app:layout_constraintVertical_bias="0.0"
         tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/nombreEditText"
         android:layout_width="355dp"
         android:layout_height="54dp"
-        android:layout_marginTop="44dp"
         android:background="@drawable/textboxprueba"
         android:fontFamily="@font/poppins_regular"
         android:hint="Nombre"
@@ -105,18 +101,17 @@
         android:padding="8dp"
         android:textColor="@color/GrisAzulito"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imgFondo"
+        app:layout_constraintBottom_toTopOf="@+id/apellidoEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8"
-        app:layout_constraintVertical_bias="0.003"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.908"
         tools:ignore="NotSibling" />
 
     <EditText
         android:id="@+id/apellidoEditText"
         android:layout_width="355dp"
         android:layout_height="54dp"
-        android:layout_marginTop="28dp"
         android:background="@drawable/textboxprueba"
         android:fontFamily="@font/poppins_regular"
         android:hint="Apellido"
@@ -127,8 +122,8 @@
         app:layout_constraintBottom_toTopOf="@+id/txtEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nombreEditText"
-        app:layout_constraintVertical_bias="0.133"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.922"
         tools:ignore="NotSibling" />
 
     <EditText
@@ -145,8 +140,8 @@
         app:layout_constraintBottom_toTopOf="@+id/direccionEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nombreEditText"
-        app:layout_constraintVertical_bias="0.76"
+        app:layout_constraintTop_toTopOf="@+id/imgFondo"
+        app:layout_constraintVertical_bias="0.939"
         tools:ignore="NotSibling" />
 
     <ImageView
@@ -316,8 +311,8 @@
         app:layout_constraintBottom_toTopOf="@+id/btnSiguiente"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nombreEditText"
-        app:layout_constraintVertical_bias="0.86">
+        app:layout_constraintTop_toTopOf="@+id/imgFondo"
+        app:layout_constraintVertical_bias="0.94">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtClave"
@@ -336,7 +331,6 @@
         style="@style/Widget.Material3.Button.ElevatedButton"
         android:layout_width="295dp"
         android:layout_height="60dp"
-        android:layout_marginTop="380dp"
         android:backgroundTint="@color/Azul2"
         android:fontFamily="@font/poppins_medium"
         android:foregroundTint="#FFFFFF"
@@ -347,8 +341,8 @@
         app:layout_constraintBottom_toTopOf="@+id/textView9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nombreEditText"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.936"
         tools:ignore="NotSibling" />
 
     <TextView
@@ -361,7 +355,6 @@
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.98"
