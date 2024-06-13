@@ -1,8 +1,12 @@
 package delta.medic.mobile
 
+import android.app.DatePickerDialog
 import android.content.Intent
+import android.icu.util.Calendar
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -24,7 +28,16 @@ class activity_register2 : AppCompatActivity() {
             val intent = Intent(this, activity_register3::class.java)
             startActivity(intent)
         }
-
-
+        fun OnclickCalendarFecha(v: View?){
+            val txtFecha = findViewById<EditText>(R.id.txtFechadeNacimiento)
+            val selectedCalendar = Calendar.getInstance()
+            val ano = selectedCalendar.get(Calendar.YEAR)
+            val mes = selectedCalendar.get(Calendar.MONTH)
+            val Diadelmes = selectedCalendar.get(Calendar.DAY_OF_MONTH)
+            val listener = DatePickerDialog.OnDateSetListener { datePicker, y, m, d ->
+                txtFecha.setText("$d/$m/$y")
+            }
+            DatePickerDialog(this, listener, ano, mes, Diadelmes).show()
+        }
     }
 }
