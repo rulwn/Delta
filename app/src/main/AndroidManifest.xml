@@ -15,6 +15,9 @@
         android:theme="@style/Theme.DeltaMedic"
         tools:targetApi="31">
         <activity
+            android:name=".item_centro_medico_pequeno_normal"
+            android:exported="false" />
+        <activity
             android:name=".activity_centroadeyuda"
             android:exported="false" />
         <activity

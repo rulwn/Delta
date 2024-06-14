@@ -1,10 +1,11 @@
 package delta.medic.mobile
-
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils.replace
 import android.widget.ImageView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -17,15 +18,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getSupportActionBar()?.hide()
+        supportActionBar?.hide()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.fragment_inicio, R.id.fragment_control, R.id.fragment_agendar, R.id.fragment_usuario, R.id.fragment_notificaciones
@@ -39,6 +38,17 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, activity_busqueda::class.java)
             startActivity(intent)
         }
+
+        val icBusquedaRapida = findViewById<ImageView>(R.id.imgIconoFastSearch)
+        icBusquedaRapida.setOnClickListener {
+            openFragment(fragment_busquedaRapidaHombre())
+        }
     }
 
+    private fun openFragment(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_inicio, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
 }
