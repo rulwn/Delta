@@ -5,9 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import delta.medic.mobile.R
-import delta.medic.mobile.ui.fragment_bottonSheetPierna
 import delta.medic.mobile.databinding.FragmentBusquedaRapidaHombreBinding
+import delta.medic.mobile.ui.fragment_bottonSheetPierna
 
 
 // TODO: Rename parameter arguments, choose names that match
