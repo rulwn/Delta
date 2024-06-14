@@ -37,4 +37,19 @@
         android:name="delta.medic.mobile.fragment_Resultados"
         android:label="fragment__resultados"
         tools:layout="@layout/fragment__resultados" />
+    <fragment
+        android:id="@+id/fragment_busquedaRapidaMujer"
+        android:name="delta.medic.mobile.fragment_busquedaRapidaMujer"
+        android:label="fragment_busqueda_rapida_mujer"
+        tools:layout="@layout/fragment_busqueda_rapida_mujer" />
+    <fragment
+        android:id="@+id/fragment_busquedaRapidaHombre"
+        android:name="delta.medic.mobile.fragment_busquedaRapidaHombre"
+        android:label="fragment_busqueda_rapida_hombre"
+        tools:layout="@layout/fragment_busqueda_rapida_hombre" />
+    <fragment
+        android:id="@+id/fragment_controlCitas"
+        android:name="delta.medic.mobile.fragment_controlCitas"
+        android:label="fragment_control_citas"
+        tools:layout="@layout/fragment_control_citas" />
 </navigation>
