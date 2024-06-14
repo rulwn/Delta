@@ -8,24 +8,54 @@
     tools:context=".activity_busqueda">
 
 
-    <EditText
-        android:id="@+id/txtSearch"
-        android:layout_width="283dp"
-        android:layout_height="35dp"
-        android:background="@drawable/custom_edittext"
-        android:drawableEnd="@drawable/ic_searchgris"
-        android:hint="Buscar"
-
-        android:padding="8dp"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textColorHint="#000000"
-        android:textSize="12sp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.04" />
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:id="@+id/imgCerrar"
+            android:layout_width="47dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:baselineAligned="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.042"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.039"
+            app:srcCompat="@drawable/ic_cerrarneg" />
+
+        <EditText
+            android:id="@+id/txtSearch"
+            android:layout_width="287dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/custom_edittext"
+            android:drawableEnd="@drawable/ic_searchgris"
+            android:hint="Buscar"
+
+            android:padding="8dp"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textColorHint="#000000"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.04" />
+
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
