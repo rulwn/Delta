@@ -25,10 +25,11 @@ class activity_register2 : AppCompatActivity() {
         }
 
         val btnSiguiente = findViewById<Button>(R.id.btnSiguiente2)
-        btnSiguiente.setOnClickListener {
-            val intent = Intent(this, activity_register3::class.java)
-            startActivity(intent)
-        }
+        val nombre = intent.getStringExtra("nombre")
+        val apellido = intent.getStringExtra("apellido")
+        val email = intent.getStringExtra("email")
+        val clave = intent.getStringExtra("clave")
+
         fun OnclickCalendarFecha(v: View?){
             val txtFecha = findViewById<EditText>(R.id.txtFechadeNacimiento)
             val selectedCalendar = Calendar.getInstance()
@@ -43,6 +44,11 @@ class activity_register2 : AppCompatActivity() {
         val imgFlechaAtras = findViewById<ImageView>(R.id.imgFlechaAtrasRegistro1)
         imgFlechaAtras.setOnClickListener {
             val intent = Intent(this, activity_register1::class.java)
+            startActivity(intent)
+        }
+
+        btnSiguiente.setOnClickListener {
+            val intent = Intent(this, activity_register3::class.java)
             startActivity(intent)
         }
     }

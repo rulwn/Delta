@@ -3,6 +3,7 @@ package delta.medic.mobile
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -20,9 +21,28 @@ class activity_register1 : AppCompatActivity() {
             insets
         }
 
+        val nombreEditText = findViewById<EditText>(R.id.nombreEditText)
+        val apellidoEditText = findViewById<EditText>(R.id.apellidoEditText)
+        val txtEmail = findViewById<EditText>(R.id.txtEmail)
+        val direccionEditText = findViewById<EditText>(R.id.direccionEditText)
+        val txtClave = findViewById<EditText>(R.id.txtClave)
+
+
         val btnSiguiente = findViewById<Button>(R.id.btnSiguiente)
         btnSiguiente.setOnClickListener {
+            val nombre =nombreEditText.text.toString()
+            val apellido =apellidoEditText.text.toString()
+            val email =txtEmail.text.toString()
+            val direccion = direccionEditText.text.toString()
+            val clave = txtClave.text.toString()
+
             val intent = Intent(this, activity_register2::class.java)
+            intent.putExtra("nombre", nombre)
+            intent.putExtra("apellido",apellido)
+            intent.putExtra("email", email)
+            intent.putExtra("direccion", direccion)
+            intent.putExtra("clave",clave)
+
             startActivity(intent)
         }
     }
