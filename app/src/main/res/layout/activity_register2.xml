@@ -286,7 +286,6 @@
         android:fontFamily="@font/poppins_regular"
         android:hint="Fecha de nacimiento"
         android:padding="8dp"
-        android:onClick="OnclickCalendarFecha"
         android:inputType="date"
         android:focusable="false"
         android:clickable="true"

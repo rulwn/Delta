@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
@@ -29,19 +30,23 @@ class activity_register2 : AppCompatActivity() {
             val intent = Intent(this, activity_register3::class.java)
             startActivity(intent)
         }
-        fun OnclickCalendarFecha(v: View?){
-            val txtFecha = findViewById<EditText>(R.id.txtFechadeNacimiento)
-            txtFecha.setOnClickListener {
-                val selectedCalendar = Calendar.getInstance()
-                val ano = selectedCalendar.get(Calendar.YEAR)
-                val mes = selectedCalendar.get(Calendar.MONTH)
-                val Diadelmes = selectedCalendar.get(Calendar.DAY_OF_MONTH)
-                val listener = DatePickerDialog.OnDateSetListener { datePicker, y, m, d ->
-                    txtFecha.setText("$d/$m/$y")
-                }
-                DatePickerDialog(this, listener, ano, mes, Diadelmes).show()
-            }
+        val txtFechaNacimientoPaciente = findViewById<EditText>(R.id.txtFechadeNacimiento)
+        txtFechaNacimientoPaciente.setOnClickListener {
+            val calendario = java.util.Calendar.getInstance()
+            val anio = calendario.get(java.util.Calendar.YEAR)
+            val mes = calendario.get(java.util.Calendar.MONTH)
+            val dia = calendario.get(java.util.Calendar.DAY_OF_MONTH)
+            val datePickerDialog = DatePickerDialog(
+                this,  // Use 'this' for Activity context
+                { view, anioSeleccionado, mesSeleccionado, diaSeleccionado ->
+                    val fechaSeleccionada = "$anioSeleccionado/${mesSeleccionado + 1}/$diaSeleccionado"
+                    txtFechaNacimientoPaciente.setText(fechaSeleccionada)
+                },
+                anio, mes, dia
+            )
+            datePickerDialog.show()
         }
+
         val imgFlechaAtras = findViewById<ImageView>(R.id.imgFlechaAtrasRegistro1)
         imgFlechaAtras.setOnClickListener {
             val intent = Intent(this, activity_register1::class.java)
