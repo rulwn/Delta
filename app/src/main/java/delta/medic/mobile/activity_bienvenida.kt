@@ -1,6 +1,7 @@
 package delta.medic.mobile
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
@@ -23,6 +24,15 @@ class activity_bienvenida : AppCompatActivity() {
         btnContinuar.setOnClickListener {
             val intent = Intent(this, activity_login::class.java)
             startActivity(intent)
+        }
+        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        when (currentNightMode) {
+            Configuration.UI_MODE_NIGHT_NO -> {
+
+            } // Night mode is not active, we're using the light theme.
+            Configuration.UI_MODE_NIGHT_YES -> {
+
+            } // Night mode is active, we're using dark theme.
         }
     }
 }

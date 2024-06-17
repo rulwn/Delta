@@ -31,14 +31,16 @@ class activity_register2 : AppCompatActivity() {
         }
         fun OnclickCalendarFecha(v: View?){
             val txtFecha = findViewById<EditText>(R.id.txtFechadeNacimiento)
-            val selectedCalendar = Calendar.getInstance()
-            val ano = selectedCalendar.get(Calendar.YEAR)
-            val mes = selectedCalendar.get(Calendar.MONTH)
-            val Diadelmes = selectedCalendar.get(Calendar.DAY_OF_MONTH)
-            val listener = DatePickerDialog.OnDateSetListener { datePicker, y, m, d ->
-                txtFecha.setText("$d/$m/$y")
+            txtFecha.setOnClickListener {
+                val selectedCalendar = Calendar.getInstance()
+                val ano = selectedCalendar.get(Calendar.YEAR)
+                val mes = selectedCalendar.get(Calendar.MONTH)
+                val Diadelmes = selectedCalendar.get(Calendar.DAY_OF_MONTH)
+                val listener = DatePickerDialog.OnDateSetListener { datePicker, y, m, d ->
+                    txtFecha.setText("$d/$m/$y")
+                }
+                DatePickerDialog(this, listener, ano, mes, Diadelmes).show()
             }
-            DatePickerDialog(this, listener, ano, mes, Diadelmes).show()
         }
         val imgFlechaAtras = findViewById<ImageView>(R.id.imgFlechaAtrasRegistro1)
         imgFlechaAtras.setOnClickListener {

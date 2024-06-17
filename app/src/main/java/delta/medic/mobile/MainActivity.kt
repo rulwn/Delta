@@ -1,5 +1,6 @@
 package delta.medic.mobile
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.text.TextUtils.replace
 import android.widget.ImageView
@@ -41,14 +42,22 @@ class MainActivity : AppCompatActivity() {
 
         val icBusquedaRapida = findViewById<ImageView>(R.id.imgIconoFastSearch)
         icBusquedaRapida.setOnClickListener {
+            removeFragmentInicio()
             openFragment(fragment_busquedaRapidaHombre())
         }
     }
 
     private fun openFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_inicio, fragment)
+        transaction.replace(R.id.nav_host_fragment_activity_main, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
+    }
+    private fun removeFragmentInicio() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_inicio)
+        fragment?.let {
+            supportFragmentManager.beginTransaction().remove(it).commit()
+            finish()
+        }
     }
 }
