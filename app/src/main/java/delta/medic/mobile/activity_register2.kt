@@ -26,10 +26,7 @@ class activity_register2 : AppCompatActivity() {
         }
 
         val btnSiguiente = findViewById<Button>(R.id.btnSiguiente2)
-        btnSiguiente.setOnClickListener {
-            val intent = Intent(this, activity_register3::class.java)
-            startActivity(intent)
-        }
+
         val txtFechaNacimientoPaciente = findViewById<EditText>(R.id.txtFechadeNacimiento)
         txtFechaNacimientoPaciente.setOnClickListener {
             val calendario = java.util.Calendar.getInstance()
@@ -45,6 +42,10 @@ class activity_register2 : AppCompatActivity() {
                 anio, mes, dia
             )
             datePickerDialog.show()
+        }
+        btnSiguiente.setOnClickListener {
+            val intent = Intent(this, activity_register3::class.java)
+            startActivity(intent)
         }
 
         val imgFlechaAtras = findViewById<ImageView>(R.id.imgFlechaAtrasRegistro1)
