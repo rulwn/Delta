@@ -10,7 +10,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
@@ -26,31 +25,30 @@ class activity_register2 : AppCompatActivity() {
         }
 
         val btnSiguiente = findViewById<Button>(R.id.btnSiguiente2)
+        val nombre = intent.getStringExtra("nombre")
+        val apellido = intent.getStringExtra("apellido")
+        val email = intent.getStringExtra("email")
+        val clave = intent.getStringExtra("clave")
 
-        val txtFechaNacimientoPaciente = findViewById<EditText>(R.id.txtFechadeNacimiento)
-        txtFechaNacimientoPaciente.setOnClickListener {
-            val calendario = java.util.Calendar.getInstance()
-            val anio = calendario.get(java.util.Calendar.YEAR)
-            val mes = calendario.get(java.util.Calendar.MONTH)
-            val dia = calendario.get(java.util.Calendar.DAY_OF_MONTH)
-            val datePickerDialog = DatePickerDialog(
-                this,  // Use 'this' for Activity context
-                { view, anioSeleccionado, mesSeleccionado, diaSeleccionado ->
-                    val fechaSeleccionada = "$anioSeleccionado/${mesSeleccionado + 1}/$diaSeleccionado"
-                    txtFechaNacimientoPaciente.setText(fechaSeleccionada)
-                },
-                anio, mes, dia
-            )
-            datePickerDialog.show()
+        fun OnclickCalendarFecha(v: View?){
+            val txtFecha = findViewById<EditText>(R.id.txtFechadeNacimiento)
+            val selectedCalendar = Calendar.getInstance()
+            val ano = selectedCalendar.get(Calendar.YEAR)
+            val mes = selectedCalendar.get(Calendar.MONTH)
+            val Diadelmes = selectedCalendar.get(Calendar.DAY_OF_MONTH)
+            val listener = DatePickerDialog.OnDateSetListener { datePicker, y, m, d ->
+                txtFecha.setText("$d/$m/$y")
+            }
+            DatePickerDialog(this, listener, ano, mes, Diadelmes).show()
         }
-        btnSiguiente.setOnClickListener {
-            val intent = Intent(this, activity_register3::class.java)
-            startActivity(intent)
-        }
-
         val imgFlechaAtras = findViewById<ImageView>(R.id.imgFlechaAtrasRegistro1)
         imgFlechaAtras.setOnClickListener {
             val intent = Intent(this, activity_register1::class.java)
+            startActivity(intent)
+        }
+
+        btnSiguiente.setOnClickListener {
+            val intent = Intent(this, activity_register3::class.java)
             startActivity(intent)
         }
     }
