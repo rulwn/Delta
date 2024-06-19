@@ -29,7 +29,8 @@ class fragment_bottonSheetPierna : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_botton_sheet_pierna, container, false)
+        val root = inflater.inflate(R.layout.fragment_home, container, false)
+        return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

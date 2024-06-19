@@ -34,7 +34,8 @@ class fragment_Resultados : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment__resultados, container, false)
+        val root = inflater.inflate(R.layout.fragment_home, container, false)
+        return root
     }
 
     companion object {

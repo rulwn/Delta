@@ -29,8 +29,8 @@ class fragment_busquedaRapidaHombre : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentBusquedaRapidaHombreBinding.inflate(inflater, container, false)
-        return binding.root
+        val root = inflater.inflate(R.layout.fragment_home, container, false)
+        return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
