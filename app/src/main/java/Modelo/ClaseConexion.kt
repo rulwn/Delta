@@ -27,7 +27,7 @@ Hector
 
 
 Jorge
-
+"jdbc:oracle:thin:@192.168.1.5:1521:xe"
 
 Raul
 
