@@ -1,17 +1,25 @@
 package delta.medic.mobile
 
+import Modelo.ClaseConexion
+import Modelo.dc_Aseguradoras
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Spinner
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class activity_register2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +38,16 @@ class activity_register2 : AppCompatActivity() {
         val email = intent.getStringExtra("email")
         val clave = intent.getStringExtra("clave")
 
+        val spSeguro = findViewById<Spinner>(R.id.spSeguro)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val listaSeguros =obtenerSeguros()
+            val nombreSeguro =listaSeguros.map { it.nombreAseguradora }
+            withContext(Dispatchers.Main){
+                val adaptador = ArrayAdapter(this@activity_register2, android.R.layout.simple_spinner_dropdown_item, nombreSeguro)
+                spSeguro.adapter = adaptador
+            }
+        }
         val txtFechaNacimientoPaciente = findViewById<EditText>(R.id.txtFechadeNacimiento)
         txtFechaNacimientoPaciente.setOnClickListener {
             val calendario = java.util.Calendar.getInstance()
@@ -56,5 +74,18 @@ class activity_register2 : AppCompatActivity() {
             val intent = Intent(this, activity_register3::class.java)
             startActivity(intent)
         }
+    }
+    private fun obtenerSeguros(): List<dc_Aseguradoras> {
+        val objConexion =ClaseConexion().CadenaConexion()
+        val statement = objConexion?.createStatement()!!
+        val resultSet = statement.executeQuery("select * from tbAseguradora")
+        val lista = mutableListOf<dc_Aseguradoras>()
+        while (resultSet.next()) {
+            val id_Aseguradora = resultSet.getDouble("id_Aseguradora")
+            val nombreAseguradora = resultSet.getString("nombreAseguradora")
+            val valoresJuntos =dc_Aseguradoras(id_Aseguradora, nombreAseguradora)
+            lista.add(valoresJuntos)
+        }
+        return lista
     }
 }
