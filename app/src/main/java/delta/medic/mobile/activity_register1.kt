@@ -42,7 +42,6 @@ class activity_register1 : AppCompatActivity() {
             intent.putExtra("email", email)
             intent.putExtra("direccion", direccion)
             intent.putExtra("clave",clave)
-
             startActivity(intent)
         }
     }
