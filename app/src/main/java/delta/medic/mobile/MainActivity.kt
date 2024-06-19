@@ -3,6 +3,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.text.TextUtils.replace
+import android.widget.ImageButton
 import android.widget.ImageView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -40,10 +41,20 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        val btnAgendar = findViewById<ImageButton>(R.id.imgBtnAgendar)
+        btnAgendar.setOnClickListener {
+            val intent = Intent(this, activity_agendar::class.java)
+            startActivity(intent)
+        }
+
         val icBusquedaRapida = findViewById<ImageView>(R.id.imgIconoFastSearch)
         icBusquedaRapida.setOnClickListener {
             removeFragmentInicio()
             openFragment(fragment_busquedaRapidaHombre())
+
+            if (intent.getBooleanExtra("ir_atras", false)) {
+                navController.navigate(R.id.fragment_inicio)
+            }
         }
     }
 
