@@ -47,7 +47,8 @@
             android:exported="false" />
         <activity
             android:name=".activity_agendar"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"/>
         <activity
             android:name=".activity_register4"
             android:exported="false"
