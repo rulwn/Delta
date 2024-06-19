@@ -7,6 +7,7 @@ class ClaseConexion {
     fun CadenaConexion(): Connection? {
         try {
             //val url = "jdbc:oracle:thin:@192.168.1.7:1521:xe"
+            //val url = "jdbc:oracle:thin:@192.168.1.5:1521:xe" fer
             val url = "jdbc:oracle:thin:@192.168.1.7:1521:xe"
             val usuario = "c##_rodrigo"
             val clave = "momazos_salecianos"
