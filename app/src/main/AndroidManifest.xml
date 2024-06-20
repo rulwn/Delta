@@ -17,6 +17,9 @@
         android:theme="@style/Theme.DeltaMedic"
         tools:targetApi="31">
         <activity
+            android:name=".activity_cuenta_confi"
+            android:exported="false" />
+        <activity
             android:name=".activity_privacidadyseguridad"
             android:exported="false" />
         <activity
