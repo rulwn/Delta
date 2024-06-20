@@ -9,7 +9,11 @@
         android:id="@+id/fragment_inicio"
         android:name="delta.medic.mobile.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_fragment_inicio_to_fragment_busquedaRapidaHombre"
+            app:destination="@id/fragment_busquedaRapidaHombre" />
+    </fragment>
 
     <fragment
         android:id="@+id/fragment_control"
@@ -46,7 +50,11 @@
         android:id="@+id/fragment_busquedaRapidaHombre"
         android:name="delta.medic.mobile.fragment_busquedaRapidaHombre"
         android:label="fragment_busqueda_rapida_hombre"
-        tools:layout="@layout/fragment_busqueda_rapida_hombre" />
+        tools:layout="@layout/fragment_busqueda_rapida_hombre" >
+        <action
+            android:id="@+id/action_fragment_busquedaRapidaHombre_to_fragment_inicio"
+            app:destination="@id/fragment_inicio" />
+    </fragment>
     <fragment
         android:id="@+id/fragment_controlCitas"
         android:name="delta.medic.mobile.fragment_controlCitas"
