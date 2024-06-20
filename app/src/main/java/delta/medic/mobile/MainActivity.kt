@@ -1,18 +1,25 @@
 package delta.medic.mobile
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils.replace
 import android.widget.ImageButton
 import android.widget.ImageView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import delta.medic.mobile.databinding.ActivityMainBinding
+import android.content.Context
 
 class MainActivity : AppCompatActivity() {
 
@@ -70,5 +77,39 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction().remove(it).commit()
             finish()
         }
+    }
+
+
+    fun makeNotification() {
+        val channelId = "CHANEL_ID_NOTIFICATION"
+        val builder = NotificationCompat.Builder(applicationContext,channelId)
+            .setSmallIcon(R.drawable.ic_notificaciones)
+            .setContentTitle("Notificación")
+            .setContentText("Texto de la notificación")
+            .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        val intent = Intent(applicationContext, activity_notificaciones_confi::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            putExtra("data", "Algunos valores")
+        }
+        val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_MUTABLE)
+        builder.setContentIntent(pendingIntent)
+
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            var notificationChannel = notificationManager.getNotificationChannel(channelId)
+            if (notificationChannel == null) {
+                val importance = NotificationManager.IMPORTANCE_HIGH
+                notificationChannel = NotificationChannel(channelId, "Descripción", importance).apply {
+                    lightColor = Color.GREEN
+                    enableVibration(true)
+                }
+                notificationManager.createNotificationChannel(notificationChannel)
+            }
+        }
+
+        notificationManager.notify(0, builder.build())
     }
 }
