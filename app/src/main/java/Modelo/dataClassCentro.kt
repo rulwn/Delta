@@ -3,7 +3,7 @@ package Modelo
 import oracle.sql.DATE
 import oracle.sql.TIMESTAMP
 
-class dataClassSucursal (
+class dataClassCentro (
     val diaCita : DATE ,
     val horaCita : TIMESTAMP,
     val motivo : String ,

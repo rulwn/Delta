@@ -19,7 +19,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/poppins_semibold"
-        android:text="Gracias !"
+        android:text="¡Gracias!"
         android:textColor="@color/black"
         android:textSize="38sp"
         android:textStyle="bold" />
@@ -30,7 +30,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:text="Su cita fue exitosa."
+        android:text="Su cita fue exitosa"
+        android:fontFamily="@font/poppins_medium"
         android:textColor="#677294"
         android:textSize="20sp" />
 
@@ -40,15 +41,18 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
+        android:fontFamily="@font/poppins_medium"
         android:text="Reservo una cita"
         android:textAlignment="center"
         android:textSize="16sp" />
 
     <Button
         android:id="@+id/closeButton"
-        android:layout_width="match_parent"
+        android:layout_width="600px"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:fontFamily="@font/poppins_bold"
         android:backgroundTint="@color/Turquesa2"
         android:text="Listo" />
 
@@ -58,6 +62,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:text="Editar la cita"
+        android:text="Editar cita"
+        android:fontFamily="@font/poppins_medium"
+        android:textSize="16sp"
         android:textColor="@color/Turquesa2" />
 </LinearLayout>
