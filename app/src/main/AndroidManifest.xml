@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-sdk android:minSdkVersion="19"/>
+
+    <uses-sdk android:minSdkVersion="19" />
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -15,9 +17,14 @@
         android:theme="@style/Theme.DeltaMedic"
         tools:targetApi="31">
         <activity
+            android:name=".activity_apariencia"
+            android:exported="false"/>
+        <activity
+            android:name=".activity_notificaciones_confi"
+            android:exported="true" />
+        <activity
             android:name=".item_centro_medico_pequeno_normal"
-            android:exported="false"
-            />
+            android:exported="false" />
         <activity
             android:name=".activity_centroadeyuda"
             android:exported="false"
@@ -57,7 +64,7 @@
         <activity
             android:name=".activity_agendar"
             android:exported="false"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"/>
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_register4"
             android:exported="false"
@@ -80,8 +87,8 @@
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_bienvenida"
-            android:exported="true"
             android:configChanges="uiMode"
+            android:exported="true"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
