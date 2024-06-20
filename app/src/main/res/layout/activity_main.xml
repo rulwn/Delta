@@ -6,24 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:contentDescription="Agendar"
-        android:src="@drawable/anadirblanco"
-        android:tint="#FFFFFF"
-        app:backgroundTint="@color/Azul1"
-        app:elevation="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.933" />-->
-
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -86,6 +68,6 @@
         app:layout_constraintStart_toEndOf="@+id/imgIconoFastSearch"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.057"
-        app:srcCompat="@drawable/ic_search" />
+        app:srcCompat="@drawable/ic_searchgris" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package delta.medic.mobile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,28 +23,24 @@ private const val ARG_PARAM2 = "param2"
 class fragment_busquedaRapidaHombre : Fragment() {
 
 
-    private var _binding: FragmentBusquedaRapidaHombreBinding? = null
-    private val binding get() = _binding!!
+    //private var _binding: FragmentBusquedaRapidaHombreBinding? = null
+    //private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_home, container, false)
+        val root = inflater.inflate(R.layout.fragment_busqueda_rapida_hombre, container, false)
+
         return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.openBottomSheetButton.setOnClickListener {
-            val bottomSheetFragment = fragment_bottonSheetPierna.newInstance("param1", "param2")
-            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        //binding.openBottomSheetButton.setOnClickListener {
+        //    val bottomSheetFragment = fragment_bottonSheetPierna.newInstance("param1", "param2")
+        //    bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+        //}
     }
 }
