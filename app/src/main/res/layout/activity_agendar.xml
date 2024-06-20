@@ -19,22 +19,22 @@
 
             <ImageView
                 android:id="@+id/btnRegresar"
-                android:layout_width="20dp"
-                android:layout_height="30dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_gravity="center"
 
                 android:layout_margin="10dp"
                 app:srcCompat="@drawable/ic_arrow_back" />
 
             <TextView
-                android:layout_width="110dp"
-                android:layout_height="25dp"
+                android:layout_width="210dp"
+                android:layout_height="27dp"
                 android:layout_gravity="center"
                 android:fontFamily="@font/poppins_semibold"
                 android:text="Agendar cita"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
 
         </LinearLayout>
 

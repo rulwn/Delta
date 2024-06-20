@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".activity_misrecetas">
-
+    tools:context=".activity_cuenta_confi">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="34dp"
@@ -31,14 +30,46 @@
 
         <TextView
             android:layout_width="210dp"
-            android:layout_height="25dp"
+            android:layout_height="27dp"
             android:layout_gravity="center"
             android:fontFamily="@font/poppins_semibold"
-            android:text="Recetas"
+            android:text="Cuenta"
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="55dp"
+        tools:layout_editor_absoluteY="96dp" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="82dp"
+        tools:layout_editor_absoluteY="230dp" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="82dp"
+        tools:layout_editor_absoluteY="347dp" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="105dp"
+        tools:layout_editor_absoluteY="430dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

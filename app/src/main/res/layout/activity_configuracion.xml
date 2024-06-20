@@ -5,37 +5,43 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".activity_configuracion">
 
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_bold"
-        android:text="Configuración"
-        android:textColor="#000000"
-        android:textSize="24sp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.347"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.047" />
+        app:layout_constraintVertical_bias="0.0">
 
-    <ImageView
-        android:id="@+id/imgAtrasConfi"
-        android:layout_width="33dp"
-        android:layout_height="35dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.092"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.047"
-        app:srcCompat="@drawable/ic_arrow_back" />
+        <ImageView
+            android:id="@+id/btnRegresar"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="10dp"
+            app:srcCompat="@drawable/ic_arrow_back" />
+
+        <TextView
+            android:layout_width="210dp"
+            android:layout_height="27dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Configuración"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/lbSeguroPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_medium"
@@ -58,7 +64,7 @@
         app:srcCompat="@drawable/ic_siguiente" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/lbNombrePerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_medium"
@@ -117,7 +123,7 @@
         app:srcCompat="@drawable/ic_siguiente" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/lbCorreoPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_medium"
@@ -162,7 +168,7 @@
         app:srcCompat="@drawable/ic_apariencia" />
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/imgvPersonalizarPerfil"
         android:layout_width="30dp"
         android:layout_height="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -198,7 +204,7 @@
         app:srcCompat="@drawable/ic_notificaciones" />
 
     <ImageView
-        android:id="@+id/imageView8"
+        android:id="@+id/imgvFotoPerfil"
         android:layout_width="30dp"
         android:layout_height="30dp"
         app:layout_constraintBottom_toBottomOf="parent"

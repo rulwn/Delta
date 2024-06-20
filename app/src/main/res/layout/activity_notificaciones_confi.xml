@@ -5,63 +5,42 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity_notificaciones_confi">
-
-    <ImageView
-        android:id="@+id/imgFondo"
-        android:layout_width="413dp"
-        android:layout_height="846dp"
-        android:layout_marginBottom="72dp"
-        android:rotation="-180"
-        android:rotationX="180"
+    android:background="@drawable/gradient_azul_background"
+    tools:context=".activity_notificaciones_confi"
+    android:orientation="vertical"
+    android:padding="16dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/gradient_azul_background" />
+        app:layout_constraintVertical_bias="0.0">
 
-    <ImageView
-        android:id="@+id/imgFondo"
-        android:layout_width="413dp"
-        android:layout_height="846dp"
-        android:layout_marginTop="66dp"
-        android:rotation="0"
-        android:rotationX="180"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgCirculoazul"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/gradient_azul_background" />
+        <ImageView
+            android:id="@+id/btnRegresar"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="30dp"
-        android:layout_height="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.083"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.041"
-        app:srcCompat="@drawable/ic_arrow_back" />
+            android:layout_margin="10dp"
+            app:srcCompat="@drawable/ic_arrow_back" />
 
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="181dp"
-        android:layout_height="53dp"
-        android:fontFamily="@font/poppins_semibold"
-        android:text="Notificaciones"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.326"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.041" />
+        <TextView
+            android:layout_width="210dp"
+            android:layout_height="27dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Notificaciones"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
 
     <ImageView
         android:id="@+id/imageView5"
