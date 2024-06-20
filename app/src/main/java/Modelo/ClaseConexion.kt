@@ -22,3 +22,26 @@ class ClaseConexion {
         }
     }
 }
+<<<<<<< HEAD
+=======
+
+/*
+Luz
+
+
+Hector
+
+
+Jorge
+"jdbc:oracle:thin:@192.168.1.5:1521:xe"
+
+Raul
+
+
+Hurtado
+val url = "jdbc:oracle:thin:@192.168.1.7:1521:xe"
+
+Huezo
+val url = "jdbc:oracle:thin:@192.168.1.12:1521:xe"
+*/
+>>>>>>> huezo
