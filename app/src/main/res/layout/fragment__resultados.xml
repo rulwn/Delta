@@ -1,14 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragment_Resultados">
+<androidx.constraintlayout.widget.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/txtDoctores"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".fragment_Resultados">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+<TextView
+    android:id="@+id/txtCercania"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:autoLink="all"
+    android:fontFamily="@font/poppins_bold"
+    android:linksClickable="true"
+    android:text="Doctores cercanos"
+    android:textAllCaps="false"
+    android:textAppearance="?android:attr/textAppearanceMedium"
+    android:textColor="@color/black"
+    android:textSize="16sp"
+    android:textStyle="normal"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.281"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.022" />
 
-</FrameLayout>
+<ImageView
+    android:id="@+id/imgFlechaAtrasRegistro1"
+    android:layout_width="22dp"
+    android:layout_height="29dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.077"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.021"
+    app:srcCompat="@drawable/ic_arrow_back" />
+
+<ImageView
+    android:id="@+id/imgIconoFastSearch"
+    android:layout_width="28dp"
+    android:layout_height="28dp"
+    android:foregroundTint="@color/GrisPlano"
+    app:tint="@color/GrisPlano"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.83"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.022"
+    app:srcCompat="@drawable/ic_busqueda_rapida" />
+
+<ImageView
+    android:id="@+id/imgIconoSearch"
+    android:layout_width="28dp"
+    android:layout_height="28dp"
+    android:layout_marginStart="6dp"
+    app:tint="@color/Azul1"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintStart_toEndOf="@+id/imgIconoFastSearch"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.022"
+    app:srcCompat="@drawable/ic_search" />
+
+<TextView
+    android:id="@+id/txtResultados"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="@font/poppins_regular"
+    android:text="Resultados de:"
+    android:textColor="@color/black"
+    android:textSize="16sp"
+    android:textStyle="bold"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.084"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.084" />
+
+<TextView
+    android:id="@+id/txtResultadoBusqueda"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="@font/poppins_regular"
+    android:textAllCaps="false"
+    android:textColor="@color/Azul3"
+    android:textSize="16sp"
+    android:textStyle="bold"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.364"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.083" />
+
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/rcvResultados"
+    android:layout_width="409dp"
+    android:layout_height="643dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="1.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
