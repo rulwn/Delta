@@ -21,7 +21,7 @@
             android:exported="false"/>
         <activity
             android:name=".activity_notificaciones_confi"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".item_centro_medico_pequeno_normal"
             android:exported="false" />
