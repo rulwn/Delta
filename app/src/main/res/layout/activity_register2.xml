@@ -337,9 +337,6 @@
     </RadioGroup>
 
 
-
-
-
     <Button
         android:id="@+id/btnSiguiente2"
         style="@style/Widget.Material3.Button.ElevatedButton"
