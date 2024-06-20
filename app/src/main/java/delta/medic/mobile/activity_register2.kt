@@ -35,6 +35,7 @@ class activity_register2 : AppCompatActivity() {
         val btnSiguiente = findViewById<Button>(R.id.btnSiguiente2)
         val nombre = intent.getStringExtra("nombre")
         val apellido = intent.getStringExtra("apellido")
+        val direccion = intent.getStringExtra("direccion")
         val email = intent.getStringExtra("email")
         val clave = intent.getStringExtra("clave")
 
@@ -42,12 +43,15 @@ class activity_register2 : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             val listaSeguros =obtenerSeguros()
-            val nombreSeguro =listaSeguros.map { it.nombreAseguradora }
+            val nombreSeguro =listaSeguros.map { it.nombreAseguradora}
             withContext(Dispatchers.Main){
                 val adaptador = ArrayAdapter(this@activity_register2, android.R.layout.simple_spinner_dropdown_item, nombreSeguro)
                 spSeguro.adapter = adaptador
+
             }
         }
+
+
         val txtFechaNacimientoPaciente = findViewById<EditText>(R.id.txtFechadeNacimiento)
         txtFechaNacimientoPaciente.setOnClickListener {
             val calendario = java.util.Calendar.getInstance()
@@ -71,7 +75,14 @@ class activity_register2 : AppCompatActivity() {
         }
 
         btnSiguiente.setOnClickListener {
+
+
             val intent = Intent(this, activity_register3::class.java)
+            intent.putExtra("nombre", nombre)
+            intent.putExtra("apellido",apellido)
+            intent.putExtra("direccion",direccion)
+            intent.putExtra("email",email)
+            intent.putExtra("clave",clave)
             startActivity(intent)
         }
     }
@@ -81,8 +92,8 @@ class activity_register2 : AppCompatActivity() {
         val resultSet = statement.executeQuery("select * from tbAseguradora")
         val lista = mutableListOf<dc_Aseguradoras>()
         while (resultSet.next()) {
-            val id_Aseguradora = resultSet.getDouble("id_Aseguradora")
-            val nombreAseguradora = resultSet.getString("nombreAseguradora")
+            val id_Aseguradora = resultSet.getInt("ID_ASEGURADORA")
+            val nombreAseguradora = resultSet.getString("NOMBREASEGURADORA")
             val valoresJuntos =dc_Aseguradoras(id_Aseguradora, nombreAseguradora)
             lista.add(valoresJuntos)
         }

@@ -8,8 +8,8 @@ class ClaseConexion {
         try {
             //val url = "jdbc:oracle:thin:@192.168.1.7:1521:xe"
             val url = "jdbc:oracle:thin:@192.168.1.7:1521:xe"
-            val usuario = "c##_practica2"
-            val clave = "practica"
+            val usuario = "c##_paraDelta"
+            val clave = "asdasd"
             val conexion = DriverManager.getConnection(url,usuario,clave)
             return conexion
         } catch(e: Exception) {
