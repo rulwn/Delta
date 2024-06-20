@@ -9,9 +9,9 @@
 
     <RadioGroup
         android:id="@+id/themeRadioGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="300"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -20,21 +20,51 @@
             android:id="@+id/lightThemeRadioButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Light Theme" />
+            android:text="Modo Claro" />
 
         <RadioButton
             android:id="@+id/darkThemeRadioButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dark Theme" />
+            android:text="Modo Oscuro" />
 
         <RadioButton
             android:id="@+id/systemDefaultThemeRadioButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="System Default" />
+            android:text="Predeterminado por el Sistema" />
 
     </RadioGroup>
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="37dp"
+        android:layout_height="42dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.043"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.028"
+        app:srcCompat="@drawable/ic_arrow_back" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="142dp"
+        android:layout_height="51dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:linksClickable="false"
+        android:singleLine="false"
+        android:text="Apariencia"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:guidelineUseRtl="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.286"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.03" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
