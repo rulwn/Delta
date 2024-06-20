@@ -29,7 +29,7 @@ class fragment_busquedaRapidaHombre : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_home, container, false)
+        val root = inflater.inflate(R.layout.fragment_busqueda_rapida_hombre, container, false)
         return root
     }
 
