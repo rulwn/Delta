@@ -1,14 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment_usuario">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/lbPerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="@string/lbPerfilSub"
+        android:textColor="@color/Azul1"
+        android:textSize="28sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="93dp"
+        android:src="@drawable/ic_config"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgvFotoPerfil"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="92dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/lbNombrePerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+
+        android:fontFamily="@font/poppins_medium"
+        android:text="Nombre Apellido"
+        android:textColor="@color/Azul1"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/imgvFotoPerfil"
+        app:layout_constraintHorizontal_bias="0.449"
+        app:layout_constraintStart_toStartOf="@+id/imgvFotoPerfil"
+        app:layout_constraintTop_toBottomOf="@+id/imgvFotoPerfil" />
+
+    <TextView
+        android:id="@+id/lbCorreoPerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:fontFamily="@font/poppins_regular"
+        android:text="correo@example.delta"
+        android:textColor="@color/Azul1"
+        app:layout_constraintEnd_toEndOf="@+id/lbNombrePerfil"
+        app:layout_constraintStart_toStartOf="@+id/lbNombrePerfil"
+        app:layout_constraintTop_toBottomOf="@+id/lbNombrePerfil" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/background_btn_perfil_bottom"
+        app:layout_constraintEnd_toEndOf="@+id/imgvPersonalizarPerfil"
+        app:layout_constraintStart_toStartOf="@+id/imgvPersonalizarPerfil"
+        app:layout_constraintTop_toBottomOf="@+id/imgvPersonalizarPerfil" />
+
+    <ImageView
+        android:id="@+id/imgvPersonalizarPerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/background_btn_perfil_up"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.58"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.403" />
+
+    <TextView
+        android:id="@+id/lbPersonalizarPerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_regular"
+        android:text="Personalizar"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgvPersonalizarPerfil"
+        app:layout_constraintEnd_toEndOf="@+id/imgvPersonalizarPerfil"
+        app:layout_constraintHorizontal_bias="0.063"
+        app:layout_constraintStart_toStartOf="@+id/imgvPersonalizarPerfil"
+        app:layout_constraintTop_toTopOf="@+id/imgvPersonalizarPerfil"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/lbSeguroPerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_regular"
+        android:text="Seguro"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+        app:layout_constraintEnd_toEndOf="@+id/imageView3"
+        app:layout_constraintHorizontal_bias="0.051"
+        app:layout_constraintStart_toStartOf="@+id/imageView3"
+        app:layout_constraintTop_toTopOf="@+id/imageView3"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageButton
+        android:id="@+id/imgBtnUsuario1"
+        android:layout_width="330dp"
+        android:layout_height="68dp"
+        android:background="@drawable/fondo_botones_usuario"
+        android:elevation="4dp"
+        tools:layout_editor_absoluteX="40dp"
+        tools:layout_editor_absoluteY="385dp" />
+
+    <ImageButton
+        android:id="@+id/imgBtnUsuario4"
+        android:layout_width="330dp"
+        android:layout_height="68dp"
+        android:background="@drawable/fondo_botones_usuario"
+        android:elevation="4dp"
+        tools:layout_editor_absoluteX="40dp"
+        tools:layout_editor_absoluteY="621dp" />
+
+    <ImageButton
+        android:id="@+id/imgBtnUsuario3"
+        android:layout_width="330dp"
+        android:layout_height="68dp"
+        android:background="@drawable/fondo_botones_usuario"
+        android:elevation="4dp"
+        tools:layout_editor_absoluteX="40dp"
+        tools:layout_editor_absoluteY="545dp" />
+
+    <ImageButton
+        android:id="@+id/imgBtnUsuario2"
+        android:layout_width="330dp"
+        android:layout_height="68dp"
+        android:background="@drawable/fondo_botones_usuario"
+        android:elevation="4dp"
+        tools:layout_editor_absoluteX="40dp"
+        tools:layout_editor_absoluteY="466dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

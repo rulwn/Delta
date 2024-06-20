@@ -33,8 +33,8 @@ class fragment_controlCitas : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_control_citas, container, false)
+        val root = inflater.inflate(R.layout.fragment_control_citas, container, false)
+        return root
     }
 
     companion object {

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import delta.medic.mobile.R
 import delta.medic.mobile.databinding.FragmentDashboardBinding
 
 class DashboardFragment : Fragment() {
@@ -22,16 +23,9 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
 
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
         return root
     }
 

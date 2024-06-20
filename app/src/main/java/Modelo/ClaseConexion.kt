@@ -19,6 +19,13 @@ class ClaseConexion {
 }
 
 /*
+val url = "jdbc:oracle:thin:@192.168.1.7:1521:xe"
+            val usuario = "c##_practica2"
+            val clave = "practica"
+            val conexion = DriverManager.getConnection(url,usuario,clave)
+*/
+
+/*
 Luz
 
 

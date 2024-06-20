@@ -1,4 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/txtDoctores"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".fragment_Resultados">
+
+    <LinearLayout
+        android:layout_width="268dp"
+        android:layout_height="34dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:id="@+id/btnRegresar"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+
+            android:layout_margin="10dp"
+            app:srcCompat="@drawable/ic_arrow_back" />
+
+        <TextView
+            android:layout_width="210dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Doctores cercanos"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtResultados"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_regular"
+        android:text="Resultados de:"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.084"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.084" />
+
+    <TextView
+        android:id="@+id/txtResultadoBusqueda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_regular"
+        android:textAllCaps="false"
+        android:textColor="@color/Azul3"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.401"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.084" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvResultados"
+        android:layout_width="363dp"
+        android:layout_height="493dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.578" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
 <androidx.constraintlayout.widget.ConstraintLayout
 xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -109,5 +198,4 @@ tools:context=".fragment_Resultados">
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintVertical_bias="1.0" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

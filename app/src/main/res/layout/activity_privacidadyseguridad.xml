@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".activity_privacidadyseguridad">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/themeRadioGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        >
+
+        <ImageView
+            android:id="@+id/btnRegresar"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+
+            android:layout_margin="10dp"
+            app:srcCompat="@drawable/ic_arrow_back" />
+
+        <TextView
+            android:layout_width="128dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Privacidad"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/acuerdos1__2_" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
