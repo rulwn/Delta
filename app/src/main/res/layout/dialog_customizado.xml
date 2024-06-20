@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/dialog_background">
+
+    <ImageView
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_gravity="center"
+        android:src="@drawable/img" />
+
+    <TextView
+        android:id="@+id/lblGracias"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="Gracias !"
+        android:textColor="@color/black"
+        android:textSize="38sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lblCita"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="Su cita fue exitosa."
+        android:textColor="#677294"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/lblReserva"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="Reservo una cita"
+        android:textAlignment="center"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/closeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/Turquesa2"
+        android:text="Listo" />
+
+    <TextView
+        android:id="@+id/editButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="Editar la cita"
+        android:textColor="@color/Turquesa2" />
+</LinearLayout>
