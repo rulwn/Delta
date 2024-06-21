@@ -1,5 +1,6 @@
 package delta.medic.mobile
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Html
 import androidx.fragment.app.Fragment
@@ -59,6 +60,42 @@ class fragment_usuario : Fragment() {
 
         lbPerfil.setText(Html.fromHtml(getResources().getString(R.string.lbPerfilSub)))
 
+        /******************************************************************************************
+         * On Clicks                                                                                  *
+         ******************************************************************************************/
+        imgvSettings.setOnClickListener {
+            val activitySettings = Intent(requireContext(), activity_configuracion::class.java)
+            startActivity(activitySettings)
+        }
+        imgvPersonalizar.setOnClickListener{
+            val activityEditarPerfil = Intent(requireContext(), activity_editarperfil::class.java)
+            startActivity(activityEditarPerfil)
+        }
+        lbPersonalizar.setOnClickListener{
+            val activityEditarPerfil = Intent(requireContext(), activity_editarperfil::class.java)
+            startActivity(activityEditarPerfil)
+        }
+        imgvSeguro.setOnClickListener{
+            //No sé hacia donde lleva
+        }
+        lbSeguro.setOnClickListener {
+            //No sé hacia donde lleva
+        }
+        imgvDoctoresFavoritos.setOnClickListener {
+            val activityDoctoresFavoritos = Intent(requireContext(), activity_doctoresfavoritos::class.java)
+            startActivity(activityDoctoresFavoritos)
+        }
+        imgvRecetas.setOnClickListener {
+            val activityRecetas = Intent(requireContext(), activity_misrecetas::class.java)
+            startActivity(activityRecetas)
+        }
+        imgvHistorialCitas.setOnClickListener {
+            val activityHistorialCitas = Intent(requireContext(), activity_historialdecitas::class.java)
+            startActivity(activityHistorialCitas)
+        }
+        imgvMisReseñas.setOnClickListener {
+            //No estan las reseñas
+        }
 
         return root
     }
