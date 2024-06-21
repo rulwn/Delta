@@ -80,11 +80,11 @@ class activity_agendar : AppCompatActivity() {
             return centros
         }
         CoroutineScope(Dispatchers.IO).launch {
-            val centroMedico = obtenerDatos()
+            /*val centroMedico = obtenerDatos()
             withContext(Dispatchers.Main){
                 val miAdapter = AdaptadorCentro(centroMedico)
                 rcvCentro.adapter = miAdapter
-            }
+            }*/
         }
 
         btnRegresar.setOnClickListener {
@@ -137,6 +137,7 @@ class activity_agendar : AppCompatActivity() {
     }
 
     private fun loadSucursalData() {
+        /*
         CoroutineScope(Dispatchers.IO).launch {
             val centro = obtenerDatos()
             withContext(Dispatchers.Main) {
@@ -145,9 +146,11 @@ class activity_agendar : AppCompatActivity() {
                     intent.putExtra("ID_Centro", centro.id)
                     startActivityForResult(intent, REQUEST_CODE)
                 }
+
                 rcvCentro.adapter = miAdapter
             }
         }
+        */
     }
 
     companion object {
