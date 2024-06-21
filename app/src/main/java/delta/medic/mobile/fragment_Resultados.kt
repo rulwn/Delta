@@ -7,9 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 
+
 class fragment_Resultados : Fragment() {
 
-    private lateinit var txtResultadoBusqueda : TextView
+    private lateinit var txtResultadoBusqueda: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -18,8 +19,14 @@ class fragment_Resultados : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         val root = inflater.inflate(R.layout.fragment__resultados, container, false)
+        txtResultadoBusqueda = root.findViewById(R.id.txtResultadoBusqueda)
+
+        arguments?.getString("query")?.let {
+            txtResultadoBusqueda.text = it
+        }
+
         return root
     }
 

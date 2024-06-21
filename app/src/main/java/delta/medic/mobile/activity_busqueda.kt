@@ -9,6 +9,7 @@ import android.view.MotionEvent
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.fragment.app.commit
 
 
 class activity_busqueda : AppCompatActivity() {
@@ -28,9 +29,6 @@ class activity_busqueda : AppCompatActivity() {
         txtSearch = findViewById(R.id.txtSearch)
         imgCerrar = findViewById(R.id.imgCerrar)
 
-        txtSearch = findViewById(R.id.txtSearch)
-        imgCerrar = findViewById(R.id.imgCerrar)
-
         txtSearch.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 if (event.rawX >= (txtSearch.right - txtSearch.compoundDrawables[2].bounds.width())) {
@@ -44,7 +42,6 @@ class activity_busqueda : AppCompatActivity() {
                 }
             }
             false
-
         }
         imgCerrar.setOnClickListener {
             txtSearch.text.clear()
@@ -55,8 +52,15 @@ class activity_busqueda : AppCompatActivity() {
     }
 
     private fun performSearch(query: String) {
-        Toast.makeText(this, "Buscando: $query", Toast.LENGTH_SHORT).show()
+        val fragment = fragment_Resultados().apply {
+            arguments = Bundle().apply {
+                putString("query", query)
+            }
+        }
+        supportFragmentManager.commit {
+            replace(R.id.main, fragment)
+            addToBackStack(null)
+        }
 
     }
-
 }
