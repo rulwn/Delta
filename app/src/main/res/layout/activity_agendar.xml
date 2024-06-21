@@ -69,7 +69,7 @@
                     android:layout_width="400px"
                     android:layout_height="350px"
                     android:layout_gravity="center"
-                    android:background="@drawable/seleccionarDoctor"
+                    android:background="@drawable/seleccionardoctor"
                      />
 
                 <TextView
