@@ -41,7 +41,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/lbSeguroPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_medium"
@@ -64,7 +64,7 @@
         app:srcCompat="@drawable/ic_siguiente" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/lbNombrePerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_medium"
@@ -123,7 +123,7 @@
         app:srcCompat="@drawable/ic_siguiente" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/lbCorreoPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_medium"
@@ -168,7 +168,7 @@
         app:srcCompat="@drawable/ic_apariencia" />
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/imgvPersonalizarPerfil"
         android:layout_width="30dp"
         android:layout_height="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -204,7 +204,7 @@
         app:srcCompat="@drawable/ic_notificaciones" />
 
     <ImageView
-        android:id="@+id/imageView8"
+        android:id="@+id/imgvFotoPerfil"
         android:layout_width="30dp"
         android:layout_height="30dp"
         app:layout_constraintBottom_toBottomOf="parent"

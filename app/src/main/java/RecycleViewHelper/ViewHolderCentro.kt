@@ -3,13 +3,12 @@ package RecycleViewHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import delta.medic.mobile.R
 
-class ViewHolderSucursal(view: View) : RecyclerView.ViewHolder(view)
+class ViewHolderCentro(view: View) : RecyclerView.ViewHolder(view)
 {
     val txtNombreDoctor: TextView = view.findViewById(R.id.txtNombreDoctor)
     val txtEspecialidad : TextView = view.findViewById(R.id.txtEspecialidad)
@@ -25,7 +24,7 @@ class ViewHolderSucursal(view: View) : RecyclerView.ViewHolder(view)
         val textViewNombreDoctor : TextView = view.findViewById(R.id.txtNombreDoctor)
     }
 
-    class AdaptadorSucursal(private var Datos: List<dataClassSucursal>, private val onClick: (dataClassSucursal) -> Unit) : RecyclerView.Adapter<ViewHolderSucursal>() {
+    class AdaptadorCentro(private var Datos: List<dataClassSucursal>, private val onClick: (dataClassSucursal) -> Unit) : RecyclerView.Adapter<ViewHolderSucursal>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderSucursal {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.activity_item_centro_medico, parent, false)

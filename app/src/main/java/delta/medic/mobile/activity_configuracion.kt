@@ -20,7 +20,7 @@ class activity_configuracion : AppCompatActivity() {
             insets
         }
 
-        val textView10: TextView = findViewById(R.id.textView10)
+        val textView10: TextView = findViewById(R.id.lbPersonalizarPerfil)
         val text = "Configuración"
 
         val spannableString = SpannableString(text)
