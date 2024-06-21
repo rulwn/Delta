@@ -34,14 +34,17 @@
     <ImageView
         android:id="@+id/imgvFotoPerfil"
         android:layout_width="100dp"
-        android:layout_height="0dp"
+        android:layout_height="100dp"
         android:layout_marginTop="13dp"
         android:layout_marginBottom="13dp"
         app:layout_constraintBottom_toTopOf="@+id/lbNombrePerfil"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lbPerfil"
-        tools:src="@color/Azul1" />
+        android:background="@drawable/foto_redonda"
+        android:scaleType="centerCrop"
+
+        />
 
     <TextView
         android:id="@+id/lbNombrePerfil"
@@ -73,9 +76,9 @@
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="1dp"
         android:src="@drawable/background_btn_perfil_bottom"
         app:layout_constraintEnd_toEndOf="@+id/imgvPersonalizarPerfil"
+        app:layout_constraintStart_toStartOf="@+id/imgvPersonalizarPerfil"
         app:layout_constraintTop_toBottomOf="@+id/imgvPersonalizarPerfil" />
 
     <ImageView
