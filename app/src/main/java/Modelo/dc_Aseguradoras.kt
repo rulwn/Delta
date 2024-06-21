@@ -1,6 +1,6 @@
 package Modelo
 
 data class dc_Aseguradoras(
-    val id_Aseguradora : Double,
-    val nombreAseguradora : String
+    var id_Aseguradora : Int,
+    var nombreAseguradora : String
 )
