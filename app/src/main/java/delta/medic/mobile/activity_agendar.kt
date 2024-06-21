@@ -6,10 +6,13 @@ import Modelo.ClaseConexion
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -66,11 +69,15 @@ class activity_agendar : AppCompatActivity() {
 */
         /*
         fun obtenerDatos(): List<dataClassSucursal>
+        val rcvCentroMedico = findViewById<RecyclerView>(R.id.rcvCentro)
+        rcvCentroMedico.layoutManager = LinearLayoutManager(this)
+
+        fun obtenerDatos(): List<dataClassCentro>
         {
             val objConexion = ClaseConexion().CadenaConexion()
             val statement = objConexion?.createStatement()
-            val resultset = statement?.executeQuery("")!!
-            val centros = mutableListOf<dataClassSucursal>()
+            val resultset = statement?.executeQuery("insert into tbCentroMedico (favorito, ID_Doctor, ID_Sucursal) values (?, ?, ?)")!!
+            val centros = mutableListOf<dataClassCentro>()
             while (resultset.next())
             {
 
@@ -84,7 +91,7 @@ class activity_agendar : AppCompatActivity() {
                 rcvCentro.adapter = miAdapter
             }
         }
-*/
+
         btnRegresar.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("ir_atras", true)
@@ -133,7 +140,25 @@ private fun showCustomDialog() {
         // For demonstration purposes, we return false to show the layoutNoDoctor
         return false
     }
-/*
+
+    /*private fun loadSucursalData() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val centro = obtenerDatos()
+            withContext(Dispatchers.Main) {
+                val miAdapter = ViewHolderCentro.AdaptadorCentro(centro) { centro ->
+                    val intent = Intent(this@activity_agendar, fragment_Resultados::class.java)
+                    intent.putExtra("ID_Centro", centro.id)
+                    startActivityForResult(intent, REQUEST_CODE)
+                }
+                rcvCentro.adapter = miAdapter
+            }
+        }
+    }
+
+    companion object {
+        const val REQUEST_CODE = 1
+    }
+
     private fun loadSucursalData() {
         CoroutineScope(Dispatchers.IO).launch {
             val centro = obtenerDatos()
@@ -153,4 +178,3 @@ private fun showCustomDialog() {
     }
 }
 
- 
