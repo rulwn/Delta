@@ -38,7 +38,7 @@ class activity_cambiarcontra : AppCompatActivity() {
                 }
 
 
-                CoroutineScope(Dispatchers.IO).launch {
+                /*CoroutineScope(Dispatchers.IO).launch {
                         val response = cambiarContrasena(contrasenaActual, nuevaContrasena)
                         withContext(Dispatchers.Main) {
                             if (response.isSuccessful) {
@@ -51,7 +51,7 @@ class activity_cambiarcontra : AppCompatActivity() {
                                 Toast.makeText(this@activity_cambiarcontra, "Ocurrió un error al cambiar la contraseña", Toast.LENGTH_SHORT).show()
                             }
                         }
-                }
+                }*/
 
             }
         }
