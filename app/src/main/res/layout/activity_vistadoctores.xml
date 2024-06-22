@@ -5,26 +5,42 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".activity_vistadoctores">
-
 
     <ImageView
         android:id="@+id/img_clinic"
-        android:layout_width="412dp"
+        android:layout_width="match_parent"
         android:layout_height="190dp"
         android:scaleType="centerCrop"
         android:src="@drawable/fotoclinica1"
-        app:layout_constraintBottom_toTopOf="@+id/layoutDesign"
+        app:layout_constraintBottom_toBottomOf="@+id/layoutDesign"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/layoutDesign"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+
+    <ImageView
+        android:id="@+id/btnRegresar"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/layoutDesign"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/img_clinic"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_arrow_back" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutDesign"
-        android:layout_width="415dp"
+        android:layout_width="match_parent"
         android:layout_height="700dp"
         android:background="@drawable/fondovistadoctores"
         app:layout_constraintBottom_toBottomOf="parent"
