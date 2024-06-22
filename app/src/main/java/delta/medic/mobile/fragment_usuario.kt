@@ -13,13 +13,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import oracle.sql.BLOB
-import oracle.sql.DATE
-import java.sql.Blob
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -49,7 +46,7 @@ class fragment_usuario : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_usuario, container, false)
-        val email = "hola"; //en teoría aqui se recibe un valor
+        val email = "hola" //en teoría aquí se recibe un valor
 
         /******************************************************************************************
         * Values                                                                                  *
@@ -111,7 +108,6 @@ class fragment_usuario : Fragment() {
             //No estan las reseñas
         }
 
-
         /******************************************************************************************
          * Funciones                                                                              *
          ******************************************************************************************/
@@ -141,31 +137,31 @@ class fragment_usuario : Fragment() {
             return listaUsuarios
         }
 
-        GlobalScope.launch {
-            withContext(Dispatchers.IO){
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
                 val user = GetUserParameters()
                 val nombreUsuario = user.map { it.nombreUsuario }
-                val emailUsuario = user.map {it.emailUsuario}
+                val emailUsuario = user.map { it.emailUsuario }
                 val fotoUsuario = user.map { it.imgUsuario }.toString().toByteArray()
 
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     lbNombre.setText(nombreUsuario.toString())
                     lbCorreo.setText((emailUsuario.toString()))
-                    if (fotoUsuario != null && fotoUsuario.isNotEmpty()){
+                    if (fotoUsuario != null && fotoUsuario.isNotEmpty()) {
                         val bitmap = BitmapFactory.decodeByteArray(fotoUsuario, 0, fotoUsuario.size)
 
                         imgvFoto.setImageBitmap(bitmap)
-                    }
-                    else{
-                        Toast.makeText(requireContext(), "Hubo un error al intentar cargar la foto de perfil", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Hubo un error al intentar cargar la foto de perfil",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
         }
-
-
-
-
         return root
     }
 
