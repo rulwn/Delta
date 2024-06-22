@@ -81,6 +81,8 @@ class fragment_usuario : Fragment() {
         }
         lbSeguro.setOnClickListener {
             //No sé hacia donde lleva
+            val activityEditarPerfl = Intent(requireContext(), activity_vistadoctores::class.java)
+            startActivity(activityEditarPerfl)
         }
         imgvDoctoresFavoritos.setOnClickListener {
             val activityDoctoresFavoritos = Intent(requireContext(), activity_doctoresfavoritos::class.java)

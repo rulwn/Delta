@@ -83,12 +83,11 @@
 
             </LinearLayout>
 
-
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcvCentro"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:visibility="visible"/>
         </LinearLayout>
 
         <TextView
