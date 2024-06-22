@@ -1,5 +1,5 @@
 package Modelo
 
 data class dataClassUsuario(
-    var
+    var id_usuario: Int
 )
