@@ -28,13 +28,30 @@ class DashboardFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
         tabLayout = root.findViewById(R.id.tab_layout_recordatorios)
         viewPager2 = root.findViewById(R.id.viewPagerRecordatorios)
-        viewPager2.adapter = FragmentPageAdapterRecordatorios(this)
-        TabLayoutMediator(tabLayout, viewPager2){ tab, position ->
+        viewPager2.adapter = FragmentPageAdapterRecordatorios(childFragmentManager, lifecycle)
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                if (tab != null){
+                    viewPager2.currentItem = tab.position
+                }
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+        })
+        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                tabLayout.selectTab(tabLayout.getTabAt(position))
+            }
+        })
+        /*TabLayoutMediator(tabLayout, viewPager2){ tab, position ->
             when(position){
                 0 -> tab.text = "Tratamientos"
                 1 -> tab.text = "Citas"
             }
-        }.attach()
+        }.attach()*/
         return root
     }
 
