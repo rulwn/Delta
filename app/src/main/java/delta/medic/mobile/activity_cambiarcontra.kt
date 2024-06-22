@@ -37,13 +37,12 @@ class activity_cambiarcontra : AppCompatActivity() {
                     return@setOnClickListener
                 }
 
-
+/*
                 CoroutineScope(Dispatchers.IO).launch {
                         val response = cambiarContrasena(contrasenaActual, nuevaContrasena)
                         withContext(Dispatchers.Main) {
                             if (response.isSuccessful) {
                                 Toast.makeText(this@activity_cambiarcontra, "La contraseña se cambió con éxito", Toast.LENGTH_SHORT).show()
-
                                 txtContrasenaActual.text.clear()
                                 txtNuevaContrasena.text.clear()
                                 txtConfirmarContrasena.text.clear()
@@ -52,7 +51,7 @@ class activity_cambiarcontra : AppCompatActivity() {
                             }
                         }
                 }
-
+*/
             }
         }
 }
