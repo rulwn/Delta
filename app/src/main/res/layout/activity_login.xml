@@ -21,7 +21,7 @@
 
     <Button
         android:id="@+id/btnContinuar"
-        style="@style/Widget.Material3.Button.ElevatedButton"
+        android:style="@style/Widget.Material3.Button.ElevatedButton"
         android:layout_width="295dp"
         android:layout_height="60dp"
         android:backgroundTint="@color/Azul2"

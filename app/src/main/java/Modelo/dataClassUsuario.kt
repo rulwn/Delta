@@ -6,6 +6,7 @@ import java.sql.Blob
 import java.sql.Date
 
 data class dataClassUsuario(
+<<<<<<< HEAD
     var idUsuario: Number,
     var nombreUsuario: String,
     var apellidoUsuario: String,
@@ -17,4 +18,7 @@ data class dataClassUsuario(
     var imgUsuario: Blob,
     var idTipoUsuario: Number,
     var idSeguro: Number
+=======
+    var id_usuario: Int
+>>>>>>> 2ef545d702929c36916867c697da790b3c812d3d
 )
