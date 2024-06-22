@@ -4,16 +4,24 @@
         <item name="android:windowBackground">@drawable/dialog_background</item>
     </style>
     <style name="CalendarDateText" parent="TextAppearance.AppCompat.Medium">
-        <item name="android:textColor">@color/calendar_date_text_color</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="CalendarWeekDayText" parent="TextAppearance.AppCompat.Small">
-        <item name="android:textColor">@color/calendar_weekday_text_color</item>
+    <style name="CalendarWeekDayTextTratamientos" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/Azul2</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <style name="CalendarWeekDayTextCitas" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/Turquesa2</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textAllCaps">true</item>
+    </style>
+    <style name="CustomCalendarView" parent="ThemeOverlay.Material3.MaterialCalendar">
+        <item name="android:selectedDateVerticalBar">@color/Azul2</item>
     </style>
 </resources>

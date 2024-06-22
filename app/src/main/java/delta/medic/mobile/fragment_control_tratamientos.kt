@@ -1,10 +1,16 @@
 package delta.medic.mobile
 
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CalendarView
+import java.lang.reflect.Field
+import java.util.Calendar
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,9 +39,14 @@ class fragment_control_tratamientos : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_control_tratamientos, container, false)
+        val root = inflater.inflate(R.layout.fragment_control_tratamientos, container, false)
+        val calendarView = root.findViewById<CalendarView>(R.id.calendarTratamientos)
+
+
+
+        return root
     }
+
 
     companion object {
         /**
