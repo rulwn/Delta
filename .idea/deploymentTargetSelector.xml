@@ -4,10 +4,24 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-06-21T00:19:50.720126700Z">
+        <DropdownSelection timestamp="2024-06-21T03:32:45.883635400Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Alejandro\.android\avd\Pixel_3a_API_34_extension_level_7_x86_64.avd" />
+              <DeviceId pluginId="PhysicalDevice" identifier="serial=SRV7N18821000242" />
+            </handle>
+          </Target>
+        </DropdownSelection>
+        <DialogSelection />
+      </SelectionState>
+      <SelectionState runConfigName="activity_busqueda">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="MainActivity">
+        <option name="selectionMode" value="DROPDOWN" />
+        <DropdownSelection timestamp="2024-06-21T04:20:00.890529700Z">
+          <Target type="DEFAULT_BOOT">
+            <handle>
+              <DeviceId pluginId="PhysicalDevice" identifier="serial=SRV7N18821000242" />
             </handle>
           </Target>
         </DropdownSelection>
