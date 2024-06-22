@@ -123,13 +123,14 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="68dp"
         android:layout_marginEnd="40dp"
-        android:layout_marginBottom="81dp"
         android:background="@drawable/ic_mdf_perfil"
         android:elevation="4dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imgvRecetas"
+        app:layout_constraintBottom_toTopOf="@+id/imgvRecetas"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imgvSeguroPerfil" />
+        app:layout_constraintTop_toTopOf="@+id/imgvSeguroPerfil"
+        app:layout_constraintVertical_bias="0.71" />
 
     <ImageButton
         android:id="@+id/imgvMisReseñas"
@@ -151,11 +152,12 @@
         android:layout_width="308dp"
         android:layout_height="68dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="9dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="40dp"
         android:background="@drawable/ic_mhdc_perfil"
         android:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.521"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgvRecetas" />
 
@@ -165,11 +167,12 @@
         android:layout_height="68dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
-        android:layout_marginBottom="192dp"
+        android:layout_marginBottom="208dp"
         android:background="@drawable/ic_mr_perfil"
         android:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.521"
         app:layout_constraintStart_toStartOf="parent" />
 
 
