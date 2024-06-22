@@ -1,10 +1,18 @@
 package delta.medic.mobile
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.Firebase
+import com.google.firebase.auth.EmailAuthCredential
+import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
+import delta.medic.mobile.databinding.ActivityCambiarcontraBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -12,47 +20,49 @@ import kotlinx.coroutines.withContext
 
 class activity_cambiarcontra : AppCompatActivity() {
 
-        private lateinit var txtContrasenaActual: EditText
-        private lateinit var txtNuevaContrasena: EditText
-        private lateinit var txtConfirmarContrasena: EditText
-        private lateinit var btnCambiarContrasena: Button
+    private lateinit var binding: ActivityCambiarcontraBinding
+    private lateinit var auth: FirebaseAuth
 
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            setContentView(R.layout.activity_cambiarcontra)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityCambiarcontraBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-            txtContrasenaActual = findViewById(R.id.txtContrasenaActual)
-            txtNuevaContrasena = findViewById(R.id.txtNuevaContrasena)
-            txtConfirmarContrasena = findViewById(R.id.txtConfirmarContrasena)
-            btnCambiarContrasena = findViewById(R.id.btnCambiarContrasena)
+        auth = Firebase.auth
 
-            btnCambiarContrasena.setOnClickListener {
-                val contrasenaActual = txtContrasenaActual.text.toString()
-                val nuevaContrasena = txtNuevaContrasena.text.toString()
-                val confirmarContrasena = txtConfirmarContrasena.text.toString()
+        binding.btnCambiarContrasena2.setOnClickListener {
+            val user = Firebase.auth.currentUser!!
 
-                // Validar contraseñas
-                if (nuevaContrasena != confirmarContrasena) {
-                    Toast.makeText(this, "Las contraseñas no coinciden, verifica nuevamente", Toast.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
+            val contrasenaActual: String = binding.txtContrasenaActual.text.toString()
+            val nuevaContrasena: String = binding.txtNuevaContrasena.text.toString()
+            val confirmarContrasena: String = binding.txtConfirmarContrasena.text.toString()
 
+            val credential = EmailAuthProvider
+                .getCredential(user.email.toString(), contrasenaActual)
 
-                /*CoroutineScope(Dispatchers.IO).launch {
-                        val response = cambiarContrasena(contrasenaActual, nuevaContrasena)
-                        withContext(Dispatchers.Main) {
-                            if (response.isSuccessful) {
-                                Toast.makeText(this@activity_cambiarcontra, "La contraseña se cambió con éxito", Toast.LENGTH_SHORT).show()
+            user.reauthenticate(credential).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(this, "La contraseña actual es correcta", Toast.LENGTH_SHORT).show()
+                        if (nuevaContrasena == confirmarContrasena) {
+                            user.updatePassword(nuevaContrasena)
+                                .addOnCompleteListener { updateTask ->
+                                    if (updateTask.isSuccessful) {
+                                        Toast.makeText(this, "La contraseña se cambió con éxito", Toast.LENGTH_SHORT).show()
 
-                                txtContrasenaActual.text.clear()
-                                txtNuevaContrasena.text.clear()
-                                txtConfirmarContrasena.text.clear()
-                            } else {
-                                Toast.makeText(this@activity_cambiarcontra, "Ocurrió un error al cambiar la contraseña", Toast.LENGTH_SHORT).show()
-                            }
+                                        binding.txtContrasenaActual.text.clear()
+                                        binding.txtNuevaContrasena.text.clear()
+                                        binding.txtConfirmarContrasena.text.clear()
+                                    } else {
+                                        Toast.makeText(this,"Ocurrió un error al cambiar la contraseña", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                        } else {
+                            Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
                         }
-                }*/
-
+                    } else {
+                        Toast.makeText(this, "La contraseña actual es incorrecta", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
-}
+    }
