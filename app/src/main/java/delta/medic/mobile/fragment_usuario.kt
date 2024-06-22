@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,8 +62,8 @@ class fragment_usuario : Fragment() {
         lbPerfil.setText(Html.fromHtml(getResources().getString(R.string.lbPerfilSub)))
 
         /******************************************************************************************
-         * On Clicks                                                                                  *
-         ******************************************************************************************/
+        * On Clicks                                                                              *
+        ******************************************************************************************/
         imgvSettings.setOnClickListener {
             val activitySettings = Intent(requireContext(), activity_configuracion::class.java)
             startActivity(activitySettings)
@@ -96,6 +97,13 @@ class fragment_usuario : Fragment() {
         imgvMisReseñas.setOnClickListener {
             //No estan las reseñas
         }
+
+
+        /******************************************************************************************
+         * Funciones                                                                              *
+         ******************************************************************************************/
+
+        fun GetUserParameters(): List
 
         return root
     }

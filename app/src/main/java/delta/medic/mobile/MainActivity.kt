@@ -23,6 +23,8 @@ import android.content.Context
 
 class MainActivity : AppCompatActivity() {
 
+    private var prueba: String = "Prueba"
+
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
