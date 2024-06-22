@@ -245,19 +245,23 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.390" />
 
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_regular"
-        android:text="Cambiar contraseña"
-        android:textColor="@color/Azul1"
-        android:textSize="16sp"
+    <Button
+        android:id="@+id/btnCambiarContra1"
+        android:layout_width="230dp"
+        android:layout_height="50dp"
+        android:backgroundTint="@color/Azul2"
+        android:fontFamily="@font/poppins_medium"
+        android:foregroundTint="#FFFFFF"
+        android:style="@style/Widget.Material3.Button.ElevatedButton"
+        android:text="  Cambiar Contraseña"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        app:cornerRadius="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.962" />
+        app:layout_constraintVertical_bias="0.972" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
