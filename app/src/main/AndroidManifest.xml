@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <uses-sdk android:minSdkVersion="19"/>
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION">
     </uses-permission>
 
     <application
@@ -54,8 +56,15 @@
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_vistadoctores"
-            android:exported="false"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
+            android:exported="true"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+
         <activity
             android:name=".activity_editarperfil"
             android:exported="false"
@@ -102,16 +111,14 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAGEHkbuQ0_ghXExyCvpt24fUZz9vs4O4A" />
     </application>
 
 </manifest>

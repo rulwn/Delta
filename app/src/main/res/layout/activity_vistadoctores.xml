@@ -73,24 +73,47 @@
             android:fontFamily="@font/poppins_medium"
             android:text="Odontología"
             android:textColor="@color/black"
+            android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.101"
+            app:layout_constraintHorizontal_bias="0.106"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.098" />
+            app:layout_constraintVertical_bias="0.099" />
+
+        <TextView
+            android:id="@+id/Comentarios"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Comentarios de pacientes"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.169"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.771" />
 
         <Button
-            android:id="@+id/btn_reserve"
-            android:layout_width="266dp"
+            android:id="@+id/button_reservar"
+            android:layout_width="305dp"
             android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/button_custom"
+            android:drawableRight="@drawable/ic_agendar"
+            android:drawablePadding="20dp"
+            android:fontFamily="@font/poppins_medium"
+            android:padding="12dp"
             android:text="Reservar ahora"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.87" />
+            app:layout_constraintVertical_bias="0.696" />
 
         <androidx.constraintlayout.utils.widget.ImageFilterButton
             android:id="@+id/imageFilterButton"
@@ -150,6 +173,133 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.023" />
+
+        <TextView
+            android:id="@+id/Servicios"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Servicios"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.093"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.18" />
+
+        <TextView
+            android:id="@+id/Ubicacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Ubicación"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.103"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.39" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="390dp"
+            android:layout_height="154dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.571"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <LinearLayout
+            android:layout_width="398dp"
+            android:layout_height="147dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.461"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.528">
+
+            <TextView
+                android:id="@+id/clinic_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clinica 206 Piso 3"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/clinic_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Centro Médico Escalón"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/clinic_hours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Abierto de 7:00am a 10:00pm"
+                android:textColor="#4CAF50"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/clinic_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="2555 1200"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/clinic_address"
+                android:layout_width="234dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="81 y 83 Avenida Sur y Calle Juan José Cañas, Colonia Escalón, San Salvador CP 1101"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapUbicacion"
+            android:layout_width="146dp"
+            android:layout_height="137dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.939"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.518" />
+
+        <HorizontalScrollView
+            android:id="@+id/horizontalScrollView2"
+            android:layout_width="412dp"
+            android:layout_height="103dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.258">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcvServicios"
+                    android:layout_width="410dp"
+                    android:layout_height="105dp" />
+            </LinearLayout>
+        </HorizontalScrollView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
