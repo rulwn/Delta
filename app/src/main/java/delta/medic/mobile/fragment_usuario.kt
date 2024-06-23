@@ -1,6 +1,9 @@
 package delta.medic.mobile
 
+import Modelo.ClaseConexion
+import Modelo.dataClassUsuario
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.Html
 import androidx.fragment.app.Fragment
@@ -9,6 +12,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,6 +46,7 @@ class fragment_usuario : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_usuario, container, false)
+        val email = "hola" //en teoría aquí se recibe un valor
 
         /******************************************************************************************
         * Values                                                                                  *
@@ -61,8 +70,8 @@ class fragment_usuario : Fragment() {
         lbPerfil.setText(Html.fromHtml(getResources().getString(R.string.lbPerfilSub)))
 
         /******************************************************************************************
-         * On Clicks                                                                                  *
-         ******************************************************************************************/
+        * On Clicks                                                                              *
+        ******************************************************************************************/
         imgvSettings.setOnClickListener {
             val activitySettings = Intent(requireContext(), activity_configuracion::class.java)
             startActivity(activitySettings)
@@ -99,6 +108,60 @@ class fragment_usuario : Fragment() {
             //No estan las reseñas
         }
 
+        /******************************************************************************************
+         * Funciones                                                                              *
+         ******************************************************************************************/
+
+        fun GetUserParameters(): List<dataClassUsuario>{
+            val objConexion = ClaseConexion().CadenaConexion()
+            val statement =objConexion?.createStatement()
+            val resultSet = statement?.executeQuery("SELECT * FROM tbUsuario Where emailUsuario = $email")!!
+            val listaUsuarios = mutableListOf<dataClassUsuario>()
+            while (resultSet.next()){
+                val idUsuario = resultSet.getInt("ID_Usuario")
+                val nombreUsuario = resultSet.getString("nombreUsuario")
+                val apellidoUsuario = resultSet.getString("apellidoUsuario")
+                val emailUsuario = resultSet.getString("emailUsuario")
+                val contraseña = resultSet.getString("contrasena")
+                val dirección = resultSet.getString("direccion")
+                val sexo =  resultSet.getString("sexo").toString().toCharArray()[0]
+                val fechaNacimiento = resultSet.getDate("fechaNacimiento")
+                val imgUsuario = resultSet.getBlob("imgUsuario")
+                val idTipoUsuario = resultSet.getInt("ID_TipoUsuario")
+                val idSeguro = resultSet.getInt("ID_Seguro")
+
+                val userWithFullData = dataClassUsuario(idUsuario, nombreUsuario, apellidoUsuario, emailUsuario, contraseña,
+                    dirección, sexo, fechaNacimiento, imgUsuario, idTipoUsuario, idSeguro)
+                listaUsuarios.add(userWithFullData)
+            }
+            return listaUsuarios
+        }
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                val user = GetUserParameters()
+                val nombreUsuario = user.map { it.nombreUsuario }
+                val emailUsuario = user.map { it.emailUsuario }
+                val fotoUsuario = user.map { it.imgUsuario }.toString().toByteArray()
+
+                withContext(Dispatchers.Main) {
+                    lbNombre.setText(nombreUsuario.toString())
+                    lbCorreo.setText((emailUsuario.toString()))
+                    if (fotoUsuario != null && fotoUsuario.isNotEmpty()) {
+                        val bitmap = BitmapFactory.decodeByteArray(fotoUsuario, 0, fotoUsuario.size)
+
+                        imgvFoto.setImageBitmap(bitmap)
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Hubo un error al intentar cargar la foto de perfil",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+        }
         return root
     }
 
