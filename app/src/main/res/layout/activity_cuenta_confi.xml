@@ -252,7 +252,7 @@
         android:backgroundTint="@color/Azul2"
         android:fontFamily="@font/poppins_medium"
         android:foregroundTint="#FFFFFF"
-        android:style="@style/Widget.Material3.Button.ElevatedButton"
+        style="@style/Widget.Material3.Button.ElevatedButton"
         android:text="  Cambiar Contraseña"
         android:textColor="@color/white"
         android:textSize="16dp"

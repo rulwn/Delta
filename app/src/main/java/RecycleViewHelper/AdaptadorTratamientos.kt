@@ -24,6 +24,7 @@ class AdaptadorTratamientos(private var Datos: List<dataClassIndicaciones>): Rec
     override fun onBindViewHolder(holder: ViewHolderTratamientos, position: Int) {
         TODO("Not yet implemented")
     }
+    /*
     fun Actuzalizarlista(nuevalista: List<dataclassProductos>){
         Datos = nuevalista
         notifyDataSetChanged()
@@ -101,6 +102,6 @@ class AdaptadorTratamientos(private var Datos: List<dataClassIndicaciones>): Rec
             }
             val alertDialog = builder.create()
             alertDialog.show()
-        }
+        }*/
 
 }
