@@ -48,8 +48,6 @@ class activity_register2 : AppCompatActivity() {
         val direccion = intent.getStringExtra("direccion")
         val email = intent.getStringExtra("email")
         val clave = intent.getStringExtra("clave")
-
-
             CoroutineScope(Dispatchers.Main).launch{
                 val listaSeguros =obtenerSeguros()
                 val nombreSeguro =listaSeguros.map { it.nombreAseguradora}

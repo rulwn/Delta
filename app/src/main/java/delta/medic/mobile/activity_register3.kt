@@ -18,7 +18,7 @@ import delta.medic.mobile.databinding.ActivityMainBinding
 class activity_register3 : AppCompatActivity() {
 
     private lateinit var btnAgregarFoto: ImageView
-    private var fotoUri: Uri? = null //Uri es una referencia a un recurso, como una imagen
+    private var fotoPerfil: Uri? = null //Uri es una referencia a un recurso, como una imagen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +59,7 @@ class activity_register3 : AppCompatActivity() {
             intent.putExtra("aseguradora", aseguradora)
             intent.putExtra("sexo", sexo)
             intent.putExtra("telefono", telefono)
+            intent.putExtra("foto",fotoPerfil)
             startActivity(intent)
 
         }
@@ -69,7 +70,7 @@ class activity_register3 : AppCompatActivity() {
         if (requestCode == 111 && resultCode == Activity.RESULT_OK) {
             val archivoElegido: Uri? = data?.data
             if (archivoElegido != null) {
-                fotoUri = archivoElegido
+                fotoPerfil = archivoElegido
                 btnAgregarFoto.setImageURI(archivoElegido)
             }
         }
