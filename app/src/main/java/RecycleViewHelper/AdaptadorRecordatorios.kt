@@ -1,0 +1,5 @@
+package RecycleViewHelper
+
+class AdaptadorRecordatorios {
+
+}

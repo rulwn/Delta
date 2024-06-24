@@ -60,4 +60,9 @@
         android:name="delta.medic.mobile.fragment_controlCitas"
         android:label="fragment_control_citas"
         tools:layout="@layout/fragment_control_citas" />
+    <fragment
+        android:id="@+id/fragment_control_tratamientos"
+        android:name="delta.medic.mobile.fragment_control_tratamientos"
+        android:label="fragment_control_tratamientos"
+        tools:layout="@layout/fragment_control_tratamientos" />
 </navigation>
