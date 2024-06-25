@@ -13,9 +13,9 @@ data class dataClassUsuario(
     var emailUsuario: String,
     var contraseña: String,
     var dirección: String,
-    var sexo: Char,
+    var sexo: String,
     var fechaNacimiento: Date,
-    var imgUsuario: Blob,
+    var imgUsuario: String,
     var idTipoUsuario: Int,
     var idSeguro: Int
 
