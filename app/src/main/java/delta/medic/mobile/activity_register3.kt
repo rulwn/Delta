@@ -38,6 +38,7 @@ class activity_register3 : AppCompatActivity() {
         val sexo = intent.getStringExtra("sexo")
         val telefono = intent.getStringExtra("telefono")
 
+
         btnAgregarFoto = findViewById(R.id.btnAgregarFoto)
 
         btnAgregarFoto.setOnClickListener {
@@ -59,7 +60,7 @@ class activity_register3 : AppCompatActivity() {
             intent.putExtra("aseguradora", aseguradora)
             intent.putExtra("sexo", sexo)
             intent.putExtra("telefono", telefono)
-            intent.putExtra("foto",fotoPerfil)
+            intent.putExtra("foto",fotoPerfil.toString())
             startActivity(intent)
 
         }

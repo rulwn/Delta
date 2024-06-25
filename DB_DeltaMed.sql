@@ -78,7 +78,7 @@ CREATE TABLE tbSucursal (
     telefonoSucur VARCHAR2(12) NOT NULL UNIQUE,
     direccionSucur VARCHAR2(200) NOT NULL UNIQUE,
     ubicacionSucur BLOB NOT NULL,
-    whatsapp NUMBER(12),
+    whatsapp varchar2(12),
     ID_Establecimiento NUMBER NOT NULL,
     ID_TipoSucursal NUMBER NOT NULL,
     
@@ -142,10 +142,10 @@ CREATE TABLE tbServicio (
 );
 
 CREATE TABLE tbSeguro (
-    ID_Seguro NUMBER PRIMARY KEY,
-    carnetSeguro VARCHAR2(20) NOT NULL UNIQUE,
-    poliza VARCHAR2(60) NOT NULL UNIQUE,
-    ID_Aseguradora NUMBER NOT NULL,
+    ID_Seguro int PRIMARY KEY,
+    carnetSeguro VARCHAR2(20) ,
+    poliza VARCHAR2(60) ,
+    ID_Aseguradora int ,
     
     --CONSTRAINTS------------------
     CONSTRAINT FK_Aseguradora_Seguro FOREIGN KEY (ID_Aseguradora) 
@@ -154,7 +154,7 @@ CREATE TABLE tbSeguro (
 );
 
 CREATE TABLE tbUsuario (
-    ID_Usuario NUMBER PRIMARY KEY,
+    ID_Usuario int PRIMARY KEY,
     nombreUsuario VARCHAR2(50) NOT NULL,
     apellidoUsuario VARCHAR2(50) NOT NULL,
     emailUsuario VARCHAR2(50) NOT NULL UNIQUE,
