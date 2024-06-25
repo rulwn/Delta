@@ -52,7 +52,7 @@
         tools:layout_editor_absoluteY="137dp" />
 
     <ImageView
-        android:id="@+id/imageView18"
+        android:id="@+id/imgTuCuenta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -75,7 +75,7 @@
         tools:layout_editor_absoluteY="200dp" />
 
     <ImageView
-        android:id="@+id/imageView19"
+        android:id="@+id/imgPrivacidadySeguridad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -87,7 +87,7 @@
         app:srcCompat="@drawable/ic_siguiente" />
 
     <ImageView
-        android:id="@+id/imageView17"
+        android:id="@+id/imgCentroAyuda"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -99,7 +99,7 @@
         app:srcCompat="@drawable/ic_siguiente" />
 
     <ImageView
-        android:id="@+id/imageView21"
+        android:id="@+id/imgApariencia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -111,7 +111,7 @@
         app:srcCompat="@drawable/ic_siguiente" />
 
     <ImageView
-        android:id="@+id/imageView20"
+        android:id="@+id/imgNotificaciones"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

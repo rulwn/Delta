@@ -1,16 +1,13 @@
 package delta.medic.mobile
 
-import Modelo.ClaseConexion
 //import Modelo.dataClassCentro
 //import RecycleViewHelper.AdaptadorCentro
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -20,10 +17,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class activity_agendar : AppCompatActivity() {

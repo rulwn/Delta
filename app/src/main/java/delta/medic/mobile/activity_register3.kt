@@ -1,7 +1,5 @@
 package delta.medic.mobile
 
-import Modelo.ClaseConexion
-import Modelo.imgHandler
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -12,9 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.net.Uri
-import java.io.File
-import android.widget.Toast
-import delta.medic.mobile.databinding.ActivityMainBinding
+
 class activity_register3 : AppCompatActivity() {
 
     private lateinit var btnAgregarFoto: ImageView
