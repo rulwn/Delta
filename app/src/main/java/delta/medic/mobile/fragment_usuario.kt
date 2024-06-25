@@ -33,7 +33,7 @@ class fragment_usuario : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private val email: String = "casemonosmichelle@porfavor.si"
+    private val email: String = "soytuyomichi@gmail.com"
 
     suspend fun GetUserParameters(email: String): List<dataClassUsuario> {
         return withContext(Dispatchers.IO) {
@@ -41,7 +41,7 @@ class fragment_usuario : Fragment() {
             try {
                 val objConexion = ClaseConexion().CadenaConexion()
                 if (objConexion != null) {
-                    val statement = objConexion.prepareStatement("Select * From tbUsuario Where emailUsuario = ?")!!
+                    val statement = objConexion.prepareStatement("Select * From tbUsuarios Where emailUsuario = ?")!!
                     statement.setString(1, email)
                     val resultSet = statement.executeQuery()
 
@@ -53,15 +53,16 @@ class fragment_usuario : Fragment() {
                         val emailUsuario = resultSet.getString("emailUsuario")
                         val contrasena = resultSet.getString("contrasena")
                         val direccion = resultSet.getString("direccion")
-                        val sexo = resultSet.getString("sexo").toString() // Uso seguro del operador elvis (?.)
+                        val teléfono = resultSet.getString("telefonoUsuario")
+                        val sexo = resultSet.getString("sexo").toString()
                         val fechaNacimiento = resultSet.getDate("fechaNacimiento")
-                        val imgUsuario = resultSet.getString("imgUsuario").toString()
+                        val imgUsuario = resultSet.getBlob("imgUsuario").toString()
                         val idTipoUsuario = resultSet.getInt("ID_TipoUsuario")
                         val idSeguro = resultSet.getInt("ID_Seguro")
 
                         val userWithFullData = dataClassUsuario(
                             idUsuario, nombreUsuario, apellidoUsuario, emailUsuario, contrasena,
-                            direccion, sexo, fechaNacimiento, imgUsuario, idTipoUsuario, idSeguro
+                            direccion, teléfono, sexo, fechaNacimiento, imgUsuario, idTipoUsuario, idSeguro
                         )
                         listaUsuarios.add(userWithFullData)
 

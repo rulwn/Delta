@@ -191,6 +191,7 @@ CREATE TABLE tbReviews (
     ON DELETE CASCADE
 );
 
+
 CREATE TABLE tbNotis (
     ID_Notificacion INT PRIMARY KEY,
     fechaNoti DATE NOT NULL,
