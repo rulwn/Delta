@@ -24,8 +24,8 @@ class AdaptadorTratamientos(private var Datos: List<dataClassIndicaciones>): Rec
     override fun onBindViewHolder(holder: ViewHolderTratamientos, position: Int) {
         TODO("Not yet implemented")
     }
-    /*
-    fun Actuzalizarlista(nuevalista: List<dataclassProductos>){
+
+    fun Actualizarlista(nuevalista: List<dataClassIndicaciones>){
         Datos = nuevalista
         notifyDataSetChanged()
     }
@@ -94,14 +94,14 @@ class AdaptadorTratamientos(private var Datos: List<dataClassIndicaciones>): Rec
 
             builder.setTitle("Seguro?")
             builder.setMessage("Deseas eliminar el registro?")
-            builder.setPositiveButton("Si"){dialog, which ->
+            builder.setPositiveButton("Si") { dialog, which ->
                 Eliminarlista(Item.nombreProductos, position)
             }
-            builder.setNegativeButton("No"){ dialog, which ->
+            builder.setNegativeButton("No") { dialog, which ->
 
             }
             val alertDialog = builder.create()
             alertDialog.show()
-        }*/
-
+        }
+    }
 }

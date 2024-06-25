@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.sql.SQLException
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,7 +33,83 @@ class fragment_usuario : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private val email: String = "casemonosmichelle@porfavor.si"
 
+    suspend fun GetUserParameters(email: String): List<dataClassUsuario> {
+        return withContext(Dispatchers.IO) {
+            val listaUsuarios = mutableListOf<dataClassUsuario>()
+            try {
+                val objConexion = ClaseConexion().CadenaConexion()
+                if (objConexion != null) {
+                    val statement = objConexion.prepareStatement("Select * From tbUsuario Where emailUsuario = ?")!!
+                    statement.setString(1, email)
+                    val resultSet = statement.executeQuery()
+
+                    // Verifica si hay resultados
+                    if (resultSet.next()) {
+                        val idUsuario = resultSet.getInt("ID_Usuario")
+                        val nombreUsuario = resultSet.getString("nombreUsuario")
+                        val apellidoUsuario = resultSet.getString("apellidoUsuario")
+                        val emailUsuario = resultSet.getString("emailUsuario")
+                        val contrasena = resultSet.getString("contrasena")
+                        val direccion = resultSet.getString("direccion")
+                        val sexo = resultSet.getString("sexo").toString() // Uso seguro del operador elvis (?.)
+                        val fechaNacimiento = resultSet.getDate("fechaNacimiento")
+                        val imgUsuario = resultSet.getString("imgUsuario").toString()
+                        val idTipoUsuario = resultSet.getInt("ID_TipoUsuario")
+                        val idSeguro = resultSet.getInt("ID_Seguro")
+
+                        val userWithFullData = dataClassUsuario(
+                            idUsuario, nombreUsuario, apellidoUsuario, emailUsuario, contrasena,
+                            direccion, sexo, fechaNacimiento, imgUsuario, idTipoUsuario, idSeguro
+                        )
+                        listaUsuarios.add(userWithFullData)
+
+                    } else {
+                        println("No se encontraron usuarios con ese email.")
+                    }
+
+                    // Cerrar recursos
+                    resultSet.close()
+                    statement.close()
+                    objConexion.close()
+                } else {
+                    println("No se pudo establecer una conexión con la base de datos.")
+                }
+            } catch (e: SQLException) {
+                println("Error en la consulta SQL: ${e.message}")
+            } catch (e: Exception) {
+                println("Este es el error: ${e.message}")
+            }
+
+            listaUsuarios
+        }
+    }
+
+    fun loadData(lbNombre: TextView, lbCorreo: TextView, imgvFoto: ImageView) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val user = GetUserParameters(email)
+            val nombreUsuario = user.map { it.nombreUsuario }
+            val emailUsuario = user.map { it.emailUsuario }
+            val fotoUsuario = user.map { it.imgUsuario}
+
+            withContext(Dispatchers.Main) {
+                lbNombre.text = nombreUsuario.toString()
+                lbCorreo.text = emailUsuario.toString()
+                /*
+                if (fotoUsuario.isNotEmpty()) {
+                    val bitmap = BitmapFactory.decodeByteArray(fotoUsuario.toString().toByteArray(), 0, fotoUsuario.size)
+                    imgvFoto.setImageBitmap(bitmap)
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Hubo un error al intentar cargar la foto de perfil",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }*/
+            }
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -46,7 +123,7 @@ class fragment_usuario : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_usuario, container, false)
-        val email = "hola" //en teoría aquí se recibe un valor
+         //en teoría aquí se recibe un valor
 
         /******************************************************************************************
         * Values                                                                                  *
@@ -69,6 +146,8 @@ class fragment_usuario : Fragment() {
 
         lbPerfil.setText(Html.fromHtml(getResources().getString(R.string.lbPerfilSub)))
 
+
+        loadData(lbNombre,lbCorreo,imgvFoto)
         /******************************************************************************************
         * On Clicks                                                                              *
         ******************************************************************************************/
@@ -84,9 +163,7 @@ class fragment_usuario : Fragment() {
             val activityEditarPerfil = Intent(requireContext(), activity_editarperfil::class.java)
             startActivity(activityEditarPerfil)
         }
-        imgvSeguro.setOnClickListener{
-            //No sé hacia donde lleva
-        }
+
         lbSeguro.setOnClickListener {
             //No sé hacia donde lleva
             val activityEditarPerfl = Intent(requireContext(), activity_vistadoctores::class.java)
@@ -112,29 +189,40 @@ class fragment_usuario : Fragment() {
          * Funciones                                                                              *
          ******************************************************************************************/
 
-        fun GetUserParameters(): List<dataClassUsuario>{
-            val objConexion = ClaseConexion().CadenaConexion()
-            val statement =objConexion?.createStatement()
-            val resultSet = statement?.executeQuery("SELECT * FROM tbUsuario Where emailUsuario = $email")!!
+        /*fun GetUserParameters(): List<dataClassUsuario>{
             val listaUsuarios = mutableListOf<dataClassUsuario>()
-            while (resultSet.next()){
-                val idUsuario = resultSet.getInt("ID_Usuario")
-                val nombreUsuario = resultSet.getString("nombreUsuario")
-                val apellidoUsuario = resultSet.getString("apellidoUsuario")
-                val emailUsuario = resultSet.getString("emailUsuario")
-                val contraseña = resultSet.getString("contrasena")
-                val dirección = resultSet.getString("direccion")
-                val sexo =  resultSet.getString("sexo").toString().toCharArray()[0]
-                val fechaNacimiento = resultSet.getDate("fechaNacimiento")
-                val imgUsuario = resultSet.getBlob("imgUsuario")
-                val idTipoUsuario = resultSet.getInt("ID_TipoUsuario")
-                val idSeguro = resultSet.getInt("ID_Seguro")
+            try {
+                val objConexion = ClaseConexion().CadenaConexion()
+                val statement = objConexion?.prepareStatement("SELECT * FROM tbUsuario Where emailUsuario = ?")!!
+                statement.setString(1, email)
+                val resultSet = statement.executeQuery()
 
-                val userWithFullData = dataClassUsuario(idUsuario, nombreUsuario, apellidoUsuario, emailUsuario, contraseña,
-                    dirección, sexo, fechaNacimiento, imgUsuario, idTipoUsuario, idSeguro)
-                listaUsuarios.add(userWithFullData)
+
+                while (resultSet.next()){
+                    val idUsuario = resultSet.getInt("ID_Usuario")
+                    val nombreUsuario = resultSet.getString("nombreUsuario")
+                    val apellidoUsuario = resultSet.getString("apellidoUsuario")
+                    val emailUsuario = resultSet.getString("emailUsuario")
+                    val contraseña = resultSet.getString("contrasena")
+                    val dirección = resultSet.getString("direccion")
+                    val sexo =  resultSet.getString("sexo").toString().toCharArray()[0]
+                    val fechaNacimiento = resultSet.getDate("fechaNacimiento")
+                    val imgUsuario = resultSet.getBlob("imgUsuario")
+                    val idTipoUsuario = resultSet.getInt("ID_TipoUsuario")
+                    val idSeguro = resultSet.getInt("ID_Seguro")
+
+                    val userWithFullData = dataClassUsuario(idUsuario, nombreUsuario, apellidoUsuario, emailUsuario, contraseña,
+                        dirección, sexo, fechaNacimiento, imgUsuario, idTipoUsuario, idSeguro)
+                    listaUsuarios.add(userWithFullData)
+                }
+                return listaUsuarios
+            }
+            catch (e: Exception){
+                println("Este es el error $e")
+
             }
             return listaUsuarios
+
         }
 
 
@@ -161,7 +249,14 @@ class fragment_usuario : Fragment() {
                     }
                 }
             }
+        }*/
+
+
+        imgvSeguro.setOnClickListener{
+            //No sé hacia donde lleva
+
         }
+
         return root
     }
 
