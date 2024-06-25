@@ -1,5 +1,6 @@
 package Modelo
 
 data class dataClassIndicaciones(
-    var id_indicacion: Int
+    var id_indicacion: Int,
+
 )
