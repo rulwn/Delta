@@ -4,25 +4,48 @@ import Modelo.ClaseConexion
 import Modelo.dataClassIndicaciones
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import delta.medic.mobile.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-/*class AdaptadorTratamientos(private var Datos: List<dataClassIndicaciones>): RecyclerView.Adapter<ViewHolderTratamientos>() {
+class AdaptadorTratamientos(private var Datos: List<dataClassIndicaciones>): RecyclerView.Adapter<ViewHolderTratamientos>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderTratamientos {
-        TODO("Not yet implemented")
+            val vista = LayoutInflater.from(parent.context).inflate(R.layout.activity_item_tratamiento, parent, false)
+
+            return ViewHolderTratamientos(vista)
     }
-
-    override fun getItemCount(): Int {
-        TODO("Not yet implemented")
-
+    override fun getItemCount() = Datos.size
 
     override fun onBindViewHolder(holder: ViewHolderTratamientos, position: Int) {
-        TODO("Not yet implemented")
+        val tratamiento = Datos[position]
+        holder.txtNombreMedicina.text = tratamiento.medicina
+        holder.txtDosis.text = tratamiento.dosisMedi
+        holder.txtDetallesIndicaciones.text = tratamiento.detalleIndi
+        holder.txtTiempo.text = tratamiento.id_tiempo.toString()
+        holder.imgOpciones.setOnClickListener {
+
+        }
+
+
+        /*val item = Datos[position]
+        holder.imgborrar.setOnClickListener {
+            val context = holder.itemView.context
+            val builder = AlertDialog.Builder(context)
+
+            builder.setTitle("Seguro?")
+            builder.setMessage("Deseas eliminar el registro?")
+            builder.setPositiveButton("Si") { dialog, which ->
+                Eliminarlista(item.nombreProductos, position)
+            }
+            builder.setNegativeButton("No") { dialog, which ->
+
+            }
+            val alertDialog = builder.create()
+            alert*Dialog.show()*/
     }
 
     fun Actualizarlista(nuevalista: List<dataClassIndicaciones>){
@@ -30,24 +53,22 @@ import kotlinx.coroutines.withContext
         notifyDataSetChanged()
     }
 
-    fun Actualizarlistadespuesdecargardatos(id: String, nuevoNombre: String){
-        val index = Datos.indexOfFirst { it.uuid == uuid }
-        Datos[index].nombreProductos = nuevoNombre
+    fun Actualizarlistadespuesdecargardatos(id: Int, nuevoNombre: String){
+        val index = Datos.indexOfFirst { it.id_indicacion == id }
+        Datos[index].medicina = nuevoNombre
         notifyItemChanged(index)
     }
 
     fun Eliminarlista(nombreProducto: String, posicion: Int){
-        //1. crear clase conexion
-        //2. Quitar elemento de la lista
         val listaDatos = Datos.toMutableList()
         listaDatos.removeAt(posicion)
         //Quitar de la base
         GlobalScope.launch(Dispatchers.IO){
-            val objConexion = ClaseConexion().cadenaConexion()
-            val delProductos = objConexion?.prepareStatement("Delete tbProductos where nombreProducto = ?")!!
+            val objConexion = ClaseConexion().CadenaConexion()
+            val delIndicaciones = objConexion?.prepareStatement("Delete tbIndicaciones where medicina = ?")!!
 
-            delProductos.setString(1, nombreProducto)
-            delProductos.executeUpdate()
+            delIndicaciones.setString(1, nombreProducto)
+            delIndicaciones.executeUpdate()
             val commit = objConexion.prepareStatement("commit")!!
             commit.executeUpdate()
         }
@@ -57,51 +78,21 @@ import kotlinx.coroutines.withContext
         notifyDataSetChanged()
     }
 
-    fun actualizarProductos(nombreProducto: String, uuid: String){
+    fun actualizarIndicaciones(nombreIndicacion: String, id: Int){
         GlobalScope.launch(Dispatchers.IO){
-            val objConexion = ClaseConexion().cadenaConexion()
-            val updateProductos = objConexion?.prepareStatement("Update tbProductos set nombreProducto = ? where uuid = ?")!!
-            updateProductos.setString(1, nombreProducto)
-            updateProductos.setString(2, uuid)
-            updateProductos.executeUpdate()
+            val objConexion = ClaseConexion().CadenaConexion()
+            val updateIndicaciones = objConexion?.prepareStatement("Update tbIndicaciones set medicina = ? where uuid = ?")!!
+            updateIndicaciones.setString(1, nombreIndicacion)
+            updateIndicaciones.setString(2, id.toString())
+            updateIndicaciones.executeUpdate()
 
             val commit = objConexion.prepareStatement("commit")!!
             commit.executeUpdate()
 
             withContext(Dispatchers.Main){
-                Actualizarlistadespuesdecargardatos(uuid, nombreProducto)
+                Actualizarlistadespuesdecargardatos(id, nombreIndicacion)
             }
         }
 
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val vista =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_card, parent, false)
-
-        return ViewHolder(vista)
-    }
-
-    override fun getItemCount() = Datos.size
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val producto = Datos[position]
-        holder.textView.text = producto.nombreProductos
-
-        val Item = Datos[position]
-        holder.imgborrar.setOnClickListener {
-            val context = holder.itemView.context
-            val builder = AlertDialog.Builder(context)
-
-            builder.setTitle("Seguro?")
-            builder.setMessage("Deseas eliminar el registro?")
-            builder.setPositiveButton("Si") { dialog, which ->
-                Eliminarlista(Item.nombreProductos, position)
-            }
-            builder.setNegativeButton("No") { dialog, which ->
-
-            }
-            val alertDialog = builder.create()
-            alert*Dialog.show()
-        }
-    }
-}*/
+}

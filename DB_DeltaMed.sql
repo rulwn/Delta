@@ -269,7 +269,7 @@ CREATE TABLE tbCitasMedicas (
 CREATE TABLE tbIndicaciones (
     ID_Indicacion INT PRIMARY KEY,
     duracionMedi TIMESTAMP NOT NULL,
-    dosisMedi NUMBER NOT NULL,
+    dosisMedi VARCHAR2(50) NOT NULL,
     medicina VARCHAR2(90) NOT NULL,
     detalleIndi VARCHAR2(250) NOT NULL,
     ID_Receta INT NOT NULL,
@@ -810,6 +810,20 @@ INSERT ALL
     INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
          VALUES (5, TO_DATE('2023-01-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-05 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada', 5, 5)
 SELECT DUMMY FROM DUAL;
+
+INSERT ALL
+    INTO tbIndicaciones (ID_Indicacion, duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
+         VALUES (1, TO_TIMESTAMP('2023-06-01 08:00:00', 'YYYY-MM-DD HH24:MI:SS'), '1 tableta', 'Paracetamol', 'Tomar después de las comidas', 1, 1)
+    INTO tbIndicaciones (ID_Indicacion, duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
+         VALUES (2, TO_TIMESTAMP('2023-06-02 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), '2 cucharadas', 'Ibuprofeno', 'Tomar con agua', 2, 2)
+    INTO tbIndicaciones (ID_Indicacion, duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
+         VALUES (3, TO_TIMESTAMP('2023-06-03 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '5 ml', 'Amoxicilina', 'Tomar cada 8 horas', 3, 3)
+    INTO tbIndicaciones (ID_Indicacion, duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
+         VALUES (4, TO_TIMESTAMP('2023-06-04 20:00:00', 'YYYY-MM-DD HH24:MI:SS'), '1 cápsula', 'Omeprazol', 'Tomar antes de dormir', 4, 4)
+    INTO tbIndicaciones (ID_Indicacion, duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
+         VALUES (5, TO_TIMESTAMP('2023-06-05 07:00:00', 'YYYY-MM-DD HH24:MI:SS'), '10 gotas', 'Clorfenamina', 'Tomar en la mañana y noche', 5, 5)
+SELECT DUMMY FROM DUAL;
+
 
 INSERT ALL
     INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciete, parentesco, ID_Usuario)

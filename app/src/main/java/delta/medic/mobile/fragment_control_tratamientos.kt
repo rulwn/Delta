@@ -1,16 +1,20 @@
 package delta.medic.mobile
 
-import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
+import Modelo.ClaseConexion
+import Modelo.dataClassIndicaciones
+import RecycleViewHelper.AdaptadorTratamientos
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CalendarView
-import java.lang.reflect.Field
-import java.util.Calendar
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,11 +45,56 @@ class fragment_control_tratamientos : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_control_tratamientos, container, false)
         val calendarView = root.findViewById<CalendarView>(R.id.calendarTratamientos)
-
-
-
+        val rcvTratamientos = root.findViewById<RecyclerView>(R.id.rcvRecordatoriosTratamientos)
+        rcvTratamientos.layoutManager = LinearLayoutManager(requireContext())
+        CoroutineScope(Dispatchers.IO).launch{
+            val tratamientosDB = obtenerDatos()
+            withContext(Dispatchers.Main){
+                val miAdaptador = AdaptadorTratamientos(tratamientosDB)
+                rcvTratamientos.adapter = miAdaptador
+            }
+        }
         return root
     }
+    //asignar un layout al rcv
+
+    private suspend fun obtenerDatos(): List<dataClassIndicaciones>{
+        return withContext(Dispatchers.IO) {
+            val tratamientos = mutableListOf<dataClassIndicaciones>()
+            try {
+                val objConexion = ClaseConexion().CadenaConexion()
+                if (objConexion != null) {
+                val statement = objConexion?.createStatement()
+                val resultset = statement?.executeQuery("Select * from tbIndicaciones")!!
+                while (resultset?.next() == true) {
+                    val idIndicaciones = resultset.getInt("ID_Indicacion")
+                    val duracion = resultset.getTimestamp("duracionMedi")
+                    val dosisMedicina = resultset.getString("dosisMedi")
+                    val nombreMedicina = resultset.getString("medicina")
+                    val detalleIndi = resultset.getString("detalleIndi")
+                    val idReceta = resultset.getInt("ID_Receta")
+                    val idTiempo = resultset.getInt("ID_Tiempo")
+                    val tratamiento = dataClassIndicaciones(
+                        idIndicaciones,
+                        duracion,
+                        dosisMedicina,
+                        nombreMedicina,
+                        detalleIndi,
+                        idTiempo,
+                        idReceta
+                    )
+                    tratamientos.add(tratamiento)
+                }
+                } else {
+                    println("No se pudo establecer una conexión con la base de datos.")
+                }
+            } catch (e: Exception) {
+                println("Este es el error ${e.message}")
+            }
+        tratamientos
+        }
+    }
+    //Asignar un adaptador
 
 
     companion object {
