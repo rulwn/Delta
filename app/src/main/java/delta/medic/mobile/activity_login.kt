@@ -50,7 +50,7 @@ class activity_login : AppCompatActivity() {
         //Las funciones suspend se pueden llamar desde otras corrutinas u otras funciones de suspension
         return withContext(Dispatchers.IO) {//Significa que todo se ejecuta en el hilo IO
             try {
-                val objConexion = ClaseConexion().CadenaConexion()
+                val objConexion = ClaseConexion().cadenaConexion()
                 val buscarUsuario = objConexion?.prepareStatement("select * from test_u where Correo = ? and Clave = ?")!!
                 buscarUsuario.setString(1, correo)
                 buscarUsuario.setString(2,clave)

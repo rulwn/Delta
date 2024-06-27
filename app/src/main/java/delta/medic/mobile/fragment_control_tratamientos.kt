@@ -62,11 +62,11 @@ class fragment_control_tratamientos : Fragment() {
         return withContext(Dispatchers.IO) {
             val tratamientos = mutableListOf<dataClassIndicaciones>()
             try {
-                val objConexion = ClaseConexion().CadenaConexion()
+                val objConexion = ClaseConexion().cadenaConexion()
                 if (objConexion != null) {
-                val statement = objConexion?.createStatement()
+                val statement = objConexion.createStatement()
                 val resultset = statement?.executeQuery("Select * from tbIndicaciones")!!
-                while (resultset?.next() == true) {
+                while (resultset.next()) {
                     val idIndicaciones = resultset.getInt("ID_Indicacion")
                     val duracion = resultset.getTimestamp("duracionMedi")
                     val dosisMedicina = resultset.getString("dosisMedi")

@@ -67,7 +67,7 @@ class activity_agendar : AppCompatActivity() {
         rcvCentroMedico.layoutManager = LinearLayoutManager(this)
 
         fun obtenerDatos(): List<dataClassCentro> {
-            val objConexion = ClaseConexion().CadenaConexion()
+            val objConexion = ClaseConexion().cadenaConexion()
             val statement = objConexion?.createStatement()
             val resultset =
                 statement?.executeQuery("insert into tbCentroMedico (favorito, ID_Doctor, ID_Sucursal) values (?, ?, ?)")!!

@@ -48,23 +48,23 @@ class AdaptadorTratamientos(private var Datos: List<dataClassIndicaciones>): Rec
             alert*Dialog.show()*/
     }
 
-    fun Actualizarlista(nuevalista: List<dataClassIndicaciones>){
+    private fun Actualizarlista(nuevalista: List<dataClassIndicaciones>){
         Datos = nuevalista
         notifyDataSetChanged()
     }
 
-    fun Actualizarlistadespuesdecargardatos(id: Int, nuevoNombre: String){
+    private fun Actualizarlistadespuesdecargardatos(id: Int, nuevoNombre: String){
         val index = Datos.indexOfFirst { it.id_indicacion == id }
         Datos[index].medicina = nuevoNombre
         notifyItemChanged(index)
     }
 
-    fun Eliminarlista(nombreProducto: String, posicion: Int){
+    private fun Eliminarlista(nombreProducto: String, posicion: Int){
         val listaDatos = Datos.toMutableList()
         listaDatos.removeAt(posicion)
         //Quitar de la base
         GlobalScope.launch(Dispatchers.IO){
-            val objConexion = ClaseConexion().CadenaConexion()
+            val objConexion = ClaseConexion().cadenaConexion()
             val delIndicaciones = objConexion?.prepareStatement("Delete tbIndicaciones where medicina = ?")!!
 
             delIndicaciones.setString(1, nombreProducto)
@@ -80,7 +80,7 @@ class AdaptadorTratamientos(private var Datos: List<dataClassIndicaciones>): Rec
 
     fun actualizarIndicaciones(nombreIndicacion: String, id: Int){
         GlobalScope.launch(Dispatchers.IO){
-            val objConexion = ClaseConexion().CadenaConexion()
+            val objConexion = ClaseConexion().cadenaConexion()
             val updateIndicaciones = objConexion?.prepareStatement("Update tbIndicaciones set medicina = ? where uuid = ?")!!
             updateIndicaciones.setString(1, nombreIndicacion)
             updateIndicaciones.setString(2, id.toString())

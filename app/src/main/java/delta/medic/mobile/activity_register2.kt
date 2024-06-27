@@ -45,9 +45,11 @@ class activity_register2 : AppCompatActivity() {
         val clave = intent.getStringExtra("clave")
             CoroutineScope(Dispatchers.Main).launch{
                 val listaSeguros =obtenerSeguros()
+                withContext(Dispatchers.Main){
                 val nombreSeguro =listaSeguros.map { it.nombreAseguradora}
                 val adaptador = ArrayAdapter(this@activity_register2, android.R.layout.simple_spinner_dropdown_item, nombreSeguro)
                 spSeguro.adapter = adaptador
+                }
             }
 
 
@@ -98,7 +100,7 @@ class activity_register2 : AppCompatActivity() {
     }
     private suspend fun obtenerSeguros(): List<dc_Aseguradoras> {
         return withContext(Dispatchers.IO) {
-            val objConexion = ClaseConexion().CadenaConexion()
+            val objConexion = ClaseConexion().cadenaConexion()
             val statement = objConexion?.createStatement()!!
             val resultSet = statement.executeQuery("select * from tbAseguradora")
             val lista = mutableListOf<dc_Aseguradoras>()

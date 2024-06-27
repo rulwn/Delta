@@ -52,6 +52,27 @@ class DashboardFragment : Fragment() {
                 1 -> tab.text = "Citas"
             }
         }.attach()*/
+
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                tab?.let {
+                    val position = it.position
+                    when (position) {
+                        0 -> tabLayout.setSelectedTabIndicatorColor(resources.getColor(R.color.Azul1))
+                        1 -> tabLayout.setSelectedTabIndicatorColor(resources.getColor(R.color.Turquesa1))
+                        // Add more cases as needed
+                    }
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                // No action needed
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                // No action needed
+            }
+        })
         return root
     }
 

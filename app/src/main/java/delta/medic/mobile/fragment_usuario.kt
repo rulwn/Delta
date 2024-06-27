@@ -3,7 +3,6 @@ package delta.medic.mobile
 import Modelo.ClaseConexion
 import Modelo.dataClassUsuario
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.Html
 import androidx.fragment.app.Fragment
@@ -12,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,7 +37,7 @@ class fragment_usuario : Fragment() {
         return withContext(Dispatchers.IO) {
             val listaUsuarios = mutableListOf<dataClassUsuario>()
             try {
-                val objConexion = ClaseConexion().CadenaConexion()
+                val objConexion = ClaseConexion().cadenaConexion()
                 if (objConexion != null) {
                     val statement = objConexion.prepareStatement("Select * From tbUsuarios Where emailUsuario = ?")!!
                     statement.setString(1, email)
@@ -193,7 +191,7 @@ class fragment_usuario : Fragment() {
         /*fun GetUserParameters(): List<dataClassUsuario>{
             val listaUsuarios = mutableListOf<dataClassUsuario>()
             try {
-                val objConexion = ClaseConexion().CadenaConexion()
+                val objConexion = ClaseConexion().cadenaConexion()
                 val statement = objConexion?.prepareStatement("SELECT * FROM tbUsuario Where emailUsuario = ?")!!
                 statement.setString(1, email)
                 val resultSet = statement.executeQuery()
