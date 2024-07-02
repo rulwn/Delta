@@ -227,7 +227,7 @@
             app:layout_constraintVertical_bias="0.528">
 
             <TextView
-                android:id="@+id/clinic_name"
+                android:id="@+id/ubicacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Clinica 206 Piso 3"
@@ -235,14 +235,14 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/clinic_location"
+                android:id="@+id/nombreSucursal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Centro Médico Escalón"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/clinic_hours"
+                android:id="@+id/horario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Abierto de 7:00am a 10:00pm"
@@ -250,7 +250,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/clinic_phone"
+                android:id="@+id/numeroClinica"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -258,7 +258,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/clinic_address"
+                android:id="@+id/direccion_Clinica"
                 android:layout_width="234dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"

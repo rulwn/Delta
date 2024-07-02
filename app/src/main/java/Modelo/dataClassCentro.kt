@@ -1,12 +1,12 @@
 package Modelo
 
-import oracle.sql.DATE
-import oracle.sql.TIMESTAMP
+data class dataClassCentro (
+/*
+val apellidoUsuario: String,
+val nombreUsuario: String?,
+ */
 
-class dataClassCentro (
-    val diaCita : DATE ,
-    val horaCita : TIMESTAMP,
-    val motivo : String ,
-    val ID_Centro : Int,
-    val ID_Paciente : Int
+val ID_Doctor: Int,
+val nombreEspecialidad: String,
+val direccionSucur: String
 )

@@ -64,12 +64,12 @@ CREATE TABLE tbDoctores (
     ID_Doctor INT PRIMARY KEY,
     codProfesional VARCHAR2(12) NOT NULL,
     ID_Especialidad INT NOT NULL,
-    
     --CONSTRAINTS------------------
     CONSTRAINT FK_Especialidad FOREIGN KEY (ID_Especialidad) 
     REFERENCES tbEspecialidades(ID_Especialidad)
     ON DELETE CASCADE
 );
+
 
 CREATE TABLE tbSucursales (
     ID_Sucursal INT PRIMARY KEY,
@@ -763,26 +763,26 @@ INSERT ALL
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, ID_Establecimiento, ID_TipoSucursal)
          VALUES ('Clínica Ginecológica, San Salvador', 235656, 'clinica_ginecologica@gmail.com', '2264-7856', '25 Av. Norte, Colonia Médica, San Salvador', 'ubicacionSucur.Ginecologica', '7589-4365', 1, 2)
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Clínica Asistencial Salvadoreña, Santa Ana', 675429, 'clinica_asistencial@gmail.com', '2264-6576', 'Calle Libertad y Avenida Independencia, Santa Ana', 'ubicacionSucur.Asistencial', '7559-4365', 4, 5)
+         VALUES ('Clínica Asistencial Salvadoreña, Santa Ana', 675429, 'clinica_asistencial@gmail.com', '2256-6576', 'Calle Libertad y Avenida Independencia, Santa Ana', 'ubicacionSucur.Asistencial', '7559-4365', 5, 1)
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Hospital de Diagnóstico, San Salvador', 990764, 'hospital_diagnostico@gmail.com', '2264-7887', '79 Av. Norte y 11 Calle Poniente, Colonia Escalón, San Salvador', 'ubicacionSucur.Diagnostico', '7589-4635', 3, 1)
+         VALUES ('Hospital de Diagnóstico, San Salvador', 990764, 'hospital_diagnostico@gmail.com', '2224-7887', '79 Av. Norte y 11 Calle Poniente, Colonia Escalón, San Salvador', 'ubicacionSucur.Diagnostico', '7519-2335', 3, 1)
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Centro Médico Escalón, San Salvador', 235656, 'medico_escalon@gmail.com', '2235-7856', '85 Av. Norte y Calle Juan José Cañas, Colonia Escalón, San Salvador', 'ubicacionSucur.Escalon', '7589-4230', 4, 2)
+         VALUES ('Centro Médico Escalón, San Salvador', 224216, 'medico_escalon@gmail.com', '2235-7856', '85 Av. Norte y Calle Juan José Cañas, Colonia Escalón, San Salvador', 'ubicacionSucur.Escalon', '7509-3230', 4, 2)
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Hospital La Divina Providencia, San Salvador', 235656, 'divina_providencia@gmail.com', '2234-2956', 'Avenida Masferrer Norte, Colonia Escalón, San Salvador', 'ubicacionSucur.Providencia', '7589-3585', 2, 3)
+         VALUES ('Hospital La Divina Providencia, San Salvador', 012483, 'divina_providencia@gmail.com', '2234-2956', 'Avenida Masferrer Norte, Colonia Escalón, San Salvador', 'ubicacionSucur.Providencia', '7589-3585', 2, 2)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbCentrosMedicos (favorito, ID_Doctor, ID_Sucursal)
-         VALUES ('T', 1, 3)
+         VALUES ('T', 6, 20)
     INTO tbCentrosMedicos (favorito, ID_Doctor, ID_Sucursal)
-         VALUES ('F', 2, 5)
+         VALUES ('F', 7, 21)
     INTO tbCentrosMedicos (favorito, ID_Doctor, ID_Sucursal)
-         VALUES ('F', 5, 3)
+         VALUES ('F', 8, 22)
     INTO tbCentrosMedicos (favorito, ID_Doctor, ID_Sucursal)
-         VALUES ('T', 3, 4)
+         VALUES ('T', 9, 23)
     INTO tbCentrosMedicos (favorito, ID_Doctor, ID_Sucursal)
-         VALUES ('F', 4, 1)
+         VALUES ('F', 10, 24)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -967,4 +967,39 @@ DROP TRIGGER Trigger_Expediente;
 DROP TRIGGER Trigger_CitaMedica;
 DROP TRIGGER Trigger_Indicacion;
 DROP TRIGGER Trigger_Ficha;
+*/
+
+/*************************************************************************************************
+
+    ~ Consultas Inner ~
+
+*************************************************************************************************/
+/*
+SELECT
+    d.ID_Doctor,
+    e.nombreEspecialidad,
+    s.nombreSucursal,
+    s.direccionSucur
+
+FROM
+    tbCentrosMedicos cm
+INNER JOIN
+    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+INNER JOIN
+    tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
+INNER JOIN
+    tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad;
+    
+    SELECT 
+    d.ID_Doctor,
+    e.nombreEspecialidad,
+    s.direccionSucur
+    FROM
+    tbCentrosMedicos cm
+    INNER JOIN
+    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+    INNER JOIN
+    tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
+    INNER JOIN
+    tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad;
 */

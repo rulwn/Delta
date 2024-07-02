@@ -1,7 +1,8 @@
 package delta.medic.mobile
 
-//import Modelo.dataClassCentro
-//import RecycleViewHelper.AdaptadorCentro
+import Modelo.ClaseConexion
+import Modelo.dataClassCentro
+import RecycleViewHelper.ViewHolderCentro
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
@@ -17,6 +18,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class activity_agendar : AppCompatActivity() {
@@ -33,10 +38,32 @@ class activity_agendar : AppCompatActivity() {
         val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
         val btnContinuar = findViewById<Button>(R.id.btnContinuar)
         val txtFecha = findViewById<TextView>(R.id.txtFecha)
-        val rcvSucursal = findViewById<RecyclerView>(R.id.rcvCentro)
+        val rcvCentros = findViewById<RecyclerView>(R.id.rcvCentro)
         val rcvPaciente = findViewById<RecyclerView>(R.id.rcvPaciente)
+/*
+        rcvCentros.layoutManager = LinearLayoutManager(this)
+        private suspend fun obtenerDatos(): List<dataClassCentro>
+        {
+            val objConexion = ClaseConexion().cadenaConexion()
+            if (objConexion != null) {
+            val statement = objConexion?.createStatement()
+                val resultSet = statement?.executeQuery("select * from tbCentro")
+
+                val ID_Centro = resultSet?.getInt("ID_Centro")
 
 
+            }
+            return productos
+        }
+        CoroutineScope(Dispatchers.IO).launch {
+            val productosDB = obtenerDatos()
+            withContext(Dispatchers.Main){
+                val miAdapter = Adaptador(productosDB)
+                rcvProductos.adapter = miAdapter
+            }
+        }
+
+*/
         val rcvProductos = findViewById<RecyclerView>(R.id.rcvCentro)
         rcvProductos.layoutManager = LinearLayoutManager(this)
         val layoutNoDoctor = findViewById<LinearLayout>(R.id.linearNoDoctor)
@@ -61,32 +88,7 @@ class activity_agendar : AppCompatActivity() {
             startActivityForResult(intent, REQUEST_CODE)
         }
 */
-/*
-        fun obtenerDatos(): List<dataClassSucursal>
-        val rcvCentroMedico = findViewById<RecyclerView>(R.id.rcvCentro)
-        rcvCentroMedico.layoutManager = LinearLayoutManager(this)
 
-        fun obtenerDatos(): List<dataClassCentro> {
-            val objConexion = ClaseConexion().cadenaConexion()
-            val statement = objConexion?.createStatement()
-            val resultset =
-                statement?.executeQuery("insert into tbCentroMedico (favorito, ID_Doctor, ID_Sucursal) values (?, ?, ?)")!!
-            val centros = mutableListOf<dataClassCentro>()
-            while (resultset.next()) {
-
-            }
-            return centros
-        }
-        CoroutineScope(Dispatchers.IO).launch {
-            /*
-            val centroMedico = obtenerDatos()
-            withContext(Dispatchers.Main) {
-
-                val miAdapter = AdaptadorCentro(centroMedico)
-                rcvCentro.adapter = miAdapter
-            }*/
-        }
-*/
         btnRegresar.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("ir_atras", true)
