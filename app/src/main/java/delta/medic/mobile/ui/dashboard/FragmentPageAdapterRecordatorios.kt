@@ -22,5 +22,4 @@ class FragmentPageAdapterRecordatorios(fragmentManager: FragmentManager, lifecyc
             }
         }
     }
-
 }
