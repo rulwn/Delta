@@ -5,6 +5,7 @@ import Modelo.dataClassCentro
 import RecycleViewHelper.ViewHolderCentro
 import android.app.Dialog
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
@@ -29,12 +30,12 @@ class activity_agendar : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_agendar)
+        requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
         val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
         val btnContinuar = findViewById<Button>(R.id.btnContinuar)
         val txtFecha = findViewById<TextView>(R.id.txtFecha)
