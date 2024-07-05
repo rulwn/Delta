@@ -39,8 +39,7 @@ class activity_cambiarcontra : AppCompatActivity() {
             val nuevaContrasena: String = binding.txtNuevaContrasena.text.toString()
             val confirmarContrasena: String = binding.txtConfirmarContrasena.text.toString()
 
-            val credential = EmailAuthProvider
-                .getCredential(user.email.toString(), contrasenaActual)
+            val credential = EmailAuthProvider.getCredential(user.email.toString(), contrasenaActual)
 
             user.reauthenticate(credential).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
