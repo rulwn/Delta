@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -19,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DeltaMedic"
         tools:targetApi="31">
+        <activity
+            android:name=".item_citas"
+            android:exported="false" />
         <activity
             android:name=".activity_item_busqueda_reciente"
             android:exported="false" />

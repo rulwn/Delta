@@ -20,6 +20,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import delta.medic.mobile.databinding.ActivityMainBinding
 import android.content.Context
+import android.content.pm.ActivityInfo
 
 class MainActivity : AppCompatActivity() {
 
@@ -43,6 +44,8 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         val icBusqueda = findViewById<ImageView>(R.id.imgIconoSearch)
         icBusqueda.setOnClickListener {
