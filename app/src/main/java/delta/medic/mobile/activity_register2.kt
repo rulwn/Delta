@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.Spinner
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -36,21 +37,25 @@ class activity_register2 : AppCompatActivity() {
         val txtTelefono = findViewById<EditText>(R.id.txtTelefono)
         val spSeguro = findViewById<Spinner>(R.id.spSeguro)
         val btnSiguiente = findViewById<Button>(R.id.btnSiguiente2)
-
-
+        val txtTienesUnaCuenta = findViewById<TextView>(R.id.txtTienesUnaCuenta2)
+        txtTienesUnaCuenta.setOnClickListener {
+            val intent = Intent(this, activity_login::class.java)
+            startActivity(intent)
+        }
         val nombre = intent.getStringExtra("nombre")
         val apellido = intent.getStringExtra("apellido")
         val direccion = intent.getStringExtra("direccion")
         val email = intent.getStringExtra("email")
         val clave = intent.getStringExtra("clave")
-            CoroutineScope(Dispatchers.Main).launch{
-                val listaSeguros =obtenerSeguros()
-                withContext(Dispatchers.Main){
+
+        CoroutineScope(Dispatchers.Main).launch{
+            val listaSeguros =obtenerSeguros()
+            withContext(Dispatchers.Main){
                 val nombreSeguro =listaSeguros.map { it.nombreAseguradora}
                 val adaptador = ArrayAdapter(this@activity_register2, android.R.layout.simple_spinner_dropdown_item, nombreSeguro)
                 spSeguro.adapter = adaptador
-                }
             }
+        }
 
 
         val txtFechaNacimientoPaciente = findViewById<EditText>(R.id.txtFechadeNacimiento)
