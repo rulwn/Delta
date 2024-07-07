@@ -5,6 +5,8 @@ import Modelo.dataClassCentro
 import RecycleViewHelper.AdaptadorCentro
 import RecycleViewHelper.AdaptadorRecientes
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -36,6 +38,7 @@ class activity_busqueda : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_busqueda)
+        requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -50,48 +53,6 @@ class activity_busqueda : AppCompatActivity() {
         adapter = AdaptadorRecientes(recentSearches)
         rvRecentSearches.layoutManager = LinearLayoutManager(this)
         rvRecentSearches.adapter = adapter
-
-        suspend fun obtenerDatos(): List<dataClassCentro>
-        {
-            return withContext(Dispatchers.IO) {
-                val objConexion = ClaseConexion()?.cadenaConexion()
-                val statement = objConexion?.createStatement()
-                val resultset = statement?.executeQuery(
-                    """
-        SELECT 
-            d.ID_Doctor,
-            e.nombreEspecialidad,
-            s.nombreSucursal,
-            s.direccionSucur
-        FROM
-            tbCentrosMedicos cm
-        INNER JOIN
-            tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-        INNER JOIN
-            tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
-        INNER JOIN
-            tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-        """
-                )!!
-                val centroMedico = mutableListOf<dataClassCentro>()
-                while (resultset.next()) {
-                    val ID_Doctor = resultset.getInt("ID_Doctor")
-                    val nombreEspecialidad = resultset.getString("nombreEspecialidad")
-                    val direccionSucur = resultset.getString("direccionSucur")
-                    val centro = dataClassCentro(ID_Doctor, nombreEspecialidad, direccionSucur)
-                    centroMedico.add(centro)
-                }
-                centroMedico
-            }
-
-        }
-        CoroutineScope(Dispatchers.IO).launch {
-            val centrosDB = obtenerDatos()
-            withContext(Dispatchers.Main) {
-                val miAdapter = AdaptadorCentro(centrosDB)
-                rvRecentSearches.adapter = miAdapter
-            }
-        }
 
 
         txtSearch.setOnTouchListener { _, event ->
@@ -113,6 +74,9 @@ class activity_busqueda : AppCompatActivity() {
 
         imgCerrar.setOnClickListener {
             txtSearch.text.clear()
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("ir_atras", true)
+            startActivity(intent)
         }
     }
 

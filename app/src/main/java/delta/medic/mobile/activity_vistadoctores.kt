@@ -1,6 +1,7 @@
 package delta.medic.mobile
 
 import android.Manifest
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 
 class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
 
+    //
     private lateinit var mapView: MapView
     private lateinit var googleMap: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -33,6 +35,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_vistadoctores)
+        requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
