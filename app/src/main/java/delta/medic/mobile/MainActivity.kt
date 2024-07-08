@@ -21,6 +21,9 @@ import androidx.navigation.ui.setupWithNavController
 import delta.medic.mobile.databinding.ActivityMainBinding
 import android.content.Context
 import android.content.pm.ActivityInfo
+import android.view.View
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
