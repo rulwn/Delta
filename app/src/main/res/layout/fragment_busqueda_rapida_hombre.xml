@@ -10,6 +10,7 @@
     tools:context=".fragment_busquedaRapidaHombre">
 
     <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="34dp"
         android:orientation="horizontal"
@@ -42,7 +43,6 @@
     </LinearLayout>
 
 
-
     <Button
         android:id="@+id/open_bottom_sheet_button"
         android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

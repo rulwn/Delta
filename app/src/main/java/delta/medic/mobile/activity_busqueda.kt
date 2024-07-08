@@ -28,7 +28,6 @@ import kotlinx.coroutines.withContext
 class activity_busqueda : AppCompatActivity() {
 
     private lateinit var txtSearch: EditText
-    private lateinit var imgCerrar: ImageView
     private lateinit var rvRecentSearches: RecyclerView
     private val recentSearches = mutableListOf<String>()
     private lateinit var adapter: AdaptadorRecientes
@@ -47,7 +46,7 @@ class activity_busqueda : AppCompatActivity() {
         }
 
         txtSearch = findViewById(R.id.txtSearch)
-        imgCerrar = findViewById(R.id.imgCerrar)
+        val imgCerrar = findViewById<ImageView>(R.id.imgCerrar)
         rvRecentSearches = findViewById(R.id.rvRecentSearches)
 
         adapter = AdaptadorRecientes(recentSearches)

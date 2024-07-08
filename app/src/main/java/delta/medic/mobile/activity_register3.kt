@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.net.Uri
+import android.widget.TextView
 
 class activity_register3 : AppCompatActivity() {
 
@@ -38,6 +39,7 @@ class activity_register3 : AppCompatActivity() {
         val telefono = intent.getStringExtra("telefono")
 
 
+
         btnAgregarFoto = findViewById(R.id.btnAgregarFoto)
 
         btnAgregarFoto.setOnClickListener {
@@ -47,7 +49,11 @@ class activity_register3 : AppCompatActivity() {
 
             startActivityForResult(Intent.createChooser(intento, "Escoge una imagen"), 111) // el requestCode es personalizado
         }
-
+        val txtTienesUnaCuenta = findViewById<TextView>(R.id.txtTienesUnaCuenta3)
+        txtTienesUnaCuenta.setOnClickListener {
+            val intent = Intent(this, activity_login::class.java)
+            startActivity(intent)
+        }
         val btnSiguiente = findViewById<Button>(R.id.btnSiguiente3)
         btnSiguiente.setOnClickListener {
             val intent = Intent(this, activity_register4::class.java)

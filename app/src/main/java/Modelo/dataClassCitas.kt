@@ -10,5 +10,10 @@ data class dataClassCitas(
     var motivo:String,
     var ID_Centro: Int,
     var ID_Paciente: Int,
-
+    var nombrePaciente: String,
+    var parentesco: String,
+    var ID_Usuario: Int,
+    var nombreDoctor: String,
+    var apellidoDoctor: String,
+    var especialidad: String
 )
