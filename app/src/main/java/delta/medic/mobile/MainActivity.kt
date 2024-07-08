@@ -62,8 +62,7 @@ class MainActivity : AppCompatActivity() {
 
         val icBusquedaRapida = findViewById<ImageView>(R.id.imgIconoFastSearch)
         icBusquedaRapida.setOnClickListener {
-            navController.navigate(R.id.fragment_busquedaRapidaHombre)
-
+            findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.fragment_busquedaRapidaHombre)
         }
 
 

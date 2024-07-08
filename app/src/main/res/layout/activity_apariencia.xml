@@ -10,6 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="34dp"
+        android:layout_marginTop="30dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/themeRadioGroup"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,6 +29,7 @@
             app:srcCompat="@drawable/ic_arrow_back" />
 
         <TextView
+            android:id="@+id/txtApariencia"
             android:layout_width="120dp"
             android:layout_height="25dp"
             android:layout_gravity="center"
@@ -47,7 +49,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.060000002">
+        app:layout_constraintVertical_bias="0.13999999">
 
         <RadioButton
             android:id="@+id/lightThemeRadioButton"
