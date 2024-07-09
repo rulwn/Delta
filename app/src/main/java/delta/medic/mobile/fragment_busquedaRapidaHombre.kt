@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import delta.medic.mobile.databinding.FragmentBusquedaRapidaHombreBinding
 import delta.medic.mobile.ui.fragment_bottonSheetPierna
 
-import androidx.navigation.fragment.findNavController
 
 
 
@@ -36,8 +35,7 @@ class fragment_busquedaRapidaHombre : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val imgAtras = binding.btnRegresar
-        imgAtras.setOnClickListener {
+        binding.btnRegresar.setOnClickListener {
             findNavController().navigateUp()
         }
 
