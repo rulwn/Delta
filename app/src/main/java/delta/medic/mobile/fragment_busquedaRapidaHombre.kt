@@ -11,42 +11,44 @@ import androidx.navigation.fragment.findNavController
 import delta.medic.mobile.databinding.FragmentBusquedaRapidaHombreBinding
 import delta.medic.mobile.ui.fragment_bottonSheetPierna
 
+import androidx.navigation.fragment.findNavController
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
+
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [fragment_busquedaRapidaHombre.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class fragment_busquedaRapidaHombre : Fragment() {
 
 
-    //private var _binding: FragmentBusquedaRapidaHombreBinding? = null
-    //private val binding get() = _binding!!
+    private var _binding: FragmentBusquedaRapidaHombreBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_busqueda_rapida_hombre, container, false)
-        val imgAtras = root.findViewById<ImageView>(R.id.btnRegresar)
-        imgAtras.setOnClickListener {
-            findNavController().navigateUp()
-        }
-
-        return root
+        _binding = FragmentBusquedaRapidaHombreBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //binding.openBottomSheetButton.setOnClickListener {
-        //    val bottomSheetFragment = fragment_bottonSheetPierna.newInstance("param1", "param2")
-        //    bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
-        //}
+        val imgAtras = binding.btnRegresar
+        imgAtras.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
+        binding.openBottomSheetButton.setOnClickListener {
+            val bottomSheetFragment = fragment_bottonSheetPierna.newInstance("param1", "param2")
+            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
