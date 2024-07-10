@@ -129,7 +129,7 @@ CREATE TABLE tbSucursales (
     emailSucur VARCHAR2(30) NOT NULL UNIQUE,
     telefonoSucur VARCHAR2(12) NOT NULL UNIQUE,
     direccionSucur VARCHAR2(200) NOT NULL UNIQUE,
-    ubicacionSucur BLOB NOT NULL,
+    ubicacionSucur VARCHAR2(200) NOT NULL,
     whatsapp VARCHAR2(12),
     ID_Establecimiento INT NOT NULL,
     ID_TipoSucursal INT NOT NULL,
@@ -670,7 +670,7 @@ END;
 
 /*************************************************************************************************
 
-    ~ INSERTS ~
+~ INSERTS ~
 
 *************************************************************************************************/
 
@@ -752,6 +752,7 @@ INSERT ALL
     INTO tbAseguradoras (nombreAseguradora)
          VALUES ('ASESUISA')
 SELECT DUMMY FROM DUAL;
+select * from tbAseguradoras;
 
 INSERT ALL
     INTO tbRecetas (fechaReceta, ubicacionPDF)
@@ -796,15 +797,15 @@ SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbCentrosMedicos (favorito, ID_Doctor, ID_Sucursal)
-         VALUES ('T', 6, 20)
+         VALUES ('T', 6, 1)
     INTO tbCentrosMedicos (favorito, ID_Doctor, ID_Sucursal)
-         VALUES ('F', 7, 21)
+         VALUES ('F', 7, 2)
     INTO tbCentrosMedicos (favorito, ID_Doctor, ID_Sucursal)
-         VALUES ('F', 8, 22)
+         VALUES ('F', 8, 3)
     INTO tbCentrosMedicos (favorito, ID_Doctor, ID_Sucursal)
-         VALUES ('T', 9, 23)
+         VALUES ('T', 9, 4)
     INTO tbCentrosMedicos (favorito, ID_Doctor, ID_Sucursal)
-         VALUES ('F', 10, 24)
+         VALUES ('F', 10, 5)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -837,15 +838,15 @@ select * from tbHorarios;
 
 INSERT ALL
     INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (1, TO_DATE('2023-01-01', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general', 16, 1)
+         VALUES (1, TO_DATE('2023-01-01', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general', 25, 1)
     INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (2, TO_DATE('2023-01-02', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-02 11:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Revisión anual', 17, 2)
+         VALUES (2, TO_DATE('2023-01-02', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-02 11:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Revisión anual', 24, 2)
     INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (3, TO_DATE('2023-01-03', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-03 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta de seguimiento', 18, 3)
+         VALUES (3, TO_DATE('2023-01-03', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-03 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta de seguimiento', 23, 3)
     INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (4, TO_DATE('2023-01-04', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-04 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general', 19, 4)
+         VALUES (4, TO_DATE('2023-01-04', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-04 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general', 22, 4)
     INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (5, TO_DATE('2023-01-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-05 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada', 20, 5)
+         VALUES (5, TO_DATE('2023-01-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-05 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada', 21, 5)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -863,22 +864,22 @@ SELECT DUMMY FROM DUAL;
 
 
 INSERT ALL
-    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciete, parentesco, ID_Usuario)
+    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
          VALUES (1, 'Juan', 'Perez', NULL, 'Padre', 1)
-    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciete, parentesco, ID_Usuario)
+    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
          VALUES (2, 'Maria', 'Garcia', NULL, 'Madre', 2)
-    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciete, parentesco, ID_Usuario)
+    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
          VALUES (3, 'Carlos', 'Lopez', NULL, 'Hijo', 3)
-    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciete, parentesco, ID_Usuario)
+    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
          VALUES (4, 'Ana', 'Martinez', NULL, 'Hija', 4)
-    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciete, parentesco, ID_Usuario)
+    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
          VALUES (5, 'Luis', 'Sanchez', NULL, 'Hermano', 5)
 SELECT DUMMY FROM DUAL;
 
 
 INSERT ALL
     INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora)
-        VALUES ('TOEWQ12', 'PRIMER2', 1)
+        VALUES ('TOEWQ12', 'PRIMER2',1)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -892,7 +893,7 @@ INSERT ALL
         VALUES ('Dennis', 'Alexander', 'darv@gmail.com', 'dennis123', 'Villa Olimpica', '6294-0283', 'M', '20/02/2000', NULL, 2, 1)
     INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario, ID_Seguro)
         VALUES ('Hector', 'Gallardo', 'hector@gmail.com', 'rocah123', 'La Paz', '8723-1293', 'M', '25/08/2000', NULL, 1, 1)
-SELECT DUMMY FROM DUAL;       
+SELECT DUMMY FROM DUAL;
 
 /*INSERT ALL
     INTO tbContacto (celular, whatsapp, telefonoContacto, direccionContacto, email)
@@ -945,28 +946,28 @@ ALTER SESSION SET NLS_DATE_FORMAT = 'DD-MM-YYYY';
 
 *************************************************************************************************/
 /*
-DROP TABLE tbFichasMedicas;
-DROP TABLE tbIndicaciones;
-DROP TABLE tbCitasMedicas;
-DROP TABLE tbExpedientes;
-DROP TABLE tbPacientes;
-DROP TABLE tbNotis;
-DROP TABLE tbReviews;
-DROP TABLE tbUsuarios;
-DROP TABLE tbSeguros;
-DROP TABLE tbServicios;
-DROP TABLE tbHorarios;
-DROP TABLE tbCentrosMedicos;
-DROP TABLE tbSucursales;
-DROP TABLE tbDoctores;
-DROP TABLE tbRecetas;
-DROP TABLE tbAseguradoras;
-DROP TABLE tbEstablecimientos;
-DROP TABLE tbEspecialidades;
-DROP TABLE tbTipoSucursales;
-DROP TABLE tbTiempos;
-DROP TABLE tbTipoUsuarios;
-DROP TABLE tbTipoNotis;
+DROP TABLE tbFichasMedicas CASCADE CONSTRAINTS;
+DROP TABLE tbIndicaciones CASCADE CONSTRAINTS;
+DROP TABLE tbCitasMedicas CASCADE CONSTRAINTS;
+DROP TABLE tbExpedientes CASCADE CONSTRAINTS;
+DROP TABLE tbPacientes CASCADE CONSTRAINTS;
+DROP TABLE tbNotis CASCADE CONSTRAINTS;
+DROP TABLE tbReviews CASCADE CONSTRAINTS;
+DROP TABLE tbUsuarios CASCADE CONSTRAINTS;
+DROP TABLE tbSeguros CASCADE CONSTRAINTS;
+DROP TABLE tbServicios CASCADE CONSTRAINTS;
+DROP TABLE tbHorarios CASCADE CONSTRAINTS;
+DROP TABLE tbCentrosMedicos CASCADE CONSTRAINTS;
+DROP TABLE tbSucursales CASCADE CONSTRAINTS;
+DROP TABLE tbDoctores CASCADE CONSTRAINTS;
+DROP TABLE tbRecetas CASCADE CONSTRAINTS;
+DROP TABLE tbAseguradoras CASCADE CONSTRAINTS;
+DROP TABLE tbEstablecimientos CASCADE CONSTRAINTS;
+DROP TABLE tbEspecialidades CASCADE CONSTRAINTS;
+DROP TABLE tbTipoSucursales CASCADE CONSTRAINTS;
+DROP TABLE tbTiempos CASCADE CONSTRAINTS;
+DROP TABLE tbTipoUsuarios CASCADE CONSTRAINTS;
+DROP TABLE tbTipoNotis CASCADE CONSTRAINTS;
 
 /*************************************************************************************************
 
@@ -1102,3 +1103,14 @@ INNER JOIN
 INNER JOIN
     tbUsuarios u ON p.ID_Usuario = u.ID_Usuario
 */
+SELECT 
+    *
+FROM 
+    tbcitasmedicas CITAS 
+        INNER JOIN tbcentrosmedicos CENTROS ON CITAS.id_centro=CENTROS.id_centro
+        INNER JOIN tbdoctores DOCS ON CENTROS.id_doctor=DOCS.id_doctor
+        INNER JOIN tbEspecialidades ESP ON docs.id_especialidad = esp.id_especialidad
+        INNER JOIN tbusuarios USERS ON DOCS.id_usuario = users.id_usuario
+        INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente
+                
+WHERE pacs.id_usuario = 1
