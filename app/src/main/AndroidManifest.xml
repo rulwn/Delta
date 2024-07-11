@@ -26,12 +26,11 @@
             android:name=".item_notificaciones"
             android:exported="false" />
         <activity
-            android:name=".item"
-            android:exported="false" />
-        <activity
             android:name=".splash_screen"
             android:exported="true"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
+
+        </activity>
         <activity
             android:name=".item_citas"
             android:exported="false" />
@@ -135,6 +134,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
         <meta-data

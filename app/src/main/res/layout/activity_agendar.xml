@@ -27,6 +27,7 @@
                 app:srcCompat="@drawable/ic_arrow_back" />
 
             <TextView
+                android:id="@+id/lbAgendarCita"
                 android:layout_width="210dp"
                 android:layout_height="27dp"
                 android:layout_gravity="center"
@@ -58,9 +59,9 @@
                 android:id="@+id/linearNoDoctor"
                 android:layout_width="500px"
                 android:layout_height="450px"
+                android:layout_gravity="center"
                 android:layout_marginBottom="10dp"
                 android:orientation="vertical"
-                android:layout_gravity="center"
                 android:padding="4dp"
                 android:visibility="gone">
 
@@ -69,8 +70,7 @@
                     android:layout_width="400px"
                     android:layout_height="350px"
                     android:layout_gravity="center"
-                    android:background="@drawable/seleccionar_doctor"
-                     />
+                    android:background="@drawable/seleccionar_doctor" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -87,7 +87,7 @@
                 android:id="@+id/rcvCentro"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="visible"/>
+                android:visibility="visible" />
         </LinearLayout>
 
         <TextView
