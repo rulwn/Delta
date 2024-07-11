@@ -3,12 +3,11 @@ package Modelo
 import java.sql.Timestamp
 
 data class dataClassIndicaciones(
-    var id_indicacion: Int,
+    val id_indicacion: Int,
     var duracionMedi: Timestamp,
-    var dosisMedi: Double,
+    var dosisMedi: String,
     var medicina: String,
     var detalleIndi: String,
-    var id_receta: Int,
-    var id_tiempo: Int
-
+    val id_receta: Int,
+    val id_tiempo: Int
 )

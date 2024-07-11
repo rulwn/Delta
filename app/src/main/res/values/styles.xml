@@ -4,14 +4,14 @@
         <item name="android:windowBackground">@drawable/dialog_background</item>
     </style>
     <style name="CalendarDateText" parent="TextAppearance.AppCompat.Medium">
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@drawable/estilos_calendarioo</item>
     </style>
     <style name="CalendarWeekDayTextTratamientos" parent="TextAppearance.AppCompat.Small">
-        <item name="android:textColor">@color/Azul2</item>
+        <item name="android:textColor">@color/Azul1</item>
         <item name="android:textStyle">bold</item>
     </style>
     <style name="CalendarWeekDayTextCitas" parent="TextAppearance.AppCompat.Small">
-        <item name="android:textColor">@color/Turquesa2</item>
+        <item name="android:textColor">@color/Turquesa1</item>
         <item name="android:textStyle">bold</item>
     </style>
     <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
@@ -19,8 +19,17 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textAllCaps">true</item>
     </style>
-    <style name="CustomCalendarView" parent="ThemeOverlay.Material3.MaterialCalendar">
+    <style name="CustomCalendarViewTratamientos" parent="Theme.AppCompat">
         <item name="android:selectedDateVerticalBar">@color/Azul2</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="colorAccent">@color/Azul2</item>
+        <item name="android:textColorPrimaryInverse">@color/white </item>
+    </style>
+    <style name="CustomCalendarViewCitas" parent="Theme.AppCompat">
+        <item name="android:selectedDateVerticalBar">@color/Turquesa1</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="colorAccent">@color/Turquesa1</item>
+        <item name="android:textColorPrimaryInverse">@color/white </item>
     </style>
         <style name="RoundImageView" parent="">
             <item name="cornerFamily">rounded</item>

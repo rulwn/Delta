@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="@drawable/bordes">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cita cancelada para mañana a las 2:00pm"
+            android:textColor="@android:color/holo_red_dark"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins_bold"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_alert"
+            android:contentDescription="@string/alert_icon"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ver motivos"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="8dp"
+        android:textStyle="normal"
+        android:fontFamily="@font/poppins_regular"
+        android:textSize="14sp" />
+</LinearLayout>

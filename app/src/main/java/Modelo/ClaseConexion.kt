@@ -6,12 +6,12 @@ import java.sql.Connection
 import java.sql.DriverManager
 
 class ClaseConexion {
-    suspend fun CadenaConexion(): Connection? {
+    suspend fun cadenaConexion(): Connection? {
         return withContext(Dispatchers.IO) {
             try {
-                val url = "jdbc:oracle:thin:@192.168.56.1:1521:xe"
-                val usuario = "c##_usuarios_delta"
-                val clave = "1234"
+                val url = "jdbc:oracle:thin:@192.168.1.184:1521:xe"
+                val usuario = "DeltaMed"
+                val clave = "deltaTeam1"
                 val conexion = DriverManager.getConnection(url, usuario, clave)
                 conexion
             } catch (e: Exception) {
@@ -39,8 +39,10 @@ val url = "jdbc:oracle:thin:@192.168.1.6:1521:xe"
 Jorge
 "jdbc:oracle:thin:@192.168.1.5:1521:xe"
 
-Raul
-
+Raul colegio
+val url = "jdbc:oracle:thin:@10.10.1.1:1521:xe"
+y normal
+//val url = "jdbc:oracle:thin:@192.168.1.153:1521:xe"
 
 Hurtado
 val url = "jdbc:oracle:thin:@192.168.1.7:1521:xe"

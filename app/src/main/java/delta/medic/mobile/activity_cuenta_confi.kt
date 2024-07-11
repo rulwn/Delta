@@ -1,7 +1,10 @@
 package delta.medic.mobile
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.widget.Button
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -16,13 +19,20 @@ class activity_cuenta_confi : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_cuenta_confi)
+        requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
+        val btnCambiarContra = findViewById<Button>(R.id.btnCambiarContra1)
 
-        binding.btnCambiarContra1.setOnClickListener {
+        btnRegresar.setOnClickListener {
+            finish()
+        }
+        btnCambiarContra.setOnClickListener {
             val intent = Intent(this, activity_cambiarcontra::class.java)
             startActivity(intent)
         }

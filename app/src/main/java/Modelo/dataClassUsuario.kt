@@ -13,6 +13,7 @@ data class dataClassUsuario(
     var emailUsuario: String,
     var contraseña: String,
     var dirección: String,
+    var teléfonoUsuario: String,
     var sexo: String,
     var fechaNacimiento: Date,
     var imgUsuario: String,

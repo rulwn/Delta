@@ -4,6 +4,7 @@ import Modelo.ClaseConexion
 import Modelo.dc_Aseguradoras
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -11,6 +12,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.Spinner
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -19,14 +21,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.Date
 
 class activity_register2 : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_register2)
+        requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -38,13 +40,25 @@ class activity_register2 : AppCompatActivity() {
         val txtTelefono = findViewById<EditText>(R.id.txtTelefono)
         val spSeguro = findViewById<Spinner>(R.id.spSeguro)
         val btnSiguiente = findViewById<Button>(R.id.btnSiguiente2)
+        val txtTienesUnaCuenta = findViewById<TextView>(R.id.txtTienesUnaCuenta2)
+        txtTienesUnaCuenta.setOnClickListener {
+            val intent = Intent(this, activity_login::class.java)
+            startActivity(intent)
+        }
+        val nombre = intent.getStringExtra("nombre")
+        val apellido = intent.getStringExtra("apellido")
+        val direccion = intent.getStringExtra("direccion")
+        val email = intent.getStringExtra("email")
+        val clave = intent.getStringExtra("clave")
 
-            CoroutineScope(Dispatchers.Main).launch{
-                val listaSeguros =obtenerSeguros()
+        CoroutineScope(Dispatchers.Main).launch{
+            val listaSeguros =obtenerSeguros()
+            withContext(Dispatchers.Main){
                 val nombreSeguro =listaSeguros.map { it.nombreAseguradora}
                 val adaptador = ArrayAdapter(this@activity_register2, android.R.layout.simple_spinner_dropdown_item, nombreSeguro)
                 spSeguro.adapter = adaptador
             }
+        }
 
 
         val txtFechaNacimientoPaciente = findViewById<EditText>(R.id.txtFechadeNacimiento)
@@ -70,27 +84,31 @@ class activity_register2 : AppCompatActivity() {
         }
 
         btnSiguiente.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.Main).launch {
+                var sexo : String = ""
                 val aseguradora = obtenerSeguros()
-                withContext(Dispatchers.Main){
-                    if(rbHombre.isChecked) {
-                        activity_register1.variablesLogin.sexoUsuario = "H"
-                    } else if (rbMujer.isChecked) {
-                        activity_register1.variablesLogin.sexoUsuario= "M"
-                    }
-                    activity_register1.variablesLogin.seguroUsuario = aseguradora[spSeguro.selectedItemPosition].id_Aseguradora
-                    activity_register1.variablesLogin.fecha_Nacimiento = txtFechaNacimientoPaciente.text.toString()
-                    val intent = Intent(this@activity_register2, activity_register3::class.java)
-
-                    startActivity(intent)
+                if(rbHombre.isChecked) {
+                    sexo = "H"
+                } else if (rbMujer.isChecked) {
+                    sexo = "M"
                 }
-
+                val intent = Intent(this@activity_register2, activity_register3::class.java)
+                intent.putExtra("nombre", nombre)
+                intent.putExtra("apellido",apellido)
+                intent.putExtra("direccion",direccion)
+                intent.putExtra("email",email)
+                intent.putExtra("clave",clave)
+                intent.putExtra("aseguradora", aseguradora[spSeguro.selectedItemPosition].id_Aseguradora)
+                intent.putExtra("fechaNac",txtFechaNacimientoPaciente.text.toString())
+                intent.putExtra("sexo", sexo)
+                intent.putExtra("telefono",txtTelefono.text.toString())
+                startActivity(intent)
             }
         }
     }
     private suspend fun obtenerSeguros(): List<dc_Aseguradoras> {
         return withContext(Dispatchers.IO) {
-            val objConexion = ClaseConexion().CadenaConexion()
+            val objConexion = ClaseConexion().cadenaConexion()
             val statement = objConexion?.createStatement()!!
             val resultSet = statement.executeQuery("select * from tbAseguradora")
             val lista = mutableListOf<dc_Aseguradoras>()

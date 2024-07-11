@@ -9,7 +9,7 @@
         android:id="@+id/fragment_inicio"
         android:name="delta.medic.mobile.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_fragment_inicio_to_fragment_busquedaRapidaHombre"
             app:destination="@id/fragment_busquedaRapidaHombre" />
@@ -26,40 +26,54 @@
         android:name="delta.medic.mobile.ui.notifications.NotificationsFragment"
         android:label="Agendar cita"
         tools:layout="@layout/fragment_notifications" />
+
     <fragment
         android:id="@+id/fragment_notificaciones"
         android:name="delta.medic.mobile.fragment_notificaciones"
         android:label="Notificaciones"
         tools:layout="@layout/fragment_notificaciones" />
+
     <fragment
         android:id="@+id/fragment_usuario"
         android:name="delta.medic.mobile.fragment_usuario"
         android:label="fragment_usuario"
         tools:layout="@layout/fragment_usuario" />
+
     <fragment
         android:id="@+id/fragment_Resultados"
         android:name="delta.medic.mobile.fragment_Resultados"
         android:label="fragment__resultados"
         tools:layout="@layout/fragment__resultados" />
+
     <fragment
         android:id="@+id/fragment_busquedaRapidaMujer"
         android:name="delta.medic.mobile.fragment_busquedaRapidaMujer"
         android:label="fragment_busqueda_rapida_mujer"
-        tools:layout="@layout/fragment_busqueda_rapida_mujer" />
+        tools:layout="@layout/fragment_busqueda_rapida_mujer">
+        <action
+            android:id="@+id/action_fragment_busquedaRapidaMujer_to_fragment_busquedaRapidaHombre"
+            app:destination="@id/fragment_busquedaRapidaHombre" />
+    </fragment>
+
     <fragment
         android:id="@+id/fragment_busquedaRapidaHombre"
         android:name="delta.medic.mobile.fragment_busquedaRapidaHombre"
         android:label="fragment_busqueda_rapida_hombre"
-        tools:layout="@layout/fragment_busqueda_rapida_hombre" >
+        tools:layout="@layout/fragment_busqueda_rapida_hombre">
         <action
             android:id="@+id/action_fragment_busquedaRapidaHombre_to_fragment_inicio"
             app:destination="@id/fragment_inicio" />
+        <action
+            android:id="@+id/action_fragment_busquedaRapidaHombre_to_fragment_busquedaRapidaMujer"
+            app:destination="@id/fragment_busquedaRapidaMujer" />
     </fragment>
+
     <fragment
         android:id="@+id/fragment_controlCitas"
         android:name="delta.medic.mobile.fragment_controlCitas"
         android:label="fragment_control_citas"
         tools:layout="@layout/fragment_control_citas" />
+
     <fragment
         android:id="@+id/fragment_control_tratamientos"
         android:name="delta.medic.mobile.fragment_control_tratamientos"

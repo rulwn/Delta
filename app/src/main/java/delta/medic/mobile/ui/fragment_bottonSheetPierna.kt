@@ -10,6 +10,7 @@ import delta.medic.mobile.R
 
 
 
+
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
@@ -29,17 +30,7 @@ class fragment_bottonSheetPierna : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_home, container, false)
-        return root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val btnCerrar = view.findViewById<Button>(R.id.btncerrar)
-        btnCerrar.setOnClickListener {
-            dismiss()
-        }
+        return inflater.inflate(R.layout.fragment_botton_sheet_pierna, container, false)
     }
 
     companion object {

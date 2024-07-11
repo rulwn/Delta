@@ -20,6 +20,10 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import delta.medic.mobile.databinding.ActivityMainBinding
 import android.content.Context
+import android.content.pm.ActivityInfo
+import android.view.View
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,11 +31,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         val navView: BottomNavigationView = binding.navView
 
@@ -58,12 +64,23 @@ class MainActivity : AppCompatActivity() {
 
         val icBusquedaRapida = findViewById<ImageView>(R.id.imgIconoFastSearch)
         icBusquedaRapida.setOnClickListener {
-            navController.navigate(R.id.fragment_busquedaRapidaHombre)
+            //findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.fragment_busquedaRapidaHombre)
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.nav_host_fragment_activity_main, fragment_busquedaRapidaHombre())
+                addToBackStack(null)
+                commit()
+            }
         }
 
 
         if (intent.getBooleanExtra("ir_atras", false)) {
             navController.navigate(R.id.fragment_inicio)
+            finish()
+        }
+
+        if (intent.getBooleanExtra("go_back", false)) {
+            navController.navigate(R.id.fragment_inicio)
+            finish()
         }
     }
 

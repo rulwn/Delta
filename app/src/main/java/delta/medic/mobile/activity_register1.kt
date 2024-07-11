@@ -1,33 +1,24 @@
 package delta.medic.mobile
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import java.util.Date
-import kotlin.properties.Delegates
+import androidx.navigation.NavController
 
 class activity_register1 : AppCompatActivity() {
-    companion object variablesLogin {
-        lateinit var nombreUsuario: String
-        lateinit var apellidoUsuario: String
-        lateinit var correoUsuario: String
-        lateinit var direccionUsuario: String
-        lateinit var claveUsuario: String
-        lateinit var sexoUsuario : String
-        lateinit var telefonoUsuario: String
-        lateinit var fecha_Nacimiento: String
-        lateinit var fotoUsuario: String
-        var seguroUsuario: Int? = null
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_register1)
+        requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -39,17 +30,28 @@ class activity_register1 : AppCompatActivity() {
         val txtEmail = findViewById<EditText>(R.id.txtEmail)
         val direccionEditText = findViewById<EditText>(R.id.direccionEditText)
         val txtClave = findViewById<EditText>(R.id.txtClave)
+        val txtTienesUnaCuenta = findViewById<TextView>(R.id.txtTienesUnaCuenta1)
+
+        txtTienesUnaCuenta.setOnClickListener {
+            val intent = Intent(this, activity_login::class.java)
+            startActivity(intent)
+        }
 
 
         val btnSiguiente = findViewById<Button>(R.id.btnSiguiente)
         btnSiguiente.setOnClickListener {
-            nombreUsuario =nombreEditText.text.toString()
-            apellidoUsuario=apellidoEditText.text.toString()
-            correoUsuario =txtEmail.text.toString()
-            direccionUsuario = direccionEditText.text.toString()
-            claveUsuario = txtClave.text.toString()
+            val nombre =nombreEditText.text.toString()
+            val apellido =apellidoEditText.text.toString()
+            val email =txtEmail.text.toString()
+            val direccion = direccionEditText.text.toString()
+            val clave = txtClave.text.toString()
 
             val intent = Intent(this, activity_register2::class.java)
+            intent.putExtra("nombre", nombre)
+            intent.putExtra("apellido",apellido)
+            intent.putExtra("email", email)
+            intent.putExtra("direccion", direccion)
+            intent.putExtra("clave",clave)
             startActivity(intent)
         }
     }

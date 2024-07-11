@@ -27,6 +27,7 @@
                 app:srcCompat="@drawable/ic_arrow_back" />
 
             <TextView
+                android:id="@+id/lbAgendarCita"
                 android:layout_width="210dp"
                 android:layout_height="27dp"
                 android:layout_gravity="center"
@@ -49,29 +50,165 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:orientation="vertical"
             android:padding="4dp">
+
+            <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_height="125dp"
+                android:padding="16dp"
+                app:background="@drawable/estilobordesitems"
+                app:cardCornerRadius="20dp"
+                app:cardPreventCornerOverlap="true"
+                tools:context=".item_CentroMedico"
+                android:visibility="gone">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/fondo_redondo_centro"
+                    android:padding="1dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/imgClinicaFondo"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:layout_centerInParent="true"
+                        android:alpha="0.85"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/fotoclinica1"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="1.0" />
+
+                    <ImageView
+                        android:id="@+id/imgFotoDoctor"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/circulo_foto_bienvenida"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintBottom_toTopOf="@+id/imgFondoTexto"
+                        app:layout_constraintEnd_toEndOf="@+id/imgClinicaFondo"
+                        app:layout_constraintHorizontal_bias="0.024"
+                        app:layout_constraintStart_toStartOf="@+id/imgClinicaFondo"
+                        app:layout_constraintTop_toTopOf="@+id/imgClinicaFondo"
+                        app:layout_constraintVertical_bias="0.25" />
+
+                    <ImageView
+                        android:id="@+id/imgFondoTexto"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/imgClinicaFondo"
+                        app:layout_constraintEnd_toEndOf="@+id/imgClinicaFondo"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="@+id/imgClinicaFondo"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="1.0"
+                        app:srcCompat="@drawable/fondoitemcentroxml" />
+
+                    <TextView
+                        android:id="@+id/txtNombreDoctor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/imgFotoDoctor"
+                        android:layout_toEndOf="@id/imgFotoDoctor"
+                        android:text="Dra. Luz María"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/txtEspecialidad"
+                        app:layout_constraintEnd_toEndOf="@+id/imgClinicaFondo"
+                        app:layout_constraintHorizontal_bias="0.03"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/imgClinicaFondo"
+                        app:layout_constraintVertical_bias="1.0" />
+
+                    <TextView
+                        android:id="@+id/txtEspecialidad"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txtNombreDoctor"
+                        android:layout_marginTop="30dp"
+                        android:layout_toEndOf="@id/imgFotoDoctor"
+                        android:text="Odontología"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/imgClinicaFondo"
+                        app:layout_constraintEnd_toEndOf="@+id/imgClinicaFondo"
+                        app:layout_constraintHorizontal_bias="0.027"
+                        app:layout_constraintStart_toStartOf="@+id/imgClinicaFondo"
+                        app:layout_constraintTop_toTopOf="@+id/imgClinicaFondo"
+                        app:layout_constraintVertical_bias="0.891" />
+
+                    <TextView
+                        android:id="@+id/txtDireccion"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:text="Clinica escalon n97, Av Sur"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toTopOf="@+id/txtServicios"
+                        app:layout_constraintEnd_toEndOf="@+id/imgClinicaFondo"
+                        app:layout_constraintHorizontal_bias="0.943"
+                        app:layout_constraintStart_toStartOf="@+id/imgClinicaFondo"
+                        app:layout_constraintTop_toTopOf="@+id/imgClinicaFondo"
+                        app:layout_constraintVertical_bias="0.935" />
+
+                    <TextView
+                        android:id="@+id/txtServicios"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txtDireccion"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="30dp"
+                        android:text="Chequeo: $30.00"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/imgClinicaFondo"
+                        app:layout_constraintEnd_toEndOf="@+id/imgClinicaFondo"
+                        app:layout_constraintHorizontal_bias="0.959"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/imgClinicaFondo"
+                        app:layout_constraintVertical_bias="0.9" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
 
             <LinearLayout
                 android:id="@+id/linearNoDoctor"
                 android:layout_width="500px"
                 android:layout_height="450px"
+                android:layout_gravity="center"
                 android:layout_marginBottom="10dp"
                 android:orientation="vertical"
-                android:layout_gravity="center"
                 android:padding="4dp"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <ImageButton
                     android:id="@+id/btnSelecSucursal"
                     android:layout_width="400px"
                     android:layout_height="350px"
                     android:layout_gravity="center"
-                    android:background="@drawable/seleccionar_doctor"
-                     />
-
+                    android:background="@drawable/seleccionar_doctor" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -80,14 +217,7 @@
                     android:text="Selecciona una sucursal"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
-
             </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcvCentro"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="visible"/>
         </LinearLayout>
 
         <TextView

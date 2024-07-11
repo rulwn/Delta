@@ -338,7 +338,7 @@
         android:textColor="@color/white"
         android:textSize="20sp"
         app:cornerRadius="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView9"
+        app:layout_constraintBottom_toTopOf="@+id/txtTienesUnaCuenta1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -346,7 +346,7 @@
         tools:ignore="NotSibling" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/txtTienesUnaCuenta1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_regular"

@@ -1,6 +1,7 @@
 package delta.medic.mobile
 
 import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -27,6 +28,7 @@ class activity_cambiarcontra : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCambiarcontraBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         auth = Firebase.auth
 
@@ -37,8 +39,7 @@ class activity_cambiarcontra : AppCompatActivity() {
             val nuevaContrasena: String = binding.txtNuevaContrasena.text.toString()
             val confirmarContrasena: String = binding.txtConfirmarContrasena.text.toString()
 
-            val credential = EmailAuthProvider
-                .getCredential(user.email.toString(), contrasenaActual)
+            val credential = EmailAuthProvider.getCredential(user.email.toString(), contrasenaActual)
 
             user.reauthenticate(credential).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
