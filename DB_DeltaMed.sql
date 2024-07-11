@@ -10,6 +10,8 @@ GRANT "CONNECT" TO DeltaMed;
 
 *************************************************************************************************/
 
+Select * from tbUsuarios;
+
 CREATE TABLE tbTipoNotis (
     ID_TipoNoti INT PRIMARY KEY,
     nombreTipoNoti VARCHAR2(25)
@@ -456,7 +458,7 @@ BEGIN
     SELECT tipoNotis.NEXTVAL 
     INTO: NEW.ID_TipoNoti 
     FROM DUAL;
-END;
+END Trigger_TipoNoti;
 
 -- TRIGGER_TIPO_USUARIO --
 CREATE OR REPLACE TRIGGER Trigger_TipoUsuario 
@@ -466,7 +468,7 @@ BEGIN
     SELECT tipoUsuarios.NEXTVAL 
     INTO: NEW.ID_TipoUsuario 
     FROM DUAL;
-END;
+END Trigger_TipoUsuario;
 
 -- TRIGGER_TIEMPO --
 CREATE OR REPLACE TRIGGER Trigger_Tiempo 
@@ -476,7 +478,7 @@ BEGIN
     SELECT tiempos.NEXTVAL 
     INTO: NEW.ID_Tiempo 
     FROM DUAL;
-END;
+END Trigger_Tiempo;
 
 -- TRIGGER_TIPO_SUCURSAL --
 CREATE OR REPLACE TRIGGER Trigger_TipoSucursal 
@@ -486,7 +488,7 @@ BEGIN
     SELECT tipoSucursales.NEXTVAL 
     INTO: NEW.ID_TipoSucursal 
     FROM DUAL;
-END;
+END Trigger_TipoSucursal;
 
 -- TRIGGER_ESPECIALIDAD --
 CREATE OR REPLACE TRIGGER Trigger_Especialidad 
@@ -496,7 +498,7 @@ BEGIN
     SELECT especialidades.NEXTVAL 
     INTO: NEW.ID_Especialidad 
     FROM DUAL;
-END;
+END Trigger_Especialidad;
 
 -- TRIGGER_ESTABLECIMIENTO --
 CREATE OR REPLACE TRIGGER Trigger_Establecimiento 
@@ -506,7 +508,7 @@ BEGIN
     SELECT establecimientos.NEXTVAL 
     INTO: NEW.ID_Establecimiento 
     FROM DUAL;
-END;
+END Trigger_Establecimiento;
 
 -- TRIGGER_ASEGURADORA --
 CREATE OR REPLACE TRIGGER Trigger_Aseguradora 
@@ -516,7 +518,7 @@ BEGIN
     SELECT aseguradoras.NEXTVAL 
     INTO: NEW.ID_Aseguradora 
     FROM DUAL;
-END;
+END Trigger_Aseguradora;
 
 -- TRIGGER_RECETA --
 CREATE OR REPLACE TRIGGER Trigger_Receta 
@@ -526,7 +528,7 @@ BEGIN
     SELECT recetas.NEXTVAL 
     INTO: NEW.ID_Receta 
     FROM DUAL;
-END;
+END Trigger_Receta;
 
 -- TRIGGER_DOCTOR --
 CREATE OR REPLACE TRIGGER Trigger_Doctor 
@@ -536,7 +538,7 @@ BEGIN
     SELECT doctores.NEXTVAL 
     INTO: NEW.ID_Doctor 
     FROM DUAL;
-END;
+END Trigger_Doctor;
 
 -- TRIGGER_SUCURSAL --
 CREATE OR REPLACE TRIGGER Trigger_Sucursal 
@@ -546,7 +548,7 @@ BEGIN
     SELECT sucursales.NEXTVAL 
     INTO: NEW.ID_Sucursal 
     FROM DUAL;
-END;
+END Trigger_Sucursal;
 
 -- TRIGGER_CENTRO_MÉDICO --
 CREATE OR REPLACE TRIGGER Trigger_CentroMedico 
@@ -556,7 +558,7 @@ BEGIN
     SELECT centros.NEXTVAL 
     INTO: NEW.ID_Centro 
     FROM DUAL;
-END;
+END Trigger_CentroMedico;
 
 -- TRIGGER_HORARIO --
 CREATE OR REPLACE TRIGGER Trigger_Horario 
@@ -566,7 +568,7 @@ BEGIN
     SELECT horarios.NEXTVAL 
     INTO: NEW.ID_Horario 
     FROM DUAL;
-END;
+END Trigger_Horario;
 
 -- TRIGGER_SERVICIO --
 CREATE OR REPLACE TRIGGER Trigger_Servicio 
@@ -576,7 +578,7 @@ BEGIN
     SELECT serviciosMedicos.NEXTVAL 
     INTO: NEW.ID_Servicio 
     FROM DUAL;
-END;
+END Trigger_Servicio;
 
 -- TRIGGER_SEGURO --
 CREATE OR REPLACE TRIGGER Trigger_Seguro 
@@ -586,7 +588,7 @@ BEGIN
     SELECT seguros.NEXTVAL 
     INTO: NEW.ID_Seguro 
     FROM DUAL;
-END;
+END Trigger_Seguro;
 
 -- TRIGGER_USUARIO --
 CREATE OR REPLACE TRIGGER Trigger_Usuario 
@@ -596,7 +598,7 @@ BEGIN
     SELECT usuarios.NEXTVAL 
     INTO: NEW.ID_Usuario 
     FROM DUAL;
-END;
+END Trigger_Usuario;
 
 -- TRIGGER_REVIEW --
 CREATE OR REPLACE TRIGGER Trigger_Review 
@@ -606,7 +608,7 @@ BEGIN
     SELECT reviews.NEXTVAL 
     INTO: NEW.ID_Review 
     FROM DUAL;
-END;
+END Trigger_Review;
 
 -- TRIGGER_NOTI --
 CREATE OR REPLACE TRIGGER Trigger_Noti 
@@ -616,7 +618,7 @@ BEGIN
     SELECT notis.NEXTVAL 
     INTO: NEW.ID_Notificacion 
     FROM DUAL;
-END;
+END Trigger_Noti;
 
 -- TRIGGER_PACIENTE --
 CREATE OR REPLACE TRIGGER Trigger_Paciente 
@@ -626,7 +628,7 @@ BEGIN
     SELECT pacientes.NEXTVAL 
     INTO: NEW.ID_Paciente 
     FROM DUAL;
-END;
+END Trigger_Paciente;
 
 -- TRIGGER_EXPEDIENTE --
 CREATE OR REPLACE TRIGGER Trigger_Expediente 
@@ -636,7 +638,7 @@ BEGIN
     SELECT expedientes.NEXTVAL 
     INTO: NEW.ID_Expediente 
     FROM DUAL;
-END;
+END Trigger_Expediente;
 
 -- TRIGGER_CITA_MÉDICA --
 CREATE OR REPLACE TRIGGER Trigger_CitaMedica 
@@ -646,7 +648,7 @@ BEGIN
     SELECT citas.NEXTVAL 
     INTO: NEW.ID_Cita 
     FROM DUAL;
-END;
+END Trigger_CitaMedica;
 
 -- TRIGGER_INDICACIÓN --
 CREATE OR REPLACE TRIGGER Trigger_Indicacion 
@@ -656,7 +658,7 @@ BEGIN
     SELECT indicaciones.NEXTVAL 
     INTO: NEW.ID_Indicacion 
     FROM DUAL;
-END;
+END Trigger_Indicacion;
 
 -- TRIGGER_FICHA --
 CREATE OR REPLACE TRIGGER Trigger_Ficha 
@@ -666,7 +668,7 @@ BEGIN
     SELECT fichas.NEXTVAL 
     INTO: NEW.ID_Ficha 
     FROM DUAL;
-END;
+END Trigger_Ficha;
 
 /*************************************************************************************************
 
@@ -897,6 +899,8 @@ INSERT ALL
     INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
          VALUES (5, TO_DATE('2023-01-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-05 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada', 21, 5)
 SELECT DUMMY FROM DUAL;
+
+SELECT * FROM tbUsuarios WHERE emailUsuario = 'hector@gmail.com';
 
 
 /*

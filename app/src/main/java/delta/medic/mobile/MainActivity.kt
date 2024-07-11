@@ -27,8 +27,6 @@ import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
 
-    private var prueba: String = "Prueba"
-
     private lateinit var binding: ActivityMainBinding
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)

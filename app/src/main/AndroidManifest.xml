@@ -118,17 +118,8 @@
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_login"
-            android:exported="false"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
-        <activity
-            android:name=".activity_bienvenida"
-            android:configChanges="uiMode"
-            android:exported="false"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
-        <activity
-            android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/DeltaMedic">
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -136,6 +127,16 @@
             </intent-filter>
 
         </activity>
+
+        <activity
+            android:name=".activity_bienvenida"
+            android:configChanges="uiMode"
+            android:exported="false"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:label="@string/DeltaMedic"/>
 
         <meta-data
             android:name="preloaded_fonts"

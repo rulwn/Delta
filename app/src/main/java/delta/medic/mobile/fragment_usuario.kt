@@ -31,7 +31,7 @@ class fragment_usuario : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private val email: String = "soytuyomichi@gmail.com"
+    lateinit var email: String
 
     suspend fun GetUserParameters(email: String): List<dataClassUsuario> {
         return withContext(Dispatchers.IO) {
@@ -39,7 +39,7 @@ class fragment_usuario : Fragment() {
             try {
                 val objConexion = ClaseConexion().cadenaConexion()
                 if (objConexion != null) {
-                    val statement = objConexion.prepareStatement("Select * From tbUsuarios Where emailUsuario = ?")!!
+                    val statement = objConexion.prepareStatement("SELECT * FROM tbUsuarios WHERE emailUsuario = ?")!!
                     statement.setString(1, email)
                     val resultSet = statement.executeQuery()
 
@@ -52,7 +52,7 @@ class fragment_usuario : Fragment() {
                         val contrasena = resultSet.getString("contrasena")
                         val direccion = resultSet.getString("direccion")
                         val teléfono = resultSet.getString("telefonoUsuario")
-                        val sexo = resultSet.getString("sexo").toString()
+                        val sexo = resultSet.getCharacterStream("sexo").toString()
                         val fechaNacimiento = resultSet.getDate("fechaNacimiento")
                         val imgUsuario = resultSet.getBlob("imgUsuario").toString()
                         val idTipoUsuario = resultSet.getInt("ID_TipoUsuario")
@@ -65,7 +65,7 @@ class fragment_usuario : Fragment() {
                         listaUsuarios.add(userWithFullData)
 
                     } else {
-                        println("No se encontraron usuarios con ese email.")
+                        println("No se encontraron usuarios con el email ${email}.")
                     }
 
                     // Cerrar recursos
@@ -122,7 +122,8 @@ class fragment_usuario : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_usuario, container, false)
-         //en teoría aquí se recibe un valor
+
+        email = activity_login.userEmail
 
         /******************************************************************************************
         * Values                                                                                  *
