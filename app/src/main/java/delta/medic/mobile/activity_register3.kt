@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.net.Uri
+import android.widget.TextView
 
 class activity_register3 : AppCompatActivity() {
 
@@ -29,7 +30,7 @@ class activity_register3 : AppCompatActivity() {
 
 
         btnAgregarFoto = findViewById(R.id.btnAgregarFoto)
-
+        val btnOmitir = findViewById<TextView>(R.id.btnOmitirFoto)
         btnAgregarFoto.setOnClickListener {
             val intento = Intent(Intent.ACTION_PICK)
                 intento.type = "image/*"
@@ -41,6 +42,11 @@ class activity_register3 : AppCompatActivity() {
             val intent = Intent(this, activity_register4::class.java)
             startActivity(intent)
 
+        }
+
+        btnOmitir.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
     }
 
