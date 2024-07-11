@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import delta.medic.mobile.databinding.FragmentBusquedaRapidaHombreBinding
 import delta.medic.mobile.ui.SpecialtiesBottomSheetFragment
+import androidx.navigation.fragment.findNavController
 
 
 
@@ -18,7 +19,7 @@ import delta.medic.mobile.ui.SpecialtiesBottomSheetFragment
 class fragment_busquedaRapidaHombre : Fragment() {
 
 
-    private  var _binding: FragmentBusquedaRapidaHombreBinding? = null
+    private var _binding: FragmentBusquedaRapidaHombreBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -33,7 +34,11 @@ class fragment_busquedaRapidaHombre : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnRegresar.setOnClickListener {
-            // Implementa la lógica de navegación aquí si es necesario
+            findNavController().navigateUp()
+        }
+
+        binding.btnChangeGender.setOnClickListener {
+            findNavController().navigate(R.id.action_fragment_busquedaRapidaHombre_to_fragment_busquedaRapidaMujer)
         }
 
         binding.bodyImageView.setOnTouchListener { _, event ->
@@ -60,12 +65,12 @@ class fragment_busquedaRapidaHombre : Fragment() {
     }
 
     private fun isChestArea(x: Float, y: Float): Boolean {
-        // Define las coordenadas específicas para el área del pecho
+        //nose m olvide q son coordenadas para el pecho
         return x in 100f..200f && y in 300f..400f
     }
 
     private fun isHeadArea(x: Float, y: Float): Boolean {
-        // Define las coordenadas específicas para el área de la cabeza
+        //y estas para la cabeza we
         return x in 100f..200f && y in 100f..200f
     }
 
