@@ -39,4 +39,6 @@ class SpecialtiesBottomSheetFragment : BottomSheetDialogFragment() {
             specialties = it.getStringArrayList("specialties") ?: listOf()
         }
     }
+
+    
 }
