@@ -20,6 +20,9 @@
         android:theme="@style/Theme.DeltaMedic"
         tools:targetApi="31">
         <activity
+            android:name=".fragment_bottonsheetdialog"
+            android:exported="false" />
+        <activity
             android:name=".item_notificaciones"
             android:exported="false" />
         <activity
