@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.text.Html
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
@@ -39,6 +40,8 @@ class activity_agendar : AppCompatActivity() {
             val intent = Intent(this, activity_busqueda::class.java)
             startActivityForResult(intent, REQUEST_CODE)
         }
+        val lbAgendarCita = findViewById<TextView>(R.id.lbAgendarCita)
+        lbAgendarCita.setText(Html.fromHtml(getResources().getString(R.string.subrayado)))
 /*
         rcvCentros.layoutManager = LinearLayoutManager(this)
         private suspend fun obtenerDatos(): List<dataClassCentro>

@@ -27,6 +27,7 @@
                 app:srcCompat="@drawable/ic_arrow_back" />
 
             <TextView
+                android:id="@+id/lbAgendarCita"
                 android:layout_width="210dp"
                 android:layout_height="27dp"
                 android:layout_gravity="center"
@@ -53,6 +54,7 @@
             android:layout_marginBottom="10dp"
             android:orientation="vertical"
             android:padding="4dp">
+
             <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
@@ -195,9 +197,9 @@
                 android:id="@+id/linearNoDoctor"
                 android:layout_width="500px"
                 android:layout_height="450px"
+                android:layout_gravity="center"
                 android:layout_marginBottom="10dp"
                 android:orientation="vertical"
-                android:layout_gravity="center"
                 android:padding="4dp"
                 android:visibility="visible">
 

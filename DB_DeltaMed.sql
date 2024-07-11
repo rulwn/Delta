@@ -768,6 +768,53 @@ INSERT ALL
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
+    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora) VALUES ('TOEWQ12', 'PRIMER2', 1)
+    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora) VALUES ('ABCD1234', 'POLIZA1', 2)
+    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora) VALUES ('EFGH5678', 'POLIZA2', 3)
+    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora) VALUES ('IJKL9101', 'POLIZA3', 4)
+    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora) VALUES ('MNOP2345', 'POLIZA4', 5)
+SELECT DUMMY FROM DUAL;
+
+INSERT ALL
+    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario, ID_Seguro)
+        VALUES ('Francisco', 'Mejía', 'fran@gmail.com', '12345', 'San Salvador', '6143-1352', 'M', '20/02/1980', NULL, 1, 1)
+    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario, ID_Seguro)
+        VALUES ('Steven', 'Palacios', 'venosin@gmail.com', 'steven', 'Ciudad Arce', '2245-9312', 'M', '15/07/1999', NULL, 1, 1)
+    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario, ID_Seguro)
+        VALUES ('Xavier', 'Torres', 'xam@gmail.com', '123xam', 'Ciudad Delgado', '1292-1275', 'F', '11/01/2007', NULL, 2, 1)
+    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario, ID_Seguro)
+        VALUES ('Dennis', 'Alexander', 'darv@gmail.com', 'dennis123', 'Villa Olimpica', '6294-0283', 'M', '20/02/2000', NULL, 2, 1)
+    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario, ID_Seguro)
+        VALUES ('Hector', 'Gallardo', 'hector@gmail.com', 'rocah123', 'La Paz', '8723-1293', 'M', '25/08/2000', NULL, 1, 1)
+SELECT DUMMY FROM DUAL;
+
+INSERT ALL
+    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, ID_Establecimiento, ID_TipoSucursal)
+         VALUES ('Clínica Ginecológica, San Salvador', 235656, 'clinica_ginecologica@gmail.com', '2264-7856', '25 Av. Norte, Colonia Médica, San Salvador', 'ubicacionSucur.Ginecologica', '7589-4365', 1, 2)
+    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, ID_Establecimiento, ID_TipoSucursal)
+         VALUES ('Clínica Asistencial Salvadoreña, Santa Ana', 675429, 'clinica_asistencial@gmail.com', '2256-6576', 'Calle Libertad y Avenida Independencia, Santa Ana', 'ubicacionSucur.Asistencial', '5383-4365', 5, 1)
+    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, ID_Establecimiento, ID_TipoSucursal)
+         VALUES ('Hospital de Diagnóstico, San Salvador', 990764, 'hospital_diagnostico@gmail.com', '2224-7887', '79 Av. Norte y 11 Calle Poniente, Colonia Escalón, San Salvador', 'ubicacionSucur.Diagnostico', '7519-2335', 3, 1)
+    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, ID_Establecimiento, ID_TipoSucursal)
+         VALUES ('Centro Médico Escalón, San Salvador', 224216, 'medico_escalon@gmail.com', '2235-7856', '85 Av. Norte y Calle Juan José Cañas, Colonia Escalón, San Salvador', 'ubicacionSucur.Escalon', '7509-3230', 4, 2)
+    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, ID_Establecimiento, ID_TipoSucursal)
+         VALUES ('Hospital La Divina Providencia, San Salvador', 012483, 'divina_providencia@gmail.com', '2211-2956', 'Avenida Masferrer Norte, Colonia Escalón, San Salvador', 'ubicacionSucur.Providencia', '3278-3561', 2, 2)
+SELECT DUMMY FROM DUAL;
+
+INSERT ALL
+    INTO tbIndicaciones (ID_Indicacion, duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
+         VALUES (1, TO_TIMESTAMP('2023-06-01 08:00:00', 'YYYY-MM-DD HH24:MI:SS'), '1 tableta', 'Paracetamol', 'Tomar después de las comidas', 1, 1)
+    INTO tbIndicaciones (ID_Indicacion, duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
+         VALUES (2, TO_TIMESTAMP('2023-06-02 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), '2 cucharadas', 'Ibuprofeno', 'Tomar con agua', 2, 2)
+    INTO tbIndicaciones (ID_Indicacion, duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
+         VALUES (3, TO_TIMESTAMP('2023-06-03 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '5 ml', 'Amoxicilina', 'Tomar cada 8 horas', 3, 3)
+    INTO tbIndicaciones (ID_Indicacion, duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
+         VALUES (4, TO_TIMESTAMP('2023-06-04 20:00:00', 'YYYY-MM-DD HH24:MI:SS'), '1 cápsula', 'Omeprazol', 'Tomar antes de dormir', 4, 4)
+    INTO tbIndicaciones (ID_Indicacion, duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
+         VALUES (5, TO_TIMESTAMP('2023-06-05 07:00:00', 'YYYY-MM-DD HH24:MI:SS'), '10 gotas', 'Clorfenamina', 'Tomar en la mañana y noche', 5, 5)
+SELECT DUMMY FROM DUAL;
+
+INSERT ALL
     INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario)
          VALUES ('JVPM12345', 1, 5)
     INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario)
@@ -782,18 +829,7 @@ SELECT DUMMY FROM DUAL;
 
 select * from tbSucursales;
 
-INSERT ALL
-    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Clínica Ginecológica, San Salvador', 235656, 'clinica_ginecologica@gmail.com', '2264-7856', '25 Av. Norte, Colonia Médica, San Salvador', 'ubicacionSucur.Ginecologica', '7589-4365', 1, 2)
-    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Clínica Asistencial Salvadoreña, Santa Ana', 675429, 'clinica_asistencial@gmail.com', '2256-6576', 'Calle Libertad y Avenida Independencia, Santa Ana', 'ubicacionSucur.Asistencial', '5383-4365', 5, 1)
-    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Hospital de Diagnóstico, San Salvador', 990764, 'hospital_diagnostico@gmail.com', '2224-7887', '79 Av. Norte y 11 Calle Poniente, Colonia Escalón, San Salvador', 'ubicacionSucur.Diagnostico', '7519-2335', 3, 1)
-    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Centro Médico Escalón, San Salvador', 224216, 'medico_escalon@gmail.com', '2235-7856', '85 Av. Norte y Calle Juan José Cañas, Colonia Escalón, San Salvador', 'ubicacionSucur.Escalon', '7509-3230', 4, 2)
-    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Hospital La Divina Providencia, San Salvador', 012483, 'divina_providencia@gmail.com', '2211-2956', 'Avenida Masferrer Norte, Colonia Escalón, San Salvador', 'ubicacionSucur.Providencia', '3278-3561', 2, 2)
-SELECT DUMMY FROM DUAL;
+
 
 INSERT ALL
     INTO tbCentrosMedicos (favorito, ID_Doctor, ID_Sucursal)
@@ -837,33 +873,6 @@ SELECT DUMMY FROM DUAL;
 select * from tbHorarios;
 
 INSERT ALL
-    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (1, TO_DATE('2023-01-01', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general', 25, 1)
-    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (2, TO_DATE('2023-01-02', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-02 11:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Revisión anual', 24, 2)
-    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (3, TO_DATE('2023-01-03', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-03 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta de seguimiento', 23, 3)
-    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (4, TO_DATE('2023-01-04', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-04 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general', 22, 4)
-    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (5, TO_DATE('2023-01-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-05 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada', 21, 5)
-SELECT DUMMY FROM DUAL;
-
-INSERT ALL
-    INTO tbIndicaciones (ID_Indicacion, duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
-         VALUES (1, TO_TIMESTAMP('2023-06-01 08:00:00', 'YYYY-MM-DD HH24:MI:SS'), '1 tableta', 'Paracetamol', 'Tomar después de las comidas', 1, 1)
-    INTO tbIndicaciones (ID_Indicacion, duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
-         VALUES (2, TO_TIMESTAMP('2023-06-02 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), '2 cucharadas', 'Ibuprofeno', 'Tomar con agua', 2, 2)
-    INTO tbIndicaciones (ID_Indicacion, duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
-         VALUES (3, TO_TIMESTAMP('2023-06-03 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '5 ml', 'Amoxicilina', 'Tomar cada 8 horas', 3, 3)
-    INTO tbIndicaciones (ID_Indicacion, duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
-         VALUES (4, TO_TIMESTAMP('2023-06-04 20:00:00', 'YYYY-MM-DD HH24:MI:SS'), '1 cápsula', 'Omeprazol', 'Tomar antes de dormir', 4, 4)
-    INTO tbIndicaciones (ID_Indicacion, duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
-         VALUES (5, TO_TIMESTAMP('2023-06-05 07:00:00', 'YYYY-MM-DD HH24:MI:SS'), '10 gotas', 'Clorfenamina', 'Tomar en la mañana y noche', 5, 5)
-SELECT DUMMY FROM DUAL;
-
-
-INSERT ALL
     INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
          VALUES (1, 'Juan', 'Perez', NULL, 'Padre', 1)
     INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
@@ -876,51 +885,21 @@ INSERT ALL
          VALUES (5, 'Luis', 'Sanchez', NULL, 'Hermano', 5)
 SELECT DUMMY FROM DUAL;
 
-
 INSERT ALL
-    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora)
-        VALUES ('TOEWQ12', 'PRIMER2',1)
+    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
+         VALUES (1, TO_DATE('2023-01-01', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general', 25, 1)
+    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
+         VALUES (2, TO_DATE('2023-01-02', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-02 11:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Revisión anual', 24, 2)
+    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
+         VALUES (3, TO_DATE('2023-01-03', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-03 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta de seguimiento', 23, 3)
+    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
+         VALUES (4, TO_DATE('2023-01-04', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-04 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general', 22, 4)
+    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
+         VALUES (5, TO_DATE('2023-01-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-05 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada', 21, 5)
 SELECT DUMMY FROM DUAL;
 
-INSERT ALL
-    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario, ID_Seguro)
-        VALUES ('Francisco', 'Mejía', 'fran@gmail.com', '12345', 'San Salvador', '6143-1352', 'M', '20/02/1980', NULL, 1, 1)
-    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario, ID_Seguro)
-        VALUES ('Steven', 'Palacios', 'venosin@gmail.com', 'steven', 'Ciudad Arce', '2245-9312', 'M', '15/07/1999', NULL, 1, 1)
-    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario, ID_Seguro)
-        VALUES ('Xavier', 'Torres', 'xam@gmail.com', '123xam', 'Ciudad Delgado', '1292-1275', 'F', '11/01/2007', NULL, 2, 1)
-    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario, ID_Seguro)
-        VALUES ('Dennis', 'Alexander', 'darv@gmail.com', 'dennis123', 'Villa Olimpica', '6294-0283', 'M', '20/02/2000', NULL, 2, 1)
-    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario, ID_Seguro)
-        VALUES ('Hector', 'Gallardo', 'hector@gmail.com', 'rocah123', 'La Paz', '8723-1293', 'M', '25/08/2000', NULL, 1, 1)
-SELECT DUMMY FROM DUAL;
 
-/*INSERT ALL
-    INTO tbContacto (celular, whatsapp, telefonoContacto, direccionContacto, email)
-         VALUES ('70335669', '70335669', '2444-5687', 'Condominio Mezzanine n° 2', 'olga_gonzalez@hotmail.com')
-    INTO tbContacto (celular, whatsapp, telefonoContacto, direccionContacto, email)
-         VALUES ('70798990', '70798990', '2444-5566', 'Condominio Mezzanine n° 3', 'patricia@gmail.com')
-    INTO tbContacto (celular, whatsapp, telefonoContacto, direccionContacto, email)
-         VALUES ('71563458', '71563458', '2444-5566', 'Condominio Mezzanine n° 4', 'beatriz@hotmail.com')
-    INTO tbContacto (celular, whatsapp, telefonoContacto, direccionContacto, email)
-         VALUES ('78446768', '78446768', '2444-5689', 'Condominio Mezzanine n° 5', 'alexis@gmail.com')
-    INTO tbContacto (celular, whatsapp, telefonoContacto, direccionContacto, email)
-         VALUES ('70112234', '70112234', '2444-1234', 'Condominio Mezzanine n° 6', 'miguel@hotmail.com')
-SELECT DUMMY FROM DUAL;
-
-INSERT ALL
-    INTO tbUsuario (ID_Contacto, ID_Paciente)
-         VALUES (1, 1)
-    INTO tbUsuario (ID_Contacto, ID_Paciente)
-         VALUES (2, 2)
-    INTO tbUsuario (ID_Contacto, ID_Paciente)
-         VALUES (3, 3)
-    INTO tbUsuario (ID_Contacto, ID_Paciente)
-         VALUES (4, 4)
-    INTO tbUsuario (ID_Contacto, ID_Paciente)
-         VALUES (5, 5)
-SELECT DUMMY FROM DUAL;
-
+/*
 INSERT ALL
     INTO tbMotivo (motivo)
          VALUES ('Fiebre')
@@ -1103,14 +1082,20 @@ INNER JOIN
 INNER JOIN
     tbUsuarios u ON p.ID_Usuario = u.ID_Usuario
 */
-SELECT 
-    *
-FROM 
-    tbcitasmedicas CITAS 
+SELECT citas.ID_Cita,
+    citas.diacita,
+    citas.horacita,
+    citas.motivo,
+    citas.id_centro,
+    citas.id_paciente,
+    pacs.nombrepaciente,
+    pacs.parentesco,
+    usua.id_usuario,
+    USUA.nombreUsuario,
+    USUA.apellidoUsuario,
+    esp.nombreespecialidad FROM  tbcitasmedicas CITAS 
         INNER JOIN tbcentrosmedicos CENTROS ON CITAS.id_centro=CENTROS.id_centro
         INNER JOIN tbdoctores DOCS ON CENTROS.id_doctor=DOCS.id_doctor
         INNER JOIN tbEspecialidades ESP ON docs.id_especialidad = esp.id_especialidad
-        INNER JOIN tbusuarios USERS ON DOCS.id_usuario = users.id_usuario
-        INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente
-                
-WHERE pacs.id_usuario = 1
+        INNER JOIN tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario
+        INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente WHERE pacs.id_usuario = 1

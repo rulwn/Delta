@@ -1,6 +1,7 @@
 package delta.medic.mobile.ui.dashboard
 
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,6 +35,7 @@ class DashboardFragment : Fragment() {
         tabLayout = root.findViewById(R.id.tab_layout_recordatorios)
         viewPager2 = root.findViewById(R.id.viewPagerRecordatorios)
         txtControl = root.findViewById(R.id.lbControl)
+        txtControl.setText(Html.fromHtml(getResources().getString(R.string.lbControl)))
         viewPager2.adapter = FragmentPageAdapterRecordatorios(childFragmentManager, lifecycle)
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -58,7 +60,6 @@ class DashboardFragment : Fragment() {
                 1 -> tab.text = "Citas"
             }
         }.attach()*/
-
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.let {
