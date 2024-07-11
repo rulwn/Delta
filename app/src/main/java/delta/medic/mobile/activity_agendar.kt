@@ -7,6 +7,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.text.Html
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
@@ -41,6 +42,8 @@ class activity_agendar : AppCompatActivity() {
         val txtFecha = findViewById<TextView>(R.id.txtFecha)
         val rcvCentros = findViewById<RecyclerView>(R.id.rcvCentro)
         val rcvPaciente = findViewById<RecyclerView>(R.id.rcvPaciente)
+        val lbAgendarCita = findViewById<TextView>(R.id.lbAgendarCita)
+        lbAgendarCita.setText(Html.fromHtml(getResources().getString(R.string.subrayado)))
 /*
         rcvCentros.layoutManager = LinearLayoutManager(this)
         private suspend fun obtenerDatos(): List<dataClassCentro>

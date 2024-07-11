@@ -22,8 +22,7 @@ class AdaptadorTratamientos(private var Datos: List<dataClassIndicaciones>): Rec
 
     override fun onBindViewHolder(holder: ViewHolderTratamientos, position: Int) {
         val tratamiento = Datos[position]
-        holder.txtNombreMedicina.text = tratamiento.medicina
-        holder.txtDosis.text = tratamiento.dosisMedi
+        holder.txtNombreMedicina.text = "${tratamiento.medicina} - ${tratamiento.dosisMedi}"
         holder.txtDetallesIndicaciones.text = tratamiento.detalleIndi
         holder.txtTiempo.text = tratamiento.id_tiempo.toString()
         holder.imgOpciones.setOnClickListener {

@@ -82,7 +82,7 @@ class fragment_controlCitas : Fragment() {
                             "        INNER JOIN tbdoctores DOCS ON CENTROS.id_doctor=DOCS.id_doctor\n" +
                             "        INNER JOIN tbEspecialidades ESP ON docs.id_especialidad = esp.id_especialidad\n" +
                             "        INNER JOIN tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario\n" +
-                            "        INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente WHERE pacs.id_usuario = 1")!!
+                            "        INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente")!!
                     while (resultset.next()) {
                         val ID_Cita = resultset.getInt("ID_Cita")
                         val diaCita = resultset.getDate("diaCita")
