@@ -72,7 +72,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
         if (intent.getBooleanExtra("ir_atras", false)) {
             navController.navigate(R.id.fragment_inicio)
             finish()

@@ -1011,6 +1011,7 @@ DROP TRIGGER Trigger_Ficha;
 
 *************************************************************************************************/
 /*
+/////////////////////////////////////////////////////////////////////////////////////////////////
     SELECT 
     d.ID_Doctor,
     e.nombreEspecialidad,
@@ -1023,8 +1024,7 @@ DROP TRIGGER Trigger_Ficha;
     tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
     INNER JOIN
     tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-*/
-
+//////////////////////////////////////////////////////////////////////////////////////////////////   
 SELECT 
     d.ID_Doctor,
     e.nombreEspecialidad,
@@ -1046,7 +1046,7 @@ LEFT JOIN
     tbCitasMedicas c ON h.ID_Horario = c.ID_Cita
 LEFT JOIN
     tbUsuarios u ON c.ID_Paciente = u.ID_Usuario; 
-    
+///////////////////////////////////////////////////////////////////////////////////////////////////    
 SELECT 
     cm.ID_Doctor,
     e.nombreEspecialidad,
@@ -1068,7 +1068,7 @@ LEFT JOIN
 LEFT JOIN 
     tbUsuarios u ON c.ID_Paciente = u.ID_Usuario
    
-/*//INSERT PARA RUL
+
 SELECT 
     p.ID_Paciente,
     p.nombrePaciente,
@@ -1081,7 +1081,7 @@ INNER JOIN
     tbPacientes p ON cm.ID_Paciente = p.ID_Paciente
 INNER JOIN
     tbUsuarios u ON p.ID_Usuario = u.ID_Usuario
-*/
+
 SELECT citas.ID_Cita,
     citas.diacita,
     citas.horacita,
@@ -1099,3 +1099,4 @@ SELECT citas.ID_Cita,
         INNER JOIN tbEspecialidades ESP ON docs.id_especialidad = esp.id_especialidad
         INNER JOIN tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario
         INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente WHERE pacs.id_usuario = 1
+*/
