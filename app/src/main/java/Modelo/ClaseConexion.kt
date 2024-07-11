@@ -9,7 +9,11 @@ class ClaseConexion {
     suspend fun cadenaConexion(): Connection? {
         return withContext(Dispatchers.IO) {
             try {
+<<<<<<< HEAD
                 val url = "jdbc:oracle:thin:@10.10.0.74:1521:xe"
+=======
+                val url = "jdbc:oracle:thin:@192.168.137.1:1521:xe"
+>>>>>>> 482fd62c73de617a753073c45f5194c7a5825661
                 val usuario = "DeltaMed"
                 val clave = "deltaTeam1"
                 val conexion = DriverManager.getConnection(url, usuario, clave)

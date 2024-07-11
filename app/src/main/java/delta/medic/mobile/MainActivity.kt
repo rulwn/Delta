@@ -63,11 +63,13 @@ class MainActivity : AppCompatActivity() {
         val icBusquedaRapida = findViewById<ImageView>(R.id.imgIconoFastSearch)
         icBusquedaRapida.setOnClickListener {
             //findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.fragment_busquedaRapidaHombre)
-            supportFragmentManager.beginTransaction().apply {
+            /*supportFragmentManager.beginTransaction().apply {
                 replace(R.id.nav_host_fragment_activity_main, fragment_busquedaRapidaHombre())
                 addToBackStack(null)
                 commit()
-            }
+            }*/
+            val intent = Intent(this, activity_busqueda_rapida_hombre::class.java)
+            startActivity(intent)
         }
 
 
@@ -78,7 +80,6 @@ class MainActivity : AppCompatActivity() {
 
         if (intent.getBooleanExtra("go_back", false)) {
             navController.navigate(R.id.fragment_inicio)
-            finish()
         }
     }
 
