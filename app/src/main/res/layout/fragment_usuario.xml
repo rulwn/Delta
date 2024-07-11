@@ -23,42 +23,42 @@
         android:id="@+id/imgVSettingsPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="28dp"
         android:layout_marginEnd="32dp"
         android:src="@drawable/ic_config"
         app:layout_constraintEnd_toEndOf="@+id/imgvSeguroPerfil"
-        app:layout_constraintStart_toEndOf="@+id/imgvFotoPerfil"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imgvFotoPerfil"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="13dp"
-        android:layout_marginBottom="13dp"
-        app:layout_constraintBottom_toTopOf="@+id/lbNombrePerfil"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lbPerfil"
+        android:layout_marginTop="72dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/foto_redonda"
         android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/lbNombrePerfil"
+        app:layout_constraintEnd_toEndOf="parent"
 
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/lbNombrePerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="46dp"
         android:fontFamily="@font/poppins_medium"
         android:text="Nombre Apellido"
         android:textColor="@color/Azul1"
         android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/imgvPersonalizarPerfil"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/lbCorreoPerfil"
@@ -76,23 +76,49 @@
         android:id="@+id/imgvSeguroPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:src="@drawable/background_btn_perfil_bottom"
         app:layout_constraintEnd_toEndOf="@+id/imgvPersonalizarPerfil"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/imgvPersonalizarPerfil"
         app:layout_constraintTop_toBottomOf="@+id/imgvPersonalizarPerfil" />
+
+    <TextView
+        android:id="@+id/lbSeguroPerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="Seguro"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgvSeguroPerfil"
+        app:layout_constraintStart_toStartOf="@+id/imgvSeguroPerfil" />
 
     <ImageView
         android:id="@+id/imgvPersonalizarPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="288dp"
+        android:layout_marginTop="268dp"
         android:src="@drawable/background_btn_perfil_up"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgvPacientesPerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="300dp"
+        android:src="@drawable/background_btn_pacientes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/lbPersonalizarPerfil"
+        android:id="@+id/lbPacientesPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -105,61 +131,51 @@
         app:layout_constraintStart_toStartOf="@+id/imgvPersonalizarPerfil" />
 
     <TextView
-        android:id="@+id/lbSeguroPerfil"
+        android:id="@+id/lbPersonalizarPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="11dp"
         android:fontFamily="@font/poppins_regular"
-        android:text="Seguro"
+        android:text="Pacientes"
         android:textColor="@color/black"
         android:textSize="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imgvSeguroPerfil"
-        app:layout_constraintStart_toStartOf="@+id/imgvSeguroPerfil" />
-
-    <ImageButton
-        android:id="@+id/imgvDocFav"
-        android:layout_width="308dp"
-        android:layout_height="68dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="68dp"
-        android:layout_marginEnd="40dp"
-        android:background="@drawable/ic_mdf_perfil"
-        android:elevation="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/imgvRecetas"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.478"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imgvSeguroPerfil"
-        app:layout_constraintVertical_bias="0.71" />
-
-    <ImageButton
-        android:id="@+id/imgvMisReseñas"
-        android:layout_width="308dp"
-        android:layout_height="68dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="33dp"
-        android:background="@drawable/ic_mir_perfil"
-        android:elevation="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgvHistCitas" />
+        app:layout_constraintBottom_toTopOf="@+id/imgvSeguroPerfil"
+        app:layout_constraintEnd_toEndOf="@+id/imgvPacientesPerfil"
+        app:layout_constraintHorizontal_bias="0.052"
+        app:layout_constraintStart_toStartOf="@+id/imgvPacientesPerfil"
+        app:layout_constraintTop_toBottomOf="@+id/imgvPersonalizarPerfil" />
 
     <ImageButton
         android:id="@+id/imgvHistCitas"
         android:layout_width="308dp"
         android:layout_height="68dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="40dp"
         android:background="@drawable/ic_mhdc_perfil"
         android:elevation="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.478"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgvRecetas"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/imgvDocFav"
+        android:layout_width="308dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/ic_mdf_perfil"
+        android:elevation="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/imgvRecetas"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.521"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgvRecetas" />
+        app:layout_constraintTop_toBottomOf="@+id/imgvSeguroPerfil"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageButton
         android:id="@+id/imgvRecetas"
@@ -167,13 +183,30 @@
         android:layout_height="68dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
-        android:layout_marginBottom="208dp"
+        android:layout_marginBottom="188dp"
         android:background="@drawable/ic_mr_perfil"
         android:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.521"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imgvMisReseñas"
+        android:layout_width="308dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/ic_mir_perfil"
+        android:elevation="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.478"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgvHistCitas"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

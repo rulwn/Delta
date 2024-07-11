@@ -32,6 +32,7 @@ class activity_busqueda_rapida_hombre : AppCompatActivity() {
         btnChangeGender.setOnClickListener {
             val intent = Intent(this, activity_busqueda_rapida_mujer::class.java)
             startActivity(intent)
+            overridePendingTransition(0,0)
         }
         bodyImageView.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {

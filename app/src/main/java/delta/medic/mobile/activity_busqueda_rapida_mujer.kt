@@ -24,11 +24,15 @@ class activity_busqueda_rapida_mujer : AppCompatActivity() {
         val btnChangeGender = findViewById<ImageView>(R.id.btnChangeGender2)
         val bodyImageView = findViewById<ImageView>(R.id.bodyImageView)
         btnRegresar.setOnClickListener {
-            finish()
+            println("CLICK!!!!!!!!!!!!!!!!!!!!!!!!!!!1")
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("go_back", true)
+            startActivity(intent)
         }
         btnChangeGender.setOnClickListener {
-            val intent = Intent(this, activity_busqueda_rapida_mujer::class.java)
+            val intent = Intent(this, activity_busqueda_rapida_hombre::class.java)
             startActivity(intent)
+            overridePendingTransition(0,0)
         }
         bodyImageView.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {

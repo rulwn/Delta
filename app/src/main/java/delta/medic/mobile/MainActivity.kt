@@ -82,7 +82,6 @@ class MainActivity : AppCompatActivity() {
 
         if (intent.getBooleanExtra("go_back", false)) {
             navController.navigate(R.id.fragment_inicio)
-            finish()
         }
     }
 
