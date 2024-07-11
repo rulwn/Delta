@@ -16,7 +16,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
 class fragment_Resultados : Fragment() {
 
     private lateinit var btnRegresar: ImageView
@@ -38,38 +37,40 @@ class fragment_Resultados : Fragment() {
         btnRegresar.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
+
         rcvResultados.layoutManager = LinearLayoutManager(context)
+
         arguments?.getString("query")?.let {
+            // Aquí puedes usar el query para realizar alguna búsqueda si es necesario
         }
-        suspend fun obtenerDatos(): List<dataClassCentro>{
+
+        suspend fun obtenerDatos(): List<dataClassCentro> {
             return withContext(Dispatchers.IO) {
                 val centroMedico = mutableListOf<dataClassCentro>()
                 try {
                     val objConexion = ClaseConexion()?.cadenaConexion()
-                    if (objConexion != null) {
-                        val statement = objConexion?.createStatement()
-                        val resultset =
-                            statement?.executeQuery(""" select d.ID_Doctor, e.nombreEspecialidad, s.nombreSucursal, s.direccionSucur FROM tbCentrosMedicos cm INNER JOIN tbDoctores d ON cm.ID_Doctor = d.ID_Doctor INNER JOIN tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad """)!!
-                        while (resultset.next()) {
-                            val ID_Doctor = resultset.getInt("ID_Doctor")
-                            val nombreEspecialidad = resultset.getString("nombreEspecialidad")
-                            val direccionSucur = resultset.getString("direccionSucur")
-                            val centro =
-                                dataClassCentro(ID_Doctor, nombreEspecialidad, direccionSucur)
-                            centroMedico.add(centro)
+                    objConexion?.createStatement()?.executeQuery(
+                        """
+                        SELECT d.ID_Doctor, e.nombreEspecialidad, s.nombreSucursal, s.direccionSucur
+                        FROM tbCentrosMedicos cm
+                        INNER JOIN tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+                        INNER JOIN tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
+                        INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+                        """)?.apply {
+                        while (next()) {
+                            val ID_Doctor = getInt("ID_Doctor")
+                            val nombreEspecialidad = getString("nombreEspecialidad")
+                            val direccionSucur = getString("direccionSucur")
+                            centroMedico.add(dataClassCentro(ID_Doctor, nombreEspecialidad, direccionSucur))
                         }
-                    }
-                    else {
-                        println("No se pudo establecer una conexión con la base de datos.")
-                    }
-                }
-                catch (e: Exception) {
+                    } ?: println("No se pudo establecer una conexión con la base de datos.")
+                } catch (e: Exception) {
                     println("Este es el error ${e.message}")
                 }
                 centroMedico
             }
-
         }
+
         CoroutineScope(Dispatchers.IO).launch {
             val centrosDB = obtenerDatos()
             withContext(Dispatchers.Main) {
@@ -80,5 +81,4 @@ class fragment_Resultados : Fragment() {
 
         return root
     }
-
 }

@@ -1,8 +1,5 @@
 package delta.medic.mobile
 
-import Modelo.ClaseConexion
-import Modelo.dataClassCentro
-import RecycleViewHelper.AdaptadorCentro
 import RecycleViewHelper.AdaptadorRecientes
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -24,7 +21,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
 class activity_busqueda : AppCompatActivity() {
 
     private lateinit var txtSearch: EditText
@@ -37,7 +33,7 @@ class activity_busqueda : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_busqueda)
-        requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -52,7 +48,6 @@ class activity_busqueda : AppCompatActivity() {
         adapter = AdaptadorRecientes(recentSearches)
         rvRecentSearches.layoutManager = LinearLayoutManager(this)
         rvRecentSearches.adapter = adapter
-
 
         txtSearch.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {

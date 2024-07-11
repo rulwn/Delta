@@ -50,8 +50,6 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-
         val icBusqueda = findViewById<ImageView>(R.id.imgIconoSearch)
         icBusqueda.setOnClickListener {
             val intent = Intent(this, activity_busqueda::class.java)
@@ -71,6 +69,11 @@ class MainActivity : AppCompatActivity() {
 
 
         if (intent.getBooleanExtra("ir_atras", false)) {
+            navController.navigate(R.id.fragment_inicio)
+            finish()
+        }
+
+        if (intent.getBooleanExtra("go_back", false)) {
             navController.navigate(R.id.fragment_inicio)
             finish()
         }
