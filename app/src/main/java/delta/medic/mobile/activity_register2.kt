@@ -19,8 +19,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Date
 
 class activity_register2 : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -37,12 +39,6 @@ class activity_register2 : AppCompatActivity() {
         val spSeguro = findViewById<Spinner>(R.id.spSeguro)
         val btnSiguiente = findViewById<Button>(R.id.btnSiguiente2)
 
-
-        val nombre = intent.getStringExtra("nombre")
-        val apellido = intent.getStringExtra("apellido")
-        val direccion = intent.getStringExtra("direccion")
-        val email = intent.getStringExtra("email")
-        val clave = intent.getStringExtra("clave")
             CoroutineScope(Dispatchers.Main).launch{
                 val listaSeguros =obtenerSeguros()
                 val nombreSeguro =listaSeguros.map { it.nombreAseguradora}
@@ -74,25 +70,21 @@ class activity_register2 : AppCompatActivity() {
         }
 
         btnSiguiente.setOnClickListener {
-            CoroutineScope(Dispatchers.Main).launch {
-                var sexo : String = ""
+            CoroutineScope(Dispatchers.IO).launch {
                 val aseguradora = obtenerSeguros()
-                if(rbHombre.isChecked) {
-                    sexo = "H"
-                } else if (rbMujer.isChecked) {
-                    sexo = "M"
+                withContext(Dispatchers.Main){
+                    if(rbHombre.isChecked) {
+                        activity_register1.variablesLogin.sexoUsuario = "H"
+                    } else if (rbMujer.isChecked) {
+                        activity_register1.variablesLogin.sexoUsuario= "M"
+                    }
+                    activity_register1.variablesLogin.seguroUsuario = aseguradora[spSeguro.selectedItemPosition].id_Aseguradora
+                    activity_register1.variablesLogin.fecha_Nacimiento = txtFechaNacimientoPaciente.text.toString()
+                    val intent = Intent(this@activity_register2, activity_register3::class.java)
+
+                    startActivity(intent)
                 }
-                val intent = Intent(this@activity_register2, activity_register3::class.java)
-                intent.putExtra("nombre", nombre)
-                intent.putExtra("apellido",apellido)
-                intent.putExtra("direccion",direccion)
-                intent.putExtra("email",email)
-                intent.putExtra("clave",clave)
-                intent.putExtra("aseguradora", aseguradora[spSeguro.selectedItemPosition].id_Aseguradora)
-                intent.putExtra("fechaNac",txtFechaNacimientoPaciente.text.toString())
-                intent.putExtra("sexo", sexo)
-                intent.putExtra("telefono",txtTelefono.text.toString())
-                startActivity(intent)
+
             }
         }
     }
