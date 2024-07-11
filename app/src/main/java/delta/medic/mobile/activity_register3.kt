@@ -1,5 +1,6 @@
 package delta.medic.mobile
 
+import Modelo.EmailSender
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -12,6 +13,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.net.Uri
 import android.widget.TextView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class activity_register3 : AppCompatActivity() {
 
@@ -22,15 +26,12 @@ class activity_register3 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_register3)
-        requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-
 
 
         btnAgregarFoto = findViewById(R.id.btnAgregarFoto)
@@ -53,6 +54,9 @@ class activity_register3 : AppCompatActivity() {
         }
 
         btnOmitir.setOnClickListener {
+            CoroutineScope(Dispatchers.Main).launch {
+                EmailSender().enviarCorreo(activity_register1.variablesLogin.email, "Codigo de verificacion delta", "${activity_register1.variablesLogin.codigoautenticacion}")
+            }
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }

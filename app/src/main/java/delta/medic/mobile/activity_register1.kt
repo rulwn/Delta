@@ -13,12 +13,23 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 
 class activity_register1 : AppCompatActivity() {
+    companion object variablesLogin{
+        var nombre = ""
+        var apellido = ""
+        var email = ""
+        var direccion = ""
+        var clave = ""
+        var sexo = ""
+        var telefono = ""
+        var fechaNacimiento = ""
+        var idAseguradora = 0
+
+        val codigoautenticacion =(100000..999999).random()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_register1)
-        requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -40,18 +51,13 @@ class activity_register1 : AppCompatActivity() {
 
         val btnSiguiente = findViewById<Button>(R.id.btnSiguiente)
         btnSiguiente.setOnClickListener {
-            val nombre =nombreEditText.text.toString()
-            val apellido =apellidoEditText.text.toString()
-            val email =txtEmail.text.toString()
-            val direccion = direccionEditText.text.toString()
-            val clave = txtClave.text.toString()
+            nombre =nombreEditText.text.toString()
+            apellido=apellidoEditText.text.toString()
+            email =txtEmail.text.toString()
+            direccion = direccionEditText.text.toString()
+            clave = txtClave.text.toString()
 
             val intent = Intent(this, activity_register2::class.java)
-            intent.putExtra("nombre", nombre)
-            intent.putExtra("apellido",apellido)
-            intent.putExtra("email", email)
-            intent.putExtra("direccion", direccion)
-            intent.putExtra("clave",clave)
             startActivity(intent)
         }
     }

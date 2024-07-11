@@ -10,8 +10,8 @@ class ClaseConexion {
         return withContext(Dispatchers.IO) {
             try {
                 val url = "jdbc:oracle:thin:@192.168.1.184:1521:xe"
-                val usuario = "DeltaMed"
-                val clave = "deltaTeam1"
+                val usuario = "c##_usuarios_delta" //DeltaMed
+                val clave = "1234" //deltaTeam1
                 val conexion = DriverManager.getConnection(url, usuario, clave)
                 conexion
             } catch (e: Exception) {

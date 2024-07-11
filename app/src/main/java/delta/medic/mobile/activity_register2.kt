@@ -45,18 +45,16 @@ class activity_register2 : AppCompatActivity() {
             val intent = Intent(this, activity_login::class.java)
             startActivity(intent)
         }
-        val nombre = intent.getStringExtra("nombre")
-        val apellido = intent.getStringExtra("apellido")
-        val direccion = intent.getStringExtra("direccion")
-        val email = intent.getStringExtra("email")
-        val clave = intent.getStringExtra("clave")
 
-        CoroutineScope(Dispatchers.Main).launch{
+
+        CoroutineScope(Dispatchers.IO).launch{
             val listaSeguros =obtenerSeguros()
             withContext(Dispatchers.Main){
                 val nombreSeguro =listaSeguros.map { it.nombreAseguradora}
                 val adaptador = ArrayAdapter(this@activity_register2, android.R.layout.simple_spinner_dropdown_item, nombreSeguro)
                 spSeguro.adapter = adaptador
+
+
             }
         }
 
@@ -83,25 +81,20 @@ class activity_register2 : AppCompatActivity() {
             startActivity(intent)
         }
 
+
         btnSiguiente.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
-                var sexo : String = ""
-                val aseguradora = obtenerSeguros()
+
                 if(rbHombre.isChecked) {
-                    sexo = "H"
+                    activity_register1.variablesLogin.sexo = "H"
                 } else if (rbMujer.isChecked) {
-                    sexo = "M"
+                    activity_register1.variablesLogin.sexo = "M"
                 }
+                activity_register1.variablesLogin.fechaNacimiento = txtFechaNacimientoPaciente.text.toString()
+                activity_register1.variablesLogin.telefono = txtTelefono.text.toString()
+                activity_register1.variablesLogin.idAseguradora = spSeguro.selectedItemPosition
                 val intent = Intent(this@activity_register2, activity_register3::class.java)
-                intent.putExtra("nombre", nombre)
-                intent.putExtra("apellido",apellido)
-                intent.putExtra("direccion",direccion)
-                intent.putExtra("email",email)
-                intent.putExtra("clave",clave)
-                intent.putExtra("aseguradora", aseguradora[spSeguro.selectedItemPosition].id_Aseguradora)
-                intent.putExtra("fechaNac",txtFechaNacimientoPaciente.text.toString())
-                intent.putExtra("sexo", sexo)
-                intent.putExtra("telefono",txtTelefono.text.toString())
+
                 startActivity(intent)
             }
         }
