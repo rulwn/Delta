@@ -19,7 +19,11 @@
             android:layout_height="wrap_content"
             android:text="Especialidades"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/Azul3"
+            android:fontFamily="@font/poppins_semibold"
+
+            />
     </LinearLayout>
 
 </FrameLayout>
