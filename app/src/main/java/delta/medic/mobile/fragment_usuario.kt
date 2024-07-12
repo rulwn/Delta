@@ -11,11 +11,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.sql.SQLException
+import delta.medic.mobile.activity_login.UserData.userEmail as sentEmail
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,11 +29,12 @@ private const val ARG_PARAM2 = "param2"
  * Use the [fragment_usuario.newInstance] factory method to
  * create an instance of this fragment.
  */
+@Suppress("DEPRECATION")
 class fragment_usuario : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    lateinit var email: String
+
 
     suspend fun GetUserParameters(email: String): List<dataClassUsuario> {
         return withContext(Dispatchers.IO) {
@@ -39,10 +42,12 @@ class fragment_usuario : Fragment() {
             try {
                 val objConexion = ClaseConexion().cadenaConexion()
                 if (objConexion != null) {
-                    val statement = objConexion.prepareStatement("SELECT * FROM tbUsuarios WHERE emailUsuario = ?")!!
-                    statement.setString(1, email)
-                    val resultSet = statement.executeQuery()
 
+                    val statement = objConexion.prepareStatement("SELECT * FROM tbUsuarios WHERE emailUsuario = ?")!!
+                    statement.setString(1, sentEmail)
+                    val resultSet = statement.executeQuery()
+                    resultSet.next()
+                    
                     // Verifica si hay resultados
                     if (resultSet.next()) {
                         val idUsuario = resultSet.getInt("ID_Usuario")
@@ -87,7 +92,7 @@ class fragment_usuario : Fragment() {
 
     fun loadData(lbNombre: TextView, lbCorreo: TextView, imgvFoto: ImageView) {
         viewLifecycleOwner.lifecycleScope.launch {
-            val user = GetUserParameters(email)
+            val user = GetUserParameters(sentEmail)
             val nombreUsuario = user.map { it.nombreUsuario }
             val emailUsuario = user.map { it.emailUsuario }
             val fotoUsuario = user.map { it.imgUsuario}
@@ -123,7 +128,7 @@ class fragment_usuario : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_usuario, container, false)
 
-        email = activity_login.userEmail
+
 
         /******************************************************************************************
         * Values                                                                                  *
@@ -145,6 +150,7 @@ class fragment_usuario : Fragment() {
         val lbPerfil = root.findViewById<TextView>(R.id.lbPerfil)
 
         lbPerfil.setText(Html.fromHtml(getResources().getString(R.string.lbPerfilSub)))
+        Toast.makeText(requireContext(), sentEmail, Toast.LENGTH_SHORT).show()
 
 
         loadData(lbNombre,lbCorreo,imgvFoto)

@@ -22,8 +22,10 @@ import delta.medic.mobile.databinding.ActivityMainBinding
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import delta.medic.mobile.activity_login.UserData.userEmail
 
 class MainActivity : AppCompatActivity() {
 
@@ -47,6 +49,8 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        Toast.makeText(this, userEmail, Toast.LENGTH_SHORT).show()
 
         val icBusqueda = findViewById<ImageView>(R.id.imgIconoSearch)
         icBusqueda.setOnClickListener {
