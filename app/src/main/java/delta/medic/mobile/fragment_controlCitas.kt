@@ -16,7 +16,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.sql.Timestamp
+import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -56,8 +59,15 @@ class fragment_controlCitas : Fragment() {
                 rcvRecordatoriosCitas.adapter = miAdaptador
             }
         }
+        calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            val selectedDate = Calendar.getInstance().apply {
+                set(year, month, dayOfMonth)
+            }.time
+            //filtrarCitas(selectedDate, dataClassCitas, rcvRecordatoriosCitas)
+        }
         return root
     }
+
 
     private suspend fun obtenerDatos(): List<dataClassCitas>{
         return withContext(Dispatchers.IO) {
@@ -107,6 +117,16 @@ class fragment_controlCitas : Fragment() {
             }
             citas
         }
+    }
+    private fun filtrarCitas(date: Date, Citas: List<dataClassCitas>, recyclerView: RecyclerView) {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val selectedDateStr = dateFormat.format(date)
+        val filtrarCita = Citas.filter {
+            val fechaCita = it.diaCita
+            fechaCita != null && dateFormat.format(fechaCita) == selectedDateStr
+        }
+        val miAdaptador = AdaptadorCitas(filtrarCita)
+        recyclerView.adapter = miAdaptador
     }
 
     companion object {
