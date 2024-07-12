@@ -46,8 +46,6 @@ class fragment_usuario : Fragment() {
                     val statement = objConexion.prepareStatement("SELECT * FROM tbUsuarios WHERE emailUsuario = ?")!!
                     statement.setString(1, sentEmail)
                     val resultSet = statement.executeQuery()
-                    resultSet.next()
-                    
                     // Verifica si hay resultados
                     if (resultSet.next()) {
                         val idUsuario = resultSet.getInt("ID_Usuario")
@@ -59,7 +57,13 @@ class fragment_usuario : Fragment() {
                         val teléfono = resultSet.getString("telefonoUsuario")
                         val sexo = resultSet.getCharacterStream("sexo").toString()
                         val fechaNacimiento = resultSet.getDate("fechaNacimiento")
-                        val imgUsuario = resultSet.getBlob("imgUsuario").toString()
+                        var imgUsuario = ""
+                        if(resultSet.getBlob("imgUsuario") != null){
+                        imgUsuario = resultSet.getBlob("imgUsuario").toString()}
+                        else{
+                            imgUsuario = ""
+                        }
+
                         val idTipoUsuario = resultSet.getInt("ID_TipoUsuario")
                         val idSeguro = resultSet.getInt("ID_Seguro")
 
@@ -93,13 +97,13 @@ class fragment_usuario : Fragment() {
     fun loadData(lbNombre: TextView, lbCorreo: TextView, imgvFoto: ImageView) {
         viewLifecycleOwner.lifecycleScope.launch {
             val user = GetUserParameters(sentEmail)
-            val nombreUsuario = user.map { it.nombreUsuario }
-            val emailUsuario = user.map { it.emailUsuario }
+            val nombreUsuario = user.map { it.nombreUsuario}
+            val emailUsuario = user.map { it.emailUsuario}
             val fotoUsuario = user.map { it.imgUsuario}
 
             withContext(Dispatchers.Main) {
-                lbNombre.text = nombreUsuario.toString()
-                lbCorreo.text = emailUsuario.toString()
+                lbNombre.setText(nombreUsuario.toString()).toString()
+                lbCorreo.setText(emailUsuario.toString()).toString()
                 /*
                 if (fotoUsuario.isNotEmpty()) {
                     val bitmap = BitmapFactory.decodeByteArray(fotoUsuario.toString().toByteArray(), 0, fotoUsuario.size)
