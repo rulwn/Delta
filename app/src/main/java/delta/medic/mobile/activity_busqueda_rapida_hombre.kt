@@ -35,6 +35,8 @@ class activity_busqueda_rapida_hombre : AppCompatActivity() {
             overridePendingTransition(0,0)
             finish()
         }
+
+
         bodyImageView.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 val x = event.x
@@ -48,7 +50,6 @@ class activity_busqueda_rapida_hombre : AppCompatActivity() {
         val specialties = when {
             isChestArea(x, y) -> listOf("Cardiología", "Torax")
             isHeadArea(x, y) -> listOf("Neurología", "Otorrinolaringología")
-            // Agrega más áreas del cuerpo según sea necesario
             else -> emptyList()
         }
         if (specialties.isNotEmpty()) {
