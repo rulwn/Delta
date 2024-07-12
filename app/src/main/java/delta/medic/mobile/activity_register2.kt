@@ -6,6 +6,7 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
@@ -102,8 +103,8 @@ class activity_register2 : AppCompatActivity() {
     private suspend fun obtenerSeguros(): List<dc_Aseguradoras> {
         return withContext(Dispatchers.IO) {
             val objConexion = ClaseConexion().cadenaConexion()
-            val statement = objConexion?.createStatement()!!
-            val resultSet = statement.executeQuery("select * from tbAseguradora")
+            val statement = objConexion?.createStatement()
+            val resultSet = statement?.executeQuery("select * from tbAseguradoras")!!
             val lista = mutableListOf<dc_Aseguradoras>()
             while (resultSet.next()) {
                 val id_Aseguradora = resultSet.getInt("ID_ASEGURADORA")
@@ -111,6 +112,7 @@ class activity_register2 : AppCompatActivity() {
                 val valoresJuntos = dc_Aseguradoras(id_Aseguradora, nombreAseguradora)
                 lista.add(valoresJuntos)
             }
+            Log.e("Aseguradoras obtenidas","${lista.size}")
             lista
         }
     }

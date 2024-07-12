@@ -242,7 +242,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView8">
 
         <EditText
-            android:id="@+id/num3EditText"
+            android:id="@+id/num1edit"
             android:layout_width="40dp"
             android:layout_height="50dp"
             android:layout_marginStart="8dp"
@@ -250,74 +250,86 @@
             android:layout_marginBottom="516dp"
             android:background="@drawable/textboxprueba"
             android:fontFamily="@font/poppins_regular"
+            android:inputType="number"
+            android:maxLength="1"
             android:padding="8dp"
-            android:textColor="@color/GrisAzulito"
-            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
             tools:ignore="NotSibling" />
 
         <EditText
-            android:id="@+id/num6EditText"
+            android:id="@+id/num2edit"
             android:layout_width="40dp"
             android:layout_height="50dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="516dp"
             android:background="@drawable/textboxprueba"
             android:fontFamily="@font/poppins_regular"
+            android:inputType="number"
+            android:maxLength="1"
             android:padding="8dp"
-            android:textColor="@color/GrisAzulito"
-            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
             tools:ignore="NotSibling" />
 
         <EditText
-            android:id="@+id/num4EditText"
+            android:id="@+id/num3edit"
             android:layout_width="40dp"
             android:layout_height="50dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="516dp"
             android:background="@drawable/textboxprueba"
             android:fontFamily="@font/poppins_regular"
+            android:inputType="number"
+            android:maxLength="1"
             android:padding="8dp"
-            android:textColor="@color/GrisAzulito"
-            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
             tools:ignore="NotSibling" />
 
         <EditText
-            android:id="@+id/num5EditText"
+            android:id="@+id/num4edit"
             android:layout_width="40dp"
             android:layout_height="50dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="516dp"
             android:background="@drawable/textboxprueba"
             android:fontFamily="@font/poppins_regular"
+            android:inputType="number"
+            android:maxLength="1"
             android:padding="8dp"
-            android:textColor="@color/GrisAzulito"
-            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
             tools:ignore="NotSibling" />
 
         <EditText
-            android:id="@+id/num1EditText"
+            android:id="@+id/num5edit"
             android:layout_width="40dp"
             android:layout_height="50dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="516dp"
             android:background="@drawable/textboxprueba"
             android:fontFamily="@font/poppins_regular"
+            android:inputType="number"
+            android:maxLength="1"
             android:padding="8dp"
-            android:textColor="@color/GrisAzulito"
-            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
             tools:ignore="NotSibling" />
 
         <EditText
-            android:id="@+id/num2EditText"
+            android:id="@+id/num6edit"
             android:layout_width="40dp"
             android:layout_height="50dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="516dp"
             android:background="@drawable/textboxprueba"
             android:fontFamily="@font/poppins_regular"
+            android:inputType="number"
+            android:maxLength="1"
             android:padding="8dp"
-            android:textColor="@color/GrisAzulito"
-            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
             tools:ignore="NotSibling" />
     </LinearLayout>
 

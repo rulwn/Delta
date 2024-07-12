@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.net.Uri
+import android.util.Log
 import android.widget.TextView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -54,10 +55,15 @@ class activity_register3 : AppCompatActivity() {
         }
 
         btnOmitir.setOnClickListener {
+            activity_register1.variablesLogin.imgUsuario = "no hay imagen"
+
+
             CoroutineScope(Dispatchers.Main).launch {
                 EmailSender().enviarCorreo(activity_register1.variablesLogin.email, "Codigo de verificacion delta", "${activity_register1.variablesLogin.codigoautenticacion}")
             }
-            val intent = Intent(this, MainActivity::class.java)
+
+
+            val intent = Intent(this, activity_register4::class.java)
             startActivity(intent)
         }
     }

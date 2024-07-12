@@ -24,14 +24,14 @@ class EmailSender {
 
        val session = Session.getInstance(props, object : javax.mail.Authenticator() {
            override fun getPasswordAuthentication(): PasswordAuthentication {
-               return PasswordAuthentication("delta.medic.helper@gmail.com", "fkui jrmx sozv mfuk")
+               return PasswordAuthentication("delta.medic.help@gmail.com", "fkui jrmx sozv mfuk")
            }
 
        })
         try {
             val message = MimeMessage(session).apply {
                 //Con que correo enviaré el mensaje
-                setFrom(InternetAddress("delta.medic.helper@gmail.com"))
+                setFrom(InternetAddress("delta.medic.help@gmail.com"))
                 addRecipient(Message.RecipientType.TO, InternetAddress(receptor))
                 subject = sujeto
                 setText(mensaje)
