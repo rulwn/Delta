@@ -97,13 +97,16 @@ class fragment_usuario : Fragment() {
     fun loadData(lbNombre: TextView, lbCorreo: TextView, imgvFoto: ImageView) {
         viewLifecycleOwner.lifecycleScope.launch {
             val user = GetUserParameters(sentEmail)
+            //Estos campos al estar con map pondrá  "[]" al inicio y al final
             val nombreUsuario = user.map { it.nombreUsuario}
             val emailUsuario = user.map { it.emailUsuario}
             val fotoUsuario = user.map { it.imgUsuario}
 
             withContext(Dispatchers.Main) {
-                lbNombre.setText(nombreUsuario.toString()).toString()
-                lbCorreo.setText(emailUsuario.toString()).toString()
+                //Para solucionarlo se coloca replace
+                lbNombre.setText(nombreUsuario.toString().replace("[", "").replace("]",""))
+                lbCorreo.setText(emailUsuario.toString().replace("[", "").replace("]",""))
+
                 /*
                 if (fotoUsuario.isNotEmpty()) {
                     val bitmap = BitmapFactory.decodeByteArray(fotoUsuario.toString().toByteArray(), 0, fotoUsuario.size)
@@ -147,8 +150,8 @@ class fragment_usuario : Fragment() {
         val imgvHistorialCitas = root.findViewById<ImageView>(R.id.imgvHistCitas)
         val imgvMisReseñas = root.findViewById<ImageView>(R.id.imgvMisReseñas)
         //Labels
-        val lbNombre = root.findViewById<TextView>(R.id.txtPrivacidadySeguridad)
-        val lbCorreo = root.findViewById<TextView>(R.id.txtNotificaciones)
+        val lbNombre = root.findViewById<TextView>(R.id.lbNombreUsuario)
+        val lbCorreo = root.findViewById<TextView>(R.id.lbCorreoUsuario)
         val lbPersonalizar = root.findViewById<TextView>(R.id.lbPersonalizarPerfil)
         val lbSeguro = root.findViewById<TextView>(R.id.lbSeguroPerfil)
         val lbPerfil = root.findViewById<TextView>(R.id.lbPerfil)
@@ -161,7 +164,7 @@ class fragment_usuario : Fragment() {
         /******************************************************************************************
         * On Clicks                                                                              *
         ******************************************************************************************/
-        imgvSettings.setOnClickListener {
+        imgvSettings.setOnClickListener{
             val activitySettings = Intent(requireContext(), activity_configuracion::class.java)
             startActivity(activitySettings)
         }
@@ -173,11 +176,11 @@ class fragment_usuario : Fragment() {
             val activityEditarPerfil = Intent(requireContext(), activity_editarperfil::class.java)
             startActivity(activityEditarPerfil)
         }
-
+        imgvSeguro.setOnClickListener {
+            //No sé hacia donde lleva
+        }
         lbSeguro.setOnClickListener {
             //No sé hacia donde lleva
-            val activityEditarPerfl = Intent(requireContext(), activity_vistadoctores::class.java)
-            startActivity(activityEditarPerfl)
         }
         imgvDoctoresFavoritos.setOnClickListener {
             val activityDoctoresFavoritos = Intent(requireContext(), activity_doctoresfavoritos::class.java)

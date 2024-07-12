@@ -8,6 +8,7 @@
     <string name="subrayado"><![CDATA[<u>Agendar cita</u>]]></string>
     <string name="lbPerfilSub"><![CDATA[<u>Perfil</u>]]></string>
     <string name="lbControl"><![CDATA[<u>Control</u>]]></string>
+    <string name="lbEditarPErfil"><![CDATA[<u>EditarPerfil</u>]]></string>
     <string name="concatenar2">%1$s %2$s</string>
     <string name="concatenar3">%1$s %2$s %3$s</string>
     <string name="alert_icon" />

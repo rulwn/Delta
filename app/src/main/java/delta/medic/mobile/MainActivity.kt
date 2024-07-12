@@ -50,8 +50,6 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        Toast.makeText(this, userEmail, Toast.LENGTH_SHORT).show()
-
         val icBusqueda = findViewById<ImageView>(R.id.imgIconoSearch)
         icBusqueda.setOnClickListener {
             val intent = Intent(this, activity_busqueda::class.java)

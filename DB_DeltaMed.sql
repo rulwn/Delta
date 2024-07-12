@@ -279,6 +279,8 @@ CREATE TABLE tbExpedientes (
     ON DELETE CASCADE
 );
 
+select * from tbUsuarios;
+
 CREATE TABLE tbCitasMedicas (
     ID_Cita INT PRIMARY KEY,
     diaCita DATE NOT NULL,
@@ -296,6 +298,8 @@ CREATE TABLE tbCitasMedicas (
     REFERENCES tbPacientes(ID_Paciente)
     ON DELETE CASCADE
 );
+
+
 
 CREATE TABLE tbIndicaciones (
     ID_Indicacion INT PRIMARY KEY,

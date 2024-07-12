@@ -143,7 +143,7 @@
             app:srcCompat="@drawable/ic_notificaciones" />
 
         <TextView
-            android:id="@+id/txtNotificaciones"
+            android:id="@+id/lbCorreoUsuario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -189,7 +189,7 @@
             app:srcCompat="@drawable/ic_privacidad" />
 
         <TextView
-            android:id="@+id/txtPrivacidadySeguridad"
+            android:id="@+id/lbNombreUsuario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
