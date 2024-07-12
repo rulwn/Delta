@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment_busquedaRapidaHombre">
@@ -37,27 +37,33 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="298dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/poppins_semibold"
         android:text="¿Adónde sientes malestar?"
-        android:textSize="18sp"
+        android:textAlignment="center"
+        android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
 
     <ImageView
         android:id="@+id/bodyImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="650dp"
         android:layout_marginTop="16dp"
         android:contentDescription="@string/body_image"
-        app:layout_constraintTop_toBottomOf="@id/textView"
+        android:scaleType="centerCrop"
+        android:src="@drawable/cuerpo_hombre_busqueda"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/cuerpo"/>
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/btnChangeGender"
@@ -65,10 +71,10 @@
         android:layout_height="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.901"
+        app:layout_constraintHorizontal_bias="0.878"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.116"
-        app:srcCompat="@drawable/ic_cambiarsearch" />
+        app:layout_constraintVertical_bias="0.127"
+        app:srcCompat="@drawable/ic_cambiogenero" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

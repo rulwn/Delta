@@ -30,6 +30,7 @@
             app:srcCompat="@drawable/ic_arrow_back" />
 
         <TextView
+            android:id="@+id/txtConfiguracion"
             android:layout_width="210dp"
             android:layout_height="27dp"
             android:layout_gravity="center"
@@ -63,7 +64,7 @@
             app:srcCompat="@drawable/ic_cuenta" />
 
         <TextView
-            android:id="@+id/lbCuentaPerfil"
+            android:id="@+id/txtCuentaPerfil"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -73,7 +74,7 @@
             android:textSize="16sp" />
 
         <ImageView
-            android:id="@+id/imgTuCuenta"
+            android:id="@+id/btnTuCuenta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -92,7 +93,7 @@
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.506">
+        app:layout_constraintVertical_bias="0.601">
 
         <ImageView
             android:id="@+id/imageView15"
@@ -102,7 +103,7 @@
             app:srcCompat="@drawable/ic_apariencia" />
 
         <TextView
-            android:id="@+id/textView15"
+            android:id="@+id/txtApariencia1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -112,7 +113,7 @@
             android:textSize="16sp" />
 
         <ImageView
-            android:id="@+id/imgApariencia"
+            android:id="@+id/btnApariencia"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -142,7 +143,7 @@
             app:srcCompat="@drawable/ic_notificaciones" />
 
         <TextView
-            android:id="@+id/lbCorreoPerfil"
+            android:id="@+id/txtNotificaciones"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -152,7 +153,7 @@
             android:textSize="16sp" />
 
         <ImageView
-            android:id="@+id/imgNotificaciones"
+            android:id="@+id/btnNotificaciones"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -188,7 +189,7 @@
             app:srcCompat="@drawable/ic_privacidad" />
 
         <TextView
-            android:id="@+id/lbNombrePerfil"
+            android:id="@+id/txtPrivacidadySeguridad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -200,7 +201,7 @@
             tools:layout_editor_absoluteY="200dp" />
 
         <ImageView
-            android:id="@+id/imgPrivacidadySeguridad"
+            android:id="@+id/btnPrivacidadySeguridad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -236,7 +237,7 @@
             app:srcCompat="@drawable/ic_ayuda" />
 
         <TextView
-            android:id="@+id/textView14"
+            android:id="@+id/txtCentroAyuda1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -246,7 +247,7 @@
             android:textSize="16sp" />
 
         <ImageView
-            android:id="@+id/imgCentroAyuda"
+            android:id="@+id/btnCentroAyuda"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -268,7 +269,7 @@
         app:layout_constraintVertical_bias="0.957">
 
         <ImageView
-            android:id="@+id/imageView23"
+            android:id="@+id/imgCerrarSesion"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="68dp"
@@ -281,7 +282,7 @@
             app:srcCompat="@drawable/ic_cerrar_sesion" />
 
         <TextView
-            android:id="@+id/textView16"
+            android:id="@+id/txtCerrarSesion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -297,7 +298,7 @@
             app:layout_constraintVertical_bias="0.947" />
 
         <ImageView
-            android:id="@+id/imageView24"
+            android:id="@+id/btnCerrarSesion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

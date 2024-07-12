@@ -11,11 +11,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.sql.SQLException
+import delta.medic.mobile.activity_login.UserData.userEmail as sentEmail
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,11 +29,12 @@ private const val ARG_PARAM2 = "param2"
  * Use the [fragment_usuario.newInstance] factory method to
  * create an instance of this fragment.
  */
+@Suppress("DEPRECATION")
 class fragment_usuario : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private val email: String = "soytuyomichi@gmail.com"
+
 
     suspend fun GetUserParameters(email: String): List<dataClassUsuario> {
         return withContext(Dispatchers.IO) {
@@ -39,10 +42,10 @@ class fragment_usuario : Fragment() {
             try {
                 val objConexion = ClaseConexion().cadenaConexion()
                 if (objConexion != null) {
-                    val statement = objConexion.prepareStatement("Select * From tbUsuarios Where emailUsuario = ?")!!
-                    statement.setString(1, email)
-                    val resultSet = statement.executeQuery()
 
+                    val statement = objConexion.prepareStatement("SELECT * FROM tbUsuarios WHERE emailUsuario = ?")!!
+                    statement.setString(1, sentEmail)
+                    val resultSet = statement.executeQuery()
                     // Verifica si hay resultados
                     if (resultSet.next()) {
                         val idUsuario = resultSet.getInt("ID_Usuario")
@@ -52,9 +55,15 @@ class fragment_usuario : Fragment() {
                         val contrasena = resultSet.getString("contrasena")
                         val direccion = resultSet.getString("direccion")
                         val teléfono = resultSet.getString("telefonoUsuario")
-                        val sexo = resultSet.getString("sexo").toString()
+                        val sexo = resultSet.getCharacterStream("sexo").toString()
                         val fechaNacimiento = resultSet.getDate("fechaNacimiento")
-                        val imgUsuario = resultSet.getBlob("imgUsuario").toString()
+                        var imgUsuario = ""
+                        if(resultSet.getBlob("imgUsuario") != null){
+                        imgUsuario = resultSet.getBlob("imgUsuario").toString()}
+                        else{
+                            imgUsuario = ""
+                        }
+
                         val idTipoUsuario = resultSet.getInt("ID_TipoUsuario")
                         val idSeguro = resultSet.getInt("ID_Seguro")
 
@@ -65,7 +74,7 @@ class fragment_usuario : Fragment() {
                         listaUsuarios.add(userWithFullData)
 
                     } else {
-                        println("No se encontraron usuarios con ese email.")
+                        println("No se encontraron usuarios con el email ${email}.")
                     }
 
                     // Cerrar recursos
@@ -87,14 +96,14 @@ class fragment_usuario : Fragment() {
 
     fun loadData(lbNombre: TextView, lbCorreo: TextView, imgvFoto: ImageView) {
         viewLifecycleOwner.lifecycleScope.launch {
-            val user = GetUserParameters(email)
-            val nombreUsuario = user.map { it.nombreUsuario }
-            val emailUsuario = user.map { it.emailUsuario }
+            val user = GetUserParameters(sentEmail)
+            val nombreUsuario = user.map { it.nombreUsuario}
+            val emailUsuario = user.map { it.emailUsuario}
             val fotoUsuario = user.map { it.imgUsuario}
 
             withContext(Dispatchers.Main) {
-                lbNombre.text = nombreUsuario.toString()
-                lbCorreo.text = emailUsuario.toString()
+                lbNombre.setText(nombreUsuario.toString()).toString()
+                lbCorreo.setText(emailUsuario.toString()).toString()
                 /*
                 if (fotoUsuario.isNotEmpty()) {
                     val bitmap = BitmapFactory.decodeByteArray(fotoUsuario.toString().toByteArray(), 0, fotoUsuario.size)
@@ -122,7 +131,8 @@ class fragment_usuario : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_usuario, container, false)
-         //en teoría aquí se recibe un valor
+
+
 
         /******************************************************************************************
         * Values                                                                                  *
@@ -137,13 +147,14 @@ class fragment_usuario : Fragment() {
         val imgvHistorialCitas = root.findViewById<ImageView>(R.id.imgvHistCitas)
         val imgvMisReseñas = root.findViewById<ImageView>(R.id.imgvMisReseñas)
         //Labels
-        val lbNombre = root.findViewById<TextView>(R.id.lbNombrePerfil)
-        val lbCorreo = root.findViewById<TextView>(R.id.lbCorreoPerfil)
+        val lbNombre = root.findViewById<TextView>(R.id.txtPrivacidadySeguridad)
+        val lbCorreo = root.findViewById<TextView>(R.id.txtNotificaciones)
         val lbPersonalizar = root.findViewById<TextView>(R.id.lbPersonalizarPerfil)
         val lbSeguro = root.findViewById<TextView>(R.id.lbSeguroPerfil)
         val lbPerfil = root.findViewById<TextView>(R.id.lbPerfil)
 
         lbPerfil.setText(Html.fromHtml(getResources().getString(R.string.lbPerfilSub)))
+        Toast.makeText(requireContext(), sentEmail, Toast.LENGTH_SHORT).show()
 
 
         loadData(lbNombre,lbCorreo,imgvFoto)
