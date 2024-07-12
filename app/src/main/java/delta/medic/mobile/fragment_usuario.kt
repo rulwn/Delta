@@ -143,8 +143,8 @@ class fragment_usuario : Fragment() {
         val imgvHistorialCitas = root.findViewById<ImageView>(R.id.imgvHistCitas)
         val imgvMisReseñas = root.findViewById<ImageView>(R.id.imgvMisReseñas)
         //Labels
-        val lbNombre = root.findViewById<TextView>(R.id.lbNombrePerfil)
-        val lbCorreo = root.findViewById<TextView>(R.id.lbCorreoPerfil)
+        val lbNombre = root.findViewById<TextView>(R.id.txtPrivacidadySeguridad)
+        val lbCorreo = root.findViewById<TextView>(R.id.txtNotificaciones)
         val lbPersonalizar = root.findViewById<TextView>(R.id.lbPersonalizarPerfil)
         val lbSeguro = root.findViewById<TextView>(R.id.lbSeguroPerfil)
         val lbPerfil = root.findViewById<TextView>(R.id.lbPerfil)

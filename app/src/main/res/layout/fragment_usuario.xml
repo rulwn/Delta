@@ -37,7 +37,7 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/foto_redonda"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@+id/lbNombrePerfil"
+        app:layout_constraintBottom_toTopOf="@+id/txtPrivacidadySeguridad"
         app:layout_constraintEnd_toEndOf="parent"
 
         app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +45,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/lbNombrePerfil"
+        android:id="@+id/txtPrivacidadySeguridad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
@@ -61,16 +61,16 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
-        android:id="@+id/lbCorreoPerfil"
+        android:id="@+id/txtNotificaciones"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
         android:fontFamily="@font/poppins_regular"
         android:text="correo@example.delta"
         android:textColor="@color/Azul1"
-        app:layout_constraintEnd_toEndOf="@+id/lbNombrePerfil"
-        app:layout_constraintStart_toStartOf="@+id/lbNombrePerfil"
-        app:layout_constraintTop_toBottomOf="@+id/lbNombrePerfil" />
+        app:layout_constraintEnd_toEndOf="@+id/txtPrivacidadySeguridad"
+        app:layout_constraintStart_toStartOf="@+id/txtPrivacidadySeguridad"
+        app:layout_constraintTop_toBottomOf="@+id/txtPrivacidadySeguridad" />
 
     <ImageView
         android:id="@+id/imgvSeguroPerfil"
