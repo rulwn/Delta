@@ -45,7 +45,7 @@ class activity_privacidadyseguridad : AppCompatActivity() {
         val txtTerminos17 = findViewById<TextView>(R.id.txtTerminos17)
         val txtTerminos18 = findViewById<TextView>(R.id.txtTerminos18)
         val txtTerminos19 = findViewById<TextView>(R.id.txtTerminos19)
-        val txtTerminos20 = findViewById<TextView>(R.id.txtTerminos21)
+        val txtTerminos20 = findViewById<TextView>(R.id.txtTerminos20)
         val txtTerminos21 = findViewById<TextView>(R.id.txtTerminos21)
         val txtTerminos22 = findViewById<TextView>(R.id.txtTerminos22)
         val txtTerminos23 = findViewById<TextView>(R.id.txtTerminos23)
