@@ -42,14 +42,14 @@ class activity_register4 : AppCompatActivity() {
         val num6edit = findViewById<EditText>(R.id.num6edit)
 
         num1edit.addTextChangedListener {
-            text ->
-            if(num1edit.text.toString() != ""){
-                num2edit.requestFocus()
-            }
-        }
-
-        num2edit.addTextChangedListener {
                 text ->
+
+                if(num1edit.text.toString() != ""){
+                    num2edit.requestFocus()
+                }
+            }
+        num2edit.addTextChangedListener {
+            text ->
             num3edit.requestFocus()
         }
         num3edit.addTextChangedListener {
@@ -115,22 +115,23 @@ class activity_register4 : AppCompatActivity() {
             var intentoNum = intento.toInt()
            if(intentoNum == activity_register1.variablesLogin.codigoautenticacion) {
                CoroutineScope(Dispatchers.IO).launch{
-                   val objConexion = ClaseConexion().cadenaConexion()
-                   val agregarUsuario = objConexion?.prepareStatement("insert into tbUsuarios values(?,?,?,?,?,?,?,?,?,?,?,?)")!!
-                   agregarUsuario.setInt(1,1)
-                   agregarUsuario.setString(2, activity_register1.nombre)
-                   agregarUsuario.setString(3,activity_register1.apellido)
-                   agregarUsuario.setString(4,activity_register1.email)
-                   agregarUsuario.setString(5, Encrypter().encrypt(activity_register1.clave))
-                   agregarUsuario.setString(6,activity_register1.direccion)
-                   agregarUsuario.setString(7,activity_register1.telefono)
-                   agregarUsuario.setString(8, activity_register1.sexo)
-                   agregarUsuario.setString(9, activity_register1.fechaNacimiento)
-                   agregarUsuario.setString(10, activity_register1.imgUsuario)
-                   agregarUsuario.setInt(11, 3)
-                   agregarUsuario.setInt(12, activity_register1.idAseguradora)
-                   agregarUsuario.executeUpdate()
-                   objConexion.commit()
+                   try {
+                       val objConexion = ClaseConexion().cadenaConexion()
+                       val agregarUsuario = objConexion?.prepareStatement("insert into tbUsuarios (nombreusuario, apellidousuario,emailusuario,contrasena,direccion,telefonousuario,sexo,fechanacimiento,imgusuario,id_TipoUsuario) values(?,?,?,?,?,?,?,?,?)")!!
+                       agregarUsuario.setString(1, activity_register1.nombre)
+                       agregarUsuario.setString(2,activity_register1.apellido)
+                       agregarUsuario.setString(3,activity_register1.email)
+                       agregarUsuario.setString(4, Encrypter().encrypt(activity_register1.clave))
+                       agregarUsuario.setString(5,activity_register1.direccion)
+                       agregarUsuario.setString(6,activity_register1.telefono)
+                       agregarUsuario.setString(7, activity_register1.sexo)
+                       agregarUsuario.setString(8, activity_register1.fechaNacimiento)
+                       agregarUsuario.setString(9, activity_register1.imgUsuario)
+                       agregarUsuario.executeUpdate()
+                       objConexion.commit()
+                   } catch (e: Exception) {
+                       println("Error: $e")
+                   }
                }
            } else {
                Toast.makeText(this, "Codigo de verificacion incorrecto", Toast.LENGTH_SHORT).show()
