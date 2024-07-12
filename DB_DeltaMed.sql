@@ -78,19 +78,6 @@ select * from tbRecetas;
 
 *************************************************************************************************/
 
-CREATE TABLE tbSeguros (
-    ID_Seguro INT PRIMARY KEY,
-    carnetSeguro VARCHAR2(20) NOT NULL UNIQUE,
-    poliza VARCHAR2(60) NOT NULL UNIQUE,
-    ID_Aseguradora INT NOT NULL,
-    
-    --CONSTRAINTS------------------
-    CONSTRAINT FK_Aseguradora_Seguro FOREIGN KEY (ID_Aseguradora) 
-    REFERENCES tbAseguradoras(ID_Aseguradora)
-    ON DELETE CASCADE
-);
-select * from tbSeguros;
-
 CREATE TABLE tbUsuarios (
     ID_Usuario INT PRIMARY KEY,
     nombreUsuario VARCHAR2(50) NOT NULL,
@@ -103,18 +90,31 @@ CREATE TABLE tbUsuarios (
     fechaNacimiento date NOT NULL,
     imgUsuario BLOB,
     ID_TipoUsuario INT NOT NULL,
-    ID_Seguro INT NOT NULL,
     
     --CONSTRAINTS------------------
     CONSTRAINT FK_TipoUsuario FOREIGN KEY (ID_TipoUsuario) 
     REFERENCES tbTipoUsuarios(ID_TipoUsuario)
-    ON DELETE CASCADE,
-    
-    CONSTRAINT FK_Seguro FOREIGN KEY (ID_Seguro) 
-    REFERENCES tbSeguros(ID_Seguro)
     ON DELETE CASCADE
 );
 select * from tbUsuarios;
+
+CREATE TABLE tbSeguros (
+    ID_Seguro INT PRIMARY KEY,
+    carnetSeguro VARCHAR2(20) NOT NULL UNIQUE,
+    poliza VARCHAR2(60) NOT NULL UNIQUE,
+    ID_Aseguradora INT NOT NULL,
+    ID_Usuario INT NOT NULL,
+    
+    --CONSTRAINTS------------------
+    CONSTRAINT FK_Aseguradora_Seguro FOREIGN KEY (ID_Aseguradora) 
+    REFERENCES tbAseguradoras(ID_Aseguradora)
+    ON DELETE CASCADE,
+    
+    CONSTRAINT FK_Seguro FOREIGN KEY (ID_Usuario) 
+    REFERENCES tbUsuarios(ID_Usuario)
+    ON DELETE CASCADE
+);
+select * from tbSeguros;
 
 CREATE TABLE tbDoctores (
     ID_Doctor INT PRIMARY KEY,
@@ -785,24 +785,24 @@ INSERT ALL
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
-    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora) VALUES ('TOEWQ12', 'PRIMER2', 1)
-    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora) VALUES ('ABCD1234', 'POLIZA1', 2)
-    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora) VALUES ('EFGH5678', 'POLIZA2', 3)
-    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora) VALUES ('IJKL9101', 'POLIZA3', 4)
-    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora) VALUES ('MNOP2345', 'POLIZA4', 5)
+    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('TOEWQ12', 'PRIMER2', 1, 1)
+    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('ABCD1234', 'POLIZA1', 2, 2)
+    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('EFGH5678', 'POLIZA2', 3, 4)
+    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('IJKL9101', 'POLIZA3', 4, 3)
+    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('MNOP2345', 'POLIZA4', 5, 5)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
-    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario, ID_Seguro)
-        VALUES ('Francisco', 'Mejía', 'fran@gmail.com', '12345', 'San Salvador', '6143-1352', 'M', '20/02/1980', NULL, 1, 1)
-    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario, ID_Seguro)
-        VALUES ('Steven', 'Palacios', 'venosin@gmail.com', 'steven', 'Ciudad Arce', '2245-9312', 'M', '15/07/1999', NULL, 1, 1)
-    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario, ID_Seguro)
-        VALUES ('Xavier', 'Torres', 'xam@gmail.com', '123xam', 'Ciudad Delgado', '1292-1275', 'F', '11/01/2007', NULL, 2, 1)
-    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario, ID_Seguro)
-        VALUES ('Dennis', 'Alexander', 'darv@gmail.com', 'dennis123', 'Villa Olimpica', '6294-0283', 'M', '20/02/2000', NULL, 2, 1)
-    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario, ID_Seguro)
-        VALUES ('Hector', 'Gallardo', 'hector@gmail.com', 'rocah123', 'La Paz', '8723-1293', 'M', '25/08/2000', NULL, 1, 1)
+    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
+        VALUES ('Francisco', 'Mejía', 'fran@gmail.com', '12345', 'San Salvador', '6143-1352', 'M', '20/02/1980', NULL, 1)
+    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
+        VALUES ('Steven', 'Palacios', 'venosin@gmail.com', 'steven', 'Ciudad Arce', '2245-9312', 'M', '15/07/1999', NULL, 1)
+    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
+        VALUES ('Xavier', 'Torres', 'xam@gmail.com', '123xam', 'Ciudad Delgado', '1292-1275', 'F', '11/01/2007', NULL, 2)
+    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
+        VALUES ('Dennis', 'Alexander', 'darv@gmail.com', 'dennis123', 'Villa Olimpica', '6294-0283', 'M', '20/02/2000', NULL, 2)
+    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
+        VALUES ('Hector', 'Gallardo', 'hector@gmail.com', 'rocah123', 'La Paz', '8723-1293', 'M', '25/08/2000', NULL, 1)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -895,6 +895,7 @@ INSERT ALL
     INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
          VALUES (5, TO_DATE('2023-01-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-05 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada', 10, 5)
 SELECT DUMMY FROM DUAL;
+select * from tbCitasMedicas;
 
 COMMIT;
 
