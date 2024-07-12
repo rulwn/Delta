@@ -65,7 +65,7 @@ class fragment_controlCitas : Fragment() {
             val dateFormat = SimpleDateFormat("yyyy-MM-dd")
             val fechaFormateada = dateFormat.format(selectedDate)
             println("Fecha seleccionada: $fechaFormateada")
-            val Citas = obtenerDiaCita()
+
         }
         return root
     }

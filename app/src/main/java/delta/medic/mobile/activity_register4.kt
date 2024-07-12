@@ -117,7 +117,7 @@ class activity_register4 : AppCompatActivity() {
                CoroutineScope(Dispatchers.IO).launch{
                    try {
                        val objConexion = ClaseConexion().cadenaConexion()
-                       val agregarUsuario = objConexion?.prepareStatement("insert into tbUsuarios (nombreusuario, apellidousuario,emailusuario,contrasena,direccion,telefonousuario,sexo,fechanacimiento,imgusuario,id_TipoUsuario) values(?,?,?,?,?,?,?,?,?)")!!
+                       val agregarUsuario = objConexion?.prepareStatement("insert into tbUsuarios (nombreusuario, apellidousuario,emailusuario,contrasena,direccion,telefonousuario,sexo,fechanacimiento,imgusuario,id_TipoUsuario) values(?,?,?,?,?,?,?,?,?,?)")!!
                        agregarUsuario.setString(1, activity_register1.nombre)
                        agregarUsuario.setString(2,activity_register1.apellido)
                        agregarUsuario.setString(3,activity_register1.email)
@@ -127,10 +127,15 @@ class activity_register4 : AppCompatActivity() {
                        agregarUsuario.setString(7, activity_register1.sexo)
                        agregarUsuario.setString(8, activity_register1.fechaNacimiento)
                        agregarUsuario.setString(9, activity_register1.imgUsuario)
+                       agregarUsuario.setInt(10,3)
                        agregarUsuario.executeUpdate()
                        objConexion.commit()
                    } catch (e: Exception) {
                        println("Error: $e")
+                   }
+                   withContext(Dispatchers.Main){
+                     //poner aqui el cambio de pantallas
+
                    }
                }
            } else {
