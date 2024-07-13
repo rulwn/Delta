@@ -74,6 +74,12 @@ class activity_busqueda : AppCompatActivity() {
             txtSearch.text.clear()
             finish()
         }
+
+        // Recibir el término de búsqueda desde el Intent
+        intent.getStringExtra("query")?.let {
+            txtSearch.setText(it)
+            performSearch(it)
+        }
     }
 
     private fun performSearch(query: String) {
@@ -87,9 +93,8 @@ class activity_busqueda : AppCompatActivity() {
                 replace(R.id.main, fragment)
                 addToBackStack(null)
             }
-        } catch (e: Exception){
+        } catch (e: Exception) {
             println("Este es el error ${e.message}")
         }
-
     }
 }
