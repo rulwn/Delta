@@ -10,16 +10,15 @@
     tools:context=".activity_privacidadyseguridad">
 
     <LinearLayout
+        android:id="@+id/linearLayout5"
         android:layout_width="match_parent"
         android:layout_height="34dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/themeRadioGroup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        >
+        app:layout_constraintVertical_bias="0.0">
 
         <ImageView
             android:id="@+id/btnRegresar"
@@ -31,6 +30,7 @@
             app:srcCompat="@drawable/ic_arrow_back" />
 
         <TextView
+            android:id="@+id/txtPrivacidad"
             android:layout_width="128dp"
             android:layout_height="25dp"
             android:layout_gravity="center"
@@ -42,40 +42,232 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ScrollView
+        android:id="@+id/ScrollPrivacidad"
+        android:layout_width="match_parent"
+        android:layout_height="780dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="32dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/acuerdos" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/acuerdos2" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/acuerdos3" />
+            <TextView
+                android:id="@+id/txtTerminos1"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:text="Términos de Privacidad y Seguridad"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtTerminos2"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:text="Última actualización: 11/07/2024"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtTerminos3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="Gracias por utilizar nuestra aplicación DeltaMedic. La privacidad y seguridad de sus datos personales son de suma importancia para nosotros. A continuación, detallamos cómo recopilamos, utilizamos y protegemos su información:"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtTerminos4"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_marginTop="10dp"
+                android:text="1. Información Recopilada:"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtTerminos5"
+                android:layout_width="match_parent"
+                android:layout_height="96dp"
+                android:text="Información Personal: Recopilamos información personal que usted proporciona voluntariamente, como nombre, fecha de nacimiento, dirección de correo electrónico, historial médico, síntomas, y cualquier otra información relevante para su salud."
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtTerminos6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Información de Uso: Podemos recopilar información sobre cómo interactúa con la aplicación, incluidos registros de acceso, actividades realizadas y preferencias de uso."
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtTerminos7"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_marginTop="10dp"
+                android:text="2. Uso de la Información:  "
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtTerminos8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Utilizamos la información recopilada para proporcionar servicios médicos personalizados, incluyendo diagnósticos, recomendaciones de salud, recordatorios de medicación y seguimiento de síntomas."
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtTerminos9"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="5dp"
+                android:text="La información también puede ser utilizada para mejorar nuestros servicios, personalizar su experiencia y comunicarnos con usted sobre actualizaciones y novedades de la aplicación."
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtTerminos10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="3. Compartición de Información:  "
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtTerminos11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="No compartiremos su información personal con terceros sin su consentimiento explícito, excepto cuando sea necesario para cumplir con la ley, proteger nuestros derechos o en situaciones que requieran asistencia médica urgente. "
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtTerminos12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Podemos compartir datos anónimos y agregados con fines estadísticos y de investigación. "
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtTerminos13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="4. Seguridad de los Datos:"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtTerminos14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Implementamos medidas de seguridad técnicas y organizativas adecuadas para proteger su información personal contra accesos no autorizados, uso indebido o divulgación."
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtTerminos15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Regularmente revisamos nuestras prácticas de seguridad y actualizamos nuestros sistemas para mantener la integridad y confidencialidad de sus datos."
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtTerminos16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="5. Acceso y Control:"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtTerminos17"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Usted tiene derecho a acceder, corregir o eliminar su información personal en cualquier momento."
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtTerminos18"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Puede optar por no recibir comunicaciones promocionales por correo electrónico siguiendo las instrucciones proporcionadas en dichas comunicaciones."
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtTerminos19"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="6. Menores de Edad:"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtTerminos20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Nuestra aplicación está destinada a personas mayores de 18 años. No recopilamos intencionalmente información de menores sin consentimiento verificable de sus padres o tutores legales."
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtTerminos21"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="7. Cambios en la Política de Privacidad:"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtTerminos22"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Nos reservamos el derecho de modificar esta Política de Privacidad en cualquier momento. Se le notificará cualquier cambio significativo mediante una notificación dentro de la aplicación o por otros medios adecuados."
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtTerminos23"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="8. Contacto:"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtTerminos24"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Si tiene preguntas o inquietudes sobre nuestros términos de privacidad y seguridad, o sobre cómo manejamos su información personal, no dude en contactarnos a través de [correo electrónico de contacto]."
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtTerminos25"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Al utilizar DeltaMedic, usted acepta los términos de esta Política de Privacidad. Gracias por confiar en nosotros con su información personal y por utilizar nuestros servicios para mejorar su salud y bienestar."
+                android:textSize="16sp" />
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

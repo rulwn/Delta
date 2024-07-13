@@ -22,12 +22,12 @@ import delta.medic.mobile.databinding.ActivityMainBinding
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import delta.medic.mobile.activity_login.UserData.userEmail
 
 class MainActivity : AppCompatActivity() {
-
-    private var prueba: String = "Prueba"
 
     private lateinit var binding: ActivityMainBinding
 
@@ -65,11 +65,13 @@ class MainActivity : AppCompatActivity() {
         val icBusquedaRapida = findViewById<ImageView>(R.id.imgIconoFastSearch)
         icBusquedaRapida.setOnClickListener {
             //findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.fragment_busquedaRapidaHombre)
-            supportFragmentManager.beginTransaction().apply {
+            /*supportFragmentManager.beginTransaction().apply {
                 replace(R.id.nav_host_fragment_activity_main, fragment_busquedaRapidaHombre())
                 addToBackStack(null)
                 commit()
-            }
+            }*/
+            val intent = Intent(this, activity_busqueda_rapida_hombre::class.java)
+            startActivity(intent)
         }
 
         if (intent.getBooleanExtra("ir_atras", false)) {
@@ -79,7 +81,6 @@ class MainActivity : AppCompatActivity() {
 
         if (intent.getBooleanExtra("go_back", false)) {
             navController.navigate(R.id.fragment_inicio)
-            finish()
         }
     }
 

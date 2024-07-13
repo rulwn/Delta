@@ -1,10 +1,12 @@
 package delta.medic.mobile
 
 import android.os.Bundle
+import android.text.Html
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,6 +36,8 @@ class fragment_notificaciones : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_notificaciones, container, false)
+        val lbNotificaciones = root.findViewById<TextView>(R.id.lbNotis)
+        lbNotificaciones.setText(Html.fromHtml(getResources().getString(R.string.lbNotificacionesSub)))
         return root
     }
 

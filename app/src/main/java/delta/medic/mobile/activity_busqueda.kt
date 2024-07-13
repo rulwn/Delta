@@ -50,39 +50,51 @@ class activity_busqueda : AppCompatActivity() {
         rvRecentSearches.adapter = adapter
 
         txtSearch.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_UP) {
-                if (event.rawX >= (txtSearch.right - txtSearch.compoundDrawables[2].bounds.width())) {
-                    val query = txtSearch.text.toString()
-                    if (query.isNotEmpty()) {
-                        recentSearches.add(query)
-                        adapter.notifyDataSetChanged()
-                        performSearch(query)
-                    } else {
-                        Toast.makeText(this, "Ingrese un término de búsqueda", Toast.LENGTH_SHORT).show()
+            try {
+                if (event.action == MotionEvent.ACTION_UP) {
+                    if (event.rawX >= (txtSearch.right - txtSearch.compoundDrawables[2].bounds.width())) {
+                        val query = txtSearch.text.toString()
+                        if (query.isNotEmpty()) {
+                            recentSearches.add(query)
+                            adapter.notifyDataSetChanged()
+                            performSearch(query)
+                        } else {
+                            Toast.makeText(this, "Ingrese un término de búsqueda", Toast.LENGTH_SHORT).show()
+                        }
+                        return@setOnTouchListener true
                     }
-                    return@setOnTouchListener true
                 }
+            } catch (e: Exception) {
+                println("Este es el error ${e.message}")
             }
             false
         }
 
         imgCerrar.setOnClickListener {
             txtSearch.text.clear()
-            val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("ir_atras", true)
-            startActivity(intent)
+            finish()
+        }
+
+
+        intent.getStringExtra("query")?.let {
+            txtSearch.setText(it)
+            performSearch(it)
         }
     }
 
     private fun performSearch(query: String) {
-        val fragment = fragment_Resultados().apply {
-            arguments = Bundle().apply {
-                putString("query", query)
+        try {
+            val fragment = fragment_Resultados().apply {
+                arguments = Bundle().apply {
+                    putString("query", query)
+                }
             }
-        }
-        supportFragmentManager.commit {
-            replace(R.id.main, fragment)
-            addToBackStack(null)
+            supportFragmentManager.commit {
+                replace(R.id.main, fragment)
+                addToBackStack(null)
+            }
+        } catch (e: Exception) {
+            println("Este es el error ${e.message}")
         }
     }
 }

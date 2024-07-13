@@ -20,6 +20,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class activity_login : AppCompatActivity() {
+    companion object UserData{
+        lateinit var userEmail: String
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -35,12 +39,16 @@ class activity_login : AppCompatActivity() {
         val txtClave = findViewById<EditText>(R.id.txtClave)
         val btnContinuar = findViewById<Button>(R.id.btnContinuar)
         btnContinuar.setOnClickListener {
-          CoroutineScope(Dispatchers.Main).launch {
+
+            /*CoroutineScope(Dispatchers.Main).launch {
              val inicio = inicioSesion(txtEmail.text.toString(), txtClave.text.toString())
               if (inicio) {
                   println("SI FUNCIONO")
               }
-          }
+          }*/
+            userEmail = txtEmail.text.toString()
+            val mainActivity = Intent(this, MainActivity::class.java)
+            startActivity(mainActivity)
         }
 
         val txtNotienecuenta = findViewById<TextView>(txtNoTienesCuenta)

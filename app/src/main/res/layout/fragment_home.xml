@@ -22,7 +22,8 @@
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
         android:layout_width="393dp"
-        android:layout_height="73dp"
+        android:layout_height="60dp"
+        android:scrollbarSize="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -33,7 +34,77 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnDolordeCabeza"
+                style="@style/Widget.Material3.Button.ElevatedButton"
+                android:layout_width="225dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@color/white"
+                android:fontFamily="@font/poppins_medium"
+                android:foregroundTint="#FFFFFF"
+                android:text="🤕 Dolor de cabeza"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:cornerRadius="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.864"
+                app:strokeColor="@color/GrisAzulito"
+                app:strokeWidth="0.5dp" />
+
+            <Button
+                android:id="@+id/btnNauseas"
+                style="@style/Widget.Material3.Button.ElevatedButton"
+                android:layout_width="160dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@color/white"
+                android:fontFamily="@font/poppins_medium"
+                android:foregroundTint="#FFFFFF"
+                android:text="🤢 Nauseas"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:cornerRadius="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.864"
+                app:strokeColor="@color/GrisAzulito"
+                app:strokeWidth="0.5dp" />
+
+            <Button
+                android:id="@+id/btnTemperatura"
+                style="@style/Widget.Material3.Button.ElevatedButton"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@color/white"
+                android:fontFamily="@font/poppins_medium"
+                android:foregroundTint="#FFFFFF"
+                android:text="🤒 Temperatura"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:cornerRadius="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.864"
+                app:strokeColor="@color/GrisAzulito"
+                app:strokeWidth="0.5dp" />
+
+        </LinearLayout>
     </HorizontalScrollView>
 
     <TextView
@@ -156,13 +227,14 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
-        android:id="@+id/text_home"
+        android:id="@+id/txtBienvenido"
         android:layout_width="360dp"
         android:layout_height="45dp"
-        android:layout_marginStart="25dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="75dp"
         android:layout_marginEnd="25dp"
         android:fontFamily="@font/poppins_bold"
+        android:text="Bienvenido "
         android:textAlignment="viewStart"
         android:textColor="#FFFFFF"
         android:textSize="26sp"
@@ -171,8 +243,7 @@
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        android:text="Bienvenido " />
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
