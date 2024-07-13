@@ -65,13 +65,13 @@ class fragment_notificaciones : Fragment() {
                     statement.setInt(1, 1) // aqui asumo q 1 es el numero de tipo de usuario
                     val resultSet = statement.executeQuery()
                     while (resultSet.next()) {
-                        val idNotis = resultSet.getInt("ID_Notificacion")
+                        val id = resultSet.getInt("ID_Notificacion")
                         val title = resultSet.getString("title")
                         val subtitle = resultSet.getString("subtitle")
                         val type = resultSet.getString("type")
                         val date = resultSet.getString("date")
                         val userId = resultSet.getInt("ID_Usuario")
-                        val notification = dataClassNotis(idNotis, title, subtitle, type, date, userId)
+                        val notification = dataClassNotis(id, title, subtitle, type, date, userId)
                         notifications.add(notification)
                     }
                     resultSet.close()
