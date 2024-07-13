@@ -14,16 +14,20 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/specialtiesTextView"
+            android:id="@+id/specialtiesTitleTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Especialidades"
+            android:text="Especialidades:"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/Azul3"
             android:fontFamily="@font/poppins_semibold"
+            android:textColor="@color/black"/>
 
-            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/specialtiesRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp" />
     </LinearLayout>
 
 </FrameLayout>

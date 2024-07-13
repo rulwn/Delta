@@ -23,6 +23,9 @@
             android:name=".item_sintomas"
             android:exported="false" />
         <activity
+            android:name=".activity_item_especialidad"
+            android:exported="false" />
+        <activity
             android:name=".activity_busqueda_rapida_mujer"
             android:exported="false"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
@@ -125,7 +128,7 @@
         <activity
             android:name=".activity_login"
             android:exported="true"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" >
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
