@@ -17,7 +17,7 @@
         app:layout_constraintVertical_bias="0.645">
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/editTextText1"
             android:layout_width="315dp"
             android:layout_height="49dp"
             android:ems="10"
@@ -31,7 +31,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/textView71"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_regular"
@@ -83,7 +83,7 @@
         app:layout_constraintVertical_bias="0.292">
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/editTextText2"
             android:layout_width="315dp"
             android:layout_height="49dp"
             android:ems="10"
@@ -97,7 +97,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/textView72"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_regular"
@@ -121,7 +121,7 @@
         app:layout_constraintVertical_bias="0.414">
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/editTextText3"
             android:layout_width="315dp"
             android:layout_height="49dp"
             android:ems="10"
@@ -135,7 +135,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/textView73"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_regular"
