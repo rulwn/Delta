@@ -75,7 +75,7 @@ class activity_busqueda : AppCompatActivity() {
             finish()
         }
 
-        // Recibir el término de búsqueda desde el Intent
+
         intent.getStringExtra("query")?.let {
             txtSearch.setText(it)
             performSearch(it)

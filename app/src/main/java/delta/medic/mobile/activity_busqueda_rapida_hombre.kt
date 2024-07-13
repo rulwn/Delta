@@ -52,8 +52,7 @@ class activity_busqueda_rapida_hombre : AppCompatActivity() {
 
             isChestArea(x, y) -> listOf("Cardiología", "Torax")
             isHeadArea(x, y) -> listOf("Neurología", "Otorrinolaringología")
-            // Agrega más áreas del cuerpo según sea necesario
-            else -> emptyList()
+              else -> emptyList()
 
         }
         if (specialties.isNotEmpty()) {
