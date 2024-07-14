@@ -175,7 +175,7 @@ class fragment_usuario : Fragment() {
         }
         lbPersonalizar.setOnClickListener{
             val activityEditarPerfil = Intent(requireContext(), activity_editarperfil::class.java)
-            activityEditarPerfil.putExtra("usuariorecibido",listaUsuario.toString().)
+            activityEditarPerfil.putExtra("usuariorecibido",listaUsuario.toString())
             startActivity(activityEditarPerfil)
         }
         imgvSeguro.setOnClickListener {
