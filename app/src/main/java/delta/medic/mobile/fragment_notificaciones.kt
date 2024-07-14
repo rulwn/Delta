@@ -37,7 +37,6 @@ class fragment_notificaciones : Fragment() {
                 recyclerView.adapter = adapter
             }
         }
-
         return root
     }
 

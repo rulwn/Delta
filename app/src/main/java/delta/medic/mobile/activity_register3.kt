@@ -17,6 +17,7 @@ import android.widget.TextView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.mail.internet.InternetAddress
 
 class activity_register3 : AppCompatActivity() {
 
@@ -58,6 +59,7 @@ class activity_register3 : AppCompatActivity() {
 
 
             CoroutineScope(Dispatchers.Main).launch {
+                println("Correo enviado ${activity_register1.variablesLogin.email}")
                 EmailSender().enviarCorreo(activity_register1.variablesLogin.email, "Codigo de verificacion delta", "${activity_register1.variablesLogin.codigoautenticacion}")
             }
 
