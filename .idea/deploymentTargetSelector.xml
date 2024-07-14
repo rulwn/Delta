@@ -2,7 +2,6 @@
 <project version="4">
   <component name="deploymentTargetSelector">
     <selectionStates>
-
       <SelectionState runConfigName="activity_busqueda">
         <option name="selectionMode" value="DROPDOWN" />
         <DropdownSelection timestamp="2024-07-14T00:52:32.261707100Z">
@@ -14,9 +13,8 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="app">
+      <SelectionState runConfigName="delta">
         <option name="selectionMode" value="DROPDOWN" />
-
       </SelectionState>
     </selectionStates>
   </component>
