@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.androidx.tracing.perfetto.handshake)
     implementation(libs.play.services.maps)
     implementation(libs.firebase.auth.ktx)
+    implementation(libs.androidx.material3.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

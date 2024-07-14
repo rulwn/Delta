@@ -10,10 +10,11 @@
     tools:context=".activity_configuracion">
 
     <LinearLayout
+        android:id="@+id/LinearConfiguracion"
         android:layout_width="match_parent"
-        android:layout_height="34dp"
-        android:orientation="horizontal"
+        android:layout_height="60dp"
         android:layout_marginTop="30dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -32,13 +33,13 @@
         <TextView
             android:id="@+id/txtConfiguracion"
             android:layout_width="210dp"
-            android:layout_height="27dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             android:fontFamily="@font/poppins_semibold"
             android:text="Configuración"
             android:textAllCaps="false"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="28sp" />
 
     </LinearLayout>
 
@@ -57,7 +58,7 @@
         app:layout_constraintVertical_bias="1.0">
 
         <ImageView
-            android:id="@+id/imgvPersonalizarPerfil"
+            android:id="@+id/imgvPerfil"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="82dp"
@@ -97,14 +98,14 @@
         app:layout_constraintVertical_bias="1.0">
 
         <ImageView
-            android:id="@+id/imageView10"
+            android:id="@+id/imgvNoti"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="65dp"
             app:srcCompat="@drawable/ic_notificaciones" />
 
         <TextView
-            android:id="@+id/lbCorreoUsuario"
+            android:id="@+id/txtNotiiii"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -137,7 +138,7 @@
         app:layout_constraintVertical_bias="1.0">
 
         <ImageView
-            android:id="@+id/imageView11"
+            android:id="@+id/imgvAyuda"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="55dp"
@@ -177,7 +178,7 @@
         app:layout_constraintVertical_bias="1.0">
 
         <ImageView
-            android:id="@+id/imgvFotoPerfil"
+            android:id="@+id/imgvPriv"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="30dp"
@@ -190,7 +191,7 @@
             app:srcCompat="@drawable/ic_privacidad" />
 
         <TextView
-            android:id="@+id/lbNombreUsuario"
+            android:id="@+id/txtPrivacidadySeguridad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -227,10 +228,10 @@
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.502">
+        app:layout_constraintVertical_bias="0.6">
 
         <ImageView
-            android:id="@+id/imageView15"
+            android:id="@+id/imgvApariencia"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="79dp"
