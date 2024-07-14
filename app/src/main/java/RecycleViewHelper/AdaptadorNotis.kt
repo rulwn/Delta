@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import delta.medic.mobile.R
 
+
 class AdaptadorNotis (private val notificaciones: List<dataClassNotis>) : RecyclerView.Adapter<AdaptadorNotis.NotificacionViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificacionViewHolder {
@@ -42,7 +43,7 @@ class AdaptadorNotis (private val notificaciones: List<dataClassNotis>) : Recycl
                 "R" -> R.drawable.ic_reminder
                 "C" -> R.drawable.ic_confirmation
                 "P" -> R.drawable.ic_pdf
-                else -> R.drawable.ic_notificaciones
+                else -> R.drawable.ic_default
             })
         }
     }

@@ -17,6 +17,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:text="Title"
             android:textColor="@android:color/holo_red_dark"
             android:textStyle="bold"
             android:fontFamily="@font/poppins_bold"
@@ -26,6 +27,7 @@
             android:id="@+id/notificationIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/ic_alert"
             android:contentDescription="@string/alert_icon"/>
     </LinearLayout>
 
@@ -33,6 +35,7 @@
         android:id="@+id/notificationSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Subtitle"
         android:textColor="@android:color/black"
         android:layout_marginTop="8dp"
         android:textStyle="normal"
