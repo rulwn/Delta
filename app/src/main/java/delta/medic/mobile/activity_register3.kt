@@ -53,7 +53,6 @@ class activity_register3 : AppCompatActivity() {
             startActivity(intent)
 
         }
-
         btnOmitir.setOnClickListener {
             activity_register1.variablesLogin.imgUsuario = "no hay imagen"
 

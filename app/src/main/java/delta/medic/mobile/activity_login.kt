@@ -1,9 +1,11 @@
 package delta.medic.mobile
 
 import Modelo.ClaseConexion
+import Modelo.Encrypter
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -40,15 +42,21 @@ class activity_login : AppCompatActivity() {
         val btnContinuar = findViewById<Button>(R.id.btnContinuar)
         btnContinuar.setOnClickListener {
 
-            /*CoroutineScope(Dispatchers.Main).launch {
-             val inicio = inicioSesion(txtEmail.text.toString(), txtClave.text.toString())
+            CoroutineScope(Dispatchers.Main).launch {
+                val intentoClave =  Encrypter().encrypt(txtClave.text.toString())
+             val inicio = inicioSesion(txtEmail.text.toString(), intentoClave)
               if (inicio) {
-                  println("SI FUNCIONO")
+                  Log.wtf("Intento de inicio","Sesion iniciada")
+                  userEmail = txtEmail.text.toString()
+
+              } else {
+                  withContext(Dispatchers.Main){
+                      Toast.makeText(this@activity_login, "", Toast.LENGTH_SHORT).show()
+                  }
               }
-          }*/
-            userEmail = txtEmail.text.toString()
-            val mainActivity = Intent(this, MainActivity::class.java)
-            startActivity(mainActivity)
+          }
+
+
         }
 
         val txtNotienecuenta = findViewById<TextView>(txtNoTienesCuenta)
@@ -59,10 +67,10 @@ class activity_login : AppCompatActivity() {
     }
     private suspend fun inicioSesion(correo: String, clave:String): Boolean{
         //Las funciones suspend se pueden llamar desde otras corrutinas u otras funciones de suspension
-        return withContext(Dispatchers.IO) {//Significa que todo se ejecuta en el hilo IO
+        return withContext(Dispatchers.IO) {//Significa que la funcion se ejecuta en el hilo IO
             try {
                 val objConexion = ClaseConexion().cadenaConexion()
-                val buscarUsuario = objConexion?.prepareStatement("select * from test_u where Correo = ? and Clave = ?")!!
+                val buscarUsuario = objConexion?.prepareStatement("select * from tbUsuarios where emailusuario = ? and contrasena = ?")!!
                 buscarUsuario.setString(1, correo)
                 buscarUsuario.setString(2,clave)
                 val filas = buscarUsuario.executeQuery() //Filas es igual al numero de filas que el select encuentre, idealmente será solo 1

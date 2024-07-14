@@ -22,7 +22,6 @@ class activity_register1 : AppCompatActivity() {
         var sexo = ""
         var telefono = ""
         var fechaNacimiento = ""
-        var idAseguradora = 0
         var imgUsuario = ""
         val codigoautenticacion =(100000..999999).random()
     }

@@ -39,27 +39,12 @@ class activity_register2 : AppCompatActivity() {
         val rbMujer = findViewById<RadioButton>(R.id.rbMujer)
         val rbTerminos = findViewById<RadioButton>(R.id.rbTerminos)
         val txtTelefono = findViewById<EditText>(R.id.txtTelefono)
-        val spSeguro = findViewById<Spinner>(R.id.spSeguro)
         val btnSiguiente = findViewById<Button>(R.id.btnSiguiente2)
         val txtTienesUnaCuenta = findViewById<TextView>(R.id.txtTienesUnaCuenta2)
         txtTienesUnaCuenta.setOnClickListener {
             val intent = Intent(this, activity_login::class.java)
             startActivity(intent)
         }
-
-
-        CoroutineScope(Dispatchers.IO).launch{
-            val listaSeguros =obtenerSeguros()
-            withContext(Dispatchers.Main){
-                val nombreSeguro =listaSeguros.map { it.nombreAseguradora}
-                val adaptador = ArrayAdapter(this@activity_register2, android.R.layout.simple_spinner_dropdown_item, nombreSeguro)
-                spSeguro.adapter = adaptador
-
-
-            }
-        }
-
-
         val txtFechaNacimientoPaciente = findViewById<EditText>(R.id.txtFechadeNacimiento)
         txtFechaNacimientoPaciente.setOnClickListener {
             val calendario = java.util.Calendar.getInstance()
@@ -93,27 +78,11 @@ class activity_register2 : AppCompatActivity() {
                 }
                 activity_register1.variablesLogin.fechaNacimiento = txtFechaNacimientoPaciente.text.toString()
                 activity_register1.variablesLogin.telefono = txtTelefono.text.toString()
-                activity_register1.variablesLogin.idAseguradora = spSeguro.selectedItemPosition
                 val intent = Intent(this@activity_register2, activity_register3::class.java)
 
                 startActivity(intent)
             }
         }
     }
-    private suspend fun obtenerSeguros(): List<dc_Aseguradoras> {
-        return withContext(Dispatchers.IO) {
-            val objConexion = ClaseConexion().cadenaConexion()
-            val statement = objConexion?.createStatement()
-            val resultSet = statement?.executeQuery("select * from tbAseguradoras")!!
-            val lista = mutableListOf<dc_Aseguradoras>()
-            while (resultSet.next()) {
-                val id_Aseguradora = resultSet.getInt("ID_ASEGURADORA")
-                val nombreAseguradora = resultSet.getString("NOMBREASEGURADORA")
-                val valoresJuntos = dc_Aseguradoras(id_Aseguradora, nombreAseguradora)
-                lista.add(valoresJuntos)
-            }
-            Log.e("Aseguradoras obtenidas","${lista.size}")
-            lista
-        }
-    }
+
 }
