@@ -34,6 +34,7 @@ class fragment_usuario : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    lateinit var listaUsuario: dataClassUsuario
 
 
     suspend fun GetUserParameters(email: String): List<dataClassUsuario> {
@@ -65,12 +66,10 @@ class fragment_usuario : Fragment() {
                         }
 
                         val idTipoUsuario = resultSet.getInt("ID_TipoUsuario")
-                        val idSeguro = resultSet.getInt("ID_Seguro")
 
                         val userWithFullData = dataClassUsuario(
                             idUsuario, nombreUsuario, apellidoUsuario, emailUsuario, contrasena,
-                            direccion, teléfono, sexo, fechaNacimiento, imgUsuario, idTipoUsuario, idSeguro
-                        )
+                            direccion, teléfono, sexo, fechaNacimiento, imgUsuario, idTipoUsuario)
                         listaUsuarios.add(userWithFullData)
 
                     } else {
@@ -89,6 +88,8 @@ class fragment_usuario : Fragment() {
             } catch (e: Exception) {
                 println("Este es el error: ${e.message}")
             }
+
+
 
             listaUsuarios
         }
@@ -174,6 +175,7 @@ class fragment_usuario : Fragment() {
         }
         lbPersonalizar.setOnClickListener{
             val activityEditarPerfil = Intent(requireContext(), activity_editarperfil::class.java)
+            activityEditarPerfil.putExtra("usuariorecibido",listaUsuario.toString())
             startActivity(activityEditarPerfil)
         }
         imgvSeguro.setOnClickListener {

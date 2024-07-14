@@ -12,7 +12,7 @@ class AdaptadorCentro(private val items: List<dataClassCentro>) : RecyclerView.A
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nombreEspecialidad: TextView = view.findViewById(R.id.txtEspecialidad)
-        val direccionSucur: TextView = view.findViewById(R.id.txtDireccion)
+        val direccionSucur: TextView = view.findViewById(R.id.txtDireccionnn)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
