@@ -48,6 +48,8 @@ class activity_login : AppCompatActivity() {
               if (inicio) {
                   Log.wtf("Intento de inicio","Sesion iniciada")
                   userEmail = txtEmail.text.toString()
+                  val intent = Intent(this@activity_login, MainActivity::class.java)
+                  startActivity(intent)
 
               } else {
                   withContext(Dispatchers.Main){
@@ -55,8 +57,6 @@ class activity_login : AppCompatActivity() {
                   }
               }
           }
-
-
         }
 
         val txtNotienecuenta = findViewById<TextView>(txtNoTienesCuenta)

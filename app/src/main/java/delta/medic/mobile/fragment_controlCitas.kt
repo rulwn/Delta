@@ -55,25 +55,38 @@ class fragment_controlCitas : Fragment() {
         val txtRecordatorioCitas = root.findViewById<TextView>(R.id.txtRecordatorioCitas)
         rcvRecordatoriosCitas.layoutManager = LinearLayoutManager(requireContext())
         CoroutineScope(Dispatchers.IO).launch {
-            val citasDB = obtenerDatos()
-            withContext(Dispatchers.Main) {
-                val miAdaptador = AdaptadorCitas(citasDB)
-                rcvRecordatoriosCitas.adapter = miAdaptador
+            try {
+                val citasDB = obtenerDatos()
+                withContext(Dispatchers.Main) {
+                    val miAdaptador = AdaptadorCitas(citasDB)
+                    rcvRecordatoriosCitas.adapter = miAdaptador
+                }
+            } catch (e: Exception) {
+                println("Error al obtener los datos de la base de datos: ${e.message}")
             }
         }
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            val selectedDate = Calendar.getInstance().apply {
-                set(year, month, dayOfMonth)
-            }.time
-            txtRecordatorioCitas.text = "Recordatorio de citas del día ${SimpleDateFormat("dd/MM/yy", Locale.getDefault()).format(selectedDate)}"
-            val fechaFormateada = java.sql.Date(selectedDate.time)
-            println("Fecha seleccionada: $fechaFormateada")
-            CoroutineScope(Dispatchers.IO).launch {
-                val citasDelDia = obtenerDiaCita(fechaFormateada)
-                withContext(Dispatchers.Main) {
-                    val miAdaptador = AdaptadorCitas(citasDelDia)
-                    rcvRecordatoriosCitas.adapter = miAdaptador
+            try {
+                val selectedDate = Calendar.getInstance().apply {
+                    set(year, month, dayOfMonth)
+                }.time
+                txtRecordatorioCitas.text = "Recordatorio de citas del día ${
+                    SimpleDateFormat(
+                        "dd/MM/yy",
+                        Locale.getDefault()
+                    ).format(selectedDate)
+                }"
+                val fechaFormateada = java.sql.Date(selectedDate.time)
+                println("Fecha seleccionada: $fechaFormateada")
+                CoroutineScope(Dispatchers.IO).launch {
+                    val citasDelDia = obtenerDiaCita(fechaFormateada)
+                    withContext(Dispatchers.Main) {
+                        val miAdaptador = AdaptadorCitas(citasDelDia)
+                        rcvRecordatoriosCitas.adapter = miAdaptador
+                    }
                 }
+            } catch (e: Exception) {
+                println("Error al obtener los datos de la base de datos: ${e.message}")
             }
         }
         return root
