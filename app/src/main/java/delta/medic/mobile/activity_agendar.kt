@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.text.Html
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
@@ -14,6 +15,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -24,7 +26,7 @@ class activity_agendar : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_agendar)
-        requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -42,7 +44,7 @@ class activity_agendar : AppCompatActivity() {
         }
         val lbAgendarCita = findViewById<TextView>(R.id.lbAgendarCita)
         lbAgendarCita.setText(Html.fromHtml(getResources().getString(R.string.subrayado)))
-/*
+        /*
         rcvCentros.layoutManager = LinearLayoutManager(this)
         private suspend fun obtenerDatos(): List<dataClassCentro>
         {
@@ -66,22 +68,21 @@ class activity_agendar : AppCompatActivity() {
         }
 
 */
-        val layoutNoDoctor = findViewById<LinearLayout>(R.id.linearNoDoctor)
-/*
-        val btnEligeCentro = findViewById<ImageButton>(R.id.btnSelecSucursal)
+        val cardDoctor = findViewById<CardView>(R.id.linearCard)
+        val linearNoDoctor = findViewById<LinearLayout>(R.id.linearNoDoctor)
         val doctorExists = checkIfDoctorExists()
 
         if (doctorExists) {
-            layoutNoDoctor.visibility = View.GONE
-            rcvCentro.visibility = View.VISIBLE
+            linearNoDoctor.visibility = View.GONE
+            cardDoctor.visibility = View.VISIBLE
             // loadSucursalData()
         } else {
             // Doctor data is not present, show the ImageButton layout
-            layoutNoDoctor.visibility = View.VISIBLE
-            rcvCentro.visibility = View.GONE
+            linearNoDoctor.visibility = View.VISIBLE
+            cardDoctor.visibility = View.GONE
         }
 
-*/
+
         btnRegresar.setOnClickListener {
             /*val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("go_back", true)
@@ -92,6 +93,10 @@ class activity_agendar : AppCompatActivity() {
         btnContinuar.setOnClickListener {
             showCustomDialog()
         }
+    }
+
+    private fun checkIfDoctorExists(): Boolean {
+        return true
     }
 
 
@@ -112,9 +117,7 @@ class activity_agendar : AppCompatActivity() {
 
         val closeButton = dialog.findViewById<Button>(R.id.closeButton)
         closeButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("ir_atras", true)
-            startActivity(intent)
+            finish()
         }
 
         val editButton = dialog.findViewById<TextView>(R.id.editButton)
@@ -123,17 +126,11 @@ class activity_agendar : AppCompatActivity() {
         }
 
         dialog.show()
-
-
     }
 
-/*
-    private fun checkIfDoctorExists(): Boolean {
-        // Implement your logic to check if the doctor data exists
-        // For demonstration purposes, we return false to show the layoutNoDoctor
-        return false
-    }
-*/
+
+
+
     companion object {
         const val REQUEST_CODE = 1
     }

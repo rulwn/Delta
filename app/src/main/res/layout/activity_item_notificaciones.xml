@@ -13,26 +13,26 @@
         android:gravity="center_vertical">
 
         <TextView
+            android:id="@+id/notificationTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Cita cancelada para mañana a las 2:00pm"
             android:textColor="@android:color/holo_red_dark"
             android:textStyle="bold"
             android:fontFamily="@font/poppins_bold"
             android:textSize="16sp" />
 
         <ImageView
+            android:id="@+id/notificationIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_alert"
             android:contentDescription="@string/alert_icon"/>
     </LinearLayout>
 
     <TextView
+        android:id="@+id/notificationSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ver motivos"
         android:textColor="@android:color/black"
         android:layout_marginTop="8dp"
         android:textStyle="normal"

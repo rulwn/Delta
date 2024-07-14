@@ -49,14 +49,15 @@
             android:textSize="20sp" />
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:orientation="vertical"
             android:padding="4dp">
 
-            <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/linearCard"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_marginTop="5dp"
@@ -156,7 +157,7 @@
                         app:layout_constraintVertical_bias="0.891" />
 
                     <TextView
-                        android:id="@+id/txtDireccion"
+                        android:id="@+id/txtDireccionnn"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
@@ -177,7 +178,7 @@
                         android:id="@+id/txtServicios"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/txtDireccion"
+                        android:layout_below="@id/txtDireccionnn"
                         android:layout_alignParentEnd="true"
                         android:layout_marginTop="30dp"
                         android:text="Chequeo: $30.00"

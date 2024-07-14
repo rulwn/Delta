@@ -41,7 +41,7 @@ class fragment_Resultados : Fragment() {
         rcvResultados.layoutManager = LinearLayoutManager(context)
 
         arguments?.getString("query")?.let {
-            // Aquí puedes usar el query para realizar alguna búsqueda si es necesario
+           
         }
 
         suspend fun obtenerDatos(): List<dataClassCentro> {

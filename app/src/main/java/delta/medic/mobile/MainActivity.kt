@@ -50,8 +50,6 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        Toast.makeText(this, userEmail, Toast.LENGTH_SHORT).show()
-
         val icBusqueda = findViewById<ImageView>(R.id.imgIconoSearch)
         icBusqueda.setOnClickListener {
             val intent = Intent(this, activity_busqueda::class.java)
@@ -76,7 +74,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
         if (intent.getBooleanExtra("ir_atras", false)) {
             navController.navigate(R.id.fragment_inicio)
             finish()
@@ -85,39 +82,5 @@ class MainActivity : AppCompatActivity() {
         if (intent.getBooleanExtra("go_back", false)) {
             navController.navigate(R.id.fragment_inicio)
         }
-    }
-
-
-    fun makeNotification() {
-        val channelId = "CHANEL_ID_NOTIFICATION"
-        val builder = NotificationCompat.Builder(applicationContext,channelId)
-            .setSmallIcon(R.drawable.ic_notificaciones)
-            .setContentTitle("Notificación")
-            .setContentText("Texto de la notificación")
-            .setAutoCancel(true)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
-        val intent = Intent(applicationContext, activity_notificaciones_confi::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            putExtra("data", "Algunos valores")
-        }
-        val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_MUTABLE)
-        builder.setContentIntent(pendingIntent)
-
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            var notificationChannel = notificationManager.getNotificationChannel(channelId)
-            if (notificationChannel == null) {
-                val importance = NotificationManager.IMPORTANCE_HIGH
-                notificationChannel = NotificationChannel(channelId, "Descripción", importance).apply {
-                    lightColor = Color.GREEN
-                    enableVibration(true)
-                }
-                notificationManager.createNotificationChannel(notificationChannel)
-            }
-        }
-
-        notificationManager.notify(0, builder.build())
     }
 }
