@@ -40,6 +40,13 @@ class activity_cuenta_confi : AppCompatActivity() {
         val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
         val btnCambiarContra = findViewById<Button>(R.id.btnCambiarContra1)
         val txtCuenta = findViewById<TextView>(R.id.txtCuentaConfi)
+        val txtNombre = findViewById<TextView>(R.id.txtNombre)
+        val txtCorreo = findViewById<TextView>(R.id.txtCorreo)
+        val txtDireccion = findViewById<TextView>(R.id.txtDireccionnn)
+        val txtTelefono = findViewById<TextView>(R.id.txtTelefono)
+        val txtFechaNacimiento = findViewById<TextView>(R.id.txtFecha)
+        val txtSexo = findViewById<TextView>(R.id.txtSexo)
+        val txtApellido = findViewById<TextView>(R.id.txtApellido)
         val btnEliminarUsuario = findViewById<Button>(R.id.btnEliminarUsuario)
 
 
@@ -48,10 +55,24 @@ class activity_cuenta_confi : AppCompatActivity() {
             Configuration.UI_MODE_NIGHT_NO -> {
                 txtCuenta.setTextColor(ContextCompat.getColor(this, R.color.black))
                 btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.black))
+                txtNombre.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtCorreo.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtDireccion.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtTelefono.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtFechaNacimiento.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtSexo.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtApellido.setTextColor(ContextCompat.getColor(this, R.color.black))
             }
             Configuration.UI_MODE_NIGHT_YES -> {
                 txtCuenta.setTextColor(ContextCompat.getColor(this, R.color.white))
                 btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.white))
+                txtNombre.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtCorreo.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtDireccion.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtTelefono.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtFechaNacimiento.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtSexo.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtApellido.setTextColor(ContextCompat.getColor(this, R.color.white))
             }
         }
         btnRegresar.setOnClickListener {

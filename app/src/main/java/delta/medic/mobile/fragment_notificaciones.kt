@@ -1,34 +1,26 @@
 package delta.medic.mobile
 
-import Modelo.AdaptadorNotis
 import android.os.Bundle
-import android.text.Html
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import Modelo.ClaseConexion
 import Modelo.dataClassNotis
+import RecycleViewHelper.AdaptadorNotis
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import oracle.ons.Connection
+import java.sql.DriverManager
+import java.sql.ResultSet
 
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [fragment_notificaciones.newInstance] factory method to
- * create an instance of this fragment.
- */
 class fragment_notificaciones : Fragment() {
-
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: AdaptadorNotis
-
 
 
     override fun onCreateView(
@@ -36,56 +28,56 @@ class fragment_notificaciones : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_notificaciones, container, false)
+        val recyclerView = root.findViewById<RecyclerView>(R.id.recyclerViewNotificaciones)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        recyclerView = root.findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-
-        loadNotifications()
+        CoroutineScope(Dispatchers.IO).launch {
+            val notificaciones = obtenerNotificaciones()
+            withContext(Dispatchers.Main) {
+                val adapter = AdaptadorNotis(notificaciones)
+                recyclerView.adapter = adapter
+            }
+        }
 
         return root
     }
 
-    private fun loadNotifications() {
-        CoroutineScope(Dispatchers.Main).launch {
-            val notifications = withContext(Dispatchers.IO) {
-                getNotificationsFromDatabase()
-            }
-            adapter = AdaptadorNotis(notifications)
-            recyclerView.adapter = adapter
-        }
-    }
-
-    private suspend fun getNotificationsFromDatabase(): List<dataClassNotis> {
+    private suspend fun obtenerNotificaciones(): List<dataClassNotis> {
         return withContext(Dispatchers.IO) {
-            val notifications = mutableListOf<dataClassNotis>()
+            val notificaciones = mutableListOf<dataClassNotis>()
             try {
-                val connection = ClaseConexion().cadenaConexion()
-                if (connection != null) {
-                    val statement = connection.prepareStatement("SELECT ID_Notificacion, mensajeNoti AS title, tipoNoti AS type, TO_CHAR(fechaNoti, 'YYYY-MM-DD') AS date, ID_Usuario, '' AS subtitle FROM tbNotis WHERE ID_Usuario = ?")!!
-                    statement.setInt(1, 1) // aqui asumo q 1 es el numero de tipo de usuario
+                val objConexion = ClaseConexion().cadenaConexion()
+                if (objConexion != null) {
+                    val statement = objConexion.prepareStatement("""
+                        SELECT 
+                            n.ID_Notificacion, n.fechaNoti, n.tipoNoti, n.mensajeNoti, n.flag, 
+                            n.ID_TipoNoti, t.nombreTipoNoti
+                        FROM tbNotis n
+                        JOIN tbTipoNotis t ON n.ID_TipoNoti = t.ID_TipoNoti
+                    """.trimIndent())
                     val resultSet = statement.executeQuery()
                     while (resultSet.next()) {
-                        val id = resultSet.getInt("ID_Notificacion")
-                        val title = resultSet.getString("title")
-                        val subtitle = resultSet.getString("subtitle")
-                        val type = resultSet.getString("type")
-                        val date = resultSet.getString("date")
-                        val userId = resultSet.getInt("ID_Usuario")
-                        val notification = dataClassNotis(id, title, subtitle, type, date, userId)
-                        notifications.add(notification)
+                        val notificacion = dataClassNotis(
+                            resultSet.getInt("ID_Notificacion"),
+                            resultSet.getString("fechaNoti"),
+                            resultSet.getString("tipoNoti"),
+                            resultSet.getString("mensajeNoti"),
+                            resultSet.getString("flag")[0],
+                            resultSet.getInt("ID_TipoNoti"),
+                            resultSet.getString("nombreTipoNoti")
+                        )
+                        notificaciones.add(notificacion)
                     }
-                    resultSet.close()
                     statement.close()
-                    connection.close()
+                    objConexion.close()
                 } else {
                     println("No se pudo establecer conexión con la base de datos.")
                 }
             } catch (e: Exception) {
-                println("Este es el error ${e.message}")
+                println("Error: ${e.message}")
             }
-            notifications
+            notificaciones
         }
     }
-
 
 }

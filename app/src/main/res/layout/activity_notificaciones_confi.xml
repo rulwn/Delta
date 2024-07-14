@@ -8,7 +8,19 @@
     tools:context=".activity_notificaciones_confi"
     android:orientation="vertical"
     android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/imgFondo"
+        android:layout_width="413dp"
+        android:layout_height="846dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/gradient_azul_background" />
+
     <LinearLayout
+        android:id="@+id/linearLayout7"
         android:layout_width="match_parent"
         android:layout_height="34dp"
         android:layout_marginTop="30dp"
@@ -39,6 +51,33 @@
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/txtPregunta"
+            android:layout_width="375dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins_medium"
+            android:text="¿Deseas recibir notificaciones de DeltaMedic?"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <Switch
+            android:id="@+id/switchNotificacionesSiNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:text="Notificaciones"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     </LinearLayout>
 
