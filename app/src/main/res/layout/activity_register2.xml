@@ -270,11 +270,9 @@
         android:padding="8dp"
         android:textColor="@color/GrisAzulito"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/spSeguro"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.369"
         tools:ignore="NotSibling" />
 
     <EditText
@@ -381,18 +379,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.607"
         app:srcCompat="@drawable/ic_arrow_back" />
-
-    <Spinner
-        android:id="@+id/spSeguro"
-        android:layout_width="355dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="504dp"
-        android:background="@drawable/textboxprueba"
-        app:layout_constraintBottom_toTopOf="@+id/rbTerminos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.645" />
 
     <RadioButton
         android:id="@+id/rbTerminos"
