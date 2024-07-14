@@ -25,10 +25,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvNotis"
-        android:layout_width="409dp"
-        android:layout_height="665dp"
+        android:layout_width="413dp"
+        android:layout_height="399dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
