@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import Modelo.ClaseConexion
 import Modelo.dataClassNotis
 import RecycleViewHelper.AdaptadorNotis
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
@@ -28,13 +29,19 @@ class fragment_notificaciones : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_notificaciones, container, false)
         val recyclerView = root.findViewById<RecyclerView>(R.id.rcvNotis)
+        val lbNotis = root.findViewById<TextView>(R.id.lbNotis)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         CoroutineScope(Dispatchers.IO).launch {
             val notificaciones = obtenerNotificaciones()
             withContext(Dispatchers.Main) {
-                val adapter = AdaptadorNotis(notificaciones)
-                recyclerView.adapter = adapter
+                if (notificaciones.isNotEmpty()) {
+                    lbNotis.visibility = View.VISIBLE
+                    val adapter = AdaptadorNotis(notificaciones)
+                    recyclerView.adapter = adapter
+                } else {
+                    lbNotis.visibility = View.GONE
+                }
             }
         }
         return root
