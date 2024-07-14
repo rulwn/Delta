@@ -46,7 +46,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
-        android:id="@+id/imgvFotoPerfil"
+        android:id="@+id/imgvPriv"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="72dp"
