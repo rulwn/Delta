@@ -142,16 +142,16 @@ class fragment_usuario : Fragment() {
         ******************************************************************************************/
         //Image View
         val imgvSettings = root.findViewById<ImageView>(R.id.imgVSettingsPerfil)
-        val imgvFoto = root.findViewById<ImageView>(R.id.imgvFotoPerfil)
-        val imgvPersonalizar = root.findViewById<ImageView>(R.id.imgvPersonalizarPerfil)
+        val imgvFoto = root.findViewById<ImageView>(R.id.imgvPriv)
+        val imgvPersonalizar = root.findViewById<ImageView>(R.id.imgvPerfil)
         val imgvSeguro = root.findViewById<ImageView>(R.id.imgvSeguroPerfil)
         val imgvDoctoresFavoritos = root.findViewById<ImageView>(R.id.imgvDocFav)
         val imgvRecetas = root.findViewById<ImageView>(R.id.imgvRecetas)
         val imgvHistorialCitas = root.findViewById<ImageView>(R.id.imgvHistCitas)
         val imgvMisReseñas = root.findViewById<ImageView>(R.id.imgvMisReseñas)
         //Labels
-        val lbNombre = root.findViewById<TextView>(R.id.lbNombreUsuario)
-        val lbCorreo = root.findViewById<TextView>(R.id.lbCorreoUsuario)
+        val lbNombre = root.findViewById<TextView>(R.id.txtPrivacidadySeguridad)
+        val lbCorreo = root.findViewById<TextView>(R.id.txtNotiiii)
         val lbPersonalizar = root.findViewById<TextView>(R.id.lbPersonalizarPerfil)
         val lbSeguro = root.findViewById<TextView>(R.id.lbSeguroPerfil)
         val lbPerfil = root.findViewById<TextView>(R.id.lbPerfil)
