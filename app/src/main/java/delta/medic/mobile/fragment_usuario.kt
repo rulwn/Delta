@@ -65,12 +65,10 @@ class fragment_usuario : Fragment() {
                         }
 
                         val idTipoUsuario = resultSet.getInt("ID_TipoUsuario")
-                        val idSeguro = resultSet.getInt("ID_Seguro")
 
                         val userWithFullData = dataClassUsuario(
                             idUsuario, nombreUsuario, apellidoUsuario, emailUsuario, contrasena,
-                            direccion, teléfono, sexo, fechaNacimiento, imgUsuario, idTipoUsuario, idSeguro
-                        )
+                            direccion, teléfono, sexo, fechaNacimiento, imgUsuario, idTipoUsuario)
                         listaUsuarios.add(userWithFullData)
 
                     } else {

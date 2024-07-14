@@ -17,7 +17,6 @@ data class dataClassUsuario(
     var sexo: String,
     var fechaNacimiento: Date,
     var imgUsuario: String,
-    var idTipoUsuario: Int,
-    var idSeguro: Int
+    var idTipoUsuario: Int
 
 )
