@@ -75,7 +75,9 @@
             android:id="@+id/switchNotificacionesSiNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Notificaciones" />
+            android:fontFamily="@font/poppins_regular"
+            android:text="Notificaciones"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     </LinearLayout>
 
