@@ -34,7 +34,7 @@ class fragment_usuario : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    lateinit var listaUsuario: dataClassUsuario
+    lateinit var dataUser: dataClassUsuario
 
 
     suspend fun GetUserParameters(email: String): List<dataClassUsuario> {
@@ -71,6 +71,7 @@ class fragment_usuario : Fragment() {
                             idUsuario, nombreUsuario, apellidoUsuario, emailUsuario, contrasena,
                             direccion, teléfono, sexo, fechaNacimiento, imgUsuario, idTipoUsuario)
                         listaUsuarios.add(userWithFullData)
+                        dataUser = userWithFullData
 
                     } else {
                         println("No se encontraron usuarios con el email ${email}.")
@@ -136,7 +137,39 @@ class fragment_usuario : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_usuario, container, false)
 
+        fun ActivitySettings(activitySettings: Intent): Intent {
+            val idUsuario = dataUser.idUsuario
+            val nombreUsuario = dataUser.nombreUsuario
+            val apellidoUsuario = dataUser.apellidoUsuario
+            val emailUsuario = dataUser.emailUsuario
+            val contraseña = dataUser.contraseña
+            val dirección = dataUser.dirección
+            val teléfono = dataUser.teléfonoUsuario
+            val sexo = dataUser.sexo
+            val fechaNacimiento = dataUser.fechaNacimiento
+            var imgUsuario = ""
+            if(dataUser.imgUsuario != null){
+                imgUsuario = dataUser.imgUsuario}
+            else{
+                imgUsuario = ""
+            }
+            val idTipoUsuario = dataUser.idTipoUsuario
 
+
+            activitySettings.putExtra("idUsuario", idUsuario)
+            activitySettings.putExtra("nombreUsuario", nombreUsuario)
+            activitySettings.putExtra("apellidoUsuario", apellidoUsuario)
+            activitySettings.putExtra("emailUsuario", emailUsuario)
+            activitySettings.putExtra("contraseña", contraseña)
+            activitySettings.putExtra("dirección", dirección)
+            activitySettings.putExtra("teléfono", teléfono)
+            activitySettings.putExtra("sexo", sexo)
+            activitySettings.putExtra("fechaNacimiento", fechaNacimiento)
+            activitySettings.putExtra("imgUsuario", imgUsuario)
+            activitySettings.putExtra("idTipoUsuario", idTipoUsuario)
+
+            return activitySettings
+        }
 
         /******************************************************************************************
         * Values                                                                                  *
@@ -171,12 +204,16 @@ class fragment_usuario : Fragment() {
         }
         imgvPersonalizar.setOnClickListener{
             val activityEditarPerfil = Intent(requireContext(), activity_editarperfil::class.java)
-            startActivity(activityEditarPerfil)
+
+            startActivity(ActivitySettings(activityEditarPerfil))
         }
+
+
         lbPersonalizar.setOnClickListener{
             val activityEditarPerfil = Intent(requireContext(), activity_editarperfil::class.java)
-            activityEditarPerfil.putExtra("usuariorecibido",listaUsuario.toString().)
-            startActivity(activityEditarPerfil)
+
+
+            startActivity(ActivitySettings(activityEditarPerfil))
         }
         imgvSeguro.setOnClickListener {
             //No sé hacia donde lleva

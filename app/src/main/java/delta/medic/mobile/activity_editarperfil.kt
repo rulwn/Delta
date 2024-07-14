@@ -1,5 +1,6 @@
 package delta.medic.mobile
 
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.widget.EditText
@@ -14,6 +15,11 @@ class activity_editarperfil : AppCompatActivity() {
 
     suspend fun actualizarProductos(){
 
+    }
+
+    fun CargarDatosUsuario(txtnombre: EditText, txtApellido: EditText, txtCorreo:EditText,
+    txtDirección: EditText, txtTeléfono: EditText, imgvFoto: EditText){
+        txtnombre.setText(intent.getIntExtra("idUsuario"))
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +54,7 @@ class activity_editarperfil : AppCompatActivity() {
         val imgvFotoEP = findViewById<ImageView>(R.id.imgvFotoEP)
         val btnCancelarEP = findViewById<ImageView>(R.id.imgvCancelarEP)
         val btnActualizarUserEP = findViewById<ImageView>(R.id.imgvActualizarUserEP)
+
 
 
     }
