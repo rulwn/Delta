@@ -279,7 +279,7 @@ CREATE TABLE tbExpedientes (
     ON DELETE CASCADE
 );
 
-select * from tbUsuarios;
+select * from tbExpedientes;
 
 CREATE TABLE tbCitasMedicas (
     ID_Cita INT PRIMARY KEY,
@@ -298,6 +298,7 @@ CREATE TABLE tbCitasMedicas (
     REFERENCES tbPacientes(ID_Paciente)
     ON DELETE CASCADE
 );
+select * from tbCitasMedicas;
 
 CREATE TABLE tbIndicaciones (
     ID_Indicacion INT PRIMARY KEY,
@@ -317,6 +318,7 @@ CREATE TABLE tbIndicaciones (
     REFERENCES tbRecetas(ID_Receta)
     ON DELETE CASCADE
 );
+select * from tbIndicaciones;
 SELECT ID_Tiempo FROM tbTiempos WHERE ID_Tiempo IN (1, 2, 3, 4, 5);
 SELECT ID_Receta FROM tbRecetas WHERE ID_Receta IN (1, 2, 3, 4, 5);
 
@@ -339,6 +341,7 @@ CREATE TABLE tbFichasMedicas (
     REFERENCES tbCitasMedicas(ID_Cita)
     ON DELETE CASCADE
 );
+select * from tbFichasMedicas;
 
 /*************************************************************************************************
 
