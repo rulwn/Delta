@@ -900,8 +900,6 @@ SELECT DUMMY FROM DUAL;
 
 
 COMMIT;
-select * from tbCitasMedicas;
-SELECT * FROM tbUsuarios WHERE emailUsuario = 'hector@gmail.com';
 
 /*****************************************************************************
 
