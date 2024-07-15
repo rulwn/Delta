@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import delta.medic.mobile.R
 
@@ -44,6 +45,16 @@ class AdaptadorNotis (private val notificaciones: List<dataClassNotis>) : Recycl
                 "C" -> R.drawable.ic_confirmation
                 "P" -> R.drawable.ic_pdf
                 else -> R.drawable.ic_default
+            })
+
+            // Set the text color based on the notification type
+            val context = itemView.context
+            title.setTextColor(when (notificacion.tipo) {
+                "A" -> ContextCompat.getColor(context, R.color.avisos)
+                "R" -> ContextCompat.getColor(context, R.color.recordatorio)
+                "C" -> ContextCompat.getColor(context, R.color.Turquesa1)
+                "P" -> ContextCompat.getColor(context, R.color.GrisHumo)
+                else -> ContextCompat.getColor(context, R.color.black) // Default color
             })
         }
     }
