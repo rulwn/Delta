@@ -71,6 +71,7 @@ class fragment_usuario : Fragment() {
                             idUsuario, nombreUsuario, apellidoUsuario, emailUsuario, contrasena,
                             direccion, teléfono, sexo, fechaNacimiento, imgUsuario, idTipoUsuario
                         )
+                        dataUser = userWithFullData
                         listaUsuarios.add(userWithFullData)
 
                     } else {
@@ -189,7 +190,7 @@ class fragment_usuario : Fragment() {
         val lbPerfil = root.findViewById<TextView>(R.id.lbPerfil)
 
         lbPerfil.setText(Html.fromHtml(getResources().getString(R.string.lbPerfilSub)))
-        Toast.makeText(requireContext(), sentEmail, Toast.LENGTH_SHORT).show()
+
 
 
         loadData(lbNombre,lbCorreo,imgvFoto)
