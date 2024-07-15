@@ -22,12 +22,12 @@ class EmailSender {
         }
         //Iniciar sesión
 
-       val session = Session.getInstance(props, object : javax.mail.Authenticator() {
-           override fun getPasswordAuthentication(): PasswordAuthentication {
-               return PasswordAuthentication("delta.medic.help@gmail.com", "fkui jrmx sozv mfuk")
-           }
+        val session = Session.getInstance(props, object : javax.mail.Authenticator() {
+            override fun getPasswordAuthentication(): PasswordAuthentication {
+                return PasswordAuthentication("delta.medic.help@gmail.com", "fkui jrmx sozv mfuk")
+            }
 
-       })
+        })
         try {
             val message = MimeMessage(session).apply {
                 //Con que correo enviaré el mensaje

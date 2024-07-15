@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import delta.medic.mobile.activity_login.UserData.userEmail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -45,7 +46,7 @@ class fragment_usuario : Fragment() {
                 if (objConexion != null) {
 
                     val statement = objConexion.prepareStatement("SELECT * FROM tbUsuarios WHERE emailUsuario = ?")!!
-                    statement.setString(1, sentEmail)
+                    statement.setString(1, userEmail)
                     val resultSet = statement.executeQuery()
                     // Verifica si hay resultados
                     if (resultSet.next()) {
@@ -56,22 +57,21 @@ class fragment_usuario : Fragment() {
                         val contrasena = resultSet.getString("contrasena")
                         val direccion = resultSet.getString("direccion")
                         val teléfono = resultSet.getString("telefonoUsuario")
-                        val sexo = resultSet.getCharacterStream("sexo").toString()
-                        val fechaNacimiento = resultSet.getDate("fechaNacimiento")
+                        val sexo = resultSet.getString("sexo").toString()
+                        val fechaNacimiento = resultSet.getString("fechaNacimiento")
                         var imgUsuario = ""
-                        if(resultSet.getBlob("imgUsuario") != null){
-                        imgUsuario = resultSet.getBlob("imgUsuario").toString()}
+                        if(resultSet.getString("imgUsuario") != null){
+                            imgUsuario = resultSet.getString("imgUsuario").toString()}
                         else{
                             imgUsuario = ""
                         }
-
                         val idTipoUsuario = resultSet.getInt("ID_TipoUsuario")
 
                         val userWithFullData = dataClassUsuario(
                             idUsuario, nombreUsuario, apellidoUsuario, emailUsuario, contrasena,
-                            direccion, teléfono, sexo, fechaNacimiento, imgUsuario, idTipoUsuario)
+                            direccion, teléfono, sexo, fechaNacimiento, imgUsuario, idTipoUsuario
+                        )
                         listaUsuarios.add(userWithFullData)
-                        dataUser = userWithFullData
 
                     } else {
                         println("No se encontraron usuarios con el email ${email}.")
@@ -89,8 +89,6 @@ class fragment_usuario : Fragment() {
             } catch (e: Exception) {
                 println("Este es el error: ${e.message}")
             }
-
-
 
             listaUsuarios
         }

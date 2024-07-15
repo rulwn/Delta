@@ -69,7 +69,7 @@ select * from tbAseguradoras;
 CREATE TABLE tbRecetas (
     ID_Receta INT PRIMARY KEY,
     fechaReceta DATE NOT NULL,
-    ubicacionPDF BLOB
+    ubicacionPDF VARCHAR2(250)
 );
 select * from tbRecetas;
 
@@ -87,9 +87,9 @@ CREATE TABLE tbUsuarios (
     contrasena VARCHAR2(64) NOT NULL,
     direccion VARCHAR2(200) NOT NULL,
     telefonoUsuario VARCHAR2(9) NOT NULL,
-    sexo CHAR(1) CHECK (sexo in ('M', 'F')) NOT NULL,
-    fechaNacimiento date NOT NULL,
-    imgUsuario BLOB,
+    sexo VARCHAR2(1) NOT NULL,
+    fechaNacimiento VARCHAR2(10) NOT NULL,
+    imgUsuario VARCHAR2(250),
     ID_TipoUsuario INT NOT NULL,
     
     --CONSTRAINTS------------------
@@ -246,7 +246,7 @@ CREATE TABLE tbPacientes (
     ID_Paciente INT PRIMARY KEY,
     nombrePaciente VARCHAR2(50) NOT NULL,
     apellidoPaciente VARCHAR2(50) NOT NULL,
-    imgPaciente BLOB,
+    imgPaciente VARCHAR2(250),
     parentesco VARCHAR2(30),
     ID_Usuario INT NOT NULL,
     
@@ -899,8 +899,11 @@ INSERT ALL
          VALUES (5, TO_DATE('2023-01-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-05 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada', 1, 5)
 SELECT DUMMY FROM DUAL;
 
+INSERT INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
+VALUES (TO_DATE('2024-07-14', 'YYYY-MM-DD'), 'A', 'Cita cancelada para mañana a las 2:00pm', 'S', 1, 1);
 
 COMMIT;
+SELECT * FROM tbUsuarios WHERE emailUsuario = 'rodrigo.hq.007@gmail.com'
 select * from tbCitasMedicas;
 SELECT * FROM tbUsuarios WHERE emailUsuario = 'hector@gmail.com';
 

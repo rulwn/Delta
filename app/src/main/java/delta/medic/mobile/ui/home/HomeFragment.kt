@@ -35,6 +35,7 @@ class HomeFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_home, container, false)
         val txtBienvenido = root.findViewById<TextView>(R.id.txtBienvenido)
         loadData(txtBienvenido)
+        println("Email: $userEmail")
         return root
     }
 
@@ -57,11 +58,11 @@ class HomeFragment : Fragment() {
                         val contrasena = resultSet.getString("contrasena")
                         val direccion = resultSet.getString("direccion")
                         val teléfono = resultSet.getString("telefonoUsuario")
-                        val sexo = resultSet.getCharacterStream("sexo").toString()
-                        val fechaNacimiento = resultSet.getDate("fechaNacimiento")
+                        val sexo = resultSet.getString("sexo").toString()
+                        val fechaNacimiento = resultSet.getString("fechaNacimiento")
                         var imgUsuario = ""
-                        if(resultSet.getBlob("imgUsuario") != null){
-                            imgUsuario = resultSet.getBlob("imgUsuario").toString()}
+                        if(resultSet.getString("imgUsuario") != null){
+                            imgUsuario = resultSet.getString("imgUsuario").toString()}
                         else{
                             imgUsuario = ""
                         }
