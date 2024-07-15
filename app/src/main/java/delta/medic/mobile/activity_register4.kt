@@ -155,7 +155,6 @@ class activity_register4 : AppCompatActivity() {
                 } else {
                     Toast.makeText(this, "Codigo de verificacion incorrecto", Toast.LENGTH_SHORT).show()
                 }
-    
             }
 //            val intent = Intent(this, MainActivity::class.java)
 //            startActivity(intent)
