@@ -68,7 +68,7 @@ select * from tbAseguradoras;
 CREATE TABLE tbRecetas (
     ID_Receta INT PRIMARY KEY,
     fechaReceta DATE NOT NULL,
-    ubicacionPDF BLOB
+    ubicacionPDF VARCHAR2(250)
 );
 select * from tbRecetas;
 
@@ -83,12 +83,12 @@ CREATE TABLE tbUsuarios (
     nombreUsuario VARCHAR2(50) NOT NULL,
     apellidoUsuario VARCHAR2(50) NOT NULL,
     emailUsuario VARCHAR2(50) NOT NULL UNIQUE,
-    contrasena VARCHAR2(30) NOT NULL,
+    contrasena VARCHAR2(64) NOT NULL,
     direccion VARCHAR2(200) NOT NULL,
     telefonoUsuario VARCHAR2(9) NOT NULL,
-    sexo CHAR(1) CHECK (sexo in ('M', 'F')) NOT NULL,
-    fechaNacimiento date NOT NULL,
-    imgUsuario BLOB,
+    sexo VARCHAR2(1) NOT NULL,
+    fechaNacimiento VARCHAR2(10) NOT NULL,
+    imgUsuario VARCHAR2(250),
     ID_TipoUsuario INT NOT NULL,
     
     --CONSTRAINTS------------------
@@ -245,7 +245,7 @@ CREATE TABLE tbPacientes (
     ID_Paciente INT PRIMARY KEY,
     nombrePaciente VARCHAR2(50) NOT NULL,
     apellidoPaciente VARCHAR2(50) NOT NULL,
-    imgPaciente BLOB,
+    imgPaciente VARCHAR2(250),
     parentesco VARCHAR2(30),
     ID_Usuario INT NOT NULL,
     
@@ -279,7 +279,7 @@ CREATE TABLE tbExpedientes (
     ON DELETE CASCADE
 );
 
-select * from tbUsuarios;
+select * from tbExpedientes;
 
 CREATE TABLE tbCitasMedicas (
     ID_Cita INT PRIMARY KEY,
@@ -298,6 +298,7 @@ CREATE TABLE tbCitasMedicas (
     REFERENCES tbPacientes(ID_Paciente)
     ON DELETE CASCADE
 );
+select * from tbCitasMedicas;
 
 CREATE TABLE tbIndicaciones (
     ID_Indicacion INT PRIMARY KEY,
@@ -317,6 +318,7 @@ CREATE TABLE tbIndicaciones (
     REFERENCES tbRecetas(ID_Receta)
     ON DELETE CASCADE
 );
+select * from tbIndicaciones;
 SELECT ID_Tiempo FROM tbTiempos WHERE ID_Tiempo IN (1, 2, 3, 4, 5);
 SELECT ID_Receta FROM tbRecetas WHERE ID_Receta IN (1, 2, 3, 4, 5);
 
@@ -339,6 +341,7 @@ CREATE TABLE tbFichasMedicas (
     REFERENCES tbCitasMedicas(ID_Cita)
     ON DELETE CASCADE
 );
+select * from tbFichasMedicas;
 
 /*************************************************************************************************
 
@@ -784,16 +787,17 @@ SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
-        VALUES ('Francisco', 'Mejía', 'fran@gmail.com', '12345', 'San Salvador', '6143-1352', 'M', '20/02/1980', NULL, 1)
+        VALUES ('Francisco', 'Mejía', 'fran@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'San Salvador', '6143-1352', 'M', '20/02/1980', NULL, 1)
     INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
-        VALUES ('Steven', 'Palacios', 'venosin@gmail.com', 'steven', 'Ciudad Arce', '2245-9312', 'M', '15/07/1999', NULL, 1)
+        VALUES ('Steven', 'Palacios', 'venosin@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'Ciudad Arce', '2245-9312', 'M', '15/07/1999', NULL, 1)
     INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
-        VALUES ('Xavier', 'Torres', 'xam@gmail.com', '123xam', 'Ciudad Delgado', '1292-1275', 'F', '11/01/2007', NULL, 2)
+        VALUES ('Xavier', 'Torres', 'xam@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'Ciudad Delgado', '1292-1275', 'F', '11/01/2007', NULL, 2)
     INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
-        VALUES ('Dennis', 'Alexander', 'darv@gmail.com', 'dennis123', 'Villa Olimpica', '6294-0283', 'M', '20/02/2000', NULL, 2)
+        VALUES ('Dennis', 'Alexander', 'darv@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'Villa Olimpica', '6294-0283', 'M', '20/02/2000', NULL, 2)
     INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
-        VALUES ('Hector', 'Gallardo', 'hector@gmail.com', 'rocah123', 'La Paz', '8723-1293', 'M', '25/08/2000', NULL, 1)
+        VALUES ('Hector', 'Gallardo', 'hector@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'La Paz', '8723-1293', 'M', '25/08/2000', NULL, 1)
 SELECT DUMMY FROM DUAL;
+select * from tbusuarios;
 
 INSERT ALL
     INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('TOEWQ12', 'PRIMER2', 1, 1)
@@ -893,10 +897,13 @@ INSERT ALL
     INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
          VALUES (5, TO_DATE('2023-01-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-05 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada', 1, 5)
 SELECT DUMMY FROM DUAL;
-select * from tbCitasMedicas;
+
+INSERT INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
+VALUES (TO_DATE('2024-07-14', 'YYYY-MM-DD'), 'A', 'Cita cancelada para mañana a las 2:00pm', 'S', 1, 1);
 
 COMMIT;
-
+SELECT * FROM tbUsuarios WHERE emailUsuario = 'rodrigo.hq.007@gmail.com'
+select * from tbCitasMedicas;
 SELECT * FROM tbUsuarios WHERE emailUsuario = 'hector@gmail.com';
 
 /*****************************************************************************
@@ -1056,7 +1063,7 @@ DROP TRIGGER Trigger_Ficha;
 
 /*************************************************************************************************
 
-    ~ Consultas Inner ~
+    ~ Consultas Inner Extras~
 
 *************************************************************************************************/
 /*

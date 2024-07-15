@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import delta.medic.mobile.activity_login.UserData.userEmail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -34,7 +35,7 @@ class fragment_usuario : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    lateinit var listaUsuario: dataClassUsuario
+    lateinit var dataUser: dataClassUsuario
 
 
     suspend fun GetUserParameters(email: String): List<dataClassUsuario> {
@@ -45,7 +46,7 @@ class fragment_usuario : Fragment() {
                 if (objConexion != null) {
 
                     val statement = objConexion.prepareStatement("SELECT * FROM tbUsuarios WHERE emailUsuario = ?")!!
-                    statement.setString(1, sentEmail)
+                    statement.setString(1, userEmail)
                     val resultSet = statement.executeQuery()
                     // Verifica si hay resultados
                     if (resultSet.next()) {
@@ -56,20 +57,20 @@ class fragment_usuario : Fragment() {
                         val contrasena = resultSet.getString("contrasena")
                         val direccion = resultSet.getString("direccion")
                         val teléfono = resultSet.getString("telefonoUsuario")
-                        val sexo = resultSet.getCharacterStream("sexo").toString()
-                        val fechaNacimiento = resultSet.getDate("fechaNacimiento")
+                        val sexo = resultSet.getString("sexo").toString()
+                        val fechaNacimiento = resultSet.getString("fechaNacimiento")
                         var imgUsuario = ""
-                        if(resultSet.getBlob("imgUsuario") != null){
-                        imgUsuario = resultSet.getBlob("imgUsuario").toString()}
+                        if(resultSet.getString("imgUsuario") != null){
+                            imgUsuario = resultSet.getString("imgUsuario").toString()}
                         else{
                             imgUsuario = ""
                         }
-
                         val idTipoUsuario = resultSet.getInt("ID_TipoUsuario")
 
                         val userWithFullData = dataClassUsuario(
                             idUsuario, nombreUsuario, apellidoUsuario, emailUsuario, contrasena,
-                            direccion, teléfono, sexo, fechaNacimiento, imgUsuario, idTipoUsuario)
+                            direccion, teléfono, sexo, fechaNacimiento, imgUsuario, idTipoUsuario
+                        )
                         listaUsuarios.add(userWithFullData)
 
                     } else {
@@ -88,8 +89,6 @@ class fragment_usuario : Fragment() {
             } catch (e: Exception) {
                 println("Este es el error: ${e.message}")
             }
-
-
 
             listaUsuarios
         }
@@ -136,7 +135,39 @@ class fragment_usuario : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_usuario, container, false)
 
+        fun ActivitySettings(activitySettings: Intent): Intent {
+            val idUsuario = dataUser.idUsuario
+            val nombreUsuario = dataUser.nombreUsuario
+            val apellidoUsuario = dataUser.apellidoUsuario
+            val emailUsuario = dataUser.emailUsuario
+            val contraseña = dataUser.contraseña
+            val dirección = dataUser.dirección
+            val teléfono = dataUser.teléfonoUsuario
+            val sexo = dataUser.sexo
+            val fechaNacimiento = dataUser.fechaNacimiento
+            var imgUsuario = ""
+            if(dataUser.imgUsuario != null){
+                imgUsuario = dataUser.imgUsuario}
+            else{
+                imgUsuario = ""
+            }
+            val idTipoUsuario = dataUser.idTipoUsuario
 
+
+            activitySettings.putExtra("idUsuario", idUsuario)
+            activitySettings.putExtra("nombreUsuario", nombreUsuario)
+            activitySettings.putExtra("apellidoUsuario", apellidoUsuario)
+            activitySettings.putExtra("emailUsuario", emailUsuario)
+            activitySettings.putExtra("contraseña", contraseña)
+            activitySettings.putExtra("dirección", dirección)
+            activitySettings.putExtra("teléfono", teléfono)
+            activitySettings.putExtra("sexo", sexo)
+            activitySettings.putExtra("fechaNacimiento", fechaNacimiento)
+            activitySettings.putExtra("imgUsuario", imgUsuario)
+            activitySettings.putExtra("idTipoUsuario", idTipoUsuario)
+
+            return activitySettings
+        }
 
         /******************************************************************************************
         * Values                                                                                  *
@@ -171,12 +202,16 @@ class fragment_usuario : Fragment() {
         }
         imgvPersonalizar.setOnClickListener{
             val activityEditarPerfil = Intent(requireContext(), activity_editarperfil::class.java)
-            startActivity(activityEditarPerfil)
+
+            startActivity(ActivitySettings(activityEditarPerfil))
         }
+
+
         lbPersonalizar.setOnClickListener{
             val activityEditarPerfil = Intent(requireContext(), activity_editarperfil::class.java)
-            activityEditarPerfil.putExtra("usuariorecibido",listaUsuario.toString())
-            startActivity(activityEditarPerfil)
+
+
+            startActivity(ActivitySettings(activityEditarPerfil))
         }
         imgvSeguro.setOnClickListener {
             //No sé hacia donde lleva

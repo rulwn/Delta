@@ -84,14 +84,14 @@ class activity_busqueda : AppCompatActivity() {
 
     private fun performSearch(query: String) {
         try {
-            val fragment = fragment_Resultados().apply {
-                arguments = Bundle().apply {
-                    putString("query", query)
-                }
-            }
-            supportFragmentManager.commit {
-                replace(R.id.main, fragment)
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.main, fragment_Resultados().apply {
+                    arguments = Bundle().apply {
+                        putString("query", query)
+                    }
+                })
                 addToBackStack(null)
+                commit()
             }
         } catch (e: Exception) {
             println("Este es el error ${e.message}")

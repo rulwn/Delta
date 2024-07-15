@@ -111,6 +111,7 @@ class activity_register4 : AppCompatActivity() {
         }
         val btnSiguiente = findViewById<Button>(R.id.btnRegistrarse)
         btnSiguiente.setOnClickListener {
+
             var intento = num1edit.text.toString() + num2edit.text.toString() + num3edit.text.toString() + num4edit.text.toString() + num5edit.text.toString() + num6edit.text.toString()
             var intentoNum = intento.toInt()
            if(intentoNum == activity_register1.variablesLogin.codigoautenticacion) {
@@ -129,13 +130,18 @@ class activity_register4 : AppCompatActivity() {
                        agregarUsuario.setString(9, activity_register1.imgUsuario)
                        agregarUsuario.setInt(10,3)
                        agregarUsuario.executeUpdate()
+                       val commit = objConexion.prepareStatement("commit")!!
+                       commit.executeUpdate()
                        objConexion.commit()
+
+                       withContext(Dispatchers.Main){
+                           Toast.makeText(this@activity_register4, "Registro exitoso", Toast.LENGTH_SHORT).show()
+                           val intent = Intent(this@activity_register4, activity_login::class.java)
+                           startActivity(intent)
+                           finish()
+                       }
                    } catch (e: Exception) {
                        println("Error: $e")
-                   }
-                   withContext(Dispatchers.Main){
-                     //poner aqui el cambio de pantallas
-
                    }
                }
            } else {

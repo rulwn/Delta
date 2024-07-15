@@ -1,6 +1,6 @@
 package Modelo
 
-class dataClassNotis (
+data class dataClassNotis(
     val id: Int,
     val fecha: String,
     val tipo: String,

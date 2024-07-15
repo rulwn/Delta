@@ -48,10 +48,14 @@ class fragment_control_tratamientos : Fragment() {
         val rcvTratamientos = root.findViewById<RecyclerView>(R.id.rcvRecordatoriosTratamientos)
         rcvTratamientos.layoutManager = LinearLayoutManager(requireContext())
         CoroutineScope(Dispatchers.IO).launch{
-            val tratamientosDB = obtenerDatos()
-            withContext(Dispatchers.Main){
-                val miAdaptador = AdaptadorTratamientos(tratamientosDB)
-                rcvTratamientos.adapter = miAdaptador
+            try {
+                val tratamientosDB = obtenerDatos()
+                withContext(Dispatchers.Main) {
+                    val miAdaptador = AdaptadorTratamientos(tratamientosDB)
+                    rcvTratamientos.adapter = miAdaptador
+                }
+            } catch (e: Exception) {
+                println("Este es el error ${e.message}")
             }
         }
         return root

@@ -19,7 +19,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DeltaMedic"
         tools:targetApi="31">
-
+        <activity
+            android:name=".activity_carga"
+            android:exported="false"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"/>
         <activity
             android:name=".item_notificaciones"
             android:exported="false" />
@@ -27,7 +30,11 @@
             android:name=".splash_screen"
             android:exported="true"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".item_citas"
@@ -101,8 +108,7 @@
         <activity
             android:name=".activity_register4"
             android:exported="true"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"></activity>
         <activity
             android:name=".activity_register3"
             android:exported="false"
@@ -114,32 +120,20 @@
         <activity
             android:name=".activity_register1"
             android:exported="true"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
-
-
-        </activity>
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"></activity>
         <activity
             android:name=".activity_login"
             android:exported="true"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            </activity>
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"></activity>
         <activity
             android:name=".activity_bienvenida"
             android:configChanges="uiMode"
             android:exported="true"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
-            </activity>
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"></activity>
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/DeltaMedic">
-
-        </activity>
+            android:label="@string/DeltaMedic"></activity>
 
         <meta-data
             android:name="preloaded_fonts"

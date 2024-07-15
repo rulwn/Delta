@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import Modelo.ClaseConexion
 import Modelo.dataClassNotis
 import RecycleViewHelper.AdaptadorNotis
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
@@ -20,25 +21,29 @@ import java.sql.ResultSet
 
 
 
+
 class fragment_notificaciones : Fragment() {
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_notificaciones, container, false)
-        val recyclerView = root.findViewById<RecyclerView>(R.id.recyclerViewNotificaciones)
+        val recyclerView = root.findViewById<RecyclerView>(R.id.rcvNotis)
+        val lbNotis = root.findViewById<TextView>(R.id.lbNotis)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         CoroutineScope(Dispatchers.IO).launch {
             val notificaciones = obtenerNotificaciones()
             withContext(Dispatchers.Main) {
-                val adapter = AdaptadorNotis(notificaciones)
-                recyclerView.adapter = adapter
+                if (notificaciones.isNotEmpty()) {
+                    lbNotis.visibility = View.VISIBLE
+                    val adapter = AdaptadorNotis(notificaciones)
+                    recyclerView.adapter = adapter
+                } else {
+                    lbNotis.visibility = View.GONE
+                }
             }
         }
-
         return root
     }
 
@@ -48,15 +53,17 @@ class fragment_notificaciones : Fragment() {
             try {
                 val objConexion = ClaseConexion().cadenaConexion()
                 if (objConexion != null) {
+                    println("Conexión establecida con éxito")
                     val statement = objConexion.prepareStatement("""
-                        SELECT 
-                            n.ID_Notificacion, n.fechaNoti, n.tipoNoti, n.mensajeNoti, n.flag, 
-                            n.ID_TipoNoti, t.nombreTipoNoti
-                        FROM tbNotis n
-                        JOIN tbTipoNotis t ON n.ID_TipoNoti = t.ID_TipoNoti
-                    """.trimIndent())
+                    SELECT 
+                        n.ID_Notificacion, n.fechaNoti, n.tipoNoti, n.mensajeNoti, n.flag, 
+                        n.ID_TipoNoti, t.nombreTipoNoti
+                    FROM tbNotis n
+                    JOIN tbTipoNotis t ON n.ID_TipoNoti = t.ID_TipoNoti
+                """.trimIndent())
                     val resultSet = statement.executeQuery()
                     while (resultSet.next()) {
+                        println("Notificación encontrada: ${resultSet.getString("mensajeNoti")}")
                         val notificacion = dataClassNotis(
                             resultSet.getInt("ID_Notificacion"),
                             resultSet.getString("fechaNoti"),
@@ -76,6 +83,7 @@ class fragment_notificaciones : Fragment() {
             } catch (e: Exception) {
                 println("Error: ${e.message}")
             }
+            println("Número de notificaciones: ${notificaciones.size}")
             notificaciones
         }
     }
