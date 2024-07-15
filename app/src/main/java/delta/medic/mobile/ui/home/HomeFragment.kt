@@ -65,13 +65,11 @@ class HomeFragment : Fragment() {
                         else{
                             imgUsuario = ""
                         }
-
                         val idTipoUsuario = resultSet.getInt("ID_TipoUsuario")
-                        val idSeguro = resultSet.getInt("ID_Seguro")
 
                         val userWithFullData = dataClassUsuario(
                             idUsuario, nombreUsuario, apellidoUsuario, emailUsuario, contrasena,
-                            direccion, teléfono, sexo, fechaNacimiento, imgUsuario, idTipoUsuario, idSeguro
+                            direccion, teléfono, sexo, fechaNacimiento, imgUsuario, idTipoUsuario
                         )
                         listaUsuarios.add(userWithFullData)
 
@@ -97,15 +95,23 @@ class HomeFragment : Fragment() {
     }
 
     fun loadData(lbNombre: TextView) {
-        viewLifecycleOwner.lifecycleScope.launch {
-            val user = GetUserParameters(userEmail)
-            //Estos campos al estar con map pondrá  "[]" al inicio y al final
-            val nombreUsuario = user.map { it.nombreUsuario}
+        try {
+            viewLifecycleOwner.lifecycleScope.launch {
+                val user = GetUserParameters(userEmail)
+                //Estos campos al estar con map pondrá  "[]" al inicio y al final
+                val nombreUsuario = user.map { it.nombreUsuario }
 
-            withContext(Dispatchers.Main) {
-                //Para solucionarlo se coloca replace
-                lbNombre.setText(" Bienvenido ${nombreUsuario.toString().replace("[", "").replace("]","")}")
+                withContext(Dispatchers.Main) {
+                    //Para solucionarlo se coloca replace
+                    lbNombre.setText(
+                        " Bienvenido ${
+                            nombreUsuario.toString().replace("[", "").replace("]", "")
+                        }"
+                    )
+                }
             }
+        }catch (e: Exception) {
+            println("Error: $e")
         }
     }
 }

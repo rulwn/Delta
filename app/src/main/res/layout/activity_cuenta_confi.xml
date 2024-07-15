@@ -12,14 +12,15 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="30dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.033">
+        app:layout_constraintVertical_bias="0.0">
 
         <ImageView
             android:id="@+id/btnRegresar"
@@ -53,18 +54,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
             android:id="@+id/linearLayout6"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="55dp"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView17"
+                android:id="@+id/txtNombre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_semibold"
@@ -81,7 +84,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/textView20"
+                android:id="@+id/txtCorreo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -99,7 +102,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/textView21"
+                android:id="@+id/txtDireccionnn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -117,7 +120,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/txtTelefono"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -135,7 +138,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/textView11"
+                android:id="@+id/txtFecha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -153,7 +156,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/textView12"
+                android:id="@+id/txtSexo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -171,7 +174,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/textView19"
+                android:id="@+id/txtApellido"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -191,16 +194,16 @@
             <LinearLayout
                 android:layout_width="315dp"
                 android:layout_height="60dp"
-                android:orientation="horizontal"
+                android:layout_gravity="center"
                 android:layout_marginTop="35dp"
-                android:layout_gravity="center">
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btnCambiarContra1"
+                    style="@style/Widget.Material3.Button.ElevatedButton"
                     android:layout_width="150dp"
                     android:layout_height="56dp"
                     android:layout_marginRight="10dp"
-                    style="@style/Widget.Material3.Button.ElevatedButton"
                     android:backgroundTint="@color/Azul2"
                     android:fontFamily="@font/poppins_medium"
                     android:foregroundTint="#FFFFFF"
@@ -211,10 +214,10 @@
 
                 <Button
                     android:id="@+id/btnEliminarUsuario"
+                    style="@style/Widget.Material3.Button.ElevatedButton"
                     android:layout_width="150dp"
                     android:layout_height="56dp"
                     android:backgroundTint="@color/Azul2"
-                    style="@style/Widget.Material3.Button.ElevatedButton"
                     android:fontFamily="@font/poppins_medium"
                     android:foregroundTint="#FFFFFF"
                     android:text="Eliminar Usuario"

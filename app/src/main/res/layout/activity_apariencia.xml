@@ -8,13 +8,13 @@
     android:padding="16dp">
 
     <LinearLayout
+        android:id="@+id/linearLayout8"
         android:layout_width="match_parent"
         android:layout_height="34dp"
         android:layout_marginTop="30dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/themeRadioGroup"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
@@ -30,8 +30,8 @@
 
         <TextView
             android:id="@+id/txtApariencia"
-            android:layout_width="120dp"
-            android:layout_height="25dp"
+            android:layout_width="210dp"
+            android:layout_height="27dp"
             android:layout_gravity="center"
             android:fontFamily="@font/poppins_semibold"
             android:text="Apariencia"
@@ -45,11 +45,12 @@
         android:id="@+id/themeRadioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:theme="@style/Theme.DeltaMedic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.13999999">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout8"
+        app:layout_constraintVertical_bias="0.100000024">
 
         <RadioButton
             android:id="@+id/lightThemeRadioButton"

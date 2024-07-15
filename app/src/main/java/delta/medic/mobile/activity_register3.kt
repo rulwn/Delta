@@ -1,5 +1,6 @@
 package delta.medic.mobile
 
+import Modelo.EmailSender
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -11,7 +12,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.net.Uri
+import android.util.Log
 import android.widget.TextView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.mail.internet.InternetAddress
 
 class activity_register3 : AppCompatActivity() {
 
@@ -22,31 +28,19 @@ class activity_register3 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_register3)
-        requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val nombre = intent.getStringExtra("nombre")
-        val apellido = intent.getStringExtra("apellido")
-        val direccion = intent.getStringExtra("direccion")
-        val email = intent.getStringExtra("email")
-        val clave = intent.getStringExtra("clave")
-        val aseguradora = intent.getIntExtra("aseguradora", 0)
-        val sexo = intent.getStringExtra("sexo")
-        val telefono = intent.getStringExtra("telefono")
-
 
 
         btnAgregarFoto = findViewById(R.id.btnAgregarFoto)
-
+        val btnOmitir = findViewById<TextView>(R.id.btnOmitirFoto)
         btnAgregarFoto.setOnClickListener {
-            val intento = Intent()
-                .setType("image/*")
-                .setAction(Intent.ACTION_GET_CONTENT)
-
+            val intento = Intent(Intent.ACTION_PICK)
+                intento.type = "image/*"
             startActivityForResult(Intent.createChooser(intento, "Escoge una imagen"), 111) // el requestCode es personalizado
         }
         val txtTienesUnaCuenta = findViewById<TextView>(R.id.txtTienesUnaCuenta3)
@@ -57,23 +51,27 @@ class activity_register3 : AppCompatActivity() {
         val btnSiguiente = findViewById<Button>(R.id.btnSiguiente3)
         btnSiguiente.setOnClickListener {
             val intent = Intent(this, activity_register4::class.java)
-            intent.putExtra("nombre", nombre)
-            intent.putExtra("apellido", apellido)
-            intent.putExtra("direccion", direccion)
-            intent.putExtra("email", email)
-            intent.putExtra("clave", clave)
-            intent.putExtra("aseguradora", aseguradora)
-            intent.putExtra("sexo", sexo)
-            intent.putExtra("telefono", telefono)
-            intent.putExtra("foto",fotoPerfil.toString())
             startActivity(intent)
 
+        }
+        btnOmitir.setOnClickListener {
+            activity_register1.variablesLogin.imgUsuario = "no hay imagen"
+
+
+            CoroutineScope(Dispatchers.Main).launch {
+                println("Correo enviado ${activity_register1.variablesLogin.email}")
+                EmailSender().enviarCorreo(activity_register1.variablesLogin.email, "Codigo de verificacion delta", "${activity_register1.variablesLogin.codigoautenticacion}")
+            }
+
+
+            val intent = Intent(this, activity_register4::class.java)
+            startActivity(intent)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 111 && resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             val archivoElegido: Uri? = data?.data
             if (archivoElegido != null) {
                 fotoPerfil = archivoElegido

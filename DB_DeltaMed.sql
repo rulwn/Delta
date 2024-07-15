@@ -84,7 +84,7 @@ CREATE TABLE tbUsuarios (
     nombreUsuario VARCHAR2(50) NOT NULL,
     apellidoUsuario VARCHAR2(50) NOT NULL,
     emailUsuario VARCHAR2(50) NOT NULL UNIQUE,
-    contrasena VARCHAR2(30) NOT NULL,
+    contrasena VARCHAR2(64) NOT NULL,
     direccion VARCHAR2(200) NOT NULL,
     telefonoUsuario VARCHAR2(9) NOT NULL,
     sexo CHAR(1) CHECK (sexo in ('M', 'F')) NOT NULL,
@@ -280,7 +280,7 @@ CREATE TABLE tbExpedientes (
     ON DELETE CASCADE
 );
 
-select * from tbUsuarios;
+select * from tbExpedientes;
 
 CREATE TABLE tbCitasMedicas (
     ID_Cita INT PRIMARY KEY,
@@ -299,6 +299,7 @@ CREATE TABLE tbCitasMedicas (
     REFERENCES tbPacientes(ID_Paciente)
     ON DELETE CASCADE
 );
+select * from tbCitasMedicas;
 
 CREATE TABLE tbIndicaciones (
     ID_Indicacion INT PRIMARY KEY,
@@ -318,6 +319,7 @@ CREATE TABLE tbIndicaciones (
     REFERENCES tbRecetas(ID_Receta)
     ON DELETE CASCADE
 );
+select * from tbIndicaciones;
 SELECT ID_Tiempo FROM tbTiempos WHERE ID_Tiempo IN (1, 2, 3, 4, 5);
 SELECT ID_Receta FROM tbRecetas WHERE ID_Receta IN (1, 2, 3, 4, 5);
 
@@ -340,6 +342,7 @@ CREATE TABLE tbFichasMedicas (
     REFERENCES tbCitasMedicas(ID_Cita)
     ON DELETE CASCADE
 );
+select * from tbFichasMedicas;
 
 /*************************************************************************************************
 
@@ -784,24 +787,25 @@ INSERT ALL
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
+    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
+        VALUES ('Francisco', 'Mejía', 'fran@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'San Salvador', '6143-1352', 'M', '20/02/1980', NULL, 1)
+    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
+        VALUES ('Steven', 'Palacios', 'venosin@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'Ciudad Arce', '2245-9312', 'M', '15/07/1999', NULL, 1)
+    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
+        VALUES ('Xavier', 'Torres', 'xam@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'Ciudad Delgado', '1292-1275', 'F', '11/01/2007', NULL, 2)
+    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
+        VALUES ('Dennis', 'Alexander', 'darv@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'Villa Olimpica', '6294-0283', 'M', '20/02/2000', NULL, 2)
+    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
+        VALUES ('Hector', 'Gallardo', 'hector@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'La Paz', '8723-1293', 'M', '25/08/2000', NULL, 1)
+SELECT DUMMY FROM DUAL;
+select * from tbusuarios;
+
+INSERT ALL
     INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('TOEWQ12', 'PRIMER2', 1, 1)
     INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('ABCD1234', 'POLIZA1', 2, 2)
     INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('EFGH5678', 'POLIZA2', 3, 4)
     INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('IJKL9101', 'POLIZA3', 4, 3)
     INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('MNOP2345', 'POLIZA4', 5, 5)
-SELECT DUMMY FROM DUAL;
-
-INSERT ALL
-    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
-        VALUES ('Francisco', 'Mejía', 'fran@gmail.com', '12345', 'San Salvador', '6143-1352', 'M', '20/02/1980', NULL, 1)
-    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
-        VALUES ('Steven', 'Palacios', 'venosin@gmail.com', 'steven', 'Ciudad Arce', '2245-9312', 'M', '15/07/1999', NULL, 1)
-    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
-        VALUES ('Xavier', 'Torres', 'xam@gmail.com', '123xam', 'Ciudad Delgado', '1292-1275', 'F', '11/01/2007', NULL, 2)
-    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
-        VALUES ('Dennis', 'Alexander', 'darv@gmail.com', 'dennis123', 'Villa Olimpica', '6294-0283', 'M', '20/02/2000', NULL, 2)
-    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
-        VALUES ('Hector', 'Gallardo', 'hector@gmail.com', 'rocah123', 'La Paz', '8723-1293', 'M', '25/08/2000', NULL, 1)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -858,15 +862,15 @@ SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbHorarios (horaInicio, horaSalida, dias, exclusiones, almuerzo, descansos, lapsosCita, ID_Centro)
-         VALUES (TIMESTAMP '2024-06-18 07:00:00.000000', TIMESTAMP '2024-06-18 19:00:00.000000', TO_DATE('2024-06-18', 'YYYY-MM-DD'), TO_DATE('2024-06-17', 'YYYY-MM-DD'), TIMESTAMP '2024-06-18 12:00:00.000000', TO_DATE('2024-06-16', 'YYYY-MM-DD'), 1, 6)
+         VALUES (TIMESTAMP '2024-06-18 07:00:00.000000', TIMESTAMP '2024-06-18 19:00:00.000000', TO_DATE('2024-06-18', 'YYYY-MM-DD'), TO_DATE('2024-06-17', 'YYYY-MM-DD'), TIMESTAMP '2024-06-18 12:00:00.000000', TO_DATE('2024-06-16', 'YYYY-MM-DD'), 1, 5)
     INTO tbHorarios (horaInicio, horaSalida, dias, exclusiones, almuerzo, descansos, lapsosCita, ID_Centro)
-         VALUES (TIMESTAMP '2024-06-19 07:00:00.000000', TIMESTAMP '2024-06-19 19:00:00.000000', TO_DATE('2024-06-19', 'YYYY-MM-DD'), TO_DATE('2024-06-10', 'YYYY-MM-DD'), TIMESTAMP '2024-06-19 12:00:00.000000', TO_DATE('2024-06-10', 'YYYY-MM-DD'), 2, 7)
+         VALUES (TIMESTAMP '2024-06-19 07:00:00.000000', TIMESTAMP '2024-06-19 19:00:00.000000', TO_DATE('2024-06-19', 'YYYY-MM-DD'), TO_DATE('2024-06-10', 'YYYY-MM-DD'), TIMESTAMP '2024-06-19 12:00:00.000000', TO_DATE('2024-06-10', 'YYYY-MM-DD'), 2, 4)
     INTO tbHorarios (horaInicio, horaSalida, dias, exclusiones, almuerzo, descansos, lapsosCita, ID_Centro)
-         VALUES (TIMESTAMP '2024-06-20 07:00:00.000000', TIMESTAMP '2024-06-20 19:00:00.000000', TO_DATE('2024-06-20', 'YYYY-MM-DD'), TO_DATE('2024-06-14', 'YYYY-MM-DD'), TIMESTAMP '2024-06-20 12:00:00.000000', TO_DATE('2024-06-14', 'YYYY-MM-DD'), 3, 8)
+         VALUES (TIMESTAMP '2024-06-20 07:00:00.000000', TIMESTAMP '2024-06-20 19:00:00.000000', TO_DATE('2024-06-20', 'YYYY-MM-DD'), TO_DATE('2024-06-14', 'YYYY-MM-DD'), TIMESTAMP '2024-06-20 12:00:00.000000', TO_DATE('2024-06-14', 'YYYY-MM-DD'), 3, 3)
     INTO tbHorarios (horaInicio, horaSalida, dias, exclusiones, almuerzo, descansos, lapsosCita, ID_Centro)
-         VALUES (TIMESTAMP '2024-06-21 07:00:00.000000', TIMESTAMP '2024-06-21 19:00:00.000000', TO_DATE('2024-06-21', 'YYYY-MM-DD'), TO_DATE('2024-06-11', 'YYYY-MM-DD'), TIMESTAMP '2024-06-21 12:00:00.000000', TO_DATE('2024-06-11', 'YYYY-MM-DD'), 4, 9)
+         VALUES (TIMESTAMP '2024-06-21 07:00:00.000000', TIMESTAMP '2024-06-21 19:00:00.000000', TO_DATE('2024-06-21', 'YYYY-MM-DD'), TO_DATE('2024-06-11', 'YYYY-MM-DD'), TIMESTAMP '2024-06-21 12:00:00.000000', TO_DATE('2024-06-11', 'YYYY-MM-DD'), 4, 2)
     INTO tbHorarios (horaInicio, horaSalida, dias, exclusiones, almuerzo, descansos, lapsosCita, ID_Centro)
-         VALUES (TIMESTAMP '2024-06-22 07:00:00.000000', TIMESTAMP '2024-06-22 19:00:00.000000', TO_DATE('2024-06-22', 'YYYY-MM-DD'), TO_DATE('2024-06-15', 'YYYY-MM-DD'), TIMESTAMP '2024-06-22 12:00:00.000000', TO_DATE('2024-06-15', 'YYYY-MM-DD'), 5, 10)
+         VALUES (TIMESTAMP '2024-06-22 07:00:00.000000', TIMESTAMP '2024-06-22 19:00:00.000000', TO_DATE('2024-06-22', 'YYYY-MM-DD'), TO_DATE('2024-06-15', 'YYYY-MM-DD'), TIMESTAMP '2024-06-22 12:00:00.000000', TO_DATE('2024-06-15', 'YYYY-MM-DD'), 5, 1)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -884,20 +888,20 @@ SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (1, TO_DATE('2023-01-01', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general', 6, 1)
+         VALUES (1, TO_DATE('2023-01-01', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general', 5, 1)
     INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (2, TO_DATE('2023-01-02', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-02 11:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Revisión anual', 7, 2)
+         VALUES (2, TO_DATE('2023-01-02', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-02 11:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Revisión anual', 4, 2)
     INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (3, TO_DATE('2023-01-03', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-03 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta de seguimiento', 8, 3)
+         VALUES (3, TO_DATE('2023-01-03', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-03 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta de seguimiento', 3, 3)
     INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (4, TO_DATE('2023-01-04', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-04 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general', 9, 4)
+         VALUES (4, TO_DATE('2023-01-04', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-04 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general', 2, 4)
     INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (5, TO_DATE('2023-01-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-05 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada', 10, 5)
+         VALUES (5, TO_DATE('2023-01-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-05 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada', 1, 5)
 SELECT DUMMY FROM DUAL;
-select * from tbCitasMedicas;
+
 
 COMMIT;
-
+select * from tbCitasMedicas;
 SELECT * FROM tbUsuarios WHERE emailUsuario = 'hector@gmail.com';
 
 /*****************************************************************************
@@ -926,52 +930,31 @@ SELECT DUMMY FROM DUAL;
 
 *************************************************************************************************/
 --INNER JOIN CENTROMEDICO
-SELECT
-    d.ID_Doctor,
-    e.nombreEspecialidad,
-    s.direccionSucur,
+   SELECT
     u.nombreUsuario,
     u.apellidoUsuario,
-    u.emailUsuario
+    u.imgUsuario,
+    s.nombreSucursal,
+    s.telefonoSucur ,
+    s.direccionSucur ,
+    s.ubicacionSucur ,
+    srv.nombreServicio,
+    srv.costo,
+    cm.favorito
 FROM
     tbCentrosMedicos cm
 INNER JOIN
     tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
 INNER JOIN
-    tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
-INNER JOIN
-    tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-LEFT JOIN
-    tbHorarios h ON cm.ID_Centro = h.ID_Centro
-LEFT JOIN
-    tbCitasMedicas c ON h.ID_Horario = c.ID_Cita
-LEFT JOIN
-    tbUsuarios u ON c.ID_Paciente = u.ID_Usuario;
-
---INNER JOIN CENTROMEDICO--
-SELECT
-    cm.ID_Doctor,
-    e.nombreEspecialidad,
-    u.nombreUsuario,
-    u.apellidoUsuario,
-    u.emailUsuario
-FROM
-    tbCentrosMedicos cm
-INNER JOIN
-    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+    tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
 INNER JOIN
     tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
 INNER JOIN
-    tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-LEFT JOIN
-    tbHorarios h ON cm.ID_Centro = h.ID_Centro
-LEFT JOIN
-    tbCitasMedicas c ON h.ID_Horario = c.ID_Cita
-LEFT JOIN
-    tbUsuarios u ON c.ID_Paciente = u.ID_Usuario ;
+    tbServicios srv ON cm.ID_Centro = srv.ID_Centro
 
 --INNER JOIN CITASMEDICAS--
-SELECT 
+
+SELECT
     citas.ID_Cita,
     citas.diacita,
     citas.horacita,
@@ -983,9 +966,9 @@ SELECT
     usua.id_usuario,
     USUA.nombreUsuario,
     USUA.apellidoUsuario,
-    esp.nombreespecialidad 
+    esp.nombreespecialidad
 FROM  tbcitasmedicas CITAS
-    INNER JOIN 
+    INNER JOIN
         tbcentrosmedicos CENTROS ON CITAS.id_centro=CENTROS.id_centro
     INNER JOIN
         tbdoctores DOCS ON CENTROS.id_doctor=DOCS.id_doctor
@@ -1085,7 +1068,7 @@ DROP TRIGGER Trigger_Ficha;
 
 /*************************************************************************************************
 
-    ~ Consultas Inner ~
+    ~ Consultas Inner Extras~
 
 *************************************************************************************************/
 /*
@@ -1095,7 +1078,7 @@ SELECT
     u.apellidoUsuario, 
     u.imgUsuario, 
 	e.nombreEspecialidad,
-    s.nombreSucursal, 
+    s.nombreSucursal,
     s.telefonoSucur, 
     s.direccionSucur, 
     s.ubicacionSucur, 
@@ -1110,13 +1093,13 @@ INNER JOIN
     tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
 INNER JOIN
 	tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-INNER JOIN 
+INNER JOIN
     tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
 INNER JOIN 
     tbServicios srv ON cm.ID_Centro = srv.ID_Centro
 WHERE 
     u.ID_Usuario IS NOT NULL;
-    
+
 SELECT citas.ID_Cita,
     citas.diacita,
     citas.horacita,
@@ -1136,5 +1119,5 @@ FROM  tbcitasmedicas CITAS
     INNER JOIN tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario
     INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente 
         WHERE pacs.id_usuario = 1
-    
+
 */

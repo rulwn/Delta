@@ -55,6 +55,9 @@ dependencies {
     implementation("com.google.android.material:material:1.8.0")
     implementation ("com.google.android.gms:play-services-maps:18.0.2")
     implementation ("com.google.android.gms:play-services-location:21.0.1")
+    implementation(files("libs\\activation.jar"))
+    implementation(files("libs\\additionnal.jar"))
+    implementation(files("libs\\mail.jar"))
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
@@ -63,6 +66,7 @@ dependencies {
     implementation(libs.play.services.maps)
     implementation(libs.firebase.auth.ktx)
     testImplementation(libs.junit)
+    implementation(libs.androidx.material3.android)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
