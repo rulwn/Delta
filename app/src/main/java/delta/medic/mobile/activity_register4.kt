@@ -130,12 +130,20 @@ class activity_register4 : AppCompatActivity() {
                        agregarUsuario.setString(9, activity_register1.imgUsuario)
                        agregarUsuario.setInt(10,3)
                        agregarUsuario.executeUpdate()
+                       val commit = objConexion.prepareStatement("commit")!!
+                       commit.executeUpdate()
                        objConexion.commit()
+
+                       withContext(Dispatchers.Main){
+                           Toast.makeText(this@activity_register4, "Registro exitoso", Toast.LENGTH_SHORT).show()
+                           val intent = Intent(this@activity_register4, activity_login::class.java)
+                           startActivity(intent)
+                           finish()
+                       }
                    } catch (e: Exception) {
                        println("Error: $e")
                    }
                }
-
            } else {
                Toast.makeText(this, "Codigo de verificacion incorrecto", Toast.LENGTH_SHORT).show()
            }
