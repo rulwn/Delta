@@ -1,12 +1,15 @@
 package Modelo
 
 data class dataClassCentro (
-/*
-val apellidoUsuario: String,
-val nombreUsuario: String?,
- */
-
 val ID_Doctor: Int,
+val nombreUsuario: String,
+val apellidoUsuario: String,
 val nombreEspecialidad: String,
-val direccionSucur: String
+val nombreSucursal: String,
+val telefonoSucur: String,
+val direccionSucur: String,
+val ubicacionSucur: String,
+val nombreServicio: String,
+val costo: Float,
+val favorito: Boolean
 )

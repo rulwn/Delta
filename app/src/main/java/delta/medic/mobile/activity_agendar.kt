@@ -75,18 +75,14 @@ class activity_agendar : AppCompatActivity() {
         if (doctorExists) {
             linearNoDoctor.visibility = View.GONE
             cardDoctor.visibility = View.VISIBLE
-            // loadSucursalData()
+            //infoDoctor()
         } else {
-            // Doctor data is not present, show the ImageButton layout
             linearNoDoctor.visibility = View.VISIBLE
             cardDoctor.visibility = View.GONE
         }
 
 
         btnRegresar.setOnClickListener {
-            /*val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("go_back", true)
-            startActivity(intent)*/
             finish()
         }
 
@@ -100,7 +96,6 @@ class activity_agendar : AppCompatActivity() {
     }
 
 
-    //Dialog customizado en tamaño
     private fun showCustomDialog() {
         val dialog = Dialog(this, R.style.CustomDialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -124,12 +119,8 @@ class activity_agendar : AppCompatActivity() {
         editButton.setOnClickListener {
             dialog.dismiss()
         }
-
         dialog.show()
     }
-
-
-
 
     companion object {
         const val REQUEST_CODE = 1
