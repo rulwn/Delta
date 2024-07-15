@@ -19,6 +19,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DeltaMedic"
         tools:targetApi="31">
+        <activity android:name=".activity_busqueda_rapida_hombre"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+            android:exported="false" />
+        <activity android:name=".activity_busqueda_rapida_mujer"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+            android:exported="false" />
         <activity
             android:name=".activity_carga"
             android:exported="false"
@@ -108,7 +114,9 @@
         <activity
             android:name=".activity_register4"
             android:exported="true"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"></activity>
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
+
+        </activity>
         <activity
             android:name=".activity_register3"
             android:exported="false"
@@ -120,16 +128,22 @@
         <activity
             android:name=".activity_register1"
             android:exported="true"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"></activity>
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
+
+        </activity>
         <activity
             android:name=".activity_login"
             android:exported="true"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"></activity>
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
+
+        </activity>
         <activity
             android:name=".activity_bienvenida"
             android:configChanges="uiMode"
             android:exported="true"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"></activity>
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
+
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true"
