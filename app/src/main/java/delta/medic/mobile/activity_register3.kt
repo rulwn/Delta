@@ -17,7 +17,6 @@ import android.widget.TextView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.mail.internet.InternetAddress
 
 class activity_register3 : AppCompatActivity() {
 
@@ -55,12 +54,12 @@ class activity_register3 : AppCompatActivity() {
 
         }
         btnOmitir.setOnClickListener {
-            activity_register1.variablesLogin.imgUsuario = "no hay imagen"
+            activity_register1.imgUsuario = "no hay imagen"
 
 
             CoroutineScope(Dispatchers.Main).launch {
-                println("Correo enviado ${activity_register1.variablesLogin.email}")
-                EmailSender().enviarCorreo(activity_register1.variablesLogin.email, "Codigo de verificacion delta", "${activity_register1.variablesLogin.codigoautenticacion}")
+                println("Correo enviado ${activity_register1.email}")
+                EmailSender().enviarCorreo(activity_register1.email, "Codigo de verificacion delta", "${activity_register1.codigoautenticacion}")
             }
 
 
@@ -71,7 +70,7 @@ class activity_register3 : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == RESULT_OK) {
             val archivoElegido: Uri? = data?.data
             if (archivoElegido != null) {
                 fotoPerfil = archivoElegido
