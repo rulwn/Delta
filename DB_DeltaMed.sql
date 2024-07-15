@@ -10,6 +10,7 @@ CREATE USER DeltaMed IDENTIFIED BY "deltaTeam1";
 GRANT "CONNECT" TO DeltaMed;
 
 ALTER SESSION SET NLS_DATE_FORMAT = 'DD-MM-YYYY';
+COMMIT;
 */
 
 /*************************************************************************************************
@@ -925,20 +926,6 @@ SELECT DUMMY FROM DUAL;
 
 *************************************************************************************************/
 --INNER JOIN CENTROMEDICO
-    SELECT
-    d.ID_Doctor,
-    e.nombreEspecialidad,
-    s.direccionSucur
-    FROM
-    tbCentrosMedicos cm
-    INNER JOIN
-    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-    INNER JOIN
-    tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
-    INNER JOIN
-    tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-
-
 SELECT
     d.ID_Doctor,
     e.nombreEspecialidad,
@@ -961,6 +948,7 @@ LEFT JOIN
 LEFT JOIN
     tbUsuarios u ON c.ID_Paciente = u.ID_Usuario;
 
+--INNER JOIN CENTROMEDICO--
 SELECT
     cm.ID_Doctor,
     e.nombreEspecialidad,
@@ -980,11 +968,11 @@ LEFT JOIN
 LEFT JOIN
     tbCitasMedicas c ON h.ID_Horario = c.ID_Cita
 LEFT JOIN
-    tbUsuarios u ON c.ID_Paciente = u.ID_Usuario
+    tbUsuarios u ON c.ID_Paciente = u.ID_Usuario ;
 
 --INNER JOIN CITASMEDICAS--
-
-SELECT citas.ID_Cita,
+SELECT 
+    citas.ID_Cita,
     citas.diacita,
     citas.horacita,
     citas.motivo,
@@ -995,12 +983,18 @@ SELECT citas.ID_Cita,
     usua.id_usuario,
     USUA.nombreUsuario,
     USUA.apellidoUsuario,
-    esp.nombreespecialidad FROM  tbcitasmedicas CITAS
-        INNER JOIN tbcentrosmedicos CENTROS ON CITAS.id_centro=CENTROS.id_centro
-        INNER JOIN tbdoctores DOCS ON CENTROS.id_doctor=DOCS.id_doctor
-        INNER JOIN tbEspecialidades ESP ON docs.id_especialidad = esp.id_especialidad
-        INNER JOIN tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario
-        INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente WHERE pacs.id_usuario = 1
+    esp.nombreespecialidad 
+FROM  tbcitasmedicas CITAS
+    INNER JOIN 
+        tbcentrosmedicos CENTROS ON CITAS.id_centro=CENTROS.id_centro
+    INNER JOIN
+        tbdoctores DOCS ON CENTROS.id_doctor=DOCS.id_doctor
+    INNER JOIN
+        tbEspecialidades ESP ON docs.id_especialidad = esp.id_especialidad
+    INNER JOIN
+        tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario
+    INNER JOIN
+        tbpacientes PACS ON citas.id_paciente = pacs.id_paciente WHERE pacs.id_usuario = 1
 
 --La siguiente sección sirve para eliminar la base, quitar el "/*" al inicio de las sentencias
 /*************************************************************************************************
@@ -1100,6 +1094,7 @@ SELECT
     u.nombreUsuario, 
     u.apellidoUsuario, 
     u.imgUsuario, 
+	e.nombreEspecialidad,
     s.nombreSucursal, 
     s.telefonoSucur, 
     s.direccionSucur, 
@@ -1113,13 +1108,15 @@ INNER JOIN
     tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
 INNER JOIN 
     tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
+INNER JOIN
+	tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
 INNER JOIN 
     tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
 INNER JOIN 
     tbServicios srv ON cm.ID_Centro = srv.ID_Centro
 WHERE 
     u.ID_Usuario IS NOT NULL;
-
+    
 SELECT citas.ID_Cita,
     citas.diacita,
     citas.horacita,
@@ -1139,5 +1136,5 @@ FROM  tbcitasmedicas CITAS
     INNER JOIN tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario
     INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente 
         WHERE pacs.id_usuario = 1
-        
+    
 */
