@@ -111,7 +111,6 @@ class activity_register4 : AppCompatActivity() {
         }
         val btnSiguiente = findViewById<Button>(R.id.btnRegistrarse)
         btnSiguiente.setOnClickListener {
-
             var intento = num1edit.text.toString() + num2edit.text.toString() + num3edit.text.toString() + num4edit.text.toString() + num5edit.text.toString() + num6edit.text.toString()
             var intentoNum = intento.toInt()
            if(intentoNum == activity_register1.variablesLogin.codigoautenticacion) {

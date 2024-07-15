@@ -89,7 +89,6 @@ class fragment_usuario : Fragment() {
             } catch (e: Exception) {
                 println("Este es el error: ${e.message}")
             }
-
             listaUsuarios
         }
     }
