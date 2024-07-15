@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -108,6 +109,18 @@ class activity_editarperfil : AppCompatActivity() {
 
         btnActualizarUserEP.setOnClickListener{
             actualizarDatosUsuario(txtNombreEP.text.toString(), txtApellidoEP.text.toString(), txtCorreoEP.text.toString(), txtDirecciónEP.text.toString(), txtTeléfonoEP.text.toString())
+            Toast.makeText(this, "Datos actualizados correctamente", Toast.LENGTH_SHORT).show()
+            activity_login.userEmail=txtCorreoEP.text.toString()
+
+            intent = Intent(this, activity_login::class.java)
+            startActivity(intent)
+
+            finish()
+            MainActivity().finish()
+        }
+
+        btnCancelarEP.setOnClickListener{
+            finish()
         }
 
     }

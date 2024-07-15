@@ -262,7 +262,7 @@
         android:id="@+id/txtTelefono"
         android:layout_width="355dp"
         android:layout_height="54dp"
-        android:layout_marginTop="424dp"
+        android:layout_marginTop="484dp"
         android:background="@drawable/textboxprueba"
         android:fontFamily="@font/poppins_regular"
         android:hint="Teléfono"
@@ -296,7 +296,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.205" />
+        app:layout_constraintVertical_bias="0.553" />
+
 
     <RadioGroup
         android:id="@+id/radioGroupGender"
@@ -306,9 +307,10 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/txtFechadeNacimiento"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imgFondo"
-        app:layout_constraintVertical_bias="0.90999997">
+        app:layout_constraintVertical_bias="0.833">
 
         <RadioButton
             android:id="@+id/rbHombre"
@@ -335,7 +337,6 @@
             android:textColor="@drawable/text_selecter_register" />
 
     </RadioGroup>
-
 
     <Button
         android:id="@+id/btnSiguiente2"
@@ -393,6 +394,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.26" />
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
