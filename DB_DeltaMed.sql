@@ -1107,4 +1107,5 @@ FROM  tbcitasmedicas CITAS
     INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente 
         WHERE pacs.id_usuario = 1
         
+        
 */

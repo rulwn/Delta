@@ -62,8 +62,6 @@ class activity_register3 : AppCompatActivity() {
                 println("Correo enviado ${activity_register1.variablesLogin.email}")
                 EmailSender().enviarCorreo(activity_register1.variablesLogin.email, "Codigo de verificacion delta", "${activity_register1.variablesLogin.codigoautenticacion}")
             }
-
-
             val intent = Intent(this, activity_register4::class.java)
             startActivity(intent)
         }
