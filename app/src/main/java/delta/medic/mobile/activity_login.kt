@@ -81,11 +81,16 @@ class activity_login : AppCompatActivity() {
 
                 userEmail = txtEmailRecuperacion.text.toString()
                 CoroutineScope(Dispatchers.Main).launch{
-                if(verificarCorreo(userEmail)){
-                    CoroutineScope(Dispatchers.IO).launch {
+                if(verificarCorreo(userEmail)) {
+                    withContext(Dispatchers.IO) {
                         codigoRecu = (1000..9999).random()
-                        EmailSender().enviarCorreo("$userEmail","Recuperación de contraseña Delta","$codigoRecu")
+                        EmailSender().enviarCorreo(
+                            "$userEmail",
+                            "Recuperación de contraseña Delta",
+                            "$codigoRecu"
+                        )
                     }
+                }
                     dialog.dismiss()
                     val segundoBuilder = AlertDialog.Builder(this@activity_login)
                     val segundoLayout = LayoutInflater.from(this@activity_login).inflate(R.layout.dialog_codigo_recuperacion, null)
@@ -155,33 +160,30 @@ class activity_login : AppCompatActivity() {
                             val btnConfirmarCambio = tercerLayout.findViewById<Button>(R.id.btnConfirmarCambio)
 
                             btnConfirmarCambio.setOnClickListener {
-                                if(txtConfirmarNuevaClave.text == txtNuevaClave.text){
-                                    val contra = Encrypter().encrypt(txtNuevaClave.text.toString())
-                                    Log.d("Encriptacion","Contra encriptada: $contra")
-                                    CoroutineScope(Dispatchers.IO).launch {
-                                        try {
-                                            val objConexion = ClaseConexion().cadenaConexion()
-                                            val cambiarClave = objConexion?.prepareStatement("update tbUsuarios set contrasena = ? where emailusuario = ?")!!
-                                            cambiarClave.setString(1, contra)
-                                            cambiarClave.setString(2, userEmail)
-                                            cambiarClave.executeUpdate()
-                                            val commit = objConexion.prepareStatement("commit")
-                                            commit.executeUpdate()
-                                        } catch (e: Exception){
-                                            println("Error: $e")
+                                    if( txtConfirmarNuevaClave.text.toString()==txtNuevaClave.text.toString()){
+                                        val contra = Encrypter().encrypt(txtNuevaClave.text.toString())
+                                        CoroutineScope(Dispatchers.IO).launch{
+                                            try {
+                                                val objConexion = ClaseConexion().cadenaConexion()
+                                                val cambiarClave = objConexion?.prepareStatement("update tbUsuarios set contrasena = ? where emailusuario = ?")!!
+                                                cambiarClave.setString(1, contra)
+                                                cambiarClave.setString(2, userEmail)
+                                                cambiarClave.executeUpdate()
+                                                val commit = objConexion.prepareStatement("commit")!!
+                                                commit.executeUpdate()
+                                            } catch (e: Exception){
+                                                println("Error: $e")
+                                            }
                                         }
                                     }
-/*                                    dialog3.dismiss()*/
-
-                                }
-
+                                 dialog3.dismiss()
                             }
                             dialog3.show()
                         }
                     }
                     dialog2.show()
                 }
-            }
+
             }
             dialog.show()
         }
