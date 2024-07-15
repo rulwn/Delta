@@ -15,7 +15,7 @@ data class dataClassUsuario(
     var dirección: String,
     var teléfonoUsuario: String,
     var sexo: String,
-    var fechaNacimiento: Date,
+    var fechaNacimiento: String,
     var imgUsuario: String,
     var idTipoUsuario: Int
 

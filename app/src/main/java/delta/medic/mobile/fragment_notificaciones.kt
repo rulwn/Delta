@@ -44,7 +44,6 @@ class fragment_notificaciones : Fragment() {
                 }
             }
         }
-
         return root
     }
 

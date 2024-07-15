@@ -35,6 +35,7 @@ class HomeFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_home, container, false)
         val txtBienvenido = root.findViewById<TextView>(R.id.txtBienvenido)
         loadData(txtBienvenido)
+        println("Email: $userEmail")
         return root
     }
 
@@ -57,11 +58,11 @@ class HomeFragment : Fragment() {
                         val contrasena = resultSet.getString("contrasena")
                         val direccion = resultSet.getString("direccion")
                         val teléfono = resultSet.getString("telefonoUsuario")
-                        val sexo = resultSet.getCharacterStream("sexo").toString()
-                        val fechaNacimiento = resultSet.getDate("fechaNacimiento")
+                        val sexo = resultSet.getString("sexo").toString()
+                        val fechaNacimiento = resultSet.getString("fechaNacimiento")
                         var imgUsuario = ""
-                        if(resultSet.getBlob("imgUsuario") != null){
-                            imgUsuario = resultSet.getBlob("imgUsuario").toString()}
+                        if(resultSet.getString("imgUsuario") != null){
+                            imgUsuario = resultSet.getString("imgUsuario").toString()}
                         else{
                             imgUsuario = ""
                         }
@@ -95,15 +96,23 @@ class HomeFragment : Fragment() {
     }
 
     fun loadData(lbNombre: TextView) {
-        viewLifecycleOwner.lifecycleScope.launch {
-            val user = GetUserParameters(userEmail)
-            //Estos campos al estar con map pondrá  "[]" al inicio y al final
-            val nombreUsuario = user.map { it.nombreUsuario}
+        try {
+            viewLifecycleOwner.lifecycleScope.launch {
+                val user = GetUserParameters(userEmail)
+                //Estos campos al estar con map pondrá  "[]" al inicio y al final
+                val nombreUsuario = user.map { it.nombreUsuario }
 
-            withContext(Dispatchers.Main) {
-                //Para solucionarlo se coloca replace
-                lbNombre.setText(" Bienvenido ${nombreUsuario.toString().replace("[", "").replace("]","")}")
+                withContext(Dispatchers.Main) {
+                    //Para solucionarlo se coloca replace
+                    lbNombre.setText(
+                        " Bienvenido ${
+                            nombreUsuario.toString().replace("[", "").replace("]", "")
+                        }"
+                    )
+                }
             }
+        }catch (e: Exception) {
+            println("Error: $e")
         }
     }
 }
