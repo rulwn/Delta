@@ -11,11 +11,6 @@ import delta.medic.mobile.ui.SpecialtiesBottomSheetFragment
 import androidx.navigation.fragment.findNavController
 
 
-
-
-
-
-
 class fragment_busquedaRapidaHombre : Fragment() {
 
 
@@ -65,17 +60,16 @@ class fragment_busquedaRapidaHombre : Fragment() {
     }
 
     private fun isChestArea(x: Float, y: Float): Boolean {
-        //nose m olvide q son coordenadas para el pecho
-        return x in 100f..200f && y in 300f..400f
+      return x in 550f..750f && y in 600f..800f
     }
 
     private fun isHeadArea(x: Float, y: Float): Boolean {
-        //y estas para la cabeza we
-        return x in 100f..200f && y in 100f..200f
+     return x in 550f..750f && y in 100f..300f
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
 }
