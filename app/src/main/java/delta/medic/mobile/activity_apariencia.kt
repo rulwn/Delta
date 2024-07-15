@@ -51,13 +51,13 @@ class activity_apariencia : AppCompatActivity() {
 
         themeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                R.id.lightThemeRadioButton -> {
+                R.id.modoClaro -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 }
-                R.id.darkThemeRadioButton -> {
+                R.id.modoOscuro -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 }
-                R.id.systemDefaultThemeRadioButton -> {
+                R.id.predeterminadoSistema -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
                 }
             }
