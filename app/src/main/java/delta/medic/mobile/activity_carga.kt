@@ -12,24 +12,20 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class splash_screen : AppCompatActivity() {
+class activity_carga : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_splash_screen)
+        setContentView(R.layout.activity_carga)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
         GlobalScope.launch(Dispatchers.Main) {
             val lottieView = findViewById<LottieAnimationView>(R.id.lottie_view)
-            //lottieView.setAnimation("animation.json")
-            //lottieView.playAnimation()
-            lottieView.setImageAssetsFolder("images/")
-            delay(4000)
-            startActivity(Intent(this@splash_screen, activity_bienvenida::class.java))
+            delay(2000)
+            startActivity(Intent(this@activity_carga, MainActivity::class.java))
             finish()
         }
     }

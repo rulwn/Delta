@@ -48,8 +48,12 @@ class activity_login : AppCompatActivity() {
               if (inicio) {
                   Log.wtf("Intento de inicio","Sesion iniciada")
                   userEmail = txtEmail.text.toString()
-                  val intent = Intent(this@activity_login, MainActivity::class.java)
-                  startActivity(intent)
+                  withContext(Dispatchers.Main) {
+                      Toast.makeText(this@activity_login, "Sesion iniciada", Toast.LENGTH_SHORT)
+                          .show()
+                      val intent = Intent(this@activity_login, activity_carga::class.java)
+                      startActivity(intent)
+                  }
 
               } else {
                   withContext(Dispatchers.Main){
