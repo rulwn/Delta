@@ -109,7 +109,11 @@ class activity_register4 : AppCompatActivity() {
             }
             false
         }
+
         val btnSiguiente = findViewById<Button>(R.id.btnRegistrarse)
+        if(num6edit.text.isNotEmpty()){
+            btnSiguiente.isEnabled = true
+        }
         btnSiguiente.setOnClickListener {
 
             var intento = num1edit.text.toString() + num2edit.text.toString() + num3edit.text.toString() + num4edit.text.toString() + num5edit.text.toString() + num6edit.text.toString()
