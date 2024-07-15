@@ -1,44 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp"
-    android:background="@drawable/bordes">
+    android:layout_margin="8dp"
+    card_view:cardCornerRadius="8dp"
+    card_view:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:background="@drawable/bordes">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/notificationTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Title"
+                android:textColor="@android:color/holo_red_dark"
+                android:textStyle="bold"
+                android:fontFamily="@font/poppins_bold"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/notificationIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_alert"
+                android:contentDescription="@string/alert_icon"/>
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/notificationTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Title"
-            android:textColor="@android:color/holo_red_dark"
-            android:textStyle="bold"
-            android:fontFamily="@font/poppins_bold"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:id="@+id/notificationIcon"
+            android:id="@+id/notificationSubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_alert"
-            android:contentDescription="@string/alert_icon"/>
+            android:text="Subtitle"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="8dp"
+            android:textStyle="normal"
+            android:fontFamily="@font/poppins_regular"
+            android:textSize="14sp" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/notificationSubtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Subtitle"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="8dp"
-        android:textStyle="normal"
-        android:fontFamily="@font/poppins_regular"
-        android:textSize="14sp" />
-</LinearLayout>
+</androidx.cardview.widget.CardView>
