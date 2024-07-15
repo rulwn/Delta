@@ -240,6 +240,7 @@
         android:layout_width="295dp"
         android:layout_height="60dp"
         android:backgroundTint="@color/Azul2"
+        android:enabled="false"
         android:fontFamily="@font/poppins_medium"
         android:foregroundTint="#FFFFFF"
         android:text="Siguiente"
