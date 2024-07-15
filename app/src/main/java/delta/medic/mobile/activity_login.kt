@@ -40,8 +40,11 @@ class activity_login : AppCompatActivity() {
         val txtEmail = findViewById<EditText>(R.id.txtEmail)
         val txtClave = findViewById<EditText>(R.id.txtClave)
         val btnContinuar = findViewById<Button>(R.id.btnContinuar)
+        val btnGoogle = findViewById<Button>(R.id.btnGoogle)
+        btnGoogle.setOnClickListener {
+            Toast.makeText(this, "No puedes ingresar con Google aun", Toast.LENGTH_SHORT).show()
+        }
         btnContinuar.setOnClickListener {
-
             CoroutineScope(Dispatchers.Main).launch {
                 val intentoClave =  Encrypter().encrypt(txtClave.text.toString())
              val inicio = inicioSesion(txtEmail.text.toString(), intentoClave)

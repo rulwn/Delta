@@ -902,7 +902,6 @@ INSERT INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_Tipo
 VALUES (TO_DATE('2024-07-14', 'YYYY-MM-DD'), 'A', 'Cita cancelada para mañana a las 2:00pm', 'S', 1, 1);
 
 COMMIT;
-SELECT * FROM tbUsuarios WHERE emailUsuario = 'rodrigo.hq.007@gmail.com'
 select * from tbCitasMedicas;
 SELECT * FROM tbUsuarios WHERE emailUsuario = 'hector@gmail.com';
 

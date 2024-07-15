@@ -53,23 +53,26 @@
         app:layout_constraintVertical_bias="0.100000024">
 
         <RadioButton
-            android:id="@+id/lightThemeRadioButton"
+            android:id="@+id/modoClaro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Light Theme" />
+            android:fontFamily="@font/poppins_regular"
+            android:text="Modo Claro" />
 
         <RadioButton
-            android:id="@+id/darkThemeRadioButton"
+            android:id="@+id/modoOscuro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dark Theme" />
+            android:fontFamily="@font/poppins_regular"
+            android:text="Modo Oscuro" />
 
         <RadioButton
-            android:id="@+id/systemDefaultThemeRadioButton"
+            android:id="@+id/predeterminadoSistema"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
             android:checked="true"
-            android:text="System Default" />
+            android:text="Predeterminado por el Sistema " />
 
     </RadioGroup>
 
