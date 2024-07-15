@@ -55,7 +55,7 @@ class fragment_busquedaRapidaHombre : Fragment() {
         val specialties = when {
             isChestArea(x, y) -> listOf("Cardiología", "Torax")
             isHeadArea(x, y) -> listOf("Neurología", "Otorrinolaringología")
-            // Agrega más áreas del cuerpo según sea necesario
+
             else -> emptyList()
         }
         if (specialties.isNotEmpty()) {

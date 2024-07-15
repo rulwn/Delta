@@ -47,14 +47,14 @@ class AdaptadorNotis (private val notificaciones: List<dataClassNotis>) : Recycl
                 else -> R.drawable.ic_default
             })
 
-            // Set the text color based on the notification type
+
             val context = itemView.context
             title.setTextColor(when (notificacion.tipo) {
                 "A" -> ContextCompat.getColor(context, R.color.avisos)
-                "R" -> ContextCompat.getColor(context, R.color.recordatorio)
+                "R" -> ContextCompat.getColor(context, R.color.Azul1)
                 "C" -> ContextCompat.getColor(context, R.color.Turquesa1)
                 "P" -> ContextCompat.getColor(context, R.color.GrisHumo)
-                else -> ContextCompat.getColor(context, R.color.black) // Default color
+                else -> ContextCompat.getColor(context, R.color.black)
             })
         }
     }
