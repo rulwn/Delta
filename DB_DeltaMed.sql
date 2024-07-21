@@ -220,7 +220,6 @@ CREATE TABLE tbReviews (
     REFERENCES tbUsuarios(ID_Usuario)
     ON DELETE CASCADE
 );
-select * from tbReviews;
 
 CREATE TABLE tbNotis (
     ID_Notificacion INT PRIMARY KEY,
@@ -280,7 +279,6 @@ CREATE TABLE tbExpedientes (
     ON DELETE CASCADE
 );
 
-select * from tbExpedientes;
 
 CREATE TABLE tbCitasMedicas (
     ID_Cita INT PRIMARY KEY,
@@ -900,11 +898,24 @@ INSERT ALL
 SELECT DUMMY FROM DUAL;
 
 INSERT INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
-VALUES (TO_DATE('2024-07-14', 'YYYY-MM-DD'), 'A', 'Cita cancelada para mañana a las 2:00pm', 'S', 1, 1);
+VALUES (TO_DATE('2024-07-14', 'YYYY-MM-DD'), 'P', 'Descargar pdf de tu ultima cita', 'S', 1, 1);
+
+INSERT ALL
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Limpieza Bucal', 40.00, 1, 1)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Chequeo General', 30.00, 2, 2)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Examen Visual', 45.00, 3, 3)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Blanqueamiento Dental', 60.00, 4, 4)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Terapia Cognitiva', 55.00, 5, 5)
+SELECT DUMMY FROM DUAL;
 
 COMMIT;
+select * from tbCentrosMedicos;
 select * from tbCitasMedicas;
-SELECT * FROM tbUsuarios WHERE emailUsuario = 'hector@gmail.com';
 
 /*****************************************************************************
 
@@ -952,7 +963,7 @@ INNER JOIN
 INNER JOIN
     tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
 INNER JOIN
-    tbServicios srv ON cm.ID_Centro = srv.ID_Centro
+    tbServicios srv ON cm.ID_Centro = srv.ID_Centro;
 
 --INNER JOIN CITASMEDICAS--
 
