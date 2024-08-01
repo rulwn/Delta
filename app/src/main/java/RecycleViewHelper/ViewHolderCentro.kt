@@ -35,6 +35,7 @@ class ViewHolderCentro(view: View) : RecyclerView.ViewHolder(view)
             val sucursal = Datos[position]
             holder.textViewNombreDoctor.text = sucursal.centroMedico
             holder.itemView.setOnClickListener { onClick(sucursal) }
+
         }
 
         override fun getItemCount(): Int {

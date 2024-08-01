@@ -8,11 +8,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import delta.medic.mobile.R
 
-class AdaptadorCentro(private val items: List<dataClassCentro>) : RecyclerView.Adapter<AdaptadorCentro.ViewHolder>() {
+class AdaptadorCentro(private var items: List<dataClassCentro>) : RecyclerView.Adapter<AdaptadorCentro.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nombreEspecialidad: TextView = view.findViewById(R.id.txtEspecialidad)
         val direccionSucur: TextView = view.findViewById(R.id.txtDireccionnn)
+        val nombreUsuario: TextView = view.findViewById(R.id.txtNombre)
+        val costo: TextView = view.findViewById(R.id.txtServicios)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -24,8 +26,20 @@ class AdaptadorCentro(private val items: List<dataClassCentro>) : RecyclerView.A
         val item = items[position]
         holder.nombreEspecialidad.text = item.nombreEspecialidad
         holder.direccionSucur.text = item.direccionSucur
+        holder.nombreUsuario.text = item.nombreUsuario
+        val costoFormatted = String.format("$%.2f", item.costo)
+        val infoAdicional = "Costo: "
+        holder.costo.text = "$infoAdicional$costoFormatted"
     }
+
     override fun getItemCount(): Int {
-        return items.size
+        val itemCount = items.size
+        return itemCount
+    }
+
+    fun actualizarDatos(nuevosItems: List<dataClassCentro>) {
+        items = nuevosItems
+        notifyDataSetChanged()
     }
 }
+

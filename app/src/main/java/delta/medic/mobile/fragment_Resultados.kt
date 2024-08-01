@@ -15,6 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import android.util.Log
 
 class fragment_Resultados : Fragment() {
 
@@ -37,11 +38,9 @@ class fragment_Resultados : Fragment() {
         btnRegresar.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
-
         rcvResultados.layoutManager = LinearLayoutManager(context)
 
         arguments?.getString("query")?.let {
-           
         }
 
         suspend fun obtenerDatos(): List<dataClassCentro> {
@@ -49,20 +48,23 @@ class fragment_Resultados : Fragment() {
                 val centroMedico = mutableListOf<dataClassCentro>()
                 try {
                     val objConexion = ClaseConexion()?.cadenaConexion()
-                    objConexion?.createStatement()?.executeQuery(
-                        """
-                           SELECT
+                    if (objConexion != null) {
+                        val statement = objConexion.createStatement()
+                        val resultSet = statement.executeQuery("""
+SELECT
+    cm.ID_Doctor,
     u.nombreUsuario,
     u.apellidoUsuario,
     u.imgUsuario,
     s.nombreSucursal,
-    s.telefonoSucur ,
-    s.direccionSucur ,
-    s.ubicacionSucur ,
+    s.telefonoSucur,
+    s.direccionSucur,
+    s.ubicacionSucur,
+    e.nombreEspecialidad,
     srv.nombreServicio,
     srv.costo,
     cm.favorito
-FROM
+FROM 
     tbCentrosMedicos cm
 INNER JOIN
     tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
@@ -71,26 +73,34 @@ INNER JOIN
 INNER JOIN
     tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
 INNER JOIN
+    tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+INNER JOIN
     tbServicios srv ON cm.ID_Centro = srv.ID_Centro
-                        """)?.apply {
-                        while (next()) {
-                            val ID_Doctor = getInt("ID_Doctor")
-                            val nombreEspecialidad = getString("nombreEspecialidad")
-                            val direccionSucur = getString("direccionSucur")
-                            val nombreUsuario = getString("nombreUsuario")
-                            val apellidoUsuario = getString("apellidoUsuario")
-                            val nombreSucursal = getString("nombreSucursal")
-                            val telefonoSucur = getString("telefonoSucur")
-                            val ubicacionSucur = getString("ubicacionSucur")
-                            val nombreServicio = getString("nombreServicio")
-                            val costo = getFloat("costo")
-                            val favorito = getBoolean("favorito")
-                            centroMedico.add(dataClassCentro(ID_Doctor, nombreUsuario, apellidoUsuario, nombreEspecialidad, nombreSucursal, telefonoSucur, direccionSucur,
+                """)
+                        while (resultSet.next()) {
+                            val ID_Doctor = resultSet.getInt("ID_Doctor")
+                            val nombreUsuario = resultSet.getString("nombreUsuario")
+                            val apellidoUsuario = resultSet.getString("apellidoUsuario")
+                            val imgUsuario = resultSet.getString("imgUsuario")
+                            val nombreSucursal = resultSet.getString("nombreSucursal")
+                            val telefonoSucur = resultSet.getString("telefonoSucur")
+                            val direccionSucur = resultSet.getString("direccionSucur")
+                            val ubicacionSucur = resultSet.getString("ubicacionSucur")
+                            val nombreEspecialidad = resultSet.getString("nombreEspecialidad")
+                            val nombreServicio = resultSet.getString("nombreServicio")
+                            val costo = resultSet.getFloat("costo")
+                            val favorito = resultSet.getBoolean("favorito")
+
+                            centroMedico.add(dataClassCentro(ID_Doctor, nombreUsuario, apellidoUsuario, imgUsuario, nombreEspecialidad, nombreSucursal, telefonoSucur, direccionSucur,
                                 ubicacionSucur, nombreServicio, costo, favorito))
                         }
-                    } ?: println("No se pudo establecer una conexión con la base de datos.")
+                        resultSet.close()
+                        statement.close()
+                    } else {
+                        Log.e("obtenerDatos", "No se pudo establecer una conexión con la base de datos.")
+                    }
                 } catch (e: Exception) {
-                    println("Este es el error ${e.message}")
+                    Log.e("obtenerDatos", "Error al obtener datos: ${e.message}")
                 }
                 centroMedico
             }
@@ -103,7 +113,6 @@ INNER JOIN
                 rcvResultados.adapter = miAdapter
             }
         }
-
         return root
     }
 }

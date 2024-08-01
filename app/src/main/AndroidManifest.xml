@@ -147,7 +147,8 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/DeltaMedic"></activity>
+            android:label="@string/DeltaMedic">
+        </activity>
 
         <meta-data
             android:name="preloaded_fonts"

@@ -8,6 +8,7 @@
 ALTER SESSION SET "_ORACLE_SCRIPT" = TRUE;
 CREATE USER DeltaMed IDENTIFIED BY "deltaTeam1";
 GRANT "CONNECT" TO DeltaMed;
+DROP USER DeltaMed CASCADE;
 
 ALTER SESSION SET NLS_DATE_FORMAT = 'DD-MM-YYYY';
 COMMIT;
@@ -18,9 +19,6 @@ COMMIT;
     ~ CREACIÓN DE TABLAS INDEPENDIENTES ~
 
 *************************************************************************************************/
-
-Select * from tbUsuarios;
-
 CREATE TABLE tbTipoNotis (
     ID_TipoNoti INT PRIMARY KEY,
     nombreTipoNoti VARCHAR2(25)
@@ -801,11 +799,16 @@ SELECT DUMMY FROM DUAL;
 select * from tbusuarios;
 
 INSERT ALL
-    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('TOEWQ12', 'PRIMER2', 1, 1)
-    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('ABCD1234', 'POLIZA1', 2, 2)
-    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('EFGH5678', 'POLIZA2', 3, 4)
-    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('IJKL9101', 'POLIZA3', 4, 3)
-    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('MNOP2345', 'POLIZA4', 5, 5)
+    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) 
+        VALUES ('TOEWQ12', 'PRIMER2', 1, 1)
+    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) 
+        VALUES ('ABCD1234', 'POLIZA1', 2, 2)
+    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) 
+        VALUES ('EFGH5678', 'POLIZA2', 3, 4)
+    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) 
+        VALUES ('IJKL9101', 'POLIZA3', 4, 3)
+    INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) 
+        VALUES ('MNOP2345', 'POLIZA4', 5, 5)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -859,6 +862,19 @@ INSERT ALL
     INTO tbCentrosMedicos (favorito, ID_Doctor, ID_Sucursal)
          VALUES ('F', 1, 5)
 SELECT DUMMY FROM DUAL;
+    
+INSERT ALL
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Limpieza Bucal', 40.00, 1, 1)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Chequeo General', 30.00, 2, 2)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Examen Visual', 45.00, 3, 3)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Blanqueamiento Dental', 60.00, 4, 4)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Terapia Cognitiva', 55.00, 5, 5)
+SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbHorarios (horaInicio, horaSalida, dias, exclusiones, almuerzo, descansos, lapsosCita, ID_Centro)
@@ -886,6 +902,7 @@ INSERT ALL
          VALUES (5, 'Luis', 'Sanchez', NULL, 'Hermano', 5)
 SELECT DUMMY FROM DUAL;
 
+
 INSERT ALL
     INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
          VALUES (1, TO_DATE('2023-01-01', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general', 5, 1)
@@ -901,6 +918,21 @@ SELECT DUMMY FROM DUAL;
 
 INSERT INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
 VALUES (TO_DATE('2024-07-14', 'YYYY-MM-DD'), 'A', 'Cita cancelada para mañana a las 2:00pm', 'S', 1, 1);
+
+INSERT ALL
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Limpieza Bucal', 40.00, 1, 1)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Chequeo General', 30.00, 2, 2)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Examen Visual', 45.00, 3, 3)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Blanqueamiento Dental', 60.00, 4, 4)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Terapia Cognitiva', 55.00, 5, 5)
+SELECT DUMMY FROM DUAL;
+
+select * from tbServicios;
 
 COMMIT;
 select * from tbCitasMedicas;
@@ -931,15 +963,16 @@ SELECT DUMMY FROM DUAL;
     ~ Consultas Inner ~
 
 *************************************************************************************************/
---INNER JOIN CENTROMEDICO
-   SELECT
+--INNER JOIN CENTROMEDICO--
+SELECT
+    cm.ID_Doctor,
     u.nombreUsuario,
     u.apellidoUsuario,
     u.imgUsuario,
     s.nombreSucursal,
-    s.telefonoSucur ,
-    s.direccionSucur ,
-    s.ubicacionSucur ,
+    s.telefonoSucur,
+    s.direccionSucur,
+    s.ubicacionSucur,
     srv.nombreServicio,
     srv.costo,
     cm.favorito
@@ -952,11 +985,11 @@ INNER JOIN
 INNER JOIN
     tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
 INNER JOIN
-    tbServicios srv ON cm.ID_Centro = srv.ID_Centro
+    tbServicios srv ON cm.ID_Centro = srv.ID_Centro;
 
 --INNER JOIN CITASMEDICAS--
 
-SELECT
+SELECT 
     citas.ID_Cita,
     citas.diacita,
     citas.horacita,
@@ -979,7 +1012,7 @@ FROM  tbcitasmedicas CITAS
     INNER JOIN
         tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario
     INNER JOIN
-        tbpacientes PACS ON citas.id_paciente = pacs.id_paciente WHERE pacs.id_usuario = 1
+        tbpacientes PACS ON citas.id_paciente = pacs.id_paciente WHERE pacs.id_usuario = 1 ;
 
 --La siguiente sección sirve para eliminar la base, quitar el "/*" al inicio de las sentencias
 /*************************************************************************************************
