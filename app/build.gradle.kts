@@ -1,4 +1,5 @@
 plugins {
+    id("com.google.gms.google-services")
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
 }
@@ -55,6 +56,9 @@ dependencies {
     implementation("com.google.android.material:material:1.8.0")
     implementation ("com.google.android.gms:play-services-maps:18.0.2")
     implementation ("com.google.android.gms:play-services-location:21.0.1")
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    implementation("com.google.firebase:firebase-analytics")
     implementation(files("libs\\activation.jar"))
     implementation(files("libs\\additionnal.jar"))
     implementation(files("libs\\mail.jar"))

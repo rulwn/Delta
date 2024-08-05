@@ -1106,8 +1106,34 @@ DROP TRIGGER Trigger_Ficha;
     ~ Consultas Inner Extras~
 
 *************************************************************************************************/
-/*
+SELECT 
+    d.ID_Doctor,
+    u.nombreUsuario, 
+    u.apellidoUsuario, 
+    u.imgUsuario, 
+	e.nombreEspecialidad,
+    s.nombreSucursal,
+    s.telefonoSucur, 
+    s.direccionSucur, 
+    s.ubicacionSucur, 
+    srv.nombreServicio, 
+    srv.costo, 
+    cm.favorito
+FROM 
+    tbCentrosMedicos cm
+INNER JOIN 
+    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+INNER JOIN 
+    tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
+INNER JOIN
+	tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+INNER JOIN
+    tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
+INNER JOIN 
+    tbServicios srv ON cm.ID_Centro = srv.ID_Centro
+WHERE u.ID_TipoUsuario = 2;
 
+/*
 SELECT 
     u.nombreUsuario, 
     u.apellidoUsuario, 
