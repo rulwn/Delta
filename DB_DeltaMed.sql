@@ -1389,15 +1389,16 @@ SELECT DUMMY FROM DUAL;
     ~ Consultas Inner ~
 
 *************************************************************************************************/
---INNER JOIN CENTROMEDICO
+--INNER JOIN CENTROMEDICO--
 SELECT
+    cm.ID_Doctor,
     u.nombreUsuario,
     u.apellidoUsuario,
     u.imgUsuario,
     s.nombreSucursal,
-    s.telefonoSucur ,
-    s.direccionSucur ,
-    s.ubicacionSucur ,
+    s.telefonoSucur,
+    s.direccionSucur,
+    s.ubicacionSucur,
     srv.nombreServicio,
     srv.costo,
     cm.favorito
@@ -1437,7 +1438,7 @@ FROM  tbcitasmedicas CITAS
     INNER JOIN
         tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario
     INNER JOIN
-        tbpacientes PACS ON citas.id_paciente = pacs.id_paciente WHERE pacs.id_usuario = 1
+        tbpacientes PACS ON citas.id_paciente = pacs.id_paciente WHERE pacs.id_usuario = 1 ;
 
 /*************************************************************************************************
 

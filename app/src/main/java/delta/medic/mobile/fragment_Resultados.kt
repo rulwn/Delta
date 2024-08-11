@@ -15,9 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.Boolean.getBoolean
-import java.lang.reflect.Array.getFloat
-import java.lang.reflect.Array.getInt
+import android.util.Log
 
 class fragment_Resultados : Fragment() {
 
@@ -40,38 +38,9 @@ class fragment_Resultados : Fragment() {
         btnRegresar.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
-
         rcvResultados.layoutManager = LinearLayoutManager(context)
 
         arguments?.getString("query")?.let {
-           
-        }
-
-        suspend fun obtenerDatos(): List<dataClassCentro> {
-            return withContext(Dispatchers.IO) {
-                val centroMedico = mutableListOf<dataClassCentro>()
-                try {
-                    val objConexion = ClaseConexion()?.cadenaConexion()
-                    objConexion?.createStatement()?.executeQuery(
-                        """
-                        SELECT d.ID_Doctor, e.nombreEspecialidad, s.nombreSucursal, s.direccionSucur
-                        FROM tbCentrosMedicos cm
-                        INNER JOIN tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-                        INNER JOIN tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
-                        INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-                        """)?.apply {
-                        while (next()) {
-                            val ID_Doctor = getInt("ID_Doctor")
-                            val nombreEspecialidad = getString("nombreEspecialidad")
-                            val direccionSucur = getString("direccionSucur")
-                            centroMedico.add(dataClassCentro(ID_Doctor, nombreEspecialidad, direccionSucur))
-                        }
-                    } ?: println("No se pudo establecer una conexión con la base de datos.")
-                } catch (e: Exception) {
-                    println("Este es el error ${e.message}")
-                }
-                centroMedico
-            }
         }
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -80,8 +49,71 @@ class fragment_Resultados : Fragment() {
                 val miAdapter = AdaptadorCentro(centrosDB)
                 rcvResultados.adapter = miAdapter
             }
-        }
 
+        }
         return root
     }
+    suspend fun obtenerDatos(): List<dataClassCentro> {
+        return withContext(Dispatchers.IO) {
+            val centroMedico = mutableListOf<dataClassCentro>()
+            try {
+                val objConexion = ClaseConexion()?.cadenaConexion()
+                if (objConexion != null) {
+                    val statement = objConexion.createStatement()
+                    val resultSet = statement.executeQuery("""
+SELECT 
+    d.ID_Doctor,
+    u.nombreUsuario, 
+    u.apellidoUsuario, 
+    u.imgUsuario, 
+	e.nombreEspecialidad,
+    s.nombreSucursal,
+    s.telefonoSucur, 
+    s.direccionSucur, 
+    s.ubicacionSucur, 
+    srv.nombreServicio, 
+    srv.costo, 
+    cm.favorito
+FROM 
+    tbCentrosMedicos cm
+INNER JOIN 
+    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+INNER JOIN 
+    tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
+INNER JOIN
+	tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+INNER JOIN
+    tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
+INNER JOIN 
+    tbServicios srv ON cm.ID_Centro = srv.ID_Centro
+WHERE u.ID_TipoUsuario = 2
+                """)
+                    while (resultSet.next()) {
+                        val ID_Doctor = resultSet.getInt("ID_Doctor")
+                        val nombreUsuario = resultSet.getString("nombreUsuario")
+                        val apellidoUsuario = resultSet.getString("apellidoUsuario")
+                        val imgUsuario = resultSet.getString("imgUsuario")
+                        val nombreEspecialidad = resultSet.getString("nombreEspecialidad")
+                        val nombreSucursal = resultSet.getString("nombreSucursal")
+                        val telefonoSucur = resultSet.getString("telefonoSucur")
+                        val direccionSucur = resultSet.getString("direccionSucur")
+                        val ubicacionSucur = resultSet.getString("ubicacionSucur")
+                        val nombreServicio = resultSet.getString("nombreServicio")
+                        val costo = resultSet.getFloat("costo")
+                        val favorito = resultSet.getString("favorito")
+
+                        centroMedico.add(dataClassCentro(ID_Doctor, nombreUsuario, apellidoUsuario, imgUsuario, nombreEspecialidad, nombreSucursal, telefonoSucur, direccionSucur,
+                            ubicacionSucur, nombreServicio, costo, favorito,))
+                    }
+                } else {
+                    Log.e("obtenerDatos", "No se pudo establecer una conexión con la base de datos.")
+                }
+            } catch (e: Exception) {
+                Log.e("obtenerDatos", "Error al obtener datos: ${e.message}")
+            }
+           return@withContext centroMedico
+        }
+
+    }
+
 }
