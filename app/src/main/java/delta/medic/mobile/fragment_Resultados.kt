@@ -49,6 +49,7 @@ class fragment_Resultados : Fragment() {
                 val miAdapter = AdaptadorCentro(centrosDB)
                 rcvResultados.adapter = miAdapter
             }
+
         }
         return root
     }

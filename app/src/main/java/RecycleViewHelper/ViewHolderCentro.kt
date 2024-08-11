@@ -11,16 +11,16 @@ import com.bumptech.glide.Glide
 import delta.medic.mobile.R
 
 class ViewHolderCentro(view: View) : RecyclerView.ViewHolder(view) {
+
     val txtNombreDoctor: TextView = view.findViewById(R.id.txtNombreDoctor)
     val txtEspecialidad: TextView = view.findViewById(R.id.txtEspecialidad)
     val txtDireccion: TextView = view.findViewById(R.id.txtDireccionnn)
     val txtCosto: TextView = view.findViewById(R.id.txtCosto)
     val imgUsuario: ImageView = view.findViewById(R.id.imgFotoUser)
-    //val imgSucursal: ImageView = view.findViewById(R.id.imgClinicaFondo)
+    val imgSucursal: ImageView = view.findViewById(R.id.imgClinicaFondo)
 
-    fun bind(hotel: dataClassCentro) {
-        Glide.with(itemView)
-            .load(hotel.imgUsuario)
-            .into(imgUsuario)
+    fun render(Datos: dataClassCentro){
+        Glide.with(imgUsuario.context).load(Datos.imgUsuario).into(imgUsuario)
+        //Glide.with(imgSucursal.context).load(Datos.imgSucursal).into(imgSucursal)
     }
 }
