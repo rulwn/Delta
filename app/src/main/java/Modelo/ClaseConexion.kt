@@ -34,7 +34,7 @@ Luz
 
 
 Alejandro
-val url = "jdbc:oracle:thin:@192.168.1.6:1521:xe"
+val url = "jdbc:oracle:thin:@192.168.1.23:1521:xe"
 
 Jorge
 "jdbc:oracle:thin:@192.168.1.5:1521:xe"
