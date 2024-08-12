@@ -240,7 +240,7 @@
         android:layout_width="295dp"
         android:layout_height="60dp"
         android:backgroundTint="@color/Azul2"
-        android:enabled="false"
+        android:enabled="true"
         android:fontFamily="@font/poppins_medium"
         android:foregroundTint="#FFFFFF"
         android:text="Siguiente"
@@ -272,8 +272,8 @@
 
     <ImageView
         android:id="@+id/btnAgregarFoto"
-        android:layout_width="109dp"
-        android:layout_height="115dp"
+        android:layout_width="175dp"
+        android:layout_height="177dp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="@+id/imageView4"
         app:layout_constraintEnd_toEndOf="parent"
