@@ -150,6 +150,26 @@ END;
 /
 
 BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbFavoritos CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbRecientes CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
     EXECUTE IMMEDIATE 'DROP TABLE tbDoctores CASCADE CONSTRAINTS';
 EXCEPTION
     WHEN OTHERS THEN
@@ -396,6 +416,26 @@ END;
 /
 
 BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE favorito';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE reciente';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
     EXECUTE IMMEDIATE 'DROP SEQUENCE reviews';
 EXCEPTION
     WHEN OTHERS THEN
@@ -595,9 +635,38 @@ CREATE TABLE tbSucursales (
     ON DELETE CASCADE
 );
 
+CREATE TABLE tbFavoritos (
+    ID_Favorito INT PRIMARY KEY,
+    ID_Sucursal INT NOT NULL,
+    ID_Usuario INT NOT NULL,
+
+    --CONSTRAINTS------------------
+    CONSTRAINT FK_SucursalFav FOREIGN KEY (ID_Sucursal) 
+    REFERENCES tbSucursales(ID_Sucursal)
+    ON DELETE CASCADE, 
+    
+    CONSTRAINT FK_UsuarioFav FOREIGN KEY (ID_Usuario) 
+    REFERENCES tbUsuarios(ID_Usuario)
+    ON DELETE CASCADE 
+);
+
+CREATE TABLE tbRecientes (
+    ID_Reciente INT PRIMARY KEY,
+    ID_Sucursal INT NOT NULL,
+    ID_Usuario INT NOT NULL,
+
+    --CONSTRAINTS------------------
+    CONSTRAINT FK_SucursalRec FOREIGN KEY (ID_Sucursal) 
+    REFERENCES tbSucursales(ID_Sucursal)
+    ON DELETE CASCADE, 
+    
+    CONSTRAINT FK_UsuarioRec FOREIGN KEY (ID_Usuario) 
+    REFERENCES tbUsuarios(ID_Usuario)
+    ON DELETE CASCADE 
+);
+
 CREATE TABLE tbCentrosMedicos (
     ID_Centro INT PRIMARY KEY,
-    favorito CHAR(1) CHECK (favorito IN ('T', 'F')) NOT NULL,
     ID_Doctor INT NOT NULL UNIQUE,
     ID_Sucursal INT NOT NULL,
     
@@ -852,6 +921,16 @@ CREATE SEQUENCE usuarios
 START WITH 1 
 INCREMENT BY 1;
 
+-- SECUENCIA_FAVORITOS --
+CREATE SEQUENCE favorito 
+START WITH 1 
+INCREMENT BY 1;
+
+-- SECUENCIA_RECIENTES --
+CREATE SEQUENCE reciente 
+START WITH 1 
+INCREMENT BY 1;
+
 -- SECUENCIA_REVIEWS --
 CREATE SEQUENCE reviews 
 START WITH 1 
@@ -1059,6 +1138,28 @@ BEGIN
 END Trigger_Usuario;
 /
 
+-- TRIGGER_FAVORITO --
+CREATE OR REPLACE TRIGGER Tigger_Favorito 
+BEFORE INSERT ON tbFavoritos 
+FOR EACH ROW 
+BEGIN 
+    SELECT favorito.NEXTVAL 
+    INTO: NEW.ID_Favorito 
+    FROM DUAL;
+END Tigger_Favorito;
+/
+
+-- TRIGGER_RECIENTE --
+CREATE OR REPLACE TRIGGER Tigger_Reciente
+BEFORE INSERT ON tbRecientes 
+FOR EACH ROW 
+BEGIN 
+    SELECT reciente.NEXTVAL 
+    INTO: NEW.ID_Reciente
+    FROM DUAL;
+END Tigger_Reciente;
+/
+
 -- TRIGGER_REVIEW --
 CREATE OR REPLACE TRIGGER Trigger_Review 
 BEFORE INSERT ON tbReviews 
@@ -1134,6 +1235,48 @@ BEGIN
     INTO: NEW.ID_Ficha 
     FROM DUAL;
 END Trigger_Ficha;
+/
+
+/*************************************************************************************************
+
+~ PROCEDURE PARA RECIENTES ~
+
+*************************************************************************************************/
+CREATE OR REPLACE PROCEDURE ManageRecentVisits(var_ID_Usuario IN INT, var_ID_Sucursal IN INT) AS
+    v_count INT;
+BEGIN
+    -- Elimina cualquier registro existente para el mismo ID_Usuario y ID_Sucursal
+    DELETE FROM tbRecientes
+    WHERE ID_Usuario = var_ID_Usuario
+      AND ID_Sucursal = var_ID_Sucursal;
+
+    -- Contar el número de registros existentes para el usuario
+    SELECT COUNT(*)
+    INTO v_count
+    FROM tbRecientes
+    WHERE ID_Usuario = var_ID_Usuario;
+
+    -- Si hay 19 registros, eliminar el más antiguo para dejar espacio al nuevo
+    IF v_count > 19 THEN
+        DELETE FROM tbRecientes
+        WHERE ID_Usuario = var_ID_Usuario
+          AND ID_Sucursal IN (
+              SELECT ID_Sucursal
+              FROM (
+                  SELECT ID_Sucursal
+                  FROM tbRecientes
+                  WHERE ID_Usuario = var_ID_Usuario
+                  ORDER BY ROWNUM  -- Orden natural de inserción
+              )
+              WHERE ROWNUM = 1  -- Selecciona solo la fila más antigua
+          );
+    END IF;
+
+    -- Insertar el nuevo registro
+    INSERT INTO tbRecientes (ID_Usuario, ID_Sucursal)
+    VALUES (var_ID_Usuario, var_ID_Sucursal);
+    COMMIT WORK;
+END;
 /
 
 /*************************************************************************************************
@@ -1247,6 +1390,9 @@ INSERT ALL
         VALUES ('Hector', 'Gallardo', 'hector@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'La Paz', '8723-1293', 'M', '25/08/2000', NULL, 1)
 SELECT DUMMY FROM DUAL;
 
+UPDATE tbUsuarios SET imgUsuario = 'https://us.123rf.com/450wm/antoniodiaz/antoniodiaz1510/antoniodiaz151000120/47228952-apuesto-joven-m%C3%A9dico-con-una-bata-de-laboratorio-y-un-estetoscopio-con-un-tablet-pc-para-comprobar.jpg' WHERE ID_Usuario = 3;
+UPDATE tbUsuarios SET imgUsuario = 'https://img.freepik.com/fotos-premium/medico-sexo-masculino-bata-laboratorio-estetoscopio-brazos-cruzados-pie-pasillo-hospital_752325-3492.jpg' WHERE ID_Usuario = 4;
+
 INSERT ALL
     INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('TOEWQ12', 'PRIMER2', 1, 1)
     INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('ABCD1234', 'POLIZA1', 2, 2)
@@ -1295,16 +1441,16 @@ INSERT ALL
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
-    INTO tbCentrosMedicos (favorito, ID_Doctor, ID_Sucursal)
-         VALUES ('T', 5, 1)
-    INTO tbCentrosMedicos (favorito, ID_Doctor, ID_Sucursal)
-         VALUES ('F', 4, 2)
-    INTO tbCentrosMedicos (favorito, ID_Doctor, ID_Sucursal)
-         VALUES ('F', 3, 3)
-    INTO tbCentrosMedicos (favorito, ID_Doctor, ID_Sucursal)
-         VALUES ('T', 2, 4)
-    INTO tbCentrosMedicos (favorito, ID_Doctor, ID_Sucursal)
-         VALUES ('F', 1, 5)
+    INTO tbCentrosMedicos (ID_Doctor, ID_Sucursal)
+         VALUES (5, 1)
+    INTO tbCentrosMedicos (ID_Doctor, ID_Sucursal)
+         VALUES (4, 2)
+    INTO tbCentrosMedicos (ID_Doctor, ID_Sucursal)
+         VALUES (3, 3)
+    INTO tbCentrosMedicos (ID_Doctor, ID_Sucursal)
+         VALUES (2, 4)
+    INTO tbCentrosMedicos (ID_Doctor, ID_Sucursal)
+         VALUES (1, 5)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -1362,6 +1508,45 @@ INSERT ALL
         VALUES ('Terapia Cognitiva', 55.00, 5, 5)
 SELECT DUMMY FROM DUAL;
 
+INSERT ALL 
+    INTO tbRecientes(ID_Usuario, ID_Sucursal)
+        VALUES(1,1)
+    INTO tbRecientes(ID_Usuario, ID_Sucursal)
+        VALUES(1,1)
+    INTO tbRecientes(ID_Usuario, ID_Sucursal)
+        VALUES(1,1)
+    INTO tbRecientes(ID_Usuario, ID_Sucursal)
+        VALUES(1,1)
+    INTO tbRecientes(ID_Usuario, ID_Sucursal)
+        VALUES(1,1)
+    INTO tbRecientes(ID_Usuario, ID_Sucursal)
+        VALUES(1,1)
+    INTO tbRecientes(ID_Usuario, ID_Sucursal)
+        VALUES(1,1)
+    INTO tbRecientes(ID_Usuario, ID_Sucursal)
+        VALUES(1,1)
+    INTO tbRecientes(ID_Usuario, ID_Sucursal)
+        VALUES(1,1)
+    INTO tbRecientes(ID_Usuario, ID_Sucursal)
+        VALUES(1,1)
+    INTO tbRecientes(ID_Usuario, ID_Sucursal)
+        VALUES(1,1)
+    INTO tbRecientes(ID_Usuario, ID_Sucursal)
+        VALUES(1,1)
+    INTO tbRecientes(ID_Usuario, ID_Sucursal)
+        VALUES(1,1)
+    INTO tbRecientes(ID_Usuario, ID_Sucursal)
+        VALUES(1,1)
+    INTO tbRecientes(ID_Usuario, ID_Sucursal)
+        VALUES(1,1)  
+    INTO tbRecientes(ID_Usuario, ID_Sucursal)
+        VALUES(1,1)
+    INTO tbRecientes(ID_Usuario, ID_Sucursal)
+        VALUES(1,2)
+SELECT DUMMY FROM DUAL;
+SELECT * FROM tbRecientes;
+EXECUTE PROC_STATE_VALIDATION_RECIENTES (1,1)
+
 COMMIT;
 
 /*****************************************************************************
@@ -1389,29 +1574,39 @@ SELECT DUMMY FROM DUAL;
     ~ Consultas Inner ~
 
 *************************************************************************************************/
---INNER JOIN CENTROMEDICO
-SELECT
-    u.nombreUsuario,
-    u.apellidoUsuario,
+--INNER JOIN CENTROMEDICO--
+SELECT 
+    d.ID_Doctor,
+    u.nombreUsuario, 
+    u.apellidoUsuario, 
     u.imgUsuario,
+    e.nombreEspecialidad,
     s.nombreSucursal,
-    s.telefonoSucur ,
-    s.direccionSucur ,
-    s.ubicacionSucur ,
-    srv.nombreServicio,
-    srv.costo,
-    cm.favorito
-FROM
+    s.telefonoSucur, 
+    s.direccionSucur, 
+    s.ubicacionSucur, 
+    srv.nombreServicio, 
+    srv.costo
+FROM 
     tbCentrosMedicos cm
-INNER JOIN
+INNER JOIN 
     tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-INNER JOIN
+INNER JOIN 
     tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
 INNER JOIN
-    tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
+    tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
 INNER JOIN
-    tbServicios srv ON cm.ID_Centro = srv.ID_Centro;
-
+    tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
+INNER JOIN 
+    tbServicios srv ON cm.ID_Centro = srv.ID_Centro
+WHERE 
+    (
+        LOWER(u.nombreUsuario) LIKE LOWER('%xam%')
+        OR LOWER(u.apellidoUsuario) LIKE LOWER('%?%')
+        OR LOWER(e.nombreEspecialidad) LIKE LOWER('%?%')
+    )
+    AND u.ID_TipoUsuario = 2;
+    
 --INNER JOIN CITASMEDICAS--
 
 SELECT
@@ -1437,35 +1632,7 @@ FROM  tbcitasmedicas CITAS
     INNER JOIN
         tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario
     INNER JOIN
-        tbpacientes PACS ON citas.id_paciente = pacs.id_paciente WHERE pacs.id_usuario = 1
-
-/*************************************************************************************************
-
-    ~ Eliminar todos los Triggers ~
-
-*************************************************************************************************/
-/*
-DROP TRIGGER Trigger_TipoUsuario;
-DROP TRIGGER Trigger_Tiempo;
-DROP TRIGGER Trigger_TipoSucursal;
-DROP TRIGGER Trigger_Especialidad;
-DROP TRIGGER Trigger_Establecimiento;
-DROP TRIGGER Trigger_Aseguradora;
-DROP TRIGGER Trigger_Receta;
-DROP TRIGGER Trigger_Doctor;
-DROP TRIGGER Trigger_Sucursal;
-DROP TRIGGER Trigger_CentroMedico;
-DROP TRIGGER Trigger_Horario;
-DROP TRIGGER Trigger_Seguro;
-DROP TRIGGER Trigger_Usuario;
-DROP TRIGGER Trigger_Review;
-DROP TRIGGER Trigger_Noti;
-DROP TRIGGER Trigger_Paciente;
-DROP TRIGGER Trigger_Expediente;
-DROP TRIGGER Trigger_CitaMedica;
-DROP TRIGGER Trigger_Indicacion;
-DROP TRIGGER Trigger_Ficha;
-*/
+        tbpacientes PACS ON citas.id_paciente = pacs.id_paciente WHERE pacs.id_usuario = 1 ;
 
 /*************************************************************************************************
 

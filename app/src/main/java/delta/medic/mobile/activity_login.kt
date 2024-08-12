@@ -69,7 +69,7 @@ class activity_login : AppCompatActivity() {
 
               } else {
                   withContext(Dispatchers.Main){
-                      Toast.makeText(this@activity_login, "", Toast.LENGTH_SHORT).show()
+                      Toast.makeText(this@activity_login, "Error de Inicio de sesión, verifica las credenciales.", Toast.LENGTH_SHORT).show()
                   }
               }
           }
