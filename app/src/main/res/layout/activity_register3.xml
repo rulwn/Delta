@@ -123,7 +123,7 @@
         tools:ignore="MissingConstraints" />
 
     <ImageView
-        android:id="@+id/imgFlechaAtrasRegistro1"
+        android:id="@+id/imgFlechaAtrasRegistro2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/txtTextoGrande"

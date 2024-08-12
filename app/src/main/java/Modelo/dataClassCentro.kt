@@ -12,5 +12,4 @@ val direccionSucur: String,
 val ubicacionSucur: String,
 val nombreServicio: String,
 val costo: Float,
-val favorito: String
 )

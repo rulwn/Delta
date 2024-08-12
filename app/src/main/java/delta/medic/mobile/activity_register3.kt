@@ -50,7 +50,6 @@ class activity_register3 : AppCompatActivity() {
             insets
         }
 
-
         btnAgregarFoto = findViewById(R.id.btnAgregarFoto)
         val btnOmitir = findViewById<TextView>(R.id.btnOmitirFoto)
         btnAgregarFoto.setOnClickListener {
@@ -71,8 +70,14 @@ class activity_register3 : AppCompatActivity() {
             val intent = Intent(this, activity_register4::class.java)
             startActivity(intent)
 
-
         }
+
+        val imgFlechaAtrasRegistro2 = findViewById<ImageView>(R.id.imgFlechaAtrasRegistro2)
+        imgFlechaAtrasRegistro2.setOnClickListener {
+            val intent = Intent(this, activity_register2::class.java)
+            startActivity(intent)
+        }
+
         btnOmitir.setOnClickListener {
             activity_register1.imgUsuario = "no hay imagen"
 

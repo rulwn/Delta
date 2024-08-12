@@ -1,7 +1,5 @@
 package delta.medic.mobile
 
-import Modelo.ClaseConexion
-import Modelo.dc_Aseguradoras
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -57,7 +55,7 @@ class activity_register2 : AppCompatActivity() {
             datePickerDialog.show()
         }
 
-        val imgFlechaAtras = findViewById<ImageView>(R.id.imgFlechaAtrasRegistro1)
+        val imgFlechaAtras = findViewById<ImageView>(R.id.imgFlechaAtrasRegistro2)
         imgFlechaAtras.setOnClickListener {
             val intent = Intent(this, activity_register1::class.java)
             startActivity(intent)
@@ -89,7 +87,7 @@ class activity_register2 : AppCompatActivity() {
             if (telefono.isEmpty()) {
                 txtTelefono.error = "Llena este campo"
                 hayVacio = true
-            } else if (!telefono.matches(Regex("^[0-9]{4}-[0-9]{4}$"))) {
+            } else if (!telefono.matches(Regex("^[0-9]{4}[0-9]{4}$"))) {
                 txtTelefono.error = "El teléfono está incorrecto"
                 hayError = true
             } else {

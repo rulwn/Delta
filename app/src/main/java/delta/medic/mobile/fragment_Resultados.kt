@@ -62,6 +62,7 @@ class fragment_Resultados : Fragment() {
             try {
                 val objConexion = ClaseConexion()?.cadenaConexion()
                 if (objConexion != null) {
+                    // Ajusta la consulta SQL para incluir la columna ID_Doctor
                     val busqueda = objConexion.prepareStatement("""
 SELECT 
     d.ID_Doctor,
@@ -95,9 +96,11 @@ WHERE
     )
     AND u.ID_TipoUsuario = 2
                 """)
-                    busqueda.setString(1, "%$nombreUsuario%")
-                    busqueda.setString(2, "%$apellidoUsuario%")
-                    busqueda.setString(3, "%$nombreEspecialidad%")
+                    // Establece los parámetros para la consulta
+                    busqueda.setString(1, "%${nombreUsuario.lowercase()}%")
+                    busqueda.setString(2, "%${apellidoUsuario.lowercase()}%")
+                    busqueda.setString(3, "%${nombreEspecialidad.lowercase()}%")
+
                     val resultSet = busqueda.executeQuery()
                     while (resultSet.next()) {
                         val ID_Doctor = resultSet.getInt("ID_Doctor")
@@ -111,10 +114,11 @@ WHERE
                         val ubicacionSucur = resultSet.getString("ubicacionSucur")
                         val nombreServicio = resultSet.getString("nombreServicio")
                         val costo = resultSet.getFloat("costo")
-                        val favorito = resultSet.getString("favorito")
 
-                        centroMedico.add(dataClassCentro(ID_Doctor, nombreUsuario, apellidoUsuario, imgUsuario, nombreEspecialidad, nombreSucursal, telefonoSucur, direccionSucur,
-                            ubicacionSucur, nombreServicio, costo, favorito,))
+                        centroMedico.add(dataClassCentro(
+                            ID_Doctor, nombreUsuario, apellidoUsuario, imgUsuario, nombreEspecialidad,
+                            nombreSucursal, telefonoSucur, direccionSucur, ubicacionSucur, nombreServicio, costo
+                        ))
                     }
                 } else {
                     Log.e("obtenerDatos", "No se pudo establecer una conexión con la base de datos.")
