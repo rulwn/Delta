@@ -98,7 +98,7 @@ class activity_register3 : AppCompatActivity() {
                         subirImagenFirebase(imageBitmap) { url ->
                             miPath = url
                             btnAgregarFoto.setImageURI(it)
-                            activity_register1.imgUsuario = imageUri.toString()
+                            activity_register1.imgUsuario = uuid
                         }
                     }
                 }
