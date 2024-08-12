@@ -262,11 +262,12 @@
         android:id="@+id/txtTelefono"
         android:layout_width="355dp"
         android:layout_height="54dp"
-        android:layout_marginTop="424dp"
+        android:layout_marginTop="484dp"
         android:background="@drawable/textboxprueba"
         android:fontFamily="@font/poppins_regular"
         android:hint="Teléfono"
         android:inputType="text|phone"
+        android:maxLength="9"
         android:padding="8dp"
         android:textColor="@color/GrisAzulito"
         android:textSize="16sp"
@@ -281,20 +282,22 @@
         android:layout_height="54dp"
         android:layout_marginTop="344dp"
         android:background="@drawable/textboxprueba"
+        android:clickable="true"
+        android:focusable="false"
         android:fontFamily="@font/poppins_regular"
         android:hint="Fecha de nacimiento"
-        android:padding="8dp"
         android:inputType="date"
-        android:focusable="false"
-        android:clickable="true"
         android:maxLines="1"
+        android:editable="false"
+        android:padding="8dp"
         android:textColor="@color/GrisAzulito"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/txtTelefono"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.274" />
+        app:layout_constraintVertical_bias="0.553" />
+
 
     <RadioGroup
         android:id="@+id/radioGroupGender"
@@ -304,9 +307,10 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/txtFechadeNacimiento"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imgFondo"
-        app:layout_constraintVertical_bias="0.90999997">
+        app:layout_constraintVertical_bias="0.833">
 
         <RadioButton
             android:id="@+id/rbHombre"
@@ -333,7 +337,6 @@
             android:textColor="@drawable/text_selecter_register" />
 
     </RadioGroup>
-
 
     <Button
         android:id="@+id/btnSiguiente2"
@@ -391,6 +394,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.26" />
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

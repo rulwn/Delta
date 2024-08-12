@@ -1,8 +1,8 @@
-/******************************************************
+/*******************************************************************************
 
-        --Creacion del usuario de DeltaMed--
+    ~ Creacion del usuario de DeltaMed ~
 
-******************************************************/
+*******************************************************************************/
 
 /*
 ALTER SESSION SET "_ORACLE_SCRIPT" = TRUE;
@@ -10,67 +10,510 @@ CREATE USER DeltaMed IDENTIFIED BY "deltaTeam1";
 GRANT "CONNECT" TO DeltaMed;
 
 ALTER SESSION SET NLS_DATE_FORMAT = 'DD-MM-YYYY';
+COMMIT;
 */
 
-/*************************************************************************************************
+/*******************************************************************************
+
+    ~ ELIMINACIÓN DE TABLAS EXISTENTES ~
+
+*******************************************************************************/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbFichasMedicas CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbIndicaciones CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbCitasMedicas CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbExpedientes CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbPacientes CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbNotis CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbReviews CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbUsuarios CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbSeguros CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbServicios CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbHorarios CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbCentrosMedicos CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbSucursales CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbDoctores CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbRecetas CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbAseguradoras CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbEstablecimientos CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbEspecialidades CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbTipoSucursales CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbTiempos CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbTipoUsuarios CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbTipoNotis CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+/*******************************************************************************
+
+    ~ ELIMINACIÓN DE SECUENCIAS EXISTENTES ~
+
+*******************************************************************************/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE tipoNotis';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE tipoUsuarios';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE tiempos';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE tipoSucursales';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE especialidades';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE establecimientos';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE aseguradoras';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE recetas';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE doctores';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE sucursales';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE centros';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE horarios';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE seguros';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE serviciosMedicos';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE usuarios';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE reviews';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE notis';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE pacientes';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE expedientes';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE citas';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE indicaciones';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE fichas';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+/*******************************************************************************
 
     ~ CREACIÓN DE TABLAS INDEPENDIENTES ~
 
-*************************************************************************************************/
-
-Select * from tbUsuarios;
+*******************************************************************************/
 
 CREATE TABLE tbTipoNotis (
     ID_TipoNoti INT PRIMARY KEY,
     nombreTipoNoti VARCHAR2(25)
 );
-select * from tbTipoNotis;
 
 CREATE TABLE tbTipoUsuarios (
     ID_TipoUsuario INT PRIMARY KEY,
     nombreTipoUsuario VARCHAR2(50) NOT NULL UNIQUE
 );
-select * from tbTipoUsuarios;
 
 CREATE TABLE tbTiempos (
     ID_Tiempo INT PRIMARY KEY,
     lapsosTiempo VARCHAR2(50) NOT NULL,
     frecuenciaMedi VARCHAR2(50) NOT NULL
 );
-select * from tbTiempos;
 
 CREATE TABLE tbTipoSucursales (
     ID_TipoSucursal INT PRIMARY KEY,
     nombreTipoSucursal VARCHAR2(50) NOT NULL UNIQUE
 );
-select * from tbTipoSucursales;
 
 CREATE TABLE tbEspecialidades (
     ID_Especialidad INT PRIMARY KEY,
     nombreEspecialidad VARCHAR2(60) NOT NULL UNIQUE,
     nuevaEspecialidad VARCHAR2(60) UNIQUE
 );
-select * from tbEspecialidades;
 
 CREATE TABLE tbEstablecimientos (
     ID_Establecimiento INT PRIMARY KEY,
     nombreClinica VARCHAR2(50) NOT NULL UNIQUE,
     imgPrincipal VARCHAR2(256) NOT NULL UNIQUE
 );
-select * from tbEstablecimientos;
 
 CREATE TABLE tbAseguradoras (
     ID_Aseguradora INT PRIMARY KEY,
     nombreAseguradora VARCHAR2(50) NOT NULL UNIQUE
 );
-select * from tbAseguradoras;
 
 CREATE TABLE tbRecetas (
     ID_Receta INT PRIMARY KEY,
     fechaReceta DATE NOT NULL,
     ubicacionPDF VARCHAR2(250)
 );
-select * from tbRecetas;
 
 /*************************************************************************************************
 
@@ -96,7 +539,6 @@ CREATE TABLE tbUsuarios (
     REFERENCES tbTipoUsuarios(ID_TipoUsuario)
     ON DELETE CASCADE
 );
-select * from tbUsuarios;
 
 CREATE TABLE tbSeguros (
     ID_Seguro INT PRIMARY KEY,
@@ -114,7 +556,6 @@ CREATE TABLE tbSeguros (
     REFERENCES tbUsuarios(ID_Usuario)
     ON DELETE CASCADE
 );
-select * from tbSeguros;
 
 CREATE TABLE tbDoctores (
     ID_Doctor INT PRIMARY KEY,
@@ -130,7 +571,6 @@ CREATE TABLE tbDoctores (
     REFERENCES tbUsuarios(ID_Usuario)
     ON DELETE CASCADE
 );
-select * from tbDoctores;
 
 CREATE TABLE tbSucursales (
     ID_Sucursal INT PRIMARY KEY,
@@ -141,6 +581,7 @@ CREATE TABLE tbSucursales (
     direccionSucur VARCHAR2(200) NOT NULL UNIQUE,
     ubicacionSucur VARCHAR2(200) NOT NULL,
     whatsapp VARCHAR2(12),
+    imgSucursal VARCHAR2(250) NOT NULL UNIQUE,
     ID_Establecimiento INT NOT NULL,
     ID_TipoSucursal INT NOT NULL,
     
@@ -153,7 +594,6 @@ CREATE TABLE tbSucursales (
     REFERENCES tbTipoSucursales(ID_TipoSucursal)
     ON DELETE CASCADE
 );
-select * from tbSucursales;
 
 CREATE TABLE tbCentrosMedicos (
     ID_Centro INT PRIMARY KEY,
@@ -169,7 +609,6 @@ CREATE TABLE tbCentrosMedicos (
     CONSTRAINT FK_Sucursal FOREIGN KEY (ID_Sucursal) REFERENCES tbSucursales(ID_Sucursal)
     ON DELETE CASCADE
 );
-select * from tbCentrosMedicos;
 
 CREATE TABLE tbHorarios (
     ID_Horario INT PRIMARY KEY,
@@ -187,7 +626,6 @@ CREATE TABLE tbHorarios (
     REFERENCES tbCentrosMedicos(ID_Centro)
     ON DELETE CASCADE
 );
-select * from tbHorarios;
 
 CREATE TABLE tbServicios (
     ID_Servicio INT PRIMARY KEY,
@@ -205,7 +643,6 @@ CREATE TABLE tbServicios (
     REFERENCES tbCentrosMedicos(ID_Centro)
     ON DELETE CASCADE
 );
-select * from tbServicios;
 
 CREATE TABLE tbReviews (
     ID_Review INT PRIMARY KEY,
@@ -219,7 +656,6 @@ CREATE TABLE tbReviews (
     REFERENCES tbUsuarios(ID_Usuario)
     ON DELETE CASCADE
 );
-select * from tbReviews;
 
 CREATE TABLE tbNotis (
     ID_Notificacion INT PRIMARY KEY,
@@ -239,7 +675,6 @@ CREATE TABLE tbNotis (
     REFERENCES tbTipoNotis(ID_TipoNoti)
     ON DELETE CASCADE
 );
-select * from tbNotis;
 
 CREATE TABLE tbPacientes (
     ID_Paciente INT PRIMARY KEY,
@@ -254,7 +689,6 @@ CREATE TABLE tbPacientes (
     REFERENCES tbUsuarios(ID_Usuario)
     ON DELETE CASCADE
 );
-select * from tbPacientes;
 
 CREATE TABLE tbExpedientes (
     ID_Expediente INT PRIMARY KEY,
@@ -279,8 +713,6 @@ CREATE TABLE tbExpedientes (
     ON DELETE CASCADE
 );
 
-select * from tbExpedientes;
-
 CREATE TABLE tbCitasMedicas (
     ID_Cita INT PRIMARY KEY,
     diaCita DATE NOT NULL,
@@ -298,7 +730,6 @@ CREATE TABLE tbCitasMedicas (
     REFERENCES tbPacientes(ID_Paciente)
     ON DELETE CASCADE
 );
-select * from tbCitasMedicas;
 
 CREATE TABLE tbIndicaciones (
     ID_Indicacion INT PRIMARY KEY,
@@ -318,10 +749,8 @@ CREATE TABLE tbIndicaciones (
     REFERENCES tbRecetas(ID_Receta)
     ON DELETE CASCADE
 );
-select * from tbIndicaciones;
-SELECT ID_Tiempo FROM tbTiempos WHERE ID_Tiempo IN (1, 2, 3, 4, 5);
-SELECT ID_Receta FROM tbRecetas WHERE ID_Receta IN (1, 2, 3, 4, 5);
-
+--SELECT ID_Tiempo FROM tbTiempos WHERE ID_Tiempo IN (1, 2, 3, 4, 5);
+--SELECT ID_Receta FROM tbRecetas WHERE ID_Receta IN (1, 2, 3, 4, 5);
 
 CREATE TABLE tbFichasMedicas (
     ID_Ficha INT PRIMARY KEY,
@@ -341,7 +770,6 @@ CREATE TABLE tbFichasMedicas (
     REFERENCES tbCitasMedicas(ID_Cita)
     ON DELETE CASCADE
 );
-select * from tbFichasMedicas;
 
 /*************************************************************************************************
 
@@ -475,6 +903,7 @@ BEGIN
     INTO: NEW.ID_TipoNoti 
     FROM DUAL;
 END Trigger_TipoNoti;
+/
 
 -- TRIGGER_TIPO_USUARIO --
 CREATE OR REPLACE TRIGGER Trigger_TipoUsuario 
@@ -485,6 +914,7 @@ BEGIN
     INTO: NEW.ID_TipoUsuario 
     FROM DUAL;
 END Trigger_TipoUsuario;
+/
 
 -- TRIGGER_TIEMPO --
 CREATE OR REPLACE TRIGGER Trigger_Tiempo 
@@ -495,6 +925,7 @@ BEGIN
     INTO: NEW.ID_Tiempo 
     FROM DUAL;
 END Trigger_Tiempo;
+/
 
 -- TRIGGER_TIPO_SUCURSAL --
 CREATE OR REPLACE TRIGGER Trigger_TipoSucursal 
@@ -505,6 +936,7 @@ BEGIN
     INTO: NEW.ID_TipoSucursal 
     FROM DUAL;
 END Trigger_TipoSucursal;
+/
 
 -- TRIGGER_ESPECIALIDAD --
 CREATE OR REPLACE TRIGGER Trigger_Especialidad 
@@ -515,6 +947,7 @@ BEGIN
     INTO: NEW.ID_Especialidad 
     FROM DUAL;
 END Trigger_Especialidad;
+/
 
 -- TRIGGER_ESTABLECIMIENTO --
 CREATE OR REPLACE TRIGGER Trigger_Establecimiento 
@@ -525,6 +958,7 @@ BEGIN
     INTO: NEW.ID_Establecimiento 
     FROM DUAL;
 END Trigger_Establecimiento;
+/
 
 -- TRIGGER_ASEGURADORA --
 CREATE OR REPLACE TRIGGER Trigger_Aseguradora 
@@ -535,6 +969,7 @@ BEGIN
     INTO: NEW.ID_Aseguradora 
     FROM DUAL;
 END Trigger_Aseguradora;
+/
 
 -- TRIGGER_RECETA --
 CREATE OR REPLACE TRIGGER Trigger_Receta 
@@ -545,6 +980,7 @@ BEGIN
     INTO: NEW.ID_Receta 
     FROM DUAL;
 END Trigger_Receta;
+/
 
 -- TRIGGER_DOCTOR --
 CREATE OR REPLACE TRIGGER Trigger_Doctor 
@@ -555,6 +991,7 @@ BEGIN
     INTO: NEW.ID_Doctor 
     FROM DUAL;
 END Trigger_Doctor;
+/
 
 -- TRIGGER_SUCURSAL --
 CREATE OR REPLACE TRIGGER Trigger_Sucursal 
@@ -565,6 +1002,7 @@ BEGIN
     INTO: NEW.ID_Sucursal 
     FROM DUAL;
 END Trigger_Sucursal;
+/
 
 -- TRIGGER_CENTRO_MÉDICO --
 CREATE OR REPLACE TRIGGER Trigger_CentroMedico 
@@ -575,6 +1013,7 @@ BEGIN
     INTO: NEW.ID_Centro 
     FROM DUAL;
 END Trigger_CentroMedico;
+/
 
 -- TRIGGER_HORARIO --
 CREATE OR REPLACE TRIGGER Trigger_Horario 
@@ -585,6 +1024,7 @@ BEGIN
     INTO: NEW.ID_Horario 
     FROM DUAL;
 END Trigger_Horario;
+/
 
 -- TRIGGER_SERVICIO --
 CREATE OR REPLACE TRIGGER Trigger_Servicio 
@@ -595,6 +1035,7 @@ BEGIN
     INTO: NEW.ID_Servicio 
     FROM DUAL;
 END Trigger_Servicio;
+/
 
 -- TRIGGER_SEGURO --
 CREATE OR REPLACE TRIGGER Trigger_Seguro 
@@ -605,6 +1046,7 @@ BEGIN
     INTO: NEW.ID_Seguro 
     FROM DUAL;
 END Trigger_Seguro;
+/
 
 -- TRIGGER_USUARIO --
 CREATE OR REPLACE TRIGGER Trigger_Usuario 
@@ -615,6 +1057,7 @@ BEGIN
     INTO: NEW.ID_Usuario 
     FROM DUAL;
 END Trigger_Usuario;
+/
 
 -- TRIGGER_REVIEW --
 CREATE OR REPLACE TRIGGER Trigger_Review 
@@ -625,6 +1068,7 @@ BEGIN
     INTO: NEW.ID_Review 
     FROM DUAL;
 END Trigger_Review;
+/
 
 -- TRIGGER_NOTI --
 CREATE OR REPLACE TRIGGER Trigger_Noti 
@@ -635,6 +1079,7 @@ BEGIN
     INTO: NEW.ID_Notificacion 
     FROM DUAL;
 END Trigger_Noti;
+/
 
 -- TRIGGER_PACIENTE --
 CREATE OR REPLACE TRIGGER Trigger_Paciente 
@@ -645,6 +1090,7 @@ BEGIN
     INTO: NEW.ID_Paciente 
     FROM DUAL;
 END Trigger_Paciente;
+/
 
 -- TRIGGER_EXPEDIENTE --
 CREATE OR REPLACE TRIGGER Trigger_Expediente 
@@ -655,6 +1101,7 @@ BEGIN
     INTO: NEW.ID_Expediente 
     FROM DUAL;
 END Trigger_Expediente;
+/
 
 -- TRIGGER_CITA_MÉDICA --
 CREATE OR REPLACE TRIGGER Trigger_CitaMedica 
@@ -665,6 +1112,7 @@ BEGIN
     INTO: NEW.ID_Cita 
     FROM DUAL;
 END Trigger_CitaMedica;
+/
 
 -- TRIGGER_INDICACIÓN --
 CREATE OR REPLACE TRIGGER Trigger_Indicacion 
@@ -675,6 +1123,7 @@ BEGIN
     INTO: NEW.ID_Indicacion 
     FROM DUAL;
 END Trigger_Indicacion;
+/
 
 -- TRIGGER_FICHA --
 CREATE OR REPLACE TRIGGER Trigger_Ficha 
@@ -685,6 +1134,7 @@ BEGIN
     INTO: NEW.ID_Ficha 
     FROM DUAL;
 END Trigger_Ficha;
+/
 
 /*************************************************************************************************
 
@@ -770,7 +1220,6 @@ INSERT ALL
     INTO tbAseguradoras (nombreAseguradora)
          VALUES ('ASESUISA')
 SELECT DUMMY FROM DUAL;
-select * from tbAseguradoras;
 
 INSERT ALL
     INTO tbRecetas (fechaReceta, ubicacionPDF)
@@ -797,7 +1246,6 @@ INSERT ALL
     INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
         VALUES ('Hector', 'Gallardo', 'hector@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'La Paz', '8723-1293', 'M', '25/08/2000', NULL, 1)
 SELECT DUMMY FROM DUAL;
-select * from tbusuarios;
 
 INSERT ALL
     INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('TOEWQ12', 'PRIMER2', 1, 1)
@@ -808,16 +1256,16 @@ INSERT ALL
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
-    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Clínica Ginecológica, San Salvador', 235656, 'clinica_ginecologica@gmail.com', '2264-7856', '25 Av. Norte, Colonia Médica, San Salvador', 'ubicacionSucur.Ginecologica', '7589-4365', 1, 2)
-    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Clínica Asistencial Salvadoreña, Santa Ana', 675429, 'clinica_asistencial@gmail.com', '2256-6576', 'Calle Libertad y Avenida Independencia, Santa Ana', 'ubicacionSucur.Asistencial', '5383-4365', 5, 1)
-    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Hospital de Diagnóstico, San Salvador', 990764, 'hospital_diagnostico@gmail.com', '2224-7887', '79 Av. Norte y 11 Calle Poniente, Colonia Escalón, San Salvador', 'ubicacionSucur.Diagnostico', '7519-2335', 3, 1)
-    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Centro Médico Escalón, San Salvador', 224216, 'medico_escalon@gmail.com', '2235-7856', '85 Av. Norte y Calle Juan José Cañas, Colonia Escalón, San Salvador', 'ubicacionSucur.Escalon', '7509-3230', 4, 2)
-    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Hospital La Divina Providencia, San Salvador', 012483, 'divina_providencia@gmail.com', '2211-2956', 'Avenida Masferrer Norte, Colonia Escalón, San Salvador', 'ubicacionSucur.Providencia', '3278-3561', 2, 2)
+    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
+         VALUES ('Clínica Ginecológica, San Salvador', 235656, 'clinica_ginecologica@gmail.com', '2264-7856', '25 Av. Norte, Colonia Médica, San Salvador', 'ubicacionSucur.Ginecologica', '7589-4365', 'Esta sucursal no posee una fotografía', 1, 2)
+    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
+         VALUES ('Clínica Asistencial Salvadoreña, Santa Ana', 675429, 'clinica_asistencial@gmail.com', '2256-6576', 'Calle Libertad y Avenida Independencia, Santa Ana', 'ubicacionSucur.Asistencial', '5383-4365', 'Esta sucursal no tiene una fotografía', 5, 1)
+    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
+         VALUES ('Hospital de Diagnóstico, San Salvador', 990764, 'hospital_diagnostico@gmail.com', '2224-7887', '79 Av. Norte y 11 Calle Poniente, Colonia Escalón, San Salvador', 'ubicacionSucur.Diagnostico', '7519-2335', 'Esta sucursal ha puesto una fotografía', 3, 1)
+    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
+         VALUES ('Centro Médico Escalón, San Salvador', 224216, 'medico_escalon@gmail.com', '2235-7856', '85 Av. Norte y Calle Juan José Cañas, Colonia Escalón, San Salvador', 'ubicacionSucur.Escalon', '7509-3230', 'Neles', 4, 2)
+    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
+         VALUES ('Hospital La Divina Providencia, San Salvador', 012483, 'divina_providencia@gmail.com', '2211-2956', 'Avenida Masferrer Norte, Colonia Escalón, San Salvador', 'ubicacionSucur.Providencia', '3278-3561', 'Tampoco tu', 2, 2)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -899,11 +1347,22 @@ INSERT ALL
 SELECT DUMMY FROM DUAL;
 
 INSERT INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
-VALUES (TO_DATE('2024-07-14', 'YYYY-MM-DD'), 'A', 'Cita cancelada para mañana a las 2:00pm', 'S', 1, 1);
+VALUES (TO_DATE('2024-07-14', 'YYYY-MM-DD'), 'P', 'Descargar pdf de tu ultima cita', 'S', 1, 1);
+
+INSERT ALL
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Limpieza Bucal', 40.00, 1, 1)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Chequeo General', 30.00, 2, 2)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Examen Visual', 45.00, 3, 3)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Blanqueamiento Dental', 60.00, 4, 4)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Terapia Cognitiva', 55.00, 5, 5)
+SELECT DUMMY FROM DUAL;
 
 COMMIT;
-select * from tbCitasMedicas;
-SELECT * FROM tbUsuarios WHERE emailUsuario = 'hector@gmail.com';
 
 /*****************************************************************************
 
@@ -930,32 +1389,34 @@ SELECT DUMMY FROM DUAL;
     ~ Consultas Inner ~
 
 *************************************************************************************************/
---INNER JOIN CENTROMEDICO
-   SELECT 
-    u.nombreUsuario, 
-    u.apellidoUsuario, 
-    u.imgUsuario, 
-    s.nombreSucursal, 
-    s.telefonoSucur , 
-    s.direccionSucur , 
-    s.ubicacionSucur , 
-    srv.nombreServicio, 
-    srv.costo, 
+--INNER JOIN CENTROMEDICO--
+SELECT
+    cm.ID_Doctor,
+    u.nombreUsuario,
+    u.apellidoUsuario,
+    u.imgUsuario,
+    s.nombreSucursal,
+    s.telefonoSucur,
+    s.direccionSucur,
+    s.ubicacionSucur,
+    srv.nombreServicio,
+    srv.costo,
     cm.favorito
-FROM 
+FROM
     tbCentrosMedicos cm
-INNER JOIN 
+INNER JOIN
     tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-INNER JOIN 
+INNER JOIN
     tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
-INNER JOIN 
+INNER JOIN
     tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
-INNER JOIN 
-    tbServicios srv ON cm.ID_Centro = srv.ID_Centro
+INNER JOIN
+    tbServicios srv ON cm.ID_Centro = srv.ID_Centro;
 
 --INNER JOIN CITASMEDICAS--
 
-SELECT citas.ID_Cita,
+SELECT
+    citas.ID_Cita,
     citas.diacita,
     citas.horacita,
     citas.motivo,
@@ -966,71 +1427,18 @@ SELECT citas.ID_Cita,
     usua.id_usuario,
     USUA.nombreUsuario,
     USUA.apellidoUsuario,
-    esp.nombreespecialidad FROM  tbcitasmedicas CITAS
-        INNER JOIN tbcentrosmedicos CENTROS ON CITAS.id_centro=CENTROS.id_centro
-        INNER JOIN tbdoctores DOCS ON CENTROS.id_doctor=DOCS.id_doctor
-        INNER JOIN tbEspecialidades ESP ON docs.id_especialidad = esp.id_especialidad
-        INNER JOIN tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario
-        INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente WHERE pacs.id_usuario = 1
-
---La siguiente sección sirve para eliminar la base, quitar el "/*" al inicio de las sentencias
-/*************************************************************************************************
-
-    ~ Eliminar todas las tablas ~
-
-*************************************************************************************************/
-/*
-DROP TABLE tbFichasMedicas CASCADE CONSTRAINTS;
-DROP TABLE tbIndicaciones CASCADE CONSTRAINTS;
-DROP TABLE tbCitasMedicas CASCADE CONSTRAINTS;
-DROP TABLE tbExpedientes CASCADE CONSTRAINTS;
-DROP TABLE tbPacientes CASCADE CONSTRAINTS;
-DROP TABLE tbNotis CASCADE CONSTRAINTS;
-DROP TABLE tbReviews CASCADE CONSTRAINTS;
-DROP TABLE tbUsuarios CASCADE CONSTRAINTS;
-DROP TABLE tbSeguros CASCADE CONSTRAINTS;
-DROP TABLE tbServicios CASCADE CONSTRAINTS;
-DROP TABLE tbHorarios CASCADE CONSTRAINTS;
-DROP TABLE tbCentrosMedicos CASCADE CONSTRAINTS;
-DROP TABLE tbSucursales CASCADE CONSTRAINTS;
-DROP TABLE tbDoctores CASCADE CONSTRAINTS;
-DROP TABLE tbRecetas CASCADE CONSTRAINTS;
-DROP TABLE tbAseguradoras CASCADE CONSTRAINTS;
-DROP TABLE tbEstablecimientos CASCADE CONSTRAINTS;
-DROP TABLE tbEspecialidades CASCADE CONSTRAINTS;
-DROP TABLE tbTipoSucursales CASCADE CONSTRAINTS;
-DROP TABLE tbTiempos CASCADE CONSTRAINTS;
-DROP TABLE tbTipoUsuarios CASCADE CONSTRAINTS;
-DROP TABLE tbTipoNotis CASCADE CONSTRAINTS;
-
-/*************************************************************************************************
-
-    ~ Eliminar todas las secuencias ~
-
-*************************************************************************************************/
-/*
-DROP SEQUENCE tipoNotis;
-DROP SEQUENCE tipoUsuarios;
-DROP SEQUENCE tiempos;
-DROP SEQUENCE tipoSucursales;
-DROP SEQUENCE especialidades;
-DROP SEQUENCE establecimientos;
-DROP SEQUENCE aseguradoras;
-DROP SEQUENCE recetas;
-DROP SEQUENCE doctores;
-DROP SEQUENCE sucursales;
-DROP SEQUENCE centros;
-DROP SEQUENCE horarios;
-DROP SEQUENCE seguros;
-DROP SEQUENCE serviciosMedicos;
-DROP SEQUENCE usuarios;
-DROP SEQUENCE reviews;
-DROP SEQUENCE notis;
-DROP SEQUENCE pacientes;
-DROP SEQUENCE expedientes;
-DROP SEQUENCE citas;
-DROP SEQUENCE indicaciones;
-DROP SEQUENCE fichas;
+    esp.nombreespecialidad
+FROM  tbcitasmedicas CITAS
+    INNER JOIN
+        tbcentrosmedicos CENTROS ON CITAS.id_centro=CENTROS.id_centro
+    INNER JOIN
+        tbdoctores DOCS ON CENTROS.id_doctor=DOCS.id_doctor
+    INNER JOIN
+        tbEspecialidades ESP ON docs.id_especialidad = esp.id_especialidad
+    INNER JOIN
+        tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario
+    INNER JOIN
+        tbpacientes PACS ON citas.id_paciente = pacs.id_paciente WHERE pacs.id_usuario = 1 ;
 
 /*************************************************************************************************
 
@@ -1071,7 +1479,8 @@ SELECT
     u.nombreUsuario, 
     u.apellidoUsuario, 
     u.imgUsuario, 
-    s.nombreSucursal, 
+	e.nombreEspecialidad,
+    s.nombreSucursal,
     s.telefonoSucur, 
     s.direccionSucur, 
     s.ubicacionSucur, 
@@ -1084,7 +1493,9 @@ INNER JOIN
     tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
 INNER JOIN 
     tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
-INNER JOIN 
+INNER JOIN
+	tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+INNER JOIN
     tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
 INNER JOIN 
     tbServicios srv ON cm.ID_Centro = srv.ID_Centro
@@ -1110,5 +1521,5 @@ FROM  tbcitasmedicas CITAS
     INNER JOIN tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario
     INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente 
         WHERE pacs.id_usuario = 1
-        
+
 */

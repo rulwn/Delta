@@ -89,6 +89,9 @@ class activity_cuenta_confi : AppCompatActivity() {
                 val isDeleted = deleteUser(emailToDelete)
                 if (isDeleted) {
                     Toast.makeText(this@activity_cuenta_confi, "Usuario eliminado correctamente", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this@activity_cuenta_confi, activity_login::class.java)
+                    startActivity(intent)
+                    finish()
                 } else {
                     Toast.makeText(this@activity_cuenta_confi, "No se encontró el usuario con email $emailToDelete", Toast.LENGTH_SHORT).show()
                 }

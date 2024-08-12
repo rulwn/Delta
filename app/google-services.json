@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "24080159450",
+    "project_id": "deltamedic-1erlugar",
+    "storage_bucket": "deltamedic-1erlugar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24080159450:android:f8f110973b3f073f178be3",
+        "android_client_info": {
+          "package_name": "delta.medic.mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPFl0V_MvLwhVWacHfCekSSXxFTIrFFy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
