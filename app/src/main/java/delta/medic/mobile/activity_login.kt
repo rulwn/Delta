@@ -84,95 +84,94 @@ class activity_login : AppCompatActivity() {
             val builder = AlertDialog.Builder(this)
             val dialogLayout = LayoutInflater.from(this).inflate(R.layout.dialog_correo_recuperacion, null)
             builder.setView(dialogLayout)
-            val dialog =builder.create()
-            val txtEmailRecuperacion =dialogLayout.findViewById<EditText>(R.id.txtEmailRecuperacion)
+            val dialog = builder.create()
+            val txtEmailRecuperacion = dialogLayout.findViewById<EditText>(R.id.txtEmailRecuperacion)
             val btnSiguienteAlert = dialogLayout.findViewById<Button>(R.id.btnSiguienteAlert)
+
             btnSiguienteAlert.setOnClickListener {
-
                 userEmail = txtEmailRecuperacion.text.toString()
-                CoroutineScope(Dispatchers.Main).launch{
-                if(verificarCorreo(userEmail)) {
-                    withContext(Dispatchers.IO) {
-                        codigoRecu = (1000..9999).random()
-                        EmailSender().enviarCorreo(
-                            "$userEmail",
-                            "Recuperación de contraseña Delta",
-                            "$codigoRecu"
-                        )
-                    }
-                }
-                    dialog.dismiss()
-                    val segundoBuilder = AlertDialog.Builder(this@activity_login)
-                    val segundoLayout = LayoutInflater.from(this@activity_login).inflate(R.layout.dialog_codigo_recuperacion, null)
-                    segundoBuilder.setView(segundoLayout)
-                    val dialog2 = segundoBuilder.create()
-                    val txtRecu1 = segundoLayout.findViewById<EditText>(R.id.txtRecu1)
-                    val txtRecu2 = segundoLayout.findViewById<EditText>(R.id.txtRecu2)
-                    val txtRecu3 = segundoLayout.findViewById<EditText>(R.id.txtRecu3)
-                    val txtRecu4 = segundoLayout.findViewById<EditText>(R.id.txtRecu4)
-                    val btnRecuSig = segundoLayout.findViewById<Button>(R.id.btnRecuSig)
 
-                    txtRecu1.addTextChangedListener {
-                            text ->
-                        if(txtRecu1.text.toString() != ""){
-                            txtRecu2.requestFocus()
+                CoroutineScope(Dispatchers.Main).launch {
+                    // Llamada a la función suspendida verificarCorreo dentro de una corrutina
+                    if (txtEmailRecuperacion.text.isNotEmpty() && withContext(Dispatchers.IO) { verificarCorreo(userEmail) }) {
+                        withContext(Dispatchers.IO) {
+                            codigoRecu = (1000..9999).random()
+                            EmailSender().enviarCorreo(
+                                "$userEmail",
+                                "Recuperación de contraseña Delta",
+                                "$codigoRecu"
+                            )
                         }
 
-                    }
-                    txtRecu2.addTextChangedListener {
-                            text ->
-                        txtRecu3.requestFocus()
-                    }
-                    txtRecu3.addTextChangedListener {
-                            text ->
-                        txtRecu4.requestFocus()
-                    }
+                        dialog.dismiss() // Cerrar el primer dialog
 
-                    txtRecu4.setOnKeyListener { v, keyCode, event ->
-                        //Revisar si se oprimio borrar        Revisar si se solto la tecla de borrar
-                        if(keyCode == KeyEvent.KEYCODE_DEL && event.action == KeyEvent.ACTION_DOWN){
-                            txtRecu4.setText("")
+                        // Mostrar el segundo dialog
+                        val segundoBuilder = AlertDialog.Builder(this@activity_login)
+                        val segundoLayout = LayoutInflater.from(this@activity_login).inflate(R.layout.dialog_codigo_recuperacion, null)
+                        segundoBuilder.setView(segundoLayout)
+                        val dialog2 = segundoBuilder.create()
+                        val txtRecu1 = segundoLayout.findViewById<EditText>(R.id.txtRecu1)
+                        val txtRecu2 = segundoLayout.findViewById<EditText>(R.id.txtRecu2)
+                        val txtRecu3 = segundoLayout.findViewById<EditText>(R.id.txtRecu3)
+                        val txtRecu4 = segundoLayout.findViewById<EditText>(R.id.txtRecu4)
+                        val btnRecuSig = segundoLayout.findViewById<Button>(R.id.btnRecuSig)
+
+                        txtRecu1.addTextChangedListener {
+                            if (txtRecu1.text.toString().isNotEmpty()) {
+                                txtRecu2.requestFocus()
+                            }
+                        }
+                        txtRecu2.addTextChangedListener {
                             txtRecu3.requestFocus()
-                            return@setOnKeyListener true
                         }
-                        false
-                    }
-                    txtRecu3.setOnKeyListener { v, keyCode, event ->
-                        //Revisar si se oprimio borrar        Revisar si se solto la tecla de borrar
-                        if(keyCode == KeyEvent.KEYCODE_DEL && event.action == KeyEvent.ACTION_DOWN){
-                            txtRecu3.setText("")
-                            txtRecu2.requestFocus()
-                            return@setOnKeyListener true
+                        txtRecu3.addTextChangedListener {
+                            txtRecu4.requestFocus()
                         }
-                        false
-                    }
-                    txtRecu2.setOnKeyListener { v, keyCode, event ->
-                        //Revisar si se oprimio borrar        Revisar si se solto la tecla de borrar
-                        if(keyCode == KeyEvent.KEYCODE_DEL && event.action == KeyEvent.ACTION_DOWN){
-                            txtRecu2.setText("")
-                            txtRecu1.requestFocus()
-                            return@setOnKeyListener true
-                        }
-                        false
-                    }
-                    btnRecuSig.setOnClickListener {
-                        val textosJuntos = txtRecu1.text.toString() + txtRecu2.text.toString() + txtRecu3.text.toString() + txtRecu4.text.toString()
-                        val intentoRecu = textosJuntos.toInt()
-                        if(intentoRecu == codigoRecu){
-                            Log.d("Recuperacion","Recuperacion exitosa")
-                            dialog2.dismiss()
-                            val tercerBuilder = AlertDialog.Builder(this@activity_login)
-                            val tercerLayout = LayoutInflater.from(this@activity_login).inflate(R.layout.dialog_cambiar_clave, null)
-                            tercerBuilder.setView(tercerLayout)
-                            val dialog3 = tercerBuilder.create()
-                            val txtNuevaClave = tercerLayout.findViewById<EditText>(R.id.txtNuevaClave)
-                            val txtConfirmarNuevaClave = tercerLayout.findViewById<EditText>(R.id.txtConfirmarNuevaClave)
-                            val btnConfirmarCambio = tercerLayout.findViewById<Button>(R.id.btnConfirmarCambio)
 
-                            btnConfirmarCambio.setOnClickListener {
-                                    if( txtConfirmarNuevaClave.text.toString()==txtNuevaClave.text.toString()){
+                        txtRecu4.setOnKeyListener { v, keyCode, event ->
+                            if (keyCode == KeyEvent.KEYCODE_DEL && event.action == KeyEvent.ACTION_DOWN) {
+                                txtRecu4.setText("")
+                                txtRecu3.requestFocus()
+                                return@setOnKeyListener true
+                            }
+                            false
+                        }
+                        txtRecu3.setOnKeyListener { v, keyCode, event ->
+                            if (keyCode == KeyEvent.KEYCODE_DEL && event.action == KeyEvent.ACTION_DOWN) {
+                                txtRecu3.setText("")
+                                txtRecu2.requestFocus()
+                                return@setOnKeyListener true
+                            }
+                            false
+                        }
+                        txtRecu2.setOnKeyListener { v, keyCode, event ->
+                            if (keyCode == KeyEvent.KEYCODE_DEL && event.action == KeyEvent.ACTION_DOWN) {
+                                txtRecu2.setText("")
+                                txtRecu1.requestFocus()
+                                return@setOnKeyListener true
+                            }
+                            false
+                        }
+
+                        btnRecuSig.setOnClickListener {
+                            val textosJuntos = txtRecu1.text.toString() + txtRecu2.text.toString() + txtRecu3.text.toString() + txtRecu4.text.toString()
+                            val intentoRecu = textosJuntos.toInt()
+                            if (intentoRecu == codigoRecu) {
+                                Log.d("Recuperacion", "Recuperacion exitosa")
+                                dialog2.dismiss()
+
+                                val tercerBuilder = AlertDialog.Builder(this@activity_login)
+                                val tercerLayout = LayoutInflater.from(this@activity_login).inflate(R.layout.dialog_cambiar_clave, null)
+                                tercerBuilder.setView(tercerLayout)
+                                val dialog3 = tercerBuilder.create()
+                                val txtNuevaClave = tercerLayout.findViewById<EditText>(R.id.txtNuevaClave)
+                                val txtConfirmarNuevaClave = tercerLayout.findViewById<EditText>(R.id.txtConfirmarNuevaClave)
+                                val btnConfirmarCambio = tercerLayout.findViewById<Button>(R.id.btnConfirmarCambio)
+
+                                btnConfirmarCambio.setOnClickListener {
+                                    if (txtConfirmarNuevaClave.text.toString() == txtNuevaClave.text.toString()) {
                                         val contra = Encrypter().encrypt(txtNuevaClave.text.toString())
-                                        CoroutineScope(Dispatchers.IO).launch{
+                                        CoroutineScope(Dispatchers.IO).launch {
                                             try {
                                                 val objConexion = ClaseConexion().cadenaConexion()
                                                 val cambiarClave = objConexion?.prepareStatement("update tbUsuarios set contrasena = ? where emailusuario = ?")!!
@@ -181,22 +180,26 @@ class activity_login : AppCompatActivity() {
                                                 cambiarClave.executeUpdate()
                                                 val commit = objConexion.prepareStatement("commit")!!
                                                 commit.executeUpdate()
-                                            } catch (e: Exception){
+                                            } catch (e: Exception) {
                                                 println("Error: $e")
                                             }
                                         }
                                     }
-                                 dialog3.dismiss()
+                                    dialog3.dismiss()
+                                }
+                                dialog3.show()
                             }
-                            dialog3.show()
                         }
+                        dialog2.show()
+                    } else {
+                        // Mostrar mensaje de error si el correo no es válido o está vacío
+                        Toast.makeText(this@activity_login, "Correo inválido", Toast.LENGTH_SHORT).show()
                     }
-                    dialog2.show()
                 }
-
             }
             dialog.show()
         }
+
     }
     private suspend fun inicioSesion(correo: String, clave:String): Boolean{
         //Las funciones suspend se pueden llamar desde otras corrutinas u otras funciones de suspension
