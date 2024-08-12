@@ -84,13 +84,15 @@ class activity_busqueda : AppCompatActivity() {
 
     private fun performSearch(query: String) {
         try {
+            val resultadosFragment = fragment_Resultados()
+
+            val bundle = Bundle().apply {
+                putString("query", query)
+            }
+            resultadosFragment.arguments = bundle
+
             supportFragmentManager.beginTransaction().apply {
-                replace(R.id.main, fragment_Resultados().apply {
-                    arguments = Bundle().apply {
-                        putString("query", query)
-                    }
-                })
-                addToBackStack(null)
+                replace(R.id.main, resultadosFragment)
                 commit()
             }
         } catch (e: Exception) {
