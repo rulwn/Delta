@@ -184,7 +184,6 @@ class fragment_usuario : Fragment() {
         * Values                                                                                  *
         ******************************************************************************************/
         //Image View
-        val imgvSettings = root.findViewById<ImageView>(R.id.imgVSettingsPerfil)
         val imgvFoto = root.findViewById<ImageView>(R.id.imgvPriv)
         val imgvPersonalizar = root.findViewById<ImageView>(R.id.imgvPerfil)
         val imgvSeguro = root.findViewById<ImageView>(R.id.imgvSeguroPerfil)
@@ -207,10 +206,6 @@ class fragment_usuario : Fragment() {
         /******************************************************************************************
         * On Clicks                                                                              *
         ******************************************************************************************/
-        imgvSettings.setOnClickListener{
-            val activitySettings = Intent(requireContext(), activity_configuracion::class.java)
-            startActivity(activitySettings)
-        }
         imgvPersonalizar.setOnClickListener{
             val activityEditarPerfil = Intent(requireContext(), activity_editarperfil::class.java)
 
