@@ -9,10 +9,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="delta.medic.mobile" />
+                  <option name="mobileSdkAppId" value="1:24080159450:android:f8f110973b3f073f178be3" />
+                  <option name="projectId" value="deltamedic-1erlugar" />
+                  <option name="projectNumber" value="24080159450" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
