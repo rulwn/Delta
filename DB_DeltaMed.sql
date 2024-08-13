@@ -597,21 +597,6 @@ CREATE TABLE tbSeguros (
     ON DELETE CASCADE
 );
 
-CREATE TABLE tbDoctores (
-    ID_Doctor INT PRIMARY KEY,
-    codProfesional VARCHAR2(12) NOT NULL,
-    ID_Especialidad INT NOT NULL,
-    ID_Usuario INT NOT NULL,
-    --CONSTRAINTS------------------
-    CONSTRAINT FK_Especialidad FOREIGN KEY (ID_Especialidad) 
-    REFERENCES tbEspecialidades(ID_Especialidad)
-    ON DELETE CASCADE,
-    
-    CONSTRAINT FK_Usuario_Doctor FOREIGN KEY (ID_Usuario)
-    REFERENCES tbUsuarios(ID_Usuario)
-    ON DELETE CASCADE
-);
-
 CREATE TABLE tbSucursales (
     ID_Sucursal INT PRIMARY KEY,
     nombreSucursal VARCHAR2(60) NOT NULL,
@@ -635,10 +620,31 @@ CREATE TABLE tbSucursales (
     ON DELETE CASCADE
 );
 
+CREATE TABLE tbDoctores (
+    ID_Doctor INT PRIMARY KEY,
+    codProfesional VARCHAR2(12) NOT NULL,
+    ID_Especialidad INT NOT NULL,
+    ID_Usuario INT NOT NULL,
+    ID_Sucursal INT NOT NULL,
+    --CONSTRAINTS------------------
+    CONSTRAINT FK_Especialidad FOREIGN KEY (ID_Especialidad) 
+    REFERENCES tbEspecialidades(ID_Especialidad)
+    ON DELETE CASCADE,
+    
+    CONSTRAINT FK_Usuario_Doctor FOREIGN KEY (ID_Usuario)
+    REFERENCES tbUsuarios(ID_Usuario)
+    ON DELETE CASCADE,
+    
+    CONSTRAINT FK_Sucursal_Doctor FOREIGN KEY (ID_Sucursal)
+    REFERENCES tbSucursales(ID_Sucursal)
+    ON DELETE CASCADE
+);
+
 CREATE TABLE tbFavoritos (
     ID_Favorito INT PRIMARY KEY,
     ID_Sucursal INT NOT NULL,
     ID_Usuario INT NOT NULL,
+    ID_Doctor INT NOT NULL,
 
     --CONSTRAINTS------------------
     CONSTRAINT FK_SucursalFav FOREIGN KEY (ID_Sucursal) 
@@ -647,6 +653,10 @@ CREATE TABLE tbFavoritos (
     
     CONSTRAINT FK_UsuarioFav FOREIGN KEY (ID_Usuario) 
     REFERENCES tbUsuarios(ID_Usuario)
+    ON DELETE CASCADE,
+    
+    CONSTRAINT FK_DoctorF FOREIGN KEY (ID_Doctor) 
+    REFERENCES tbDoctores(ID_Doctor)
     ON DELETE CASCADE 
 );
 
@@ -1242,7 +1252,7 @@ END Trigger_Ficha;
 ~ PROCEDURE PARA RECIENTES ~
 
 *************************************************************************************************/
-CREATE OR REPLACE PROCEDURE ManageRecentVisits(var_ID_Usuario IN INT, var_ID_Sucursal IN INT) AS
+CREATE OR REPLACE PROCEDURE PROC_STATE_VALIDATION_RECIENTES(var_ID_Usuario IN INT, var_ID_Sucursal IN INT) AS
     v_count INT;
 BEGIN
     -- Elimina cualquier registro existente para el mismo ID_Usuario y ID_Sucursal
@@ -1428,16 +1438,16 @@ INSERT ALL
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
-    INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario)
-         VALUES ('JVPM12345', 1, 5)
-    INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario)
-         VALUES ('JVPM67890', 2, 4)
-    INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario)
-         VALUES ('JVPM23456', 3, 3)
-    INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario)
-         VALUES ('JVPM78901', 4, 2)
-    INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario)
-         VALUES ('JVPM34567', 5, 1)
+    INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario,ID_Sucursal)
+         VALUES ('JVPM12345', 1, 5,1)
+    INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario, ID_Sucursal)
+         VALUES ('JVPM67890', 2, 4,1)
+    INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario, ID_Sucursal)
+         VALUES ('JVPM23456', 3, 3,2)
+    INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario, ID_Sucursal)
+         VALUES ('JVPM78901', 4, 2,3)
+    INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario, ID_Sucursal)
+         VALUES ('JVPM34567', 5, 1,4)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -1507,45 +1517,6 @@ INSERT ALL
     INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
         VALUES ('Terapia Cognitiva', 55.00, 5, 5)
 SELECT DUMMY FROM DUAL;
-
-INSERT ALL 
-    INTO tbRecientes(ID_Usuario, ID_Sucursal)
-        VALUES(1,1)
-    INTO tbRecientes(ID_Usuario, ID_Sucursal)
-        VALUES(1,1)
-    INTO tbRecientes(ID_Usuario, ID_Sucursal)
-        VALUES(1,1)
-    INTO tbRecientes(ID_Usuario, ID_Sucursal)
-        VALUES(1,1)
-    INTO tbRecientes(ID_Usuario, ID_Sucursal)
-        VALUES(1,1)
-    INTO tbRecientes(ID_Usuario, ID_Sucursal)
-        VALUES(1,1)
-    INTO tbRecientes(ID_Usuario, ID_Sucursal)
-        VALUES(1,1)
-    INTO tbRecientes(ID_Usuario, ID_Sucursal)
-        VALUES(1,1)
-    INTO tbRecientes(ID_Usuario, ID_Sucursal)
-        VALUES(1,1)
-    INTO tbRecientes(ID_Usuario, ID_Sucursal)
-        VALUES(1,1)
-    INTO tbRecientes(ID_Usuario, ID_Sucursal)
-        VALUES(1,1)
-    INTO tbRecientes(ID_Usuario, ID_Sucursal)
-        VALUES(1,1)
-    INTO tbRecientes(ID_Usuario, ID_Sucursal)
-        VALUES(1,1)
-    INTO tbRecientes(ID_Usuario, ID_Sucursal)
-        VALUES(1,1)
-    INTO tbRecientes(ID_Usuario, ID_Sucursal)
-        VALUES(1,1)  
-    INTO tbRecientes(ID_Usuario, ID_Sucursal)
-        VALUES(1,1)
-    INTO tbRecientes(ID_Usuario, ID_Sucursal)
-        VALUES(1,2)
-SELECT DUMMY FROM DUAL;
-SELECT * FROM tbRecientes;
-EXECUTE PROC_STATE_VALIDATION_RECIENTES (1,1)
 
 COMMIT;
 
@@ -1634,6 +1605,20 @@ FROM  tbcitasmedicas CITAS
     INNER JOIN
         tbpacientes PACS ON citas.id_paciente = pacs.id_paciente WHERE pacs.id_usuario = 1 ;
 
+    SELECT 
+        u.ID_Usuario,
+        u.nombreUsuario, 
+        u.imgUsuario, 
+        s.imgSucursal, 
+        ts.nombreTipoSucursal
+    FROM 
+        tbFavoritos f
+        INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor
+        INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal
+        INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario -- El usuario es el doctor
+        INNER JOIN tbTipoSucursales ts ON ts.ID_TipoSucursal = s.ID_TipoSucursal
+    WHERE 
+        f.ID_Usuario = 2; -- ID del usuario que ha marcado como favorito
 /*************************************************************************************************
 
     ~ Consultas Inner Extras~
