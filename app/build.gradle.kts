@@ -44,7 +44,8 @@ android {
 }
 
 dependencies {
-
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    implementation("com.google.firebase:firebase-storage")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -68,6 +69,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.tracing.perfetto.handshake)
     implementation(libs.play.services.maps)
+    implementation(libs.firebase.common.ktx)
     implementation(libs.firebase.auth.ktx)
     testImplementation(libs.junit)
     implementation(libs.androidx.material3.android)

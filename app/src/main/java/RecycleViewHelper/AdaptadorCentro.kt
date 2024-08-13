@@ -50,7 +50,6 @@ class AdaptadorCentro(var Datos: List<dataClassCentro>) : RecyclerView.Adapter<V
             pantallaDetalle.putExtra("ubicacionSucur", doctor.ubicacionSucur)
             pantallaDetalle.putExtra("nombreServicio", doctor.nombreServicio)
             pantallaDetalle.putExtra("costo", doctor.costo)
-            pantallaDetalle.putExtra("favorito", doctor.favorito)
             context.startActivity(pantallaDetalle)
         }
 
