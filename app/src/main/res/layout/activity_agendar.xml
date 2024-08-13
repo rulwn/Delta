@@ -96,7 +96,7 @@
                         app:layout_constraintVertical_bias="1.0" />
 
                     <ImageView
-                        android:id="@+id/imgFotoUser"
+                        android:id="@+id/imgFotoDoctor"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_alignParentStart="true"
@@ -126,8 +126,8 @@
                         android:id="@+id/txtNombreDoctor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignTop="@id/imgFotoUser"
-                        android:layout_toEndOf="@id/imgFotoUser"
+                        android:layout_alignTop="@id/imgFotoDoctor"
+                        android:layout_toEndOf="@id/imgFotoDoctor"
                         android:text="Dra. Luz María"
                         android:textColor="@android:color/white"
                         android:textSize="18sp"
@@ -145,7 +145,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/txtNombreDoctor"
                         android:layout_marginTop="30dp"
-                        android:layout_toEndOf="@id/imgFotoUser"
+                        android:layout_toEndOf="@id/imgFotoDoctor"
                         android:text="Odontología"
                         android:textColor="@android:color/white"
                         android:textSize="12sp"

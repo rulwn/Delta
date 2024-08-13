@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -32,8 +33,11 @@ private const val ARG_PARAM2 = "param2"
  */
 @Suppress("DEPRECATION")
 class fragment_usuario : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
+
+    val cod_opt_gal = 102
+    val cod_opt_take_pic = 103
+    val cam_req_code = 0
+    val stor_req_code = 1
     lateinit var dataUser: dataClassUsuario
 
 
@@ -102,6 +106,11 @@ class fragment_usuario : Fragment() {
             val emailUsuario = user.map { it.emailUsuario}
             val fotoUsuario = user.map { it.imgUsuario}
 
+            lateinit var imageView: ImageView
+            lateinit var myPath: String
+            lateinit var txtCorreo: EditText
+
+
             withContext(Dispatchers.Main) {
                 /*Como se quiere obtener solo el primer nombre sin importar que el usuario haya metido 827 nombres
                 * Lo primero que se hace es que nombreCompleto era un map, asi que tenía [], por lo que para quitarselos ponemos replace "["
@@ -130,13 +139,6 @@ class fragment_usuario : Fragment() {
                     ).show()
                 }*/
             }
-        }
-    }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -191,18 +193,20 @@ class fragment_usuario : Fragment() {
         val imgvRecetas = root.findViewById<ImageView>(R.id.imgvRecetas)
         val imgvHistorialCitas = root.findViewById<ImageView>(R.id.imgvHistCitas)
         val imgvMisReseñas = root.findViewById<ImageView>(R.id.imgvMisReseñas)
+        val imgvPacientesPerfil = root.findViewById<ImageView>(R.id.imgvPacientesPerfil)
         //Labels
         val lbNombre = root.findViewById<TextView>(R.id.txtPrivacidadySeguridad)
         val lbCorreo = root.findViewById<TextView>(R.id.txtNotiiii)
         val lbPersonalizar = root.findViewById<TextView>(R.id.lbPersonalizarPerfil)
         val lbSeguro = root.findViewById<TextView>(R.id.lbSeguroPerfil)
         val lbPerfil = root.findViewById<TextView>(R.id.lbPerfil)
+        val lbPacientes = root.findViewById<TextView>(R.id.lbPacientesPerfil)
 
         lbPerfil.setText(Html.fromHtml(getResources().getString(R.string.lbPerfilSub)))
 
 
-
         loadData(lbNombre,lbCorreo,imgvFoto)
+
         /******************************************************************************************
         * On Clicks                                                                              *
         ******************************************************************************************/
@@ -211,19 +215,27 @@ class fragment_usuario : Fragment() {
 
             startActivity(ActivitySettings(activityEditarPerfil))
         }
-
-
         lbPersonalizar.setOnClickListener{
             val activityEditarPerfil = Intent(requireContext(), activity_editarperfil::class.java)
 
 
             startActivity(ActivitySettings(activityEditarPerfil))
         }
+        imgvPacientesPerfil.setOnClickListener{
+            val activityPacientes = Intent(requireContext(), activity_pacientes::class.java)
+            startActivity(activityPacientes)
+        }
+        lbPacientes.setOnClickListener{
+            val activityPacientes = Intent(requireContext(), activity_pacientes::class.java)
+            startActivity(activityPacientes)
+        }
         imgvSeguro.setOnClickListener {
-            //No sé hacia donde lleva
+            val activitySeguroPaciente = Intent(requireContext(), activity_seguro_paciente::class.java)
+            startActivity(activitySeguroPaciente)
         }
         lbSeguro.setOnClickListener {
-            //No sé hacia donde lleva
+            val activitySeguroPaciente = Intent(requireContext(), activity_seguro_paciente::class.java)
+            startActivity(activitySeguroPaciente)
         }
         imgvDoctoresFavoritos.setOnClickListener {
             val activityDoctoresFavoritos = Intent(requireContext(), activity_doctoresfavoritos::class.java)

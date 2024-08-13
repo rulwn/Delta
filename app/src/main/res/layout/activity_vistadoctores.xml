@@ -232,8 +232,7 @@
                 android:layout_height="wrap_content"
                 android:text="Clinica 206 Piso 3"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:maxLines="1"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/nombreSucursal"
@@ -255,18 +254,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="2555-1200"
+                android:text="2555 1200"
                 android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/direccion_Clinica"
-                android:layout_width="235dp"
+                android:layout_width="234dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="81 y 83 Avenida Sur y Calle Juan José Cañas, Colonia Escalón, San Salvador CP 1101"
-                android:textSize="14sp"
-                android:maxLines="3"
-                android:ellipsize="end"/>
+                android:textSize="14sp" />
 
         </LinearLayout>
 

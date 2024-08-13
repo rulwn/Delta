@@ -23,10 +23,29 @@ class activity_carga : AppCompatActivity() {
             insets
         }
         GlobalScope.launch(Dispatchers.Main) {
+
             val lottieView = findViewById<LottieAnimationView>(R.id.lottie_view)
             delay(2000)
-            startActivity(Intent(this@activity_carga, MainActivity::class.java))
+
+            val sharedPreferencesPrimerUso = getSharedPreferences("PrimerUso", MODE_PRIVATE)
+            val primerUsoInicializado = sharedPreferencesPrimerUso.getBoolean("Inicializado", false)
+
+            val sharedPreferencesSesion = getSharedPreferences("Sesion", MODE_PRIVATE)
+            val sesionIniciada = sharedPreferencesSesion.getBoolean("sesionIniciada", false)
+
+            if(sesionIniciada && primerUsoInicializado){
+                startActivity(Intent(this@activity_carga, MainActivity::class.java))
+                finish()
+            }else if(!sesionIniciada && primerUsoInicializado){
+                startActivity(Intent(this@activity_carga, activity_login::class.java))
+                finish()
+            }
+            else{
+                startActivity(Intent(this@activity_carga, activity_bienvenida::class.java))
+                finish()
+            }
             finish()
         }
+
     }
 }

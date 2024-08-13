@@ -116,8 +116,7 @@ WHERE
                         val costo = resultSet.getFloat("costo")
 
                         centroMedico.add(dataClassCentro(
-                            ID_Doctor, nombreUsuario, apellidoUsuario, imgUsuario, nombreEspecialidad,
-                            nombreSucursal, telefonoSucur, direccionSucur, ubicacionSucur, nombreServicio, costo
+                            ID_Doctor, nombreUsuario, direccionSucur
                         ))
                     }
                 } else {
