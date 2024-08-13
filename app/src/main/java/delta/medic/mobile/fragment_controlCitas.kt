@@ -150,7 +150,7 @@ class fragment_controlCitas : Fragment() {
     }
 
 
-    private suspend fun obtenerDatos(): List<dataClassCitas>{
+    suspend fun obtenerDatos(): List<dataClassCitas>{
         return withContext(Dispatchers.IO) {
             val citas = mutableListOf<dataClassCitas>()
             try {
