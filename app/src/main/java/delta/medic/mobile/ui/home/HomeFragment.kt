@@ -24,6 +24,7 @@ import delta.medic.mobile.activity_login.UserData.userEmail
 import delta.medic.mobile.databinding.FragmentHomeBinding
 import delta.medic.mobile.fragment_controlCitas
 import delta.medic.mobile.fragment_control_tratamientos
+import delta.medic.mobile.fragment_usuario
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -153,66 +154,11 @@ class HomeFragment : Fragment() {
         }
     }
 
-    suspend fun GetUserParameters(email: String): List<dataClassUsuario> {
-        return withContext(Dispatchers.IO) {
-            val listaUsuarios = mutableListOf<dataClassUsuario>()
-            try {
-                val objConexion = ClaseConexion().cadenaConexion()
-                if (objConexion != null) {
-
-                    val statement = objConexion.prepareStatement("SELECT * FROM tbUsuarios WHERE emailUsuario = ?")!!
-                    statement.setString(1, userEmail)
-                    val resultSet = statement.executeQuery()
-                    // Verifica si hay resultados
-                    if (resultSet.next()) {
-                        val idUsuario = resultSet.getInt("ID_Usuario")
-                        val nombreUsuario = resultSet.getString("nombreUsuario")
-                        val apellidoUsuario = resultSet.getString("apellidoUsuario")
-                        val emailUsuario = resultSet.getString("emailUsuario")
-                        val contrasena = resultSet.getString("contrasena")
-                        val direccion = resultSet.getString("direccion")
-                        val teléfono = resultSet.getString("telefonoUsuario")
-                        val sexo = resultSet.getString("sexo").toString()
-                        val fechaNacimiento = resultSet.getString("fechaNacimiento")
-                        var imgUsuario = ""
-                        if(resultSet.getString("imgUsuario") != null){
-                            imgUsuario = resultSet.getString("imgUsuario").toString()}
-                        else{
-                            imgUsuario = ""
-                        }
-                        val idTipoUsuario = resultSet.getInt("ID_TipoUsuario")
-
-                        val userWithFullData = dataClassUsuario(
-                            idUsuario, nombreUsuario, apellidoUsuario, emailUsuario, contrasena,
-                            direccion, teléfono, sexo, fechaNacimiento, imgUsuario, idTipoUsuario
-                        )
-                        listaUsuarios.add(userWithFullData)
-
-                    } else {
-                        println("No se encontraron usuarios con el email ${email}.")
-                    }
-
-                    // Cerrar recursos
-                    resultSet.close()
-                    statement.close()
-                    objConexion.close()
-                } else {
-                    println("No se pudo establecer una conexión con la base de datos.")
-                }
-            } catch (e: SQLException) {
-                println("Error en la consulta SQL: ${e.message}")
-            } catch (e: Exception) {
-                println("Este es el error: ${e.message}")
-            }
-
-            listaUsuarios
-        }
-    }
-
     fun loadData(lbNombre: TextView) {
         try {
             viewLifecycleOwner.lifecycleScope.launch {
-                val user = GetUserParameters(userEmail)
+                val fragmentUsuario = fragment_usuario()
+                val user = fragmentUsuario.GetUserParameters(userEmail)
                 //Estos campos al estar con map pondrá  "[]" al inicio y al final
                 val nombreUsuario = user.map { it.nombreUsuario }
 

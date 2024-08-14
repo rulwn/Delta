@@ -1,5 +1,6 @@
 package delta.medic.mobile
 
+import Modelo.ClaseConexion
 import android.Manifest
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
@@ -18,6 +19,8 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import java.sql.CallableStatement
+import java.sql.ResultSet
 
 class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
 
@@ -43,6 +46,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
             insets
         }
 
+        //EjecutarProcesoAlmacenado()
         mapView = findViewById(R.id.mapUbicacion)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -53,6 +57,34 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
 
         mapView.onCreate(mapViewBundle)
         mapView.getMapAsync(this)
+    }
+
+    suspend fun EjecutarProcesoAlmacenado(idUsuario: Int, idSucursal: String) {
+        val objConexion = ClaseConexion().cadenaConexion()
+
+        if (objConexion != null) {
+            val sql = "{CALL PROC_STATE_VALIDATION_RECIENTES(?, ?)}" // Nombre del procedimiento y parámetros
+            val callableStatement: CallableStatement = objConexion.prepareCall(sql)
+
+            try {
+                // Establecer los parámetros del procedimiento
+                callableStatement.setInt(1, idUsuario)
+                callableStatement.setString(2, idSucursal)
+
+                // Ejecutar el procedimiento y procesar el resultado
+                val resultSet: ResultSet = callableStatement.executeQuery()
+                while (resultSet.next()) {
+                    val someValue = resultSet.getString("some_column_name")
+                    // Procesar el valor
+                }
+            } finally {
+                // Cerrar los recursos
+                println("Procedimiento ejecutado correctamente.")
+                callableStatement.close()
+            }
+        } else {
+            println("Error: La conexión es nula.")
+        }
     }
 
     override fun onMapReady(map: GoogleMap) {
