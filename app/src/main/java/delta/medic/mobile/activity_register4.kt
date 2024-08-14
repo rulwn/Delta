@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.KeyEvent
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -109,6 +110,12 @@ class activity_register4 : AppCompatActivity() {
             }
             false
         }
+        val imgFlechaAtrasRegistro3 = findViewById<ImageView>(R.id.imgFlechaAtrasRegistro3)
+        imgFlechaAtrasRegistro3.setOnClickListener {
+            val intent = Intent(this, activity_register3::class.java)
+            startActivity(intent)
+        }
+
         val btnSiguiente = findViewById<Button>(R.id.btnRegistrarse)
         btnSiguiente.setOnClickListener {
             var intento = num1edit.text.toString() + num2edit.text.toString() + num3edit.text.toString() + num4edit.text.toString() + num5edit.text.toString() + num6edit.text.toString()
@@ -147,8 +154,6 @@ class activity_register4 : AppCompatActivity() {
                Toast.makeText(this, "Codigo de verificacion incorrecto", Toast.LENGTH_SHORT).show()
            }
 
-//            val intent = Intent(this, MainActivity::class.java)
-//            startActivity(intent)
         }
     }
 }

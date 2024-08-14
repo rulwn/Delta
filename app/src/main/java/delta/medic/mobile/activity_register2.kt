@@ -1,7 +1,5 @@
 package delta.medic.mobile
 
-import Modelo.ClaseConexion
-import Modelo.dc_Aseguradoras
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -57,7 +55,7 @@ class activity_register2 : AppCompatActivity() {
             datePickerDialog.show()
         }
 
-        val imgFlechaAtras = findViewById<ImageView>(R.id.imgFlechaAtrasRegistro1)
+        val imgFlechaAtras = findViewById<ImageView>(R.id.imgFlechaAtrasRegistro2)
         imgFlechaAtras.setOnClickListener {
             val intent = Intent(this, activity_register1::class.java)
             startActivity(intent)
@@ -89,8 +87,8 @@ class activity_register2 : AppCompatActivity() {
             if (telefono.isEmpty()) {
                 txtTelefono.error = "Llena este campo"
                 hayVacio = true
-            } else if (!telefono.matches(Regex("^[0-9]{10}$"))) {
-                txtTelefono.error = "El teléfono debe contener 10 dígitos"
+            } else if (!telefono.matches(Regex("^[0-9]{4}[0-9]{4}$"))) {
+                txtTelefono.error = "El teléfono está incorrecto"
                 hayError = true
             } else {
                 txtTelefono.error = null
@@ -104,11 +102,18 @@ class activity_register2 : AppCompatActivity() {
             if (hayVacio || hayError) {
                 Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG).show()
             } else {
-                activity_register1.variablesLogin.fechaNacimiento = fechaNacimiento
-                activity_register1.variablesLogin.telefono = telefono
-
-                val intent = Intent(this, activity_register3::class.java)
-                startActivity(intent)
+                CoroutineScope(Dispatchers.Main).launch {
+                    if (rbHombre.isChecked) {
+                        activity_register1.variablesLogin.sexo = "H"
+                    } else if (rbMujer.isChecked) {
+                        activity_register1.variablesLogin.sexo = "M"
+                    }
+                    activity_register1.variablesLogin.fechaNacimiento =
+                        txtFechaNacimientoPaciente.text.toString()
+                    activity_register1.variablesLogin.telefono = txtTelefono.text.toString()
+                    val intent = Intent(this@activity_register2, activity_register3::class.java)
+                    startActivity(intent)
+                }
             }
         }
     }

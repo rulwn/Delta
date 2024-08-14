@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -32,9 +33,11 @@ private const val ARG_PARAM2 = "param2"
  */
 @Suppress("DEPRECATION")
 class fragment_usuario : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    val cod_opt_gal = 102
+    val cod_opt_take_pic = 103
+    val cam_req_code = 0
+    val stor_req_code = 1
     lateinit var dataUser: dataClassUsuario
 
 
@@ -98,13 +101,30 @@ class fragment_usuario : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             val user = GetUserParameters(sentEmail)
             //Estos campos al estar con map pondrá  "[]" al inicio y al final
-            val nombreUsuario = user.map { it.nombreUsuario}
+            val nombreCompleto = user.map { it.nombreUsuario}
+            val apellidoCompleto = user.map {it.apellidoUsuario}
             val emailUsuario = user.map { it.emailUsuario}
             val fotoUsuario = user.map { it.imgUsuario}
 
+            lateinit var imageView: ImageView
+            lateinit var myPath: String
+            lateinit var txtCorreo: EditText
+
+
             withContext(Dispatchers.Main) {
-                //Para solucionarlo se coloca replace
-                lbNombre.setText(nombreUsuario.toString().replace("[", "").replace("]",""))
+                /*Como se quiere obtener solo el primer nombre sin importar que el usuario haya metido 827 nombres
+                * Lo primero que se hace es que nombreCompleto era un map, asi que tenía [], por lo que para quitarselos ponemos replace "["
+                * y replace "]" y de esta manera que los quite de la cadena, y luego, como no nos interesan el resto de nombres,
+                * los dividimos con un .split(" ") entre las comillas pusimos un espacio, pq cada nombre va separado con un espacio en blanco
+                * y luego .firstOrNull() ?:"" para obtener el primer elemento, y en caso de que sea nulo que no se explote el celular y se
+                * petatee la app, y asi ya nos furrula.*/
+                val primerNombre = (nombreCompleto.toString().replace("[", "").replace("]","")).split(" ").firstOrNull() ?:""
+                //Hacemos lo mismo de arriba para el apellido
+                val primerApellido = (apellidoCompleto.toString().replace("[", "").replace("]","")).split(" ").firstOrNull() ?:""
+
+
+                //Ahora solo ponemos que el lbNombre sea el nombre y apellido.
+                lbNombre.setText("$primerNombre $primerApellido")
                 lbCorreo.setText(emailUsuario.toString().replace("[", "").replace("]",""))
 
                 /*
@@ -119,13 +139,6 @@ class fragment_usuario : Fragment() {
                     ).show()
                 }*/
             }
-        }
-    }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -173,7 +186,6 @@ class fragment_usuario : Fragment() {
         * Values                                                                                  *
         ******************************************************************************************/
         //Image View
-        val imgvSettings = root.findViewById<ImageView>(R.id.imgVSettingsPerfil)
         val imgvFoto = root.findViewById<ImageView>(R.id.imgvPriv)
         val imgvPersonalizar = root.findViewById<ImageView>(R.id.imgvPerfil)
         val imgvSeguro = root.findViewById<ImageView>(R.id.imgvSeguroPerfil)
@@ -181,43 +193,49 @@ class fragment_usuario : Fragment() {
         val imgvRecetas = root.findViewById<ImageView>(R.id.imgvRecetas)
         val imgvHistorialCitas = root.findViewById<ImageView>(R.id.imgvHistCitas)
         val imgvMisReseñas = root.findViewById<ImageView>(R.id.imgvMisReseñas)
+        val imgvPacientesPerfil = root.findViewById<ImageView>(R.id.imgvPacientesPerfil)
         //Labels
         val lbNombre = root.findViewById<TextView>(R.id.txtPrivacidadySeguridad)
         val lbCorreo = root.findViewById<TextView>(R.id.txtNotiiii)
         val lbPersonalizar = root.findViewById<TextView>(R.id.lbPersonalizarPerfil)
         val lbSeguro = root.findViewById<TextView>(R.id.lbSeguroPerfil)
         val lbPerfil = root.findViewById<TextView>(R.id.lbPerfil)
+        val lbPacientes = root.findViewById<TextView>(R.id.lbPacientesPerfil)
 
         lbPerfil.setText(Html.fromHtml(getResources().getString(R.string.lbPerfilSub)))
 
 
-
         loadData(lbNombre,lbCorreo,imgvFoto)
+
         /******************************************************************************************
         * On Clicks                                                                              *
         ******************************************************************************************/
-        imgvSettings.setOnClickListener{
-            val activitySettings = Intent(requireContext(), activity_configuracion::class.java)
-            startActivity(activitySettings)
-        }
         imgvPersonalizar.setOnClickListener{
             val activityEditarPerfil = Intent(requireContext(), activity_editarperfil::class.java)
 
             startActivity(ActivitySettings(activityEditarPerfil))
         }
-
-
         lbPersonalizar.setOnClickListener{
             val activityEditarPerfil = Intent(requireContext(), activity_editarperfil::class.java)
 
 
             startActivity(ActivitySettings(activityEditarPerfil))
         }
+        imgvPacientesPerfil.setOnClickListener{
+            val activityPacientes = Intent(requireContext(), activity_pacientes::class.java)
+            startActivity(activityPacientes)
+        }
+        lbPacientes.setOnClickListener{
+            val activityPacientes = Intent(requireContext(), activity_pacientes::class.java)
+            startActivity(activityPacientes)
+        }
         imgvSeguro.setOnClickListener {
-            //No sé hacia donde lleva
+            val activitySeguroPaciente = Intent(requireContext(), activity_seguro_paciente::class.java)
+            startActivity(activitySeguroPaciente)
         }
         lbSeguro.setOnClickListener {
-            //No sé hacia donde lleva
+            val activitySeguroPaciente = Intent(requireContext(), activity_seguro_paciente::class.java)
+            startActivity(activitySeguroPaciente)
         }
         imgvDoctoresFavoritos.setOnClickListener {
             val activityDoctoresFavoritos = Intent(requireContext(), activity_doctoresfavoritos::class.java)
@@ -235,73 +253,6 @@ class fragment_usuario : Fragment() {
             //No estan las reseñas
         }
 
-        /******************************************************************************************
-         * Funciones                                                                              *
-         ******************************************************************************************/
-
-        /*fun GetUserParameters(): List<dataClassUsuario>{
-            val listaUsuarios = mutableListOf<dataClassUsuario>()
-            try {
-                val objConexion = ClaseConexion().cadenaConexion()
-                val statement = objConexion?.prepareStatement("SELECT * FROM tbUsuario Where emailUsuario = ?")!!
-                statement.setString(1, email)
-                val resultSet = statement.executeQuery()
-
-
-                while (resultSet.next()){
-                    val idUsuario = resultSet.getInt("ID_Usuario")
-                    val nombreUsuario = resultSet.getString("nombreUsuario")
-                    val apellidoUsuario = resultSet.getString("apellidoUsuario")
-                    val emailUsuario = resultSet.getString("emailUsuario")
-                    val contraseña = resultSet.getString("contrasena")
-                    val dirección = resultSet.getString("direccion")
-                    val sexo =  resultSet.getString("sexo").toString().toCharArray()[0]
-                    val fechaNacimiento = resultSet.getDate("fechaNacimiento")
-                    val imgUsuario = resultSet.getBlob("imgUsuario")
-                    val idTipoUsuario = resultSet.getInt("ID_TipoUsuario")
-                    val idSeguro = resultSet.getInt("ID_Seguro")
-
-                    val userWithFullData = dataClassUsuario(idUsuario, nombreUsuario, apellidoUsuario, emailUsuario, contraseña,
-                        dirección, sexo, fechaNacimiento, imgUsuario, idTipoUsuario, idSeguro)
-                    listaUsuarios.add(userWithFullData)
-                }
-                return listaUsuarios
-            }
-            catch (e: Exception){
-                println("Este es el error $e")
-
-            }
-            return listaUsuarios
-
-        }
-
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                val user = GetUserParameters()
-                val nombreUsuario = user.map { it.nombreUsuario }
-                val emailUsuario = user.map { it.emailUsuario }
-                val fotoUsuario = user.map { it.imgUsuario }.toString().toByteArray()
-
-                withContext(Dispatchers.Main) {
-                    lbNombre.setText(nombreUsuario.toString())
-                    lbCorreo.setText((emailUsuario.toString()))
-                    if (fotoUsuario != null && fotoUsuario.isNotEmpty()) {
-                        val bitmap = BitmapFactory.decodeByteArray(fotoUsuario, 0, fotoUsuario.size)
-
-                        imgvFoto.setImageBitmap(bitmap)
-                    } else {
-                        Toast.makeText(
-                            requireContext(),
-                            "Hubo un error al intentar cargar la foto de perfil",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            }
-        }*/
-
-
         imgvSeguro.setOnClickListener{
             //No sé hacia donde lleva
 
@@ -310,23 +261,4 @@ class fragment_usuario : Fragment() {
         return root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment fragment_usuario.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            fragment_usuario().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }

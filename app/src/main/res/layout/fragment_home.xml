@@ -108,7 +108,7 @@
     </HorizontalScrollView>
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/txtPodriasSentir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
@@ -124,31 +124,30 @@
         app:layout_constraintTop_toTopOf="@+id/imageView"
         app:layout_constraintVertical_bias="1.0" />
 
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView2"
+    <TextView
+        android:id="@+id/txtaunnotienesTratamientos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Aun no tienes tratamientos asignados"
+        android:textAlignment="center"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@+id/rcvTratamientosMini"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rcvTratamientosMini" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvTratamientosMini"
         android:layout_width="393dp"
-        android:layout_height="73dp"
+        android:layout_height="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.888"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.468">
+        app:layout_constraintVertical_bias="0.453">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/textView7"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Aun no tienes tratamientos asignados"
-                android:textStyle="italic" />
-        </LinearLayout>
-    </HorizontalScrollView>
+    </androidx.recyclerview.widget.RecyclerView>
 
     <TextView
         android:id="@+id/txtTratamientosPrincipal"
@@ -160,38 +159,36 @@
         android:text="Recordatorio de tratamientos."
         android:textColor="#000000"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView2"
+        app:layout_constraintBottom_toTopOf="@+id/rcvTratamientosMini"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
 
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView3"
-        android:layout_width="393dp"
-        android:layout_height="73dp"
+    <TextView
+        android:id="@+id/txtaunnotienescitas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Aun no tienes citas asignadas"
+        android:textAlignment="center"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@+id/rcvProximaCita"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rcvProximaCita" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvProximaCita"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.671">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/textView75"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Aun no tienes citas asignadas"
-                android:textStyle="italic" />
-        </LinearLayout>
-    </HorizontalScrollView>
+        app:layout_constraintVertical_bias="0.691" />
 
     <TextView
         android:id="@+id/txtCitasPrincipal"
@@ -203,38 +200,35 @@
         android:text="Proxima cita."
         android:textColor="#000000"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView3"
+        app:layout_constraintBottom_toTopOf="@+id/rcvProximaCita"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView"
         app:layout_constraintVertical_bias="1.0" />
 
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView4"
+    <TextView
+        android:id="@+id/txtaunnotienescentros"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Aun no tienes centros medicos visitados"
+        android:textAlignment="center"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@+id/rcvCentrosRecientes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rcvCentrosRecientes" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvCentrosRecientes"
         android:layout_width="393dp"
-        android:layout_height="73dp"
+        android:layout_height="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.909">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/textView74"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Aun no tienes centros medicos visitados"
-                android:textStyle="italic" />
-        </LinearLayout>
-    </HorizontalScrollView>
+        app:layout_constraintVertical_bias="0.909" />
 
     <TextView
         android:id="@+id/txtCentrosRecientesPrincipal"
@@ -246,7 +240,7 @@
         android:text="Recientes."
         android:textColor="#000000"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView4"
+        app:layout_constraintBottom_toTopOf="@+id/rcvCentrosRecientes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

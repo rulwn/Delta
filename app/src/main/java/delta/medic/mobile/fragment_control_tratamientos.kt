@@ -49,7 +49,7 @@ class fragment_control_tratamientos : Fragment() {
         rcvTratamientos.layoutManager = LinearLayoutManager(requireContext())
         CoroutineScope(Dispatchers.IO).launch{
             try {
-                val tratamientosDB = obtenerDatos()
+                val tratamientosDB = obtenerDatosTratamientos()
                 withContext(Dispatchers.Main) {
                     val miAdaptador = AdaptadorTratamientos(tratamientosDB)
                     rcvTratamientos.adapter = miAdaptador
@@ -62,7 +62,7 @@ class fragment_control_tratamientos : Fragment() {
     }
     //asignar un layout al rcv
 
-    private suspend fun obtenerDatos(): List<dataClassIndicaciones>{
+    suspend fun obtenerDatosTratamientos(): List<dataClassIndicaciones>{
         return withContext(Dispatchers.IO) {
             val tratamientos = mutableListOf<dataClassIndicaciones>()
             try {

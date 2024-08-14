@@ -25,8 +25,14 @@ class activity_bienvenida : AppCompatActivity() {
 
         val btnContinuar = findViewById<Button>(R.id.btnContinuar)
         btnContinuar.setOnClickListener {
+            val sharedPreferences = getSharedPreferences("PrimerUso", MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.putBoolean("Inicializado", true)
+            editor.apply()
+
             val intent = Intent(this, activity_login::class.java)
             startActivity(intent)
+            finish()
         }
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         when (currentNightMode) {

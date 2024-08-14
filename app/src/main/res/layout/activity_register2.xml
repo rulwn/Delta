@@ -267,14 +267,14 @@
         android:fontFamily="@font/poppins_regular"
         android:hint="Teléfono"
         android:inputType="text|phone"
+        android:maxLength="9"
         android:padding="8dp"
         android:textColor="@color/GrisAzulito"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="NotSibling"
-        />
+        tools:ignore="NotSibling" />
 
     <EditText
         android:id="@+id/txtFechadeNacimiento"
@@ -372,7 +372,7 @@
         tools:ignore="MissingConstraints" />
 
     <ImageView
-        android:id="@+id/imgFlechaAtrasRegistro1"
+        android:id="@+id/imgFlechaAtrasRegistro2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/txtTextoGrande"

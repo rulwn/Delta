@@ -63,13 +63,23 @@ class activity_login : AppCompatActivity() {
                   withContext(Dispatchers.Main) {
                       Toast.makeText(this@activity_login, "Sesion iniciada", Toast.LENGTH_SHORT)
                           .show()
-                      val intent = Intent(this@activity_login, activity_carga::class.java)
+
+                      //Este coso mariposo sirve para guardar el estado actual de la sesion
+                      //de esta forma se podrá determinar si el usuario ya habia iniciado sesion antes.
+                      val sharedPreferences = getSharedPreferences("Sesion", MODE_PRIVATE)
+                      val editor = sharedPreferences.edit()
+                      editor.putBoolean("sesionIniciada", true)
+                      editor.putString("email", userEmail)
+                      editor.apply()
+
+                      val intent = Intent(this@activity_login, MainActivity::class.java)
                       startActivity(intent)
+                      finish()
                   }
 
               } else {
                   withContext(Dispatchers.Main){
-                      Toast.makeText(this@activity_login, "", Toast.LENGTH_SHORT).show()
+                      Toast.makeText(this@activity_login, "Error de Inicio de sesión, verifica las credenciales.", Toast.LENGTH_SHORT).show()
                   }
               }
           }

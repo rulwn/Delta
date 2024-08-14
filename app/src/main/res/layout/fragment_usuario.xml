@@ -20,16 +20,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imgVSettingsPerfil"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="32dp"
-        android:src="@drawable/ic_config"
-        app:layout_constraintEnd_toEndOf="@+id/imgvSeguroPerfil"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
         android:id="@+id/imgvPriv"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -118,7 +108,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/lbPacientesPerfil"
+        android:id="@+id/lbPersonalizarPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -131,7 +121,7 @@
         app:layout_constraintStart_toStartOf="@+id/imgvPerfil" />
 
     <TextView
-        android:id="@+id/lbPersonalizarPerfil"
+        android:id="@+id/lbPacientesPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_regular"
