@@ -43,6 +43,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvDoctoresFav"
         android:layout_width="402dp"
         android:layout_height="632dp"
         app:layout_constraintBottom_toBottomOf="parent"
