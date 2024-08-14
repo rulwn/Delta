@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 
 class AdaptadorFavoritos(private var Datos: List<dataClassFavoritos>):RecyclerView.Adapter<ViewHolderCentroMini>() {
 
+    var emailUsuario = "";
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderCentroMini {
         val vista = LayoutInflater.from(parent.context).inflate(R.layout.activity_item_centro_medico_pequeno_normal, parent, false)
         return ViewHolderCentroMini(vista)
@@ -53,7 +54,7 @@ class AdaptadorFavoritos(private var Datos: List<dataClassFavoritos>):RecyclerVi
         holder.imgFavoritos.visibility = View.VISIBLE
 
         holder.imgFavoritos.setOnClickListener {
-            val email = activity_login.UserData.userEmail
+            val email = emailUsuario
             eliminarFavorito(email, favorito.ID_Sucursal, favorito.ID_Doctor, position)
 
         }
