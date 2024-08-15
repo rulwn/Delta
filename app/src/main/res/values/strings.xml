@@ -1,4 +1,5 @@
 <resources>
+    <string name="default_web_client_id">24080159450-3r7egt0k1497nrpssi731pr7k8pr087i.apps.googleusercontent.com</string>
     <string name="DeltaMedic">DeltaMedic</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>

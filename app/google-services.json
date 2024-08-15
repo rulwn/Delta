@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "24080159450",
+    "project_id": "deltamedic-1erlugar",
+    "storage_bucket": "deltamedic-1erlugar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24080159450:android:f8f110973b3f073f178be3",
+        "android_client_info": {
+          "package_name": "delta.medic.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "24080159450-nbq53i5c3jfqtev5smh0jj35pjnsjg8r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "delta.medic.mobile",
+            "certificate_hash": "d7e2aabab841f530a30ed0559cf4cf507ba62c74"
+          }
+        },
+        {
+          "client_id": "24080159450-3r7egt0k1497nrpssi731pr7k8pr087i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPFl0V_MvLwhVWacHfCekSSXxFTIrFFy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "24080159450-3r7egt0k1497nrpssi731pr7k8pr087i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

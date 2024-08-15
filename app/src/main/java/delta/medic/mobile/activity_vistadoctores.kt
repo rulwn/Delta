@@ -1,7 +1,9 @@
 package delta.medic.mobile
 
 import Modelo.ClaseConexion
+import Modelo.Encrypter
 import android.Manifest
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -19,6 +21,10 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.sql.CallableStatement
 import java.sql.ResultSet
 
@@ -45,8 +51,28 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        val bundle = intent.extras
+        val idUsuario = bundle?.getInt("idUsuario")
+        val idSucursal = bundle?.getInt("idSucursal")
+        CoroutineScope(Dispatchers.IO).launch{
+            try {
+                val objConexion = ClaseConexion().cadenaConexion()
+                if (objConexion != null) {
+                    val callableStatement: CallableStatement = objConexion.prepareCall("{CALL PROC_STATE_VALIDATION_RECIENTES(?, ?)}")
+                        // Establecer los parámetros del procedimiento
+                        //callableStatement.setInt(1, idUsuario)
+                        //callableStatement.setInt(2, idSucursal)
 
-        //EjecutarProcesoAlmacenado()
+                        // Ejecutar el procedimiento y procesar el resultado
+                        val resultSet: ResultSet = callableStatement.executeQuery()
+                        while (resultSet.next()) {
+                            val someValue = resultSet.getString("some_column_name")
+                        }
+                    }
+            } catch (e: Exception) {
+                println("Error: $e")
+            }
+        }
         mapView = findViewById(R.id.mapUbicacion)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -60,30 +86,8 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
     }
 
     suspend fun EjecutarProcesoAlmacenado(idUsuario: Int, idSucursal: String) {
-        val objConexion = ClaseConexion().cadenaConexion()
+        withContext(Dispatchers.IO){
 
-        if (objConexion != null) {
-            val sql = "{CALL PROC_STATE_VALIDATION_RECIENTES(?, ?)}" // Nombre del procedimiento y parámetros
-            val callableStatement: CallableStatement = objConexion.prepareCall(sql)
-
-            try {
-                // Establecer los parámetros del procedimiento
-                callableStatement.setInt(1, idUsuario)
-                callableStatement.setString(2, idSucursal)
-
-                // Ejecutar el procedimiento y procesar el resultado
-                val resultSet: ResultSet = callableStatement.executeQuery()
-                while (resultSet.next()) {
-                    val someValue = resultSet.getString("some_column_name")
-                    // Procesar el valor
-                }
-            } finally {
-                // Cerrar los recursos
-                println("Procedimiento ejecutado correctamente.")
-                callableStatement.close()
-            }
-        } else {
-            println("Error: La conexión es nula.")
         }
     }
 

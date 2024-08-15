@@ -55,6 +55,7 @@ class HomeFragment : Fragment() {
         rcvTratamientos.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         rcvRecordatoriosCitas.layoutManager = NoScrollLinearLayoutManager(requireContext())
         loadData(txtBienvenido)
+
         CoroutineScope(Dispatchers.IO).launch{
             try {
                 val tratamientosDB = fragmentControlTratamientos.obtenerDatosTratamientos()

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.airbnb.lottie.LottieAnimationView
+import delta.medic.mobile.activity_login.UserData.userEmail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -25,12 +26,34 @@ class splash_screen : AppCompatActivity() {
 
         GlobalScope.launch(Dispatchers.Main) {
             val lottieView = findViewById<LottieAnimationView>(R.id.lottie_view)
+            lottieView.setImageAssetsFolder("images/")
+
             //lottieView.setAnimation("animation.json")
             //lottieView.playAnimation()
-            lottieView.setImageAssetsFolder("images/")
-            delay(4000)
-            startActivity(Intent(this@splash_screen, activity_bienvenida::class.java))
-            finish()
+            val sharedPreferences = getSharedPreferences("PrimerUso", MODE_PRIVATE)
+            val sharedPreferencesStatus = getSharedPreferences("Sesion", MODE_PRIVATE)
+
+            val sesionIniciada = sharedPreferencesStatus.getBoolean("sesionIniciada", false)
+            val primerUso = sharedPreferences.getBoolean("P_Ejecutado", false)
+            val email = sharedPreferences.getString("email", null)
+
+            if(sesionIniciada && email != null){
+                delay(4000)
+                userEmail = email
+                startActivity(Intent(this@splash_screen, MainActivity::class.java))
+                finish()
+            }
+            else if(!primerUso){
+                delay(4000)
+                startActivity(Intent(this@splash_screen, activity_bienvenida::class.java))
+                finish()
+            }
+            else{
+                delay(4000)
+                startActivity(Intent(this@splash_screen, activity_login::class.java))
+                finish()
+            }
+
         }
     }
 }
