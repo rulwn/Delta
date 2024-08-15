@@ -71,6 +71,7 @@ class activity_login : AppCompatActivity() {
         }
         btnGoogle.setOnClickListener {
             signIn()
+            userEmail = "xam@gmail.com"
         }
         btnContinuar.setOnClickListener {
 

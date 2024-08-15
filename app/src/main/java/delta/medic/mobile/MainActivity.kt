@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         val auth = Firebase.auth
         val user = auth.currentUser
         val correoF = user?.email
-        userEmail = correoF.toString()
+
         if (user != null) {
             Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show()
         } else {
