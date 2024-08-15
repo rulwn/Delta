@@ -3,6 +3,7 @@ package delta.medic.mobile
 import Modelo.ClaseConexion
 import Modelo.EmailSender
 import Modelo.Encrypter
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -20,6 +21,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import delta.medic.mobile.R.id.txtNoTienesCuenta
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,16 +35,20 @@ import kotlinx.coroutines.withContext
 
 class activity_login : AppCompatActivity() {
     private var codigoRecu: Int = 0
+    private lateinit var auth: FirebaseAuth
     companion object UserData{
         lateinit var userEmail: String
+        private const val RC_SIGN_IN = 9001
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        FirebaseApp.initializeApp(this)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_login)
         requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-
+        auth = FirebaseAuth.getInstance()
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -49,8 +60,17 @@ class activity_login : AppCompatActivity() {
         val txtOlvidarContra = findViewById<TextView>(R.id.txtOlvidarContra)
         val txtNotienecuenta = findViewById<TextView>(txtNoTienesCuenta)
         val btnGoogle = findViewById<Button>(R.id.btnGoogle)
+
+        val currentUser = auth.currentUser
+
+        if (currentUser != null) {
+            // The user is already signed in, navigate to MainActivity
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish() // finish the current activity to prevent the user from coming back to the SignInActivity using the back button
+        }
         btnGoogle.setOnClickListener {
-            Toast.makeText(this, "No puedes ingresar con Google aun", Toast.LENGTH_SHORT).show()
+            signIn()
         }
         btnContinuar.setOnClickListener {
 
@@ -243,4 +263,61 @@ class activity_login : AppCompatActivity() {
     val callback = onBackPressedDispatcher.addCallback(this) {
         Toast.makeText(this@activity_login, "No puedes regresar", Toast.LENGTH_SHORT).show()
     }
+
+    private fun signIn() {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        val googleSignInClient = GoogleSignIn.getClient(this, gso)
+        val signInIntent = googleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+        // esto es un intento de conseguir el email val user = auth.currentUser
+
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = task.getResult(ApiException::class.java)
+                firebaseAuthWithGoogle(account.idToken!!)
+            } catch (e: ApiException) {
+                Toast.makeText(this, "Google sign in failed: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun firebaseAuthWithGoogle(idToken: String) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Autenticación exitosa, obtiene el usuario actual
+                    val user = auth.currentUser
+                    if (user != null) {
+                        Toast.makeText(this, "Signed in as ${user.displayName}", Toast.LENGTH_SHORT).show()
+
+                        // Guarda el estado actual de la sesión en SharedPreferences
+                        val sharedPreferences = getSharedPreferences("Sesion", MODE_PRIVATE)
+                        val editor = sharedPreferences.edit()
+                        editor.putBoolean("sesionIniciada", true)
+                        editor.putString("email", userEmail)
+                        editor.apply()
+
+                        startActivity(Intent(this, MainActivity::class.java))
+                        finish()
+                    } else {
+                        Toast.makeText(this, "No se pudo obtener la información del usuario", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(this, "Authentication failed", Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
 }
