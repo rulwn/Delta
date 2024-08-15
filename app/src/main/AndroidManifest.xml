@@ -2,22 +2,25 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-sdk android:minSdkVersion="19" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
 
-    <uses-sdk android:minSdkVersion="19" />
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"
+    <uses-permission
+        android:name="android.permission.READ_MEDIA_IMAGES"
         tools:ignore="SelectedPhotoAccess" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -29,19 +32,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DeltaMedic"
         tools:targetApi="31">
-        <activity android:name=".activity_busqueda_rapida_hombre"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
-            android:exported="true" />
-        <activity android:name=".activity_busqueda_rapida_mujer"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
-            android:exported="true" />
+        <activity
+            android:name=".activity_seguro_paciente"
+            android:exported="false" />
+        <activity
+            android:name=".activity_pacientes"
+            android:exported="false" />
+        <activity
+            android:name=".activity_busqueda_rapida_hombre"
+            android:exported="false"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
+        <activity
+            android:name=".activity_busqueda_rapida_mujer"
+            android:exported="false"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_carga"
-            android:exported="true"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"/>
+            android:exported="false"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".item_notificaciones"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".splash_screen"
             android:exported="true"
@@ -54,60 +65,60 @@
         </activity>
         <activity
             android:name=".item_citas"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".activity_item_busqueda_reciente"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".activity_cambiarcontra"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_cuenta_confi"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_privacidadyseguridad"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_apariencia"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_notificaciones_confi"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".item_centro_medico_pequeno_normal"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".activity_centroadeyuda"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_historialdecitas"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_misrecetas"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_doctoresfavoritos"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_configuracion"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_vistadoctores"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_editarperfil"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_busqueda"
@@ -115,50 +126,41 @@
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".item_CentroMedico"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_agendar"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_register4"
             android:exported="true"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
-
-        </activity>
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_register3"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_register2"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_register1"
             android:exported="true"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
-
-        </activity>
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_login"
             android:exported="true"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
-
-        </activity>
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_bienvenida"
             android:configChanges="uiMode"
             android:exported="true"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
-
-        </activity>
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/DeltaMedic">
-        </activity>
+            android:label="@string/DeltaMedic" />
 
         <meta-data
             android:name="preloaded_fonts"

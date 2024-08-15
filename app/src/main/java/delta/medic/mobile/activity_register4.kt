@@ -124,18 +124,17 @@ class activity_register4 : AppCompatActivity() {
                CoroutineScope(Dispatchers.IO).launch{
                    try {
                        val objConexion = ClaseConexion().cadenaConexion()
-                       val agregarUsuario = objConexion?.prepareStatement("insert into tbUsuarios (id_usuario, nombreusuario, apellidousuario,emailusuario,contrasena,direccion,telefonousuario,sexo,fechanacimiento,imgusuario,id_TipoUsuario) values(?,?,?,?,?,?,?,?,?,?,?)")!!
-                       agregarUsuario.setInt(1,1 )
-                       agregarUsuario.setString(2, activity_register1.nombre)
-                       agregarUsuario.setString(3,activity_register1.apellido)
-                       agregarUsuario.setString(4,activity_register1.email)
-                       agregarUsuario.setString(5, Encrypter().encrypt(activity_register1.clave))
-                       agregarUsuario.setString(6,activity_register1.direccion)
-                       agregarUsuario.setString(7,activity_register1.telefono)
-                       agregarUsuario.setString(8, activity_register1.sexo)
-                       agregarUsuario.setString(9, activity_register1.fechaNacimiento)
-                       agregarUsuario.setString(10, activity_register1.imgUsuario)
-                       agregarUsuario.setInt(11,3)
+                       val agregarUsuario = objConexion?.prepareStatement("insert into tbUsuarios (nombreusuario, apellidousuario,emailusuario,contrasena,direccion,telefonousuario,sexo,fechanacimiento,imgusuario,id_TipoUsuario) values(?,?,?,?,?,?,?,?,?,?)")!!
+                       agregarUsuario.setString(1, activity_register1.nombre)
+                       agregarUsuario.setString(2,activity_register1.apellido)
+                       agregarUsuario.setString(3,activity_register1.email)
+                       agregarUsuario.setString(4, Encrypter().encrypt(activity_register1.clave))
+                       agregarUsuario.setString(5,activity_register1.direccion)
+                       agregarUsuario.setString(6,activity_register1.telefono)
+                       agregarUsuario.setString(7, activity_register1.sexo)
+                       agregarUsuario.setString(8, activity_register1.fechaNacimiento)
+                       agregarUsuario.setString(9, activity_register1.imgUsuario)
+                       agregarUsuario.setInt(10,3)
                        agregarUsuario.executeUpdate()
                        val commit = objConexion.prepareStatement("commit")!!
                        commit.executeUpdate()

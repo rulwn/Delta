@@ -26,6 +26,8 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import delta.medic.mobile.activity_login.UserData.userEmail
+import delta.medic.mobile.ui.dashboard.DashboardFragment
+import delta.medic.mobile.ui.home.HomeFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,6 +42,12 @@ class MainActivity : AppCompatActivity() {
         requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         val navView: BottomNavigationView = binding.navView
+        val tuerquita = findViewById<ImageView>(R.id.imgVSettingsPerfil)
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
+        tuerquita.setOnClickListener {
+            val intent = Intent(this, activity_configuracion::class.java)
+            startActivity(intent)
+        }
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         val appBarConfiguration = AppBarConfiguration(
@@ -83,4 +91,9 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.fragment_inicio)
         }
     }
+    private fun toggleTurquita(show: Boolean) {
+        val tuerquita = findViewById<ImageView>(R.id.imgVSettingsPerfil)
+        tuerquita.visibility = if (show) View.VISIBLE else View.GONE
+    }
+
 }
