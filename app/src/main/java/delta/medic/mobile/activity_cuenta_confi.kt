@@ -1,7 +1,6 @@
 package delta.medic.mobile
 
 import Modelo.ClaseConexion
-import Modelo.dataClassUsuario
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -42,7 +41,7 @@ class activity_cuenta_confi : AppCompatActivity() {
         val txtCuenta = findViewById<TextView>(R.id.txtCuentaConfi)
         val txtNombre = findViewById<TextView>(R.id.txtNombre)
         val txtCorreo = findViewById<TextView>(R.id.txtCorreo)
-        val txtDireccion = findViewById<TextView>(R.id.txtDireccionnn)
+        val txtDireccion = findViewById<TextView>(R.id.txtDireccionSucur)
         val txtTelefono = findViewById<TextView>(R.id.txtTelefono)
         val txtFechaNacimiento = findViewById<TextView>(R.id.txtFecha)
         val txtSexo = findViewById<TextView>(R.id.txtSexo)

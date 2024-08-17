@@ -18,9 +18,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import android.util.Log
 import android.widget.EditText
+import android.widget.TextView
 
 class fragment_Resultados : Fragment() {
 
+    lateinit var txtSearch: EditText
     private lateinit var btnRegresar: ImageView
     private lateinit var rcvResultados: RecyclerView
 
@@ -33,11 +35,14 @@ class fragment_Resultados : Fragment() {
         // Obtener los argumentos del fragmento
         val nombreUsuario = arguments?.getString("nombreUsuario") ?: ""
         val apellidoUsuario = arguments?.getString("apellidoUsuario") ?: ""
-        val nombreEspecialidad = arguments?.getString("nombreEspecialidad") ?: ""
 
         btnRegresar = root.findViewById(R.id.btnRegresar)
         rcvResultados = root.findViewById(R.id.rcvResultados)
 
+        val activity = activity as? activity_busqueda
+        txtSearch = activity?.getSearchEditText() ?: EditText(context)
+        val txtResultadoBusqueda = root.findViewById<TextView>(R.id.txtResultadoBusqueda)
+        txtResultadoBusqueda.text = txtSearch.text
         btnRegresar.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
@@ -46,7 +51,7 @@ class fragment_Resultados : Fragment() {
 
         // Ejecutar la búsqueda en una coroutine
         CoroutineScope(Dispatchers.IO).launch {
-            val centrosDB = obtenerDatos(nombreUsuario, apellidoUsuario, nombreEspecialidad)
+            val centrosDB = obtenerDatos(nombreUsuario, apellidoUsuario)
             withContext(Dispatchers.Main) {
                 val miAdapter = AdaptadorCentro(centrosDB)
                 rcvResultados.adapter = miAdapter
@@ -56,76 +61,83 @@ class fragment_Resultados : Fragment() {
         return root
     }
 
-    private suspend fun obtenerDatos(nombreUsuario: String, apellidoUsuario: String, nombreEspecialidad: String): List<dataClassCentro> {
-        return withContext(Dispatchers.IO) {
-            val centroMedico = mutableListOf<dataClassCentro>()
+    private suspend fun obtenerDatos(nombreUsuario: String, apellidoUsuario: String): List<dataClassCentro> {
+        val objConexion = ClaseConexion()?.cadenaConexion()
+        val centroMedico = mutableListOf<dataClassCentro>()
+
+        if (objConexion != null) {
             try {
-                val objConexion = ClaseConexion()?.cadenaConexion()
-                if (objConexion != null) {
-                    // Ajusta la consulta SQL para incluir la columna ID_Doctor
-                    val busqueda = objConexion.prepareStatement("""
-SELECT 
-    d.ID_Doctor,
-    u.nombreUsuario, 
-    u.apellidoUsuario, 
-    u.imgUsuario, 
-    e.nombreEspecialidad,
-    s.nombreSucursal,
-    s.telefonoSucur, 
-    s.direccionSucur, 
-    s.ubicacionSucur, 
-    srv.nombreServicio, 
-    srv.costo
-FROM 
-    tbCentrosMedicos cm
-INNER JOIN 
-    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-INNER JOIN 
-    tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
-INNER JOIN
-    tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-INNER JOIN
-    tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
-INNER JOIN 
-    tbServicios srv ON cm.ID_Centro = srv.ID_Centro
-WHERE 
-    (
-        LOWER(u.nombreUsuario) LIKE LOWER(?)
-        OR LOWER(u.apellidoUsuario) LIKE LOWER(?)
-        OR LOWER(e.nombreEspecialidad) LIKE LOWER(?)
-    )
-    AND u.ID_TipoUsuario = 2
-                """)
-                    // Establece los parámetros para la consulta
-                    busqueda.setString(1, "%${nombreUsuario.lowercase()}%")
-                    busqueda.setString(2, "%${apellidoUsuario.lowercase()}%")
-                    busqueda.setString(3, "%${nombreEspecialidad.lowercase()}%")
+                val busqueda = objConexion.prepareStatement("""
+    SELECT 
+        d.ID_Doctor,
+        u.nombreUsuario, 
+        u.apellidoUsuario, 
+        u.imgUsuario, 
+        e.nombreEspecialidad,
+        s.nombreSucursal,
+        s.telefonoSucur, 
+        s.direccionSucur, 
+        s.longSucur,
+        s.latiSucur,
+        s.imgSucursal,
+        srv.nombreServicio, 
+        srv.costo
+    FROM 
+        tbCentrosMedicos cm
+    INNER JOIN 
+        tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+    INNER JOIN 
+        tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
+    INNER JOIN
+        tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+    INNER JOIN
+        tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
+    INNER JOIN 
+        tbServicios srv ON cm.ID_Centro = srv.ID_Centro
+    WHERE        
+        (LOWER(u.nombreUsuario) LIKE LOWER(?)
+    OR
+        LOWER(u.apellidoUsuario) LIKE LOWER(?))
+    ANDT
+        u.ID_TipoUsuario = 2
+""")
+                busqueda.setString(1, "%${nombreUsuario}%")
+                busqueda.setString(2, "%${apellidoUsuario}%")
 
-                    val resultSet = busqueda.executeQuery()
-                    while (resultSet.next()) {
-                        val ID_Doctor = resultSet.getInt("ID_Doctor")
-                        val nombreUsuario = resultSet.getString("nombreUsuario")
-                        val apellidoUsuario = resultSet.getString("apellidoUsuario")
-                        val imgUsuario = resultSet.getString("imgUsuario")
-                        val nombreEspecialidad = resultSet.getString("nombreEspecialidad")
-                        val nombreSucursal = resultSet.getString("nombreSucursal")
-                        val telefonoSucur = resultSet.getString("telefonoSucur")
-                        val direccionSucur = resultSet.getString("direccionSucur")
-                        val ubicacionSucur = resultSet.getString("ubicacionSucur")
-                        val nombreServicio = resultSet.getString("nombreServicio")
-                        val costo = resultSet.getFloat("costo")
+                busqueda.setString(1, "%${nombreUsuario}%")
+                busqueda.setString(2, "%${apellidoUsuario}%")
 
-                        centroMedico.add(dataClassCentro(
-                            ID_Doctor, nombreUsuario, direccionSucur
-                        ))
-                    }
-                } else {
-                    Log.e("obtenerDatos", "No se pudo establecer una conexión con la base de datos.")
+                val resultSet = busqueda.executeQuery()
+                while (resultSet.next()) {
+                    val ID_Doctor = resultSet.getInt("ID_Doctor")
+                    val nombreUsuario = resultSet.getString("nombreUsuario")
+                    val apellidoUsuario = resultSet.getString("apellidoUsuario")
+                    val imgUsuario = resultSet.getString("imgUsuario")
+                    val nombreEspecialidad = resultSet.getString("nombreEspecialidad")
+                    val nombreSucursal = resultSet.getString("nombreSucursal")
+                    val telefonoSucur = resultSet.getString("telefonoSucur")
+                    val direccionSucur = resultSet.getString("direccionSucur")
+                    val longSucur = resultSet.getString("longSucur")
+                    val latiSucur = resultSet.getString("latiSucur")
+                    val imgSucursal = resultSet.getString("imgSucursal")
+                    val nombreServicio = resultSet.getString("nombreServicio")
+                    val costo = resultSet.getFloat("costo")
+
+                    val valoresJuntos = dataClassCentro(
+                        ID_Doctor, nombreUsuario, apellidoUsuario, imgUsuario,
+                        nombreEspecialidad, nombreSucursal, telefonoSucur, direccionSucur,
+                        longSucur, latiSucur, imgSucursal, nombreServicio, costo
+                    )
+
+                    centroMedico.add(valoresJuntos)
                 }
             } catch (e: Exception) {
                 Log.e("obtenerDatos", "Error al obtener datos: ${e.message}")
             }
-            centroMedico
+        } else {
+            Log.e("obtenerDatos", "No se pudo establecer una conexión con la base de datos.")
         }
+
+        return centroMedico
     }
 }

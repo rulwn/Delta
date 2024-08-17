@@ -5,13 +5,18 @@ import android.Manifest
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
+import android.widget.ToggleButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.bumptech.glide.Glide
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -19,12 +24,12 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.imageview.ShapeableImageView
 import java.sql.CallableStatement
 import java.sql.ResultSet
 
 class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
 
-    //
     private lateinit var mapView: MapView
     private lateinit var googleMap: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -45,8 +50,44 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        var btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
 
-        //EjecutarProcesoAlmacenado()
+        var nombreDoctor = findViewById<TextView>(R.id.nombreDoctor)
+        var Especialidad = findViewById<TextView>(R.id.Especialidad)
+        var nombreSucursal = findViewById<TextView>(R.id.nombreSucursal)
+        var numeroClinica = findViewById<TextView>(R.id.numeroClinica)
+        var direccion_Clinica = findViewById<TextView>(R.id.direccion_Clinica)
+        var img_clinic = findViewById<ImageView>(R.id.img_clinic)
+        var imgDoctor = findViewById<ShapeableImageView>(R.id.imgDoctor)
+        var toggleButton = findViewById<ToggleButton>(R.id.toggleButton)
+
+        val ID_Doctor = intent.getIntExtra("ID_Doctor", 0)
+        var latitud = intent.getStringExtra("latiSucur")
+        var longitud = intent.getStringExtra("longSucur")
+        val nombreUsuario = intent.getStringExtra("nombreUsuario")
+        val apellidoUsuario = intent.getStringExtra("apellidoUsuario")
+        val nombreCompleto = "Dr. ${nombreUsuario ?: ""}${apellidoUsuario ?: ""}"
+        Log.e("Apellido", "$apellidoUsuario")
+        nombreDoctor.text = nombreCompleto
+        Especialidad.text = intent.getStringExtra("nombreEspecialidad")
+        nombreSucursal.text = intent.getStringExtra("nombreSucursal")
+        numeroClinica.text = intent.getStringExtra("telefonoSucur")
+        direccion_Clinica.text = intent.getStringExtra("direccionSucur")
+
+        var ubicacionSucur = intent.getStringExtra("ubicacionSucur")
+        var imgSucursal = intent.getStringExtra("imgSucursal")
+        var imgUsuario = intent.getStringExtra("imgUsuario")
+
+
+        Glide.with(this)
+            .load(imgSucursal)
+            .into(img_clinic)
+
+        Glide.with(this)
+            .load(imgUsuario)
+            .circleCrop()
+            .into(imgDoctor)
+
         mapView = findViewById(R.id.mapUbicacion)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -57,6 +98,12 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
 
         mapView.onCreate(mapViewBundle)
         mapView.getMapAsync(this)
+
+        btnRegresar.setOnClickListener {
+            finish()
+        }
+
+
     }
 
     suspend fun EjecutarProcesoAlmacenado(idUsuario: Int, idSucursal: String) {
@@ -94,7 +141,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED) {
             googleMap.isMyLocationEnabled = true
-            getDeviceLocation()
+            getLocation()
         } else {
             ActivityCompat.requestPermissions(this,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
@@ -108,28 +155,31 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun getDeviceLocation() {
+    private fun getLocation() {
         try {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-                val locationResult = fusedLocationClient.lastLocation
-                locationResult.addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        val lastKnownLocation = task.result
-                        if (lastKnownLocation != null) {
-                            val currentLatLng = LatLng(lastKnownLocation.latitude, lastKnownLocation.longitude)
-                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
-                            googleMap.addMarker(MarkerOptions().position(currentLatLng).title("You are here"))
-                        }
-                    } else {
-                        Toast.makeText(this, "Unable to get last location", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        } catch (e: SecurityException) {
-            e.printStackTrace()
+            val latitudStr = intent.getStringExtra("latiSucur")
+            val longitudStr = intent.getStringExtra("longSucur")
+
+            if (!latitudStr.isNullOrEmpty() && !longitudStr.isNullOrEmpty()) {
+            val latitud = latitudStr.toDoubleOrNull()
+            val longitud = longitudStr.toDoubleOrNull()
+
+          if (latitud != null && longitud != null) {
+            val currentLatLng = LatLng(latitud, longitud)
+
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+            googleMap.addMarker(MarkerOptions().position(currentLatLng).title("Selected location"))
+        } else {
+            Toast.makeText(this, "Invalid coordinate format", Toast.LENGTH_SHORT).show()
         }
+    } else {
+        Toast.makeText(this, "Coordinates are missing", Toast.LENGTH_SHORT).show()
     }
+} catch (e: Exception) {
+    e.printStackTrace()
+    Toast.makeText(this, "An error occurred", Toast.LENGTH_SHORT).show()
+}
+}
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -139,7 +189,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                     if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                         == PackageManager.PERMISSION_GRANTED) {
                         googleMap.isMyLocationEnabled = true
-                        getDeviceLocation()
+                        getLocation()
                     }
                 } else {
                     Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()

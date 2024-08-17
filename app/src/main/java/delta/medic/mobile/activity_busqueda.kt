@@ -58,6 +58,7 @@ class activity_busqueda : AppCompatActivity() {
                             recentSearches.add(query)
                             adapter.notifyDataSetChanged()
                             performSearch(query)
+                            getSearchEditText()
                         } else {
                             Toast.makeText(this, "Ingrese un término de búsqueda", Toast.LENGTH_SHORT).show()
                         }
@@ -75,28 +76,31 @@ class activity_busqueda : AppCompatActivity() {
             finish()
         }
 
-
         intent.getStringExtra("query")?.let {
             txtSearch.setText(it)
             performSearch(it)
         }
     }
 
+    fun getSearchEditText(): EditText {
+        return txtSearch
+    }
+
     private fun performSearch(query: String) {
         try {
-            val resultadosFragment = fragment_Resultados()
-
-            val bundle = Bundle().apply {
-                putString("query", query)
-            }
-            resultadosFragment.arguments = bundle
-
             supportFragmentManager.beginTransaction().apply {
-                replace(R.id.main, resultadosFragment)
+                replace(R.id.main, fragment_Resultados().apply {
+                    arguments = Bundle().apply {
+                        putString("query", query)
+                    }
+                })
+                addToBackStack(null)
                 commit()
             }
+
         } catch (e: Exception) {
             println("Este es el error ${e.message}")
         }
     }
+
 }
