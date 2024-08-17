@@ -44,6 +44,17 @@ class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        //Preferencias de usuario
+        val userPreferences = getSharedPreferences("userPreferences", MODE_PRIVATE)
+        val editor = userPreferences.edit()
+        editor.putBoolean("IsWelcomed", true)
+        editor.putBoolean("IsLogedIn", true)
+        editor.putString("email", userEmail)
+        editor.apply()
+
+
+
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         binding = ActivityMainBinding.inflate(layoutInflater)

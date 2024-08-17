@@ -84,15 +84,6 @@ class activity_login : AppCompatActivity() {
                   withContext(Dispatchers.Main) {
                       Toast.makeText(this@activity_login, "Sesion iniciada", Toast.LENGTH_SHORT)
                           .show()
-
-                      //Este coso mariposo sirve para guardar el estado actual de la sesion
-                      //de esta forma se podrá determinar si el usuario ya habia iniciado sesion antes.
-                      val sharedPreferences = getSharedPreferences("Sesion", MODE_PRIVATE)
-                      val editor = sharedPreferences.edit()
-                      editor.putBoolean("sesionIniciada", true)
-                      editor.putString("email", userEmail)
-                      editor.apply()
-
                       val intent = Intent(this@activity_login, MainActivity::class.java)
                       startActivity(intent)
                       finish()
@@ -302,13 +293,6 @@ class activity_login : AppCompatActivity() {
                     val user = auth.currentUser
                     if (user != null) {
                         Toast.makeText(this, "Signed in as ${user.displayName}", Toast.LENGTH_SHORT).show()
-
-                        // Guarda el estado actual de la sesión en SharedPreferences
-                        val sharedPreferences = getSharedPreferences("Sesion", MODE_PRIVATE)
-                        val editor = sharedPreferences.edit()
-                        editor.putBoolean("sesionIniciada", true)
-                        editor.putString("email", userEmail)
-                        editor.apply()
 
                         startActivity(Intent(this, MainActivity::class.java))
                         finish()
