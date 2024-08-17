@@ -150,6 +150,8 @@ class activity_configuracion : AppCompatActivity() {
             val intent = Intent(this, activity_login::class.java)
             startActivity(intent)
             finish()
+            val mainActivity = MainActivity()
+            mainActivity.signOutAndStartSignInActivity()
         }
     }
 }

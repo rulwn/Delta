@@ -575,7 +575,7 @@ CREATE TABLE tbUsuarios (
     ID_TipoUsuario INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_TipoUsuario FOREIGN KEY (ID_TipoUsuario) 
+    CONSTRAINT FK_TipoUsuario FOREIGN KEY (ID_TipoUsuario)
     REFERENCES tbTipoUsuarios(ID_TipoUsuario)
     ON DELETE CASCADE
 );
@@ -612,11 +612,11 @@ CREATE TABLE tbSucursales (
     ID_TipoSucursal INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Establecimiento FOREIGN KEY (ID_Establecimiento) 
+    CONSTRAINT FK_Establecimiento FOREIGN KEY (ID_Establecimiento)
     REFERENCES tbEstablecimientos(ID_Establecimiento)
     ON DELETE CASCADE,
 
-    CONSTRAINT FK_TipoSucursal FOREIGN KEY (ID_TipoSucursal) 
+    CONSTRAINT FK_TipoSucursal FOREIGN KEY (ID_TipoSucursal)
     REFERENCES tbTipoSucursales(ID_TipoSucursal)
     ON DELETE CASCADE
 );
@@ -628,7 +628,7 @@ CREATE TABLE tbDoctores (
     ID_Usuario INT NOT NULL,
     ID_Sucursal INT NOT NULL,
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Especialidad FOREIGN KEY (ID_Especialidad) 
+    CONSTRAINT FK_Especialidad FOREIGN KEY (ID_Especialidad)
     REFERENCES tbEspecialidades(ID_Especialidad)
     ON DELETE CASCADE,
 
@@ -648,17 +648,17 @@ CREATE TABLE tbFavoritos (
     ID_Doctor INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_SucursalFav FOREIGN KEY (ID_Sucursal) 
+    CONSTRAINT FK_SucursalFav FOREIGN KEY (ID_Sucursal)
     REFERENCES tbSucursales(ID_Sucursal)
-    ON DELETE CASCADE, 
+    ON DELETE CASCADE,
 
-    CONSTRAINT FK_UsuarioFav FOREIGN KEY (ID_Usuario) 
+    CONSTRAINT FK_UsuarioFav FOREIGN KEY (ID_Usuario)
     REFERENCES tbUsuarios(ID_Usuario)
     ON DELETE CASCADE,
 
-    CONSTRAINT FK_DoctorF FOREIGN KEY (ID_Doctor) 
+    CONSTRAINT FK_DoctorF FOREIGN KEY (ID_Doctor)
     REFERENCES tbDoctores(ID_Doctor)
-    ON DELETE CASCADE 
+    ON DELETE CASCADE
 );
 
 CREATE TABLE tbRecientes (
@@ -667,13 +667,13 @@ CREATE TABLE tbRecientes (
     ID_Usuario INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_SucursalRec FOREIGN KEY (ID_Sucursal) 
+    CONSTRAINT FK_SucursalRec FOREIGN KEY (ID_Sucursal)
     REFERENCES tbSucursales(ID_Sucursal)
-    ON DELETE CASCADE, 
+    ON DELETE CASCADE,
 
-    CONSTRAINT FK_UsuarioRec FOREIGN KEY (ID_Usuario) 
+    CONSTRAINT FK_UsuarioRec FOREIGN KEY (ID_Usuario)
     REFERENCES tbUsuarios(ID_Usuario)
-    ON DELETE CASCADE 
+    ON DELETE CASCADE
 );
 
 CREATE TABLE tbCentrosMedicos (
@@ -682,7 +682,7 @@ CREATE TABLE tbCentrosMedicos (
     ID_Sucursal INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Doctor FOREIGN KEY (ID_Doctor) 
+    CONSTRAINT FK_Doctor FOREIGN KEY (ID_Doctor)
     REFERENCES tbDoctores(ID_Doctor)
     ON DELETE CASCADE,
 
@@ -702,7 +702,7 @@ CREATE TABLE tbHorarios (
     ID_Centro INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Centro_Horario FOREIGN KEY (ID_Centro) 
+    CONSTRAINT FK_Centro_Horario FOREIGN KEY (ID_Centro)
     REFERENCES tbCentrosMedicos(ID_Centro)
     ON DELETE CASCADE
 );
@@ -715,11 +715,11 @@ CREATE TABLE tbServicios (
     ID_Centro INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Aseguradora_Servicio FOREIGN KEY (ID_Aseguradora) 
+    CONSTRAINT FK_Aseguradora_Servicio FOREIGN KEY (ID_Aseguradora)
     REFERENCES tbAseguradoras(ID_Aseguradora)
     ON DELETE CASCADE,
 
-    CONSTRAINT FK_Centro_Servicio FOREIGN KEY (ID_Centro) 
+    CONSTRAINT FK_Centro_Servicio FOREIGN KEY (ID_Centro)
     REFERENCES tbCentrosMedicos(ID_Centro)
     ON DELETE CASCADE
 );
@@ -732,7 +732,7 @@ CREATE TABLE tbReviews (
     ID_Usuario INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Usuario_Review FOREIGN KEY (ID_Usuario) 
+    CONSTRAINT FK_Usuario_Review FOREIGN KEY (ID_Usuario)
     REFERENCES tbUsuarios(ID_Usuario)
     ON DELETE CASCADE
 );
@@ -747,11 +747,11 @@ CREATE TABLE tbNotis (
     ID_TipoNoti INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Usuario_Noti FOREIGN KEY (ID_Usuario) 
+    CONSTRAINT FK_Usuario_Noti FOREIGN KEY (ID_Usuario)
     REFERENCES tbUsuarios(ID_Usuario)
     ON DELETE CASCADE,
 
-    CONSTRAINT FK_TipoNoti FOREIGN KEY (ID_TipoNoti) 
+    CONSTRAINT FK_TipoNoti FOREIGN KEY (ID_TipoNoti)
     REFERENCES tbTipoNotis(ID_TipoNoti)
     ON DELETE CASCADE
 );
@@ -765,7 +765,7 @@ CREATE TABLE tbPacientes (
     ID_Usuario INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Usuario_Paciente FOREIGN KEY (ID_Usuario) 
+    CONSTRAINT FK_Usuario_Paciente FOREIGN KEY (ID_Usuario)
     REFERENCES tbUsuarios(ID_Usuario)
     ON DELETE CASCADE
 );
@@ -788,7 +788,7 @@ CREATE TABLE tbExpedientes (
     ID_Paciente INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Paciente_Expe FOREIGN KEY (ID_Paciente) 
+    CONSTRAINT FK_Paciente_Expe FOREIGN KEY (ID_Paciente)
     REFERENCES tbPacientes(ID_Paciente)
     ON DELETE CASCADE
 );
@@ -802,11 +802,11 @@ CREATE TABLE tbCitasMedicas (
     ID_Paciente INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Centro_Cita FOREIGN KEY (ID_Centro) 
+    CONSTRAINT FK_Centro_Cita FOREIGN KEY (ID_Centro)
     REFERENCES tbCentrosMedicos(ID_Centro)
     ON DELETE CASCADE,
 
-    CONSTRAINT FK_Paciente_Cita FOREIGN KEY (ID_Paciente) 
+    CONSTRAINT FK_Paciente_Cita FOREIGN KEY (ID_Paciente)
     REFERENCES tbPacientes(ID_Paciente)
     ON DELETE CASCADE
 );
@@ -821,11 +821,11 @@ CREATE TABLE tbIndicaciones (
     ID_Tiempo INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Tiempo FOREIGN KEY (ID_Tiempo) 
+    CONSTRAINT FK_Tiempo FOREIGN KEY (ID_Tiempo)
     REFERENCES tbTiempos(ID_Tiempo)
     ON DELETE CASCADE,
 
-    CONSTRAINT FK_Receta_Indi FOREIGN KEY (ID_Receta) 
+    CONSTRAINT FK_Receta_Indi FOREIGN KEY (ID_Receta)
     REFERENCES tbRecetas(ID_Receta)
     ON DELETE CASCADE
 );
@@ -842,11 +842,11 @@ CREATE TABLE tbFichasMedicas (
     ID_Cita INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Receta_Ficha FOREIGN KEY (ID_Receta) 
+    CONSTRAINT FK_Receta_Ficha FOREIGN KEY (ID_Receta)
     REFERENCES tbRecetas(ID_Receta)
     ON DELETE CASCADE,
 
-    CONSTRAINT FK_Cita FOREIGN KEY (ID_Cita) 
+    CONSTRAINT FK_Cita FOREIGN KEY (ID_Cita)
     REFERENCES tbCitasMedicas(ID_Cita)
     ON DELETE CASCADE
 );
@@ -859,62 +859,62 @@ CREATE TABLE tbFichasMedicas (
 
 -- SECUENCIA_TIPONOTI --
 CREATE SEQUENCE tipoNotis
-START WITH 1 
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_TIPOUSUARIOS --
-CREATE SEQUENCE tipoUsuarios 
-START WITH 1 
+CREATE SEQUENCE tipoUsuarios
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_TIEMPOS --
-CREATE SEQUENCE tiempos 
-START WITH 1 
+CREATE SEQUENCE tiempos
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_TIPOSUCURSALES --
-CREATE SEQUENCE tipoSucursales 
-START WITH 1 
+CREATE SEQUENCE tipoSucursales
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_ESPECIALIDADES --
-CREATE SEQUENCE especialidades 
-START WITH 1 
+CREATE SEQUENCE especialidades
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_ESTABLECIMIENTOS --
-CREATE SEQUENCE establecimientos 
-START WITH 1 
+CREATE SEQUENCE establecimientos
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_ASEGURADORAS --
-CREATE SEQUENCE aseguradoras 
-START WITH 1 
+CREATE SEQUENCE aseguradoras
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_RECETAS --
-CREATE SEQUENCE recetas 
-START WITH 1 
+CREATE SEQUENCE recetas
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_DOCTORES --
-CREATE SEQUENCE doctores 
-START WITH 1 
+CREATE SEQUENCE doctores
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_SUCURSALES --
-CREATE SEQUENCE sucursales 
-START WITH 1 
+CREATE SEQUENCE sucursales
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_CENTROS --
-CREATE SEQUENCE centros 
-START WITH 1 
+CREATE SEQUENCE centros
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_HORARIOS --
-CREATE SEQUENCE horarios 
-START WITH 1 
+CREATE SEQUENCE horarios
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_SERVICIOS --
@@ -923,58 +923,58 @@ START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_SEGUROS --
-CREATE SEQUENCE seguros 
-START WITH 1 
+CREATE SEQUENCE seguros
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_USUARIOS --
-CREATE SEQUENCE usuarios 
-START WITH 1 
+CREATE SEQUENCE usuarios
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_FAVORITOS --
-CREATE SEQUENCE favorito 
-START WITH 1 
+CREATE SEQUENCE favorito
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_RECIENTES --
-CREATE SEQUENCE reciente 
-START WITH 1 
+CREATE SEQUENCE reciente
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_REVIEWS --
-CREATE SEQUENCE reviews 
-START WITH 1 
+CREATE SEQUENCE reviews
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_NOTIS --
-CREATE SEQUENCE notis 
-START WITH 1 
+CREATE SEQUENCE notis
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_PACIENTES --
-CREATE SEQUENCE pacientes 
-START WITH 1 
+CREATE SEQUENCE pacientes
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_EXPEDIENTES --
-CREATE SEQUENCE expedientes 
-START WITH 1 
+CREATE SEQUENCE expedientes
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_CITAS --
-CREATE SEQUENCE citas 
-START WITH 1 
+CREATE SEQUENCE citas
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_INDICACIONES --
-CREATE SEQUENCE indicaciones 
-START WITH 1 
+CREATE SEQUENCE indicaciones
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_FICHAS --
-CREATE SEQUENCE fichas 
-START WITH 1 
+CREATE SEQUENCE fichas
+START WITH 1
 INCREMENT BY 1;
 
 
@@ -985,265 +985,265 @@ INCREMENT BY 1;
 *************************************************************************************************/
 
 -- TRIGGER_TIPO_NOTI --
-CREATE OR REPLACE TRIGGER Trigger_TipoNoti 
-BEFORE INSERT ON tbTipoNotis 
-FOR EACH ROW 
-BEGIN 
-    SELECT tipoNotis.NEXTVAL 
-    INTO: NEW.ID_TipoNoti 
+CREATE OR REPLACE TRIGGER Trigger_TipoNoti
+BEFORE INSERT ON tbTipoNotis
+FOR EACH ROW
+BEGIN
+    SELECT tipoNotis.NEXTVAL
+    INTO: NEW.ID_TipoNoti
     FROM DUAL;
 END Trigger_TipoNoti;
 /
 
 -- TRIGGER_TIPO_USUARIO --
-CREATE OR REPLACE TRIGGER Trigger_TipoUsuario 
-BEFORE INSERT ON tbTipoUsuarios 
-FOR EACH ROW 
-BEGIN 
-    SELECT tipoUsuarios.NEXTVAL 
-    INTO: NEW.ID_TipoUsuario 
+CREATE OR REPLACE TRIGGER Trigger_TipoUsuario
+BEFORE INSERT ON tbTipoUsuarios
+FOR EACH ROW
+BEGIN
+    SELECT tipoUsuarios.NEXTVAL
+    INTO: NEW.ID_TipoUsuario
     FROM DUAL;
 END Trigger_TipoUsuario;
 /
 
 -- TRIGGER_TIEMPO --
-CREATE OR REPLACE TRIGGER Trigger_Tiempo 
-BEFORE INSERT ON tbTiempos 
-FOR EACH ROW 
-BEGIN 
-    SELECT tiempos.NEXTVAL 
-    INTO: NEW.ID_Tiempo 
+CREATE OR REPLACE TRIGGER Trigger_Tiempo
+BEFORE INSERT ON tbTiempos
+FOR EACH ROW
+BEGIN
+    SELECT tiempos.NEXTVAL
+    INTO: NEW.ID_Tiempo
     FROM DUAL;
 END Trigger_Tiempo;
 /
 
 -- TRIGGER_TIPO_SUCURSAL --
-CREATE OR REPLACE TRIGGER Trigger_TipoSucursal 
-BEFORE INSERT ON tbTipoSucursales 
-FOR EACH ROW 
-BEGIN 
-    SELECT tipoSucursales.NEXTVAL 
-    INTO: NEW.ID_TipoSucursal 
+CREATE OR REPLACE TRIGGER Trigger_TipoSucursal
+BEFORE INSERT ON tbTipoSucursales
+FOR EACH ROW
+BEGIN
+    SELECT tipoSucursales.NEXTVAL
+    INTO: NEW.ID_TipoSucursal
     FROM DUAL;
 END Trigger_TipoSucursal;
 /
 
 -- TRIGGER_ESPECIALIDAD --
-CREATE OR REPLACE TRIGGER Trigger_Especialidad 
-BEFORE INSERT ON tbEspecialidades 
-FOR EACH ROW 
-BEGIN 
-    SELECT especialidades.NEXTVAL 
-    INTO: NEW.ID_Especialidad 
+CREATE OR REPLACE TRIGGER Trigger_Especialidad
+BEFORE INSERT ON tbEspecialidades
+FOR EACH ROW
+BEGIN
+    SELECT especialidades.NEXTVAL
+    INTO: NEW.ID_Especialidad
     FROM DUAL;
 END Trigger_Especialidad;
 /
 
 -- TRIGGER_ESTABLECIMIENTO --
-CREATE OR REPLACE TRIGGER Trigger_Establecimiento 
-BEFORE INSERT ON tbEstablecimientos 
-FOR EACH ROW 
-BEGIN 
-    SELECT establecimientos.NEXTVAL 
-    INTO: NEW.ID_Establecimiento 
+CREATE OR REPLACE TRIGGER Trigger_Establecimiento
+BEFORE INSERT ON tbEstablecimientos
+FOR EACH ROW
+BEGIN
+    SELECT establecimientos.NEXTVAL
+    INTO: NEW.ID_Establecimiento
     FROM DUAL;
 END Trigger_Establecimiento;
 /
 
 -- TRIGGER_ASEGURADORA --
-CREATE OR REPLACE TRIGGER Trigger_Aseguradora 
-BEFORE INSERT ON tbAseguradoras 
-FOR EACH ROW 
-BEGIN 
-    SELECT aseguradoras.NEXTVAL 
-    INTO: NEW.ID_Aseguradora 
+CREATE OR REPLACE TRIGGER Trigger_Aseguradora
+BEFORE INSERT ON tbAseguradoras
+FOR EACH ROW
+BEGIN
+    SELECT aseguradoras.NEXTVAL
+    INTO: NEW.ID_Aseguradora
     FROM DUAL;
 END Trigger_Aseguradora;
 /
 
 -- TRIGGER_RECETA --
-CREATE OR REPLACE TRIGGER Trigger_Receta 
+CREATE OR REPLACE TRIGGER Trigger_Receta
 BEFORE INSERT ON tbRecetas
-FOR EACH ROW 
-BEGIN 
-    SELECT recetas.NEXTVAL 
-    INTO: NEW.ID_Receta 
+FOR EACH ROW
+BEGIN
+    SELECT recetas.NEXTVAL
+    INTO: NEW.ID_Receta
     FROM DUAL;
 END Trigger_Receta;
 /
 
 -- TRIGGER_DOCTOR --
-CREATE OR REPLACE TRIGGER Trigger_Doctor 
-BEFORE INSERT ON tbDoctores 
-FOR EACH ROW 
-BEGIN 
-    SELECT doctores.NEXTVAL 
-    INTO: NEW.ID_Doctor 
+CREATE OR REPLACE TRIGGER Trigger_Doctor
+BEFORE INSERT ON tbDoctores
+FOR EACH ROW
+BEGIN
+    SELECT doctores.NEXTVAL
+    INTO: NEW.ID_Doctor
     FROM DUAL;
 END Trigger_Doctor;
 /
 
 -- TRIGGER_SUCURSAL --
-CREATE OR REPLACE TRIGGER Trigger_Sucursal 
-BEFORE INSERT ON tbSucursales 
-FOR EACH ROW 
-BEGIN 
-    SELECT sucursales.NEXTVAL 
-    INTO: NEW.ID_Sucursal 
+CREATE OR REPLACE TRIGGER Trigger_Sucursal
+BEFORE INSERT ON tbSucursales
+FOR EACH ROW
+BEGIN
+    SELECT sucursales.NEXTVAL
+    INTO: NEW.ID_Sucursal
     FROM DUAL;
 END Trigger_Sucursal;
 /
 
 -- TRIGGER_CENTRO_M?DICO --
-CREATE OR REPLACE TRIGGER Trigger_CentroMedico 
-BEFORE INSERT ON tbCentrosMedicos 
-FOR EACH ROW 
-BEGIN 
-    SELECT centros.NEXTVAL 
-    INTO: NEW.ID_Centro 
+CREATE OR REPLACE TRIGGER Trigger_CentroMedico
+BEFORE INSERT ON tbCentrosMedicos
+FOR EACH ROW
+BEGIN
+    SELECT centros.NEXTVAL
+    INTO: NEW.ID_Centro
     FROM DUAL;
 END Trigger_CentroMedico;
 /
 
 -- TRIGGER_HORARIO --
-CREATE OR REPLACE TRIGGER Trigger_Horario 
+CREATE OR REPLACE TRIGGER Trigger_Horario
 BEFORE INSERT ON tbHorarios
-FOR EACH ROW 
-BEGIN 
-    SELECT horarios.NEXTVAL 
-    INTO: NEW.ID_Horario 
+FOR EACH ROW
+BEGIN
+    SELECT horarios.NEXTVAL
+    INTO: NEW.ID_Horario
     FROM DUAL;
 END Trigger_Horario;
 /
 
 -- TRIGGER_SERVICIO --
-CREATE OR REPLACE TRIGGER Trigger_Servicio 
-BEFORE INSERT ON tbServicios 
-FOR EACH ROW 
-BEGIN 
-    SELECT serviciosMedicos.NEXTVAL 
-    INTO: NEW.ID_Servicio 
+CREATE OR REPLACE TRIGGER Trigger_Servicio
+BEFORE INSERT ON tbServicios
+FOR EACH ROW
+BEGIN
+    SELECT serviciosMedicos.NEXTVAL
+    INTO: NEW.ID_Servicio
     FROM DUAL;
 END Trigger_Servicio;
 /
 
 -- TRIGGER_SEGURO --
-CREATE OR REPLACE TRIGGER Trigger_Seguro 
-BEFORE INSERT ON tbSeguros 
-FOR EACH ROW 
-BEGIN 
-    SELECT seguros.NEXTVAL 
-    INTO: NEW.ID_Seguro 
+CREATE OR REPLACE TRIGGER Trigger_Seguro
+BEFORE INSERT ON tbSeguros
+FOR EACH ROW
+BEGIN
+    SELECT seguros.NEXTVAL
+    INTO: NEW.ID_Seguro
     FROM DUAL;
 END Trigger_Seguro;
 /
 
 -- TRIGGER_USUARIO --
-CREATE OR REPLACE TRIGGER Trigger_Usuario 
-BEFORE INSERT ON tbUsuarios 
-FOR EACH ROW 
-BEGIN 
-    SELECT usuarios.NEXTVAL 
-    INTO: NEW.ID_Usuario 
+CREATE OR REPLACE TRIGGER Trigger_Usuario
+BEFORE INSERT ON tbUsuarios
+FOR EACH ROW
+BEGIN
+    SELECT usuarios.NEXTVAL
+    INTO: NEW.ID_Usuario
     FROM DUAL;
 END Trigger_Usuario;
 /
 
 -- TRIGGER_FAVORITO --
-CREATE OR REPLACE TRIGGER Tigger_Favorito 
-BEFORE INSERT ON tbFavoritos 
-FOR EACH ROW 
-BEGIN 
-    SELECT favorito.NEXTVAL 
-    INTO: NEW.ID_Favorito 
+CREATE OR REPLACE TRIGGER Tigger_Favorito
+BEFORE INSERT ON tbFavoritos
+FOR EACH ROW
+BEGIN
+    SELECT favorito.NEXTVAL
+    INTO: NEW.ID_Favorito
     FROM DUAL;
 END Tigger_Favorito;
 /
 
 -- TRIGGER_RECIENTE --
 CREATE OR REPLACE TRIGGER Tigger_Reciente
-BEFORE INSERT ON tbRecientes 
-FOR EACH ROW 
-BEGIN 
-    SELECT reciente.NEXTVAL 
+BEFORE INSERT ON tbRecientes
+FOR EACH ROW
+BEGIN
+    SELECT reciente.NEXTVAL
     INTO: NEW.ID_Reciente
     FROM DUAL;
 END Tigger_Reciente;
 /
 
 -- TRIGGER_REVIEW --
-CREATE OR REPLACE TRIGGER Trigger_Review 
-BEFORE INSERT ON tbReviews 
-FOR EACH ROW 
-BEGIN 
-    SELECT reviews.NEXTVAL 
-    INTO: NEW.ID_Review 
+CREATE OR REPLACE TRIGGER Trigger_Review
+BEFORE INSERT ON tbReviews
+FOR EACH ROW
+BEGIN
+    SELECT reviews.NEXTVAL
+    INTO: NEW.ID_Review
     FROM DUAL;
 END Trigger_Review;
 /
 
 -- TRIGGER_NOTI --
-CREATE OR REPLACE TRIGGER Trigger_Noti 
+CREATE OR REPLACE TRIGGER Trigger_Noti
 BEFORE INSERT ON tbNotis
-FOR EACH ROW 
-BEGIN 
-    SELECT notis.NEXTVAL 
-    INTO: NEW.ID_Notificacion 
+FOR EACH ROW
+BEGIN
+    SELECT notis.NEXTVAL
+    INTO: NEW.ID_Notificacion
     FROM DUAL;
 END Trigger_Noti;
 /
 
 -- TRIGGER_PACIENTE --
-CREATE OR REPLACE TRIGGER Trigger_Paciente 
-BEFORE INSERT ON tbPacientes 
-FOR EACH ROW 
-BEGIN 
-    SELECT pacientes.NEXTVAL 
-    INTO: NEW.ID_Paciente 
+CREATE OR REPLACE TRIGGER Trigger_Paciente
+BEFORE INSERT ON tbPacientes
+FOR EACH ROW
+BEGIN
+    SELECT pacientes.NEXTVAL
+    INTO: NEW.ID_Paciente
     FROM DUAL;
 END Trigger_Paciente;
 /
 
 -- TRIGGER_EXPEDIENTE --
-CREATE OR REPLACE TRIGGER Trigger_Expediente 
-BEFORE INSERT ON tbExpedientes 
-FOR EACH ROW 
-BEGIN 
-    SELECT expedientes.NEXTVAL 
-    INTO: NEW.ID_Expediente 
+CREATE OR REPLACE TRIGGER Trigger_Expediente
+BEFORE INSERT ON tbExpedientes
+FOR EACH ROW
+BEGIN
+    SELECT expedientes.NEXTVAL
+    INTO: NEW.ID_Expediente
     FROM DUAL;
 END Trigger_Expediente;
 /
 
 -- TRIGGER_CITA_M?DICA --
-CREATE OR REPLACE TRIGGER Trigger_CitaMedica 
-BEFORE INSERT ON tbCitasMedicas 
-FOR EACH ROW 
-BEGIN 
-    SELECT citas.NEXTVAL 
-    INTO: NEW.ID_Cita 
+CREATE OR REPLACE TRIGGER Trigger_CitaMedica
+BEFORE INSERT ON tbCitasMedicas
+FOR EACH ROW
+BEGIN
+    SELECT citas.NEXTVAL
+    INTO: NEW.ID_Cita
     FROM DUAL;
 END Trigger_CitaMedica;
 /
 
 -- TRIGGER_INDICACI?N --
-CREATE OR REPLACE TRIGGER Trigger_Indicacion 
-BEFORE INSERT ON tbIndicaciones 
-FOR EACH ROW 
-BEGIN 
-    SELECT indicaciones.NEXTVAL 
-    INTO: NEW.ID_Indicacion 
+CREATE OR REPLACE TRIGGER Trigger_Indicacion
+BEFORE INSERT ON tbIndicaciones
+FOR EACH ROW
+BEGIN
+    SELECT indicaciones.NEXTVAL
+    INTO: NEW.ID_Indicacion
     FROM DUAL;
 END Trigger_Indicacion;
 /
 
 -- TRIGGER_FICHA --
-CREATE OR REPLACE TRIGGER Trigger_Ficha 
-BEFORE INSERT ON tbFichasMedicas 
-FOR EACH ROW 
-BEGIN 
-    SELECT fichas.NEXTVAL 
-    INTO: NEW.ID_Ficha 
+CREATE OR REPLACE TRIGGER Trigger_Ficha
+BEFORE INSERT ON tbFichasMedicas
+FOR EACH ROW
+BEGIN
+    SELECT fichas.NEXTVAL
+    INTO: NEW.ID_Ficha
     FROM DUAL;
 END Trigger_Ficha;
 /
@@ -1511,7 +1511,7 @@ INSERT ALL
          VALUES (5, TO_DATE('2024-10-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-05 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada', 1, 5)
 SELECT DUMMY FROM DUAL;
 
-INSERT INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
+INSERT INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti)
 VALUES (TO_DATE('2024-07-14', 'YYYY-MM-DD'), 'P', 'Descargar pdf de tu ultima cita', 'S', 1, 1);
 
 INSERT ALL
@@ -1556,37 +1556,37 @@ SELECT DUMMY FROM DUAL;
 
 *************************************************************************************************/
 --INNER JOIN CENTROMEDICO--
-SELECT 
+SELECT
     d.ID_Doctor,
-    u.nombreUsuario, 
-    u.apellidoUsuario, 
-    u.imgUsuario, 
+    u.nombreUsuario,
+    u.apellidoUsuario,
+    u.imgUsuario,
     e.nombreEspecialidad,
     s.nombreSucursal,
-    s.telefonoSucur, 
-    s.direccionSucur, 
+    s.telefonoSucur,
+    s.direccionSucur,
     s.longSucur,
     s.latiSucur,
     s.imgSucursal,
-    srv.nombreServicio, 
+    srv.nombreServicio,
     srv.costo
-FROM 
+FROM
     tbCentrosMedicos cm
-INNER JOIN 
+INNER JOIN
     tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-INNER JOIN 
+INNER JOIN
     tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
 INNER JOIN
     tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
 INNER JOIN
     tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
-INNER JOIN 
+INNER JOIN
     tbServicios srv ON cm.ID_Centro = srv.ID_Centro
-    WHERE        
+    WHERE
     LOWER(nombreUsuario) LIKE LOWER('')
 OR
     LOWER(apellidoUsuario) LIKE LOWER('')
-AND 
+AND
     u.ID_TipoUsuario = 2;
 
 --INNER JOIN CITASMEDICAS--
@@ -1618,21 +1618,21 @@ FROM  tbcitasmedicas CITAS
 
 --INNER JOIN FAVORITOS--
 
-SELECT  
+SELECT
     u.ID_Usuario,
-    u.nombreUsuario, 
-    u.imgUsuario, 
-    d.ID_Doctor, 
-    s.ID_Sucursal, 
-    s.imgSucursal, 
-    ts.nombreTipoSucursal 
-    FROM 
-    tbFavoritos f 
-    INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor 
-    INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal 
-    INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario 
-    INNER JOIN tbTipoSucursales ts ON ts.ID_TipoSucursal = s.ID_TipoSucursal 
-    WHERE 
+    u.nombreUsuario,
+    u.imgUsuario,
+    d.ID_Doctor,
+    s.ID_Sucursal,
+    s.imgSucursal,
+    ts.nombreTipoSucursal
+    FROM
+    tbFavoritos f
+    INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor
+    INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal
+    INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario
+    INNER JOIN tbTipoSucursales ts ON ts.ID_TipoSucursal = s.ID_TipoSucursal
+    WHERE
     f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = 'fran@gmail.com');
 
     SELECT * FROM tbFavoritos;
@@ -1650,9 +1650,9 @@ BEGIN
     WHERE u.EmailUsuario = var_email;
 
 
-    DELETE FROM tbFavoritos 
-    WHERE ID_Usuario = var_ID_Usuario 
-    AND ID_Sucursal = var_ID_Sucursal 
+    DELETE FROM tbFavoritos
+    WHERE ID_Usuario = var_ID_Usuario
+    AND ID_Sucursal = var_ID_Sucursal
     AND ID_Doctor = var_ID_Doctor;
 
     COMMIT WORK;
@@ -1669,31 +1669,31 @@ SELECT * FROM TBUsuarios;
 *************************************************************************************************/
 /*
 
-SELECT 
-    u.nombreUsuario, 
-    u.apellidoUsuario, 
-    u.imgUsuario, 
+SELECT
+    u.nombreUsuario,
+    u.apellidoUsuario,
+    u.imgUsuario,
 	e.nombreEspecialidad,
     s.nombreSucursal,
-    s.telefonoSucur, 
-    s.direccionSucur, 
-    s.ubicacionSucur, 
-    srv.nombreServicio, 
-    srv.costo, 
+    s.telefonoSucur,
+    s.direccionSucur,
+    s.ubicacionSucur,
+    srv.nombreServicio,
+    srv.costo,
     cm.favorito
-FROM 
+FROM
     tbCentrosMedicos cm
-INNER JOIN 
+INNER JOIN
     tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-INNER JOIN 
+INNER JOIN
     tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
 INNER JOIN
 	tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
 INNER JOIN
     tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
-INNER JOIN 
+INNER JOIN
     tbServicios srv ON cm.ID_Centro = srv.ID_Centro
-WHERE 
+WHERE
     u.ID_Usuario IS NOT NULL;
 
 SELECT citas.ID_Cita,
@@ -1707,13 +1707,13 @@ SELECT citas.ID_Cita,
     usua.id_usuario,
     USUA.nombreUsuario,
     USUA.apellidoUsuario,
-    esp.nombreespecialidad 
+    esp.nombreespecialidad
 FROM  tbcitasmedicas CITAS
     INNER JOIN tbcentrosmedicos CENTROS ON CITAS.id_centro=CENTROS.id_centro
     INNER JOIN tbdoctores DOCS ON CENTROS.id_doctor=DOCS.id_doctor
     INNER JOIN tbEspecialidades ESP ON docs.id_especialidad = esp.id_especialidad
     INNER JOIN tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario
-    INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente 
+    INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente
         WHERE pacs.id_usuario = 1
 
 */

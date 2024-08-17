@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -43,9 +44,10 @@ android {
 }
 
 dependencies {
-
+    implementation ("com.google.android.gms:play-services-auth:21.2.0")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
+    implementation(platform("com.google.firebase:firebase-bom:31.5.0"))
     implementation("com.oracle.database.jdbc:ojdbc6:11.2.0.4")
     implementation("com.airbnb.android:lottie:6.4.1")
     implementation("com.google.android.material:material:1.13.0-alpha03")
@@ -60,6 +62,11 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
@@ -67,6 +74,7 @@ dependencies {
     implementation(libs.androidx.tracing.perfetto.handshake)
     implementation(libs.play.services.maps)
     implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.auth)
     testImplementation(libs.junit)
     implementation(libs.androidx.material3.android)
     androidTestImplementation(libs.androidx.junit)
