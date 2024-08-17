@@ -26,12 +26,8 @@ class activity_bienvenida : AppCompatActivity() {
 
         val btnContinuar = findViewById<Button>(R.id.btnContinuar)
         btnContinuar.setOnClickListener {
-            val sharedPreferences = getSharedPreferences("PrimerUso", MODE_PRIVATE)
-            val editor = sharedPreferences.edit()
-            editor.putBoolean("P_Ejecutado", true)
-            editor.apply()
 
-            val intent = Intent(this, activity_login::class.java)
+            val intent = Intent(this, activity_register1::class.java)
             startActivity(intent)
             finish()
         }

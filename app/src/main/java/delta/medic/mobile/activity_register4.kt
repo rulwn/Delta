@@ -2,6 +2,7 @@ package delta.medic.mobile
 
 import Modelo.ClaseConexion
 import Modelo.Encrypter
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -142,6 +143,14 @@ class activity_register4 : AppCompatActivity() {
 
                        withContext(Dispatchers.Main){
                            Toast.makeText(this@activity_register4, "Registro exitoso", Toast.LENGTH_SHORT).show()
+                           //Se obtendrá una preferencia de usuario
+                           val userPreferences = getSharedPreferences("userPreferences", MODE_PRIVATE)
+                           //Se editará
+                           val editor = userPreferences.edit()
+                           //Agregaremos un boolean llamado IsWelcomed, con el valor true
+                           //para indicar que el usuario ya pasó la activity bienvenida
+                           editor.putBoolean("IsWelcomed", true)
+                           editor.apply()
                            val intent = Intent(this@activity_register4, activity_login::class.java)
                            startActivity(intent)
                            finish()
