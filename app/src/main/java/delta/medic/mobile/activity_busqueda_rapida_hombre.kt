@@ -23,18 +23,22 @@ class activity_busqueda_rapida_hombre : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
         val btnChangeGender = findViewById<ImageView>(R.id.btnChangeGender1)
         val bodyImageView = findViewById<ImageView>(R.id.bodyImageView)
+
         btnRegresar.setOnClickListener {
             finish()
         }
+
         btnChangeGender.setOnClickListener {
             val intent = Intent(this, activity_busqueda_rapida_mujer::class.java)
             startActivity(intent)
-            overridePendingTransition(0,0)
+            overridePendingTransition(0, 0)
             finish()
         }
+
         bodyImageView.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 val x = event.x
@@ -45,15 +49,14 @@ class activity_busqueda_rapida_hombre : AppCompatActivity() {
         }
     }
 
-
     private fun handleBodyPartClick(x: Float, y: Float) {
         val specialties = when {
-
-
-            isChestArea(x, y) -> listOf("Cardiología", "Torax")
-            isHeadArea(x, y) -> listOf("Neurología", "Otorrinolaringología")
-              else -> emptyList()
-
+            isHeadArea(x, y) -> listOf("Neurología", "Otorrinolaringología", "Cirugía Plástica")
+            isChestArea(x, y) -> listOf("Cardiología", "Cirugía Torácica", "Neumología")
+            isAbdomenArea(x, y) -> listOf("Gastroenterología", "Cirugía General", "Urología")
+            isArmArea(x, y) -> listOf("Traumatología", "Cirugía de Mano", "Rehabilitación")
+            isLegArea(x, y) -> listOf("Ortopedia", "Cirugía Vascular", "Fisioterapia")
+            else -> emptyList()
         }
         if (specialties.isNotEmpty()) {
             val bottomSheet = SpecialtiesBottomSheetFragment.newInstance(specialties)
@@ -61,13 +64,23 @@ class activity_busqueda_rapida_hombre : AppCompatActivity() {
         }
     }
 
-    private fun isChestArea(x: Float, y: Float): Boolean {
-        //nose m olvide q son coordenadas para el pecho
-        return x in 100f..200f && y in 300f..400f
+    private fun isHeadArea(x: Float, y: Float): Boolean {
+        return x in 550f..750f && y in 50f..250f
     }
 
-    private fun isHeadArea(x: Float, y: Float): Boolean {
-        //y estas para la cabeza we
-        return x in 100f..200f && y in 100f..200f
+    private fun isChestArea(x: Float, y: Float): Boolean {
+        return x in 550f..750f && y in 500f..700f
+    }
+
+    private fun isAbdomenArea(x: Float, y: Float): Boolean {
+        return x in 550f..750f && y in 800f..1000f
+    }
+
+    private fun isArmArea(x: Float, y: Float): Boolean {
+        return (x in 300f..500f || x in 750f..950f) && y in 400f..700f
+    }
+
+    private fun isLegArea(x: Float, y: Float): Boolean {
+        return (x in 550f..750f && y in 1100f..1300f)
     }
 }
