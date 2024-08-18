@@ -53,7 +53,6 @@ class splash_screen : AppCompatActivity() {
                 startActivity(Intent(this@splash_screen, activity_login::class.java))
                 finish()
             }
-
         }
     }
 }
