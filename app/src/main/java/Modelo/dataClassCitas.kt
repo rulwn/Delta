@@ -8,6 +8,7 @@ data class dataClassCitas(
     var diaCita: Date,
     var horaCita: Timestamp,
     var motivo:String,
+    var EstadoCita: String,
     var ID_Centro: Int,
     var ID_Paciente: Int,
     var nombrePaciente: String,

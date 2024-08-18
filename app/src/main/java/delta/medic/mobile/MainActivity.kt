@@ -33,7 +33,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import delta.medic.mobile.activity_login.UserData.userEmail
 import delta.medic.mobile.ui.dashboard.DashboardFragment
-import delta.medic.mobile.ui.home.HomeFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth

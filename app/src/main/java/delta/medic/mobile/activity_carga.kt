@@ -43,8 +43,7 @@ class activity_carga : AppCompatActivity() {
             if (isLogedIn == false || email == null) {
                 val intent = Intent(this@activity_carga, activity_login::class.java)
                 startActivity(intent)
-            }
-            else if (isWelcomed == false){
+            } else if (isWelcomed == false) {
                 val intent = Intent(this@activity_carga, activity_bienvenida::class.java)
                 startActivity(intent)
             } else {

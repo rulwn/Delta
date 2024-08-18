@@ -2,12 +2,14 @@ package RecycleViewHelper
 
 import Modelo.ClaseConexion
 import Modelo.dataClassIndicaciones
+import android.app.Activity
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import delta.medic.mobile.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -33,23 +35,24 @@ class AdaptadorTratamientosChiquito(private var Datos: List<dataClassIndicacione
         holder.imgOpciones.setOnClickListener {
             val popupMenu = PopupMenu(holder.itemView.context, holder.imgOpciones)
             popupMenu.inflate(R.menu.menu_opciones)
-
-            // Manejar la selección de opciones del menú
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.menu_enviar_control -> {
-                        // Navegar al fragmento de control
-                        val navController = Navigation.findNavController(holder.itemView)
-                        navController.navigate(R.id.fragment_control)
+                        val bottomNavigationView =
+                            (holder.itemView.context as Activity).findViewById<BottomNavigationView>(
+                                R.id.nav_view
+                            )
+                        bottomNavigationView.selectedItemId = R.id.fragment_control
                         true
                     }
+
                     else -> false
                 }
             }
-
             // Mostrar el menú
             popupMenu.show()
         }
+
     }
 
     private val colorStart = Color.parseColor("#042A60")

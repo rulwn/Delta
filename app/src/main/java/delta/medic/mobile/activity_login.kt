@@ -84,7 +84,7 @@ class activity_login : AppCompatActivity() {
                   withContext(Dispatchers.Main) {
                       Toast.makeText(this@activity_login, "Sesion iniciada", Toast.LENGTH_SHORT)
                           .show()
-                      val intent = Intent(this@activity_login, MainActivity::class.java)
+                      val intent = Intent(this@activity_login, activity_carga::class.java)
                       startActivity(intent)
                       finish()
                   }

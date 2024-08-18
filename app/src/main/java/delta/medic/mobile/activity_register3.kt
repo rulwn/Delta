@@ -48,6 +48,11 @@ class activity_register3 : AppCompatActivity() {
         }
         val btnSiguiente = findViewById<Button>(R.id.btnSiguiente3)
         btnSiguiente.setOnClickListener {
+            activity_register1.imgUsuario = "no hay imagen"
+            CoroutineScope(Dispatchers.Main).launch {
+                println("Correo enviado ${activity_register1.email}")
+                EmailSender().enviarCorreo(activity_register1.email, "Codigo de verificacion delta", "${activity_register1.codigoautenticacion}")
+            }
             val intent = Intent(this, activity_register4::class.java)
             startActivity(intent)
 
