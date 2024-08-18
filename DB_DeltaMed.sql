@@ -796,6 +796,7 @@ CREATE TABLE tbExpedientes (
 CREATE TABLE tbCitasMedicas (
     ID_Cita INT PRIMARY KEY,
     diaCita DATE NOT NULL,
+    estadoCita CHAR(1) CHECK (estadoCita in ('C', 'A')) NOT NULL,
     horaCita TIMESTAMP NOT NULL,
     motivo VARCHAR2(150) NOT NULL,
     ID_Centro INT NOT NULL,
@@ -1499,16 +1500,16 @@ INSERT ALL
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
-    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (1, TO_DATE('2024-10-01', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general', 5, 1)
-    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (2, TO_DATE('2024-10-02', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-02 11:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Revisi?n anual', 4, 2)
-    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (3, TO_DATE('2024-10-03', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-03 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta de seguimiento', 3, 3)
-    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (4, TO_DATE('2024-10-04', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-04 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general', 2, 4)
-    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (5, TO_DATE('2024-10-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-05 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada', 1, 5)
+    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, estadoCita, ID_Centro, ID_Paciente)
+         VALUES (1, TO_DATE('2024-10-01', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general','A', 5, 1)
+    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, estadoCita, ID_Centro, ID_Paciente)
+         VALUES (2, TO_DATE('2024-10-02', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-02 11:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Revisi?n anual','A', 4, 2)
+    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, estadoCita, ID_Centro, ID_Paciente)
+         VALUES (3, TO_DATE('2024-10-03', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-03 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta de seguimiento','A', 3, 3)
+    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, estadoCita, ID_Centro, ID_Paciente)
+         VALUES (4, TO_DATE('2024-10-04', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-04 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general','A', 2, 4)
+    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, estadoCita, ID_Centro, ID_Paciente)
+         VALUES (5, TO_DATE('2024-10-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-05 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada','A', 1, 5)
 SELECT DUMMY FROM DUAL;
 
 INSERT INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti)
