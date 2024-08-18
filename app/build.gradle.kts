@@ -48,6 +48,7 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
     implementation(platform("com.google.firebase:firebase-bom:31.5.0"))
+    implementation("com.google.firebase:firebase-storage:21.0.0")
     implementation("com.oracle.database.jdbc:ojdbc6:11.2.0.4")
     implementation("com.airbnb.android:lottie:6.4.1")
     implementation("com.google.android.material:material:1.13.0-alpha03")
