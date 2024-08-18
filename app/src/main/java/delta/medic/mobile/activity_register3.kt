@@ -49,7 +49,7 @@ class activity_register3 : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
+// qn sabe 5 (comentario agregado para poder hacer push)
 
         btnAgregarFoto = findViewById(R.id.btnAgregarFoto)
         val btnOmitir = findViewById<TextView>(R.id.btnOmitirFoto)
