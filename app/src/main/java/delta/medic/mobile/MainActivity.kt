@@ -46,11 +46,8 @@ class MainActivity : AppCompatActivity() {
 
         //Preferencias de usuario
         val userPreferences = getSharedPreferences("userPreferences", MODE_PRIVATE)
-        val editor = userPreferences.edit()
-        editor.putBoolean("IsWelcomed", true)
-        editor.putBoolean("IsLogedIn", true)
-        editor.putString("email", userEmail)
-        editor.apply()
+
+        userEmail = userPreferences.getString("email", null).toString()
 
 
 

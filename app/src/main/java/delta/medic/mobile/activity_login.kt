@@ -84,6 +84,12 @@ class activity_login : AppCompatActivity() {
                   withContext(Dispatchers.Main) {
                       Toast.makeText(this@activity_login, "Sesion iniciada", Toast.LENGTH_SHORT)
                           .show()
+                      val userPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
+                      val editor = userPreferences.edit()
+                      editor.putBoolean("IsLogedIn", true)
+                      editor.putString("email", userEmail)
+                      Log.d("Preferences", "Email: $userEmail")
+                      editor.apply()
                       val intent = Intent(this@activity_login, activity_carga::class.java)
                       startActivity(intent)
                       finish()

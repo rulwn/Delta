@@ -7,14 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import delta.medic.mobile.R
-import delta.medic.mobile.activity_login
+
+import delta.medic.mobile.activity_login.UserData.userEmail
+
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AdaptadorFavoritos(private var Datos: List<dataClassFavoritos>):RecyclerView.Adapter<ViewHolderCentroMini>() {
 
-    var emailUsuario = "";
+    var emailUsuario = userEmail
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderCentroMini {
         val vista = LayoutInflater.from(parent.context).inflate(R.layout.activity_item_centro_medico_pequeno_normal, parent, false)
         return ViewHolderCentroMini(vista)
@@ -54,6 +56,7 @@ class AdaptadorFavoritos(private var Datos: List<dataClassFavoritos>):RecyclerVi
         holder.imgFavoritos.visibility = View.VISIBLE
 
         holder.imgFavoritos.setOnClickListener {
+            println(emailUsuario)
             val email = emailUsuario
             eliminarFavorito(email, favorito.ID_Sucursal, favorito.ID_Doctor, position)
 

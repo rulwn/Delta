@@ -28,30 +28,9 @@ class activity_carga : AppCompatActivity() {
 
             val lottieView = findViewById<LottieAnimationView>(R.id.lottie_view)
 
-
-            val userPreferences = getSharedPreferences("userPreferences", MODE_PRIVATE)
-            val isLogedIn = userPreferences.getBoolean("IsLogedIn", false)
-            val isWelcomed = userPreferences.getBoolean("IsWelcomed", false)
-            val email = userPreferences.getString("email", null)
-
-
-
-            Log.d("Preferences", "IsLogedIn: $isLogedIn")
-            Log.d("Preferences", "IsWelcomed: $isWelcomed")
-            Log.d("Preferences", "Email: $email")
-
-            if (isLogedIn == false || email == null) {
-                val intent = Intent(this@activity_carga, activity_login::class.java)
-                startActivity(intent)
-            } else if (isWelcomed == false) {
-                val intent = Intent(this@activity_carga, activity_bienvenida::class.java)
-                startActivity(intent)
-            } else {
-                activity_login.userEmail = email
-                val intent = Intent(this@activity_carga, MainActivity::class.java)
-                startActivity(intent)
-            }
-
+            delay(3000)
+            val intent = Intent(this@activity_carga, MainActivity::class.java)
+            startActivity(intent)
             finish()
         }
 
