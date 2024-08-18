@@ -2,6 +2,8 @@ package delta.medic.mobile
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -25,25 +27,32 @@ class activity_carga : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.Main) {
 
             val lottieView = findViewById<LottieAnimationView>(R.id.lottie_view)
-            delay(2000)
 
-            val sharedPreferencesPrimerUso = getSharedPreferences("PrimerUso", MODE_PRIVATE)
-            val primerUsoInicializado = sharedPreferencesPrimerUso.getBoolean("Inicializado", false)
 
-            val sharedPreferencesSesion = getSharedPreferences("Sesion", MODE_PRIVATE)
-            val sesionIniciada = sharedPreferencesSesion.getBoolean("sesionIniciada", false)
+            val userPreferences = getSharedPreferences("userPreferences", MODE_PRIVATE)
+            val isLogedIn = userPreferences.getBoolean("IsLogedIn", false)
+            val isWelcomed = userPreferences.getBoolean("IsWelcomed", false)
+            val email = userPreferences.getString("email", null)
 
-            if(sesionIniciada && primerUsoInicializado){
-                startActivity(Intent(this@activity_carga, MainActivity::class.java))
-                finish()
-            }else if(!sesionIniciada && primerUsoInicializado){
-                startActivity(Intent(this@activity_carga, activity_login::class.java))
-                finish()
+
+
+            Log.d("Preferences", "IsLogedIn: $isLogedIn")
+            Log.d("Preferences", "IsWelcomed: $isWelcomed")
+            Log.d("Preferences", "Email: $email")
+
+            if (isLogedIn == false || email == null) {
+                val intent = Intent(this@activity_carga, activity_login::class.java)
+                startActivity(intent)
             }
-            else{
-                startActivity(Intent(this@activity_carga, activity_bienvenida::class.java))
-                finish()
+            else if (isWelcomed == false){
+                val intent = Intent(this@activity_carga, activity_bienvenida::class.java)
+                startActivity(intent)
+            } else {
+                activity_login.userEmail = email
+                val intent = Intent(this@activity_carga, MainActivity::class.java)
+                startActivity(intent)
             }
+
             finish()
         }
 

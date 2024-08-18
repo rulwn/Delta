@@ -575,7 +575,7 @@ CREATE TABLE tbUsuarios (
     ID_TipoUsuario INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_TipoUsuario FOREIGN KEY (ID_TipoUsuario) 
+    CONSTRAINT FK_TipoUsuario FOREIGN KEY (ID_TipoUsuario)
     REFERENCES tbTipoUsuarios(ID_TipoUsuario)
     ON DELETE CASCADE
 );
@@ -602,20 +602,21 @@ CREATE TABLE tbSucursales (
     nombreSucursal VARCHAR2(60) NOT NULL,
     codSucursal NUMBER(8) NOT NULL UNIQUE,
     emailSucur VARCHAR2(30) NOT NULL UNIQUE,
-    telefonoSucur VARCHAR2(12) NOT NULL UNIQUE,
+    telefonoSucur VARCHAR2(9) NOT NULL UNIQUE,
     direccionSucur VARCHAR2(200) NOT NULL UNIQUE,
-    ubicacionSucur VARCHAR2(200) NOT NULL,
+    latiSucur VARCHAR2(200) NOT NULL,
+    longSucur VARCHAR2(200) NOT NULL,
     whatsapp VARCHAR2(12),
     imgSucursal VARCHAR2(250) NOT NULL UNIQUE,
     ID_Establecimiento INT NOT NULL,
     ID_TipoSucursal INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Establecimiento FOREIGN KEY (ID_Establecimiento) 
+    CONSTRAINT FK_Establecimiento FOREIGN KEY (ID_Establecimiento)
     REFERENCES tbEstablecimientos(ID_Establecimiento)
     ON DELETE CASCADE,
 
-    CONSTRAINT FK_TipoSucursal FOREIGN KEY (ID_TipoSucursal) 
+    CONSTRAINT FK_TipoSucursal FOREIGN KEY (ID_TipoSucursal)
     REFERENCES tbTipoSucursales(ID_TipoSucursal)
     ON DELETE CASCADE
 );
@@ -627,7 +628,7 @@ CREATE TABLE tbDoctores (
     ID_Usuario INT NOT NULL,
     ID_Sucursal INT NOT NULL,
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Especialidad FOREIGN KEY (ID_Especialidad) 
+    CONSTRAINT FK_Especialidad FOREIGN KEY (ID_Especialidad)
     REFERENCES tbEspecialidades(ID_Especialidad)
     ON DELETE CASCADE,
 
@@ -647,17 +648,17 @@ CREATE TABLE tbFavoritos (
     ID_Doctor INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_SucursalFav FOREIGN KEY (ID_Sucursal) 
+    CONSTRAINT FK_SucursalFav FOREIGN KEY (ID_Sucursal)
     REFERENCES tbSucursales(ID_Sucursal)
-    ON DELETE CASCADE, 
+    ON DELETE CASCADE,
 
-    CONSTRAINT FK_UsuarioFav FOREIGN KEY (ID_Usuario) 
+    CONSTRAINT FK_UsuarioFav FOREIGN KEY (ID_Usuario)
     REFERENCES tbUsuarios(ID_Usuario)
     ON DELETE CASCADE,
 
-    CONSTRAINT FK_DoctorF FOREIGN KEY (ID_Doctor) 
+    CONSTRAINT FK_DoctorF FOREIGN KEY (ID_Doctor)
     REFERENCES tbDoctores(ID_Doctor)
-    ON DELETE CASCADE 
+    ON DELETE CASCADE
 );
 
 CREATE TABLE tbRecientes (
@@ -666,13 +667,13 @@ CREATE TABLE tbRecientes (
     ID_Usuario INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_SucursalRec FOREIGN KEY (ID_Sucursal) 
+    CONSTRAINT FK_SucursalRec FOREIGN KEY (ID_Sucursal)
     REFERENCES tbSucursales(ID_Sucursal)
-    ON DELETE CASCADE, 
+    ON DELETE CASCADE,
 
-    CONSTRAINT FK_UsuarioRec FOREIGN KEY (ID_Usuario) 
+    CONSTRAINT FK_UsuarioRec FOREIGN KEY (ID_Usuario)
     REFERENCES tbUsuarios(ID_Usuario)
-    ON DELETE CASCADE 
+    ON DELETE CASCADE
 );
 
 CREATE TABLE tbCentrosMedicos (
@@ -681,7 +682,7 @@ CREATE TABLE tbCentrosMedicos (
     ID_Sucursal INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Doctor FOREIGN KEY (ID_Doctor) 
+    CONSTRAINT FK_Doctor FOREIGN KEY (ID_Doctor)
     REFERENCES tbDoctores(ID_Doctor)
     ON DELETE CASCADE,
 
@@ -701,7 +702,7 @@ CREATE TABLE tbHorarios (
     ID_Centro INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Centro_Horario FOREIGN KEY (ID_Centro) 
+    CONSTRAINT FK_Centro_Horario FOREIGN KEY (ID_Centro)
     REFERENCES tbCentrosMedicos(ID_Centro)
     ON DELETE CASCADE
 );
@@ -714,11 +715,11 @@ CREATE TABLE tbServicios (
     ID_Centro INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Aseguradora_Servicio FOREIGN KEY (ID_Aseguradora) 
+    CONSTRAINT FK_Aseguradora_Servicio FOREIGN KEY (ID_Aseguradora)
     REFERENCES tbAseguradoras(ID_Aseguradora)
     ON DELETE CASCADE,
 
-    CONSTRAINT FK_Centro_Servicio FOREIGN KEY (ID_Centro) 
+    CONSTRAINT FK_Centro_Servicio FOREIGN KEY (ID_Centro)
     REFERENCES tbCentrosMedicos(ID_Centro)
     ON DELETE CASCADE
 );
@@ -731,7 +732,7 @@ CREATE TABLE tbReviews (
     ID_Usuario INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Usuario_Review FOREIGN KEY (ID_Usuario) 
+    CONSTRAINT FK_Usuario_Review FOREIGN KEY (ID_Usuario)
     REFERENCES tbUsuarios(ID_Usuario)
     ON DELETE CASCADE
 );
@@ -746,11 +747,11 @@ CREATE TABLE tbNotis (
     ID_TipoNoti INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Usuario_Noti FOREIGN KEY (ID_Usuario) 
+    CONSTRAINT FK_Usuario_Noti FOREIGN KEY (ID_Usuario)
     REFERENCES tbUsuarios(ID_Usuario)
     ON DELETE CASCADE,
 
-    CONSTRAINT FK_TipoNoti FOREIGN KEY (ID_TipoNoti) 
+    CONSTRAINT FK_TipoNoti FOREIGN KEY (ID_TipoNoti)
     REFERENCES tbTipoNotis(ID_TipoNoti)
     ON DELETE CASCADE
 );
@@ -764,7 +765,7 @@ CREATE TABLE tbPacientes (
     ID_Usuario INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Usuario_Paciente FOREIGN KEY (ID_Usuario) 
+    CONSTRAINT FK_Usuario_Paciente FOREIGN KEY (ID_Usuario)
     REFERENCES tbUsuarios(ID_Usuario)
     ON DELETE CASCADE
 );
@@ -787,7 +788,7 @@ CREATE TABLE tbExpedientes (
     ID_Paciente INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Paciente_Expe FOREIGN KEY (ID_Paciente) 
+    CONSTRAINT FK_Paciente_Expe FOREIGN KEY (ID_Paciente)
     REFERENCES tbPacientes(ID_Paciente)
     ON DELETE CASCADE
 );
@@ -801,11 +802,11 @@ CREATE TABLE tbCitasMedicas (
     ID_Paciente INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Centro_Cita FOREIGN KEY (ID_Centro) 
+    CONSTRAINT FK_Centro_Cita FOREIGN KEY (ID_Centro)
     REFERENCES tbCentrosMedicos(ID_Centro)
     ON DELETE CASCADE,
 
-    CONSTRAINT FK_Paciente_Cita FOREIGN KEY (ID_Paciente) 
+    CONSTRAINT FK_Paciente_Cita FOREIGN KEY (ID_Paciente)
     REFERENCES tbPacientes(ID_Paciente)
     ON DELETE CASCADE
 );
@@ -820,11 +821,11 @@ CREATE TABLE tbIndicaciones (
     ID_Tiempo INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Tiempo FOREIGN KEY (ID_Tiempo) 
+    CONSTRAINT FK_Tiempo FOREIGN KEY (ID_Tiempo)
     REFERENCES tbTiempos(ID_Tiempo)
     ON DELETE CASCADE,
 
-    CONSTRAINT FK_Receta_Indi FOREIGN KEY (ID_Receta) 
+    CONSTRAINT FK_Receta_Indi FOREIGN KEY (ID_Receta)
     REFERENCES tbRecetas(ID_Receta)
     ON DELETE CASCADE
 );
@@ -841,11 +842,11 @@ CREATE TABLE tbFichasMedicas (
     ID_Cita INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Receta_Ficha FOREIGN KEY (ID_Receta) 
+    CONSTRAINT FK_Receta_Ficha FOREIGN KEY (ID_Receta)
     REFERENCES tbRecetas(ID_Receta)
     ON DELETE CASCADE,
 
-    CONSTRAINT FK_Cita FOREIGN KEY (ID_Cita) 
+    CONSTRAINT FK_Cita FOREIGN KEY (ID_Cita)
     REFERENCES tbCitasMedicas(ID_Cita)
     ON DELETE CASCADE
 );
@@ -858,62 +859,62 @@ CREATE TABLE tbFichasMedicas (
 
 -- SECUENCIA_TIPONOTI --
 CREATE SEQUENCE tipoNotis
-START WITH 1 
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_TIPOUSUARIOS --
-CREATE SEQUENCE tipoUsuarios 
-START WITH 1 
+CREATE SEQUENCE tipoUsuarios
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_TIEMPOS --
-CREATE SEQUENCE tiempos 
-START WITH 1 
+CREATE SEQUENCE tiempos
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_TIPOSUCURSALES --
-CREATE SEQUENCE tipoSucursales 
-START WITH 1 
+CREATE SEQUENCE tipoSucursales
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_ESPECIALIDADES --
-CREATE SEQUENCE especialidades 
-START WITH 1 
+CREATE SEQUENCE especialidades
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_ESTABLECIMIENTOS --
-CREATE SEQUENCE establecimientos 
-START WITH 1 
+CREATE SEQUENCE establecimientos
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_ASEGURADORAS --
-CREATE SEQUENCE aseguradoras 
-START WITH 1 
+CREATE SEQUENCE aseguradoras
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_RECETAS --
-CREATE SEQUENCE recetas 
-START WITH 1 
+CREATE SEQUENCE recetas
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_DOCTORES --
-CREATE SEQUENCE doctores 
-START WITH 1 
+CREATE SEQUENCE doctores
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_SUCURSALES --
-CREATE SEQUENCE sucursales 
-START WITH 1 
+CREATE SEQUENCE sucursales
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_CENTROS --
-CREATE SEQUENCE centros 
-START WITH 1 
+CREATE SEQUENCE centros
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_HORARIOS --
-CREATE SEQUENCE horarios 
-START WITH 1 
+CREATE SEQUENCE horarios
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_SERVICIOS --
@@ -922,58 +923,58 @@ START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_SEGUROS --
-CREATE SEQUENCE seguros 
-START WITH 1 
+CREATE SEQUENCE seguros
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_USUARIOS --
-CREATE SEQUENCE usuarios 
-START WITH 1 
+CREATE SEQUENCE usuarios
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_FAVORITOS --
-CREATE SEQUENCE favorito 
-START WITH 1 
+CREATE SEQUENCE favorito
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_RECIENTES --
-CREATE SEQUENCE reciente 
-START WITH 1 
+CREATE SEQUENCE reciente
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_REVIEWS --
-CREATE SEQUENCE reviews 
-START WITH 1 
+CREATE SEQUENCE reviews
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_NOTIS --
-CREATE SEQUENCE notis 
-START WITH 1 
+CREATE SEQUENCE notis
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_PACIENTES --
-CREATE SEQUENCE pacientes 
-START WITH 1 
+CREATE SEQUENCE pacientes
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_EXPEDIENTES --
-CREATE SEQUENCE expedientes 
-START WITH 1 
+CREATE SEQUENCE expedientes
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_CITAS --
-CREATE SEQUENCE citas 
-START WITH 1 
+CREATE SEQUENCE citas
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_INDICACIONES --
-CREATE SEQUENCE indicaciones 
-START WITH 1 
+CREATE SEQUENCE indicaciones
+START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_FICHAS --
-CREATE SEQUENCE fichas 
-START WITH 1 
+CREATE SEQUENCE fichas
+START WITH 1
 INCREMENT BY 1;
 
 
@@ -984,265 +985,265 @@ INCREMENT BY 1;
 *************************************************************************************************/
 
 -- TRIGGER_TIPO_NOTI --
-CREATE OR REPLACE TRIGGER Trigger_TipoNoti 
-BEFORE INSERT ON tbTipoNotis 
-FOR EACH ROW 
-BEGIN 
-    SELECT tipoNotis.NEXTVAL 
-    INTO: NEW.ID_TipoNoti 
+CREATE OR REPLACE TRIGGER Trigger_TipoNoti
+BEFORE INSERT ON tbTipoNotis
+FOR EACH ROW
+BEGIN
+    SELECT tipoNotis.NEXTVAL
+    INTO: NEW.ID_TipoNoti
     FROM DUAL;
 END Trigger_TipoNoti;
 /
 
 -- TRIGGER_TIPO_USUARIO --
-CREATE OR REPLACE TRIGGER Trigger_TipoUsuario 
-BEFORE INSERT ON tbTipoUsuarios 
-FOR EACH ROW 
-BEGIN 
-    SELECT tipoUsuarios.NEXTVAL 
-    INTO: NEW.ID_TipoUsuario 
+CREATE OR REPLACE TRIGGER Trigger_TipoUsuario
+BEFORE INSERT ON tbTipoUsuarios
+FOR EACH ROW
+BEGIN
+    SELECT tipoUsuarios.NEXTVAL
+    INTO: NEW.ID_TipoUsuario
     FROM DUAL;
 END Trigger_TipoUsuario;
 /
 
 -- TRIGGER_TIEMPO --
-CREATE OR REPLACE TRIGGER Trigger_Tiempo 
-BEFORE INSERT ON tbTiempos 
-FOR EACH ROW 
-BEGIN 
-    SELECT tiempos.NEXTVAL 
-    INTO: NEW.ID_Tiempo 
+CREATE OR REPLACE TRIGGER Trigger_Tiempo
+BEFORE INSERT ON tbTiempos
+FOR EACH ROW
+BEGIN
+    SELECT tiempos.NEXTVAL
+    INTO: NEW.ID_Tiempo
     FROM DUAL;
 END Trigger_Tiempo;
 /
 
 -- TRIGGER_TIPO_SUCURSAL --
-CREATE OR REPLACE TRIGGER Trigger_TipoSucursal 
-BEFORE INSERT ON tbTipoSucursales 
-FOR EACH ROW 
-BEGIN 
-    SELECT tipoSucursales.NEXTVAL 
-    INTO: NEW.ID_TipoSucursal 
+CREATE OR REPLACE TRIGGER Trigger_TipoSucursal
+BEFORE INSERT ON tbTipoSucursales
+FOR EACH ROW
+BEGIN
+    SELECT tipoSucursales.NEXTVAL
+    INTO: NEW.ID_TipoSucursal
     FROM DUAL;
 END Trigger_TipoSucursal;
 /
 
 -- TRIGGER_ESPECIALIDAD --
-CREATE OR REPLACE TRIGGER Trigger_Especialidad 
-BEFORE INSERT ON tbEspecialidades 
-FOR EACH ROW 
-BEGIN 
-    SELECT especialidades.NEXTVAL 
-    INTO: NEW.ID_Especialidad 
+CREATE OR REPLACE TRIGGER Trigger_Especialidad
+BEFORE INSERT ON tbEspecialidades
+FOR EACH ROW
+BEGIN
+    SELECT especialidades.NEXTVAL
+    INTO: NEW.ID_Especialidad
     FROM DUAL;
 END Trigger_Especialidad;
 /
 
 -- TRIGGER_ESTABLECIMIENTO --
-CREATE OR REPLACE TRIGGER Trigger_Establecimiento 
-BEFORE INSERT ON tbEstablecimientos 
-FOR EACH ROW 
-BEGIN 
-    SELECT establecimientos.NEXTVAL 
-    INTO: NEW.ID_Establecimiento 
+CREATE OR REPLACE TRIGGER Trigger_Establecimiento
+BEFORE INSERT ON tbEstablecimientos
+FOR EACH ROW
+BEGIN
+    SELECT establecimientos.NEXTVAL
+    INTO: NEW.ID_Establecimiento
     FROM DUAL;
 END Trigger_Establecimiento;
 /
 
 -- TRIGGER_ASEGURADORA --
-CREATE OR REPLACE TRIGGER Trigger_Aseguradora 
-BEFORE INSERT ON tbAseguradoras 
-FOR EACH ROW 
-BEGIN 
-    SELECT aseguradoras.NEXTVAL 
-    INTO: NEW.ID_Aseguradora 
+CREATE OR REPLACE TRIGGER Trigger_Aseguradora
+BEFORE INSERT ON tbAseguradoras
+FOR EACH ROW
+BEGIN
+    SELECT aseguradoras.NEXTVAL
+    INTO: NEW.ID_Aseguradora
     FROM DUAL;
 END Trigger_Aseguradora;
 /
 
 -- TRIGGER_RECETA --
-CREATE OR REPLACE TRIGGER Trigger_Receta 
+CREATE OR REPLACE TRIGGER Trigger_Receta
 BEFORE INSERT ON tbRecetas
-FOR EACH ROW 
-BEGIN 
-    SELECT recetas.NEXTVAL 
-    INTO: NEW.ID_Receta 
+FOR EACH ROW
+BEGIN
+    SELECT recetas.NEXTVAL
+    INTO: NEW.ID_Receta
     FROM DUAL;
 END Trigger_Receta;
 /
 
 -- TRIGGER_DOCTOR --
-CREATE OR REPLACE TRIGGER Trigger_Doctor 
-BEFORE INSERT ON tbDoctores 
-FOR EACH ROW 
-BEGIN 
-    SELECT doctores.NEXTVAL 
-    INTO: NEW.ID_Doctor 
+CREATE OR REPLACE TRIGGER Trigger_Doctor
+BEFORE INSERT ON tbDoctores
+FOR EACH ROW
+BEGIN
+    SELECT doctores.NEXTVAL
+    INTO: NEW.ID_Doctor
     FROM DUAL;
 END Trigger_Doctor;
 /
 
 -- TRIGGER_SUCURSAL --
-CREATE OR REPLACE TRIGGER Trigger_Sucursal 
-BEFORE INSERT ON tbSucursales 
-FOR EACH ROW 
-BEGIN 
-    SELECT sucursales.NEXTVAL 
-    INTO: NEW.ID_Sucursal 
+CREATE OR REPLACE TRIGGER Trigger_Sucursal
+BEFORE INSERT ON tbSucursales
+FOR EACH ROW
+BEGIN
+    SELECT sucursales.NEXTVAL
+    INTO: NEW.ID_Sucursal
     FROM DUAL;
 END Trigger_Sucursal;
 /
 
 -- TRIGGER_CENTRO_M?DICO --
-CREATE OR REPLACE TRIGGER Trigger_CentroMedico 
-BEFORE INSERT ON tbCentrosMedicos 
-FOR EACH ROW 
-BEGIN 
-    SELECT centros.NEXTVAL 
-    INTO: NEW.ID_Centro 
+CREATE OR REPLACE TRIGGER Trigger_CentroMedico
+BEFORE INSERT ON tbCentrosMedicos
+FOR EACH ROW
+BEGIN
+    SELECT centros.NEXTVAL
+    INTO: NEW.ID_Centro
     FROM DUAL;
 END Trigger_CentroMedico;
 /
 
 -- TRIGGER_HORARIO --
-CREATE OR REPLACE TRIGGER Trigger_Horario 
+CREATE OR REPLACE TRIGGER Trigger_Horario
 BEFORE INSERT ON tbHorarios
-FOR EACH ROW 
-BEGIN 
-    SELECT horarios.NEXTVAL 
-    INTO: NEW.ID_Horario 
+FOR EACH ROW
+BEGIN
+    SELECT horarios.NEXTVAL
+    INTO: NEW.ID_Horario
     FROM DUAL;
 END Trigger_Horario;
 /
 
 -- TRIGGER_SERVICIO --
-CREATE OR REPLACE TRIGGER Trigger_Servicio 
-BEFORE INSERT ON tbServicios 
-FOR EACH ROW 
-BEGIN 
-    SELECT serviciosMedicos.NEXTVAL 
-    INTO: NEW.ID_Servicio 
+CREATE OR REPLACE TRIGGER Trigger_Servicio
+BEFORE INSERT ON tbServicios
+FOR EACH ROW
+BEGIN
+    SELECT serviciosMedicos.NEXTVAL
+    INTO: NEW.ID_Servicio
     FROM DUAL;
 END Trigger_Servicio;
 /
 
 -- TRIGGER_SEGURO --
-CREATE OR REPLACE TRIGGER Trigger_Seguro 
-BEFORE INSERT ON tbSeguros 
-FOR EACH ROW 
-BEGIN 
-    SELECT seguros.NEXTVAL 
-    INTO: NEW.ID_Seguro 
+CREATE OR REPLACE TRIGGER Trigger_Seguro
+BEFORE INSERT ON tbSeguros
+FOR EACH ROW
+BEGIN
+    SELECT seguros.NEXTVAL
+    INTO: NEW.ID_Seguro
     FROM DUAL;
 END Trigger_Seguro;
 /
 
 -- TRIGGER_USUARIO --
-CREATE OR REPLACE TRIGGER Trigger_Usuario 
-BEFORE INSERT ON tbUsuarios 
-FOR EACH ROW 
-BEGIN 
-    SELECT usuarios.NEXTVAL 
-    INTO: NEW.ID_Usuario 
+CREATE OR REPLACE TRIGGER Trigger_Usuario
+BEFORE INSERT ON tbUsuarios
+FOR EACH ROW
+BEGIN
+    SELECT usuarios.NEXTVAL
+    INTO: NEW.ID_Usuario
     FROM DUAL;
 END Trigger_Usuario;
 /
 
 -- TRIGGER_FAVORITO --
-CREATE OR REPLACE TRIGGER Tigger_Favorito 
-BEFORE INSERT ON tbFavoritos 
-FOR EACH ROW 
-BEGIN 
-    SELECT favorito.NEXTVAL 
-    INTO: NEW.ID_Favorito 
+CREATE OR REPLACE TRIGGER Tigger_Favorito
+BEFORE INSERT ON tbFavoritos
+FOR EACH ROW
+BEGIN
+    SELECT favorito.NEXTVAL
+    INTO: NEW.ID_Favorito
     FROM DUAL;
 END Tigger_Favorito;
 /
 
 -- TRIGGER_RECIENTE --
 CREATE OR REPLACE TRIGGER Tigger_Reciente
-BEFORE INSERT ON tbRecientes 
-FOR EACH ROW 
-BEGIN 
-    SELECT reciente.NEXTVAL 
+BEFORE INSERT ON tbRecientes
+FOR EACH ROW
+BEGIN
+    SELECT reciente.NEXTVAL
     INTO: NEW.ID_Reciente
     FROM DUAL;
 END Tigger_Reciente;
 /
 
 -- TRIGGER_REVIEW --
-CREATE OR REPLACE TRIGGER Trigger_Review 
-BEFORE INSERT ON tbReviews 
-FOR EACH ROW 
-BEGIN 
-    SELECT reviews.NEXTVAL 
-    INTO: NEW.ID_Review 
+CREATE OR REPLACE TRIGGER Trigger_Review
+BEFORE INSERT ON tbReviews
+FOR EACH ROW
+BEGIN
+    SELECT reviews.NEXTVAL
+    INTO: NEW.ID_Review
     FROM DUAL;
 END Trigger_Review;
 /
 
 -- TRIGGER_NOTI --
-CREATE OR REPLACE TRIGGER Trigger_Noti 
+CREATE OR REPLACE TRIGGER Trigger_Noti
 BEFORE INSERT ON tbNotis
-FOR EACH ROW 
-BEGIN 
-    SELECT notis.NEXTVAL 
-    INTO: NEW.ID_Notificacion 
+FOR EACH ROW
+BEGIN
+    SELECT notis.NEXTVAL
+    INTO: NEW.ID_Notificacion
     FROM DUAL;
 END Trigger_Noti;
 /
 
 -- TRIGGER_PACIENTE --
-CREATE OR REPLACE TRIGGER Trigger_Paciente 
-BEFORE INSERT ON tbPacientes 
-FOR EACH ROW 
-BEGIN 
-    SELECT pacientes.NEXTVAL 
-    INTO: NEW.ID_Paciente 
+CREATE OR REPLACE TRIGGER Trigger_Paciente
+BEFORE INSERT ON tbPacientes
+FOR EACH ROW
+BEGIN
+    SELECT pacientes.NEXTVAL
+    INTO: NEW.ID_Paciente
     FROM DUAL;
 END Trigger_Paciente;
 /
 
 -- TRIGGER_EXPEDIENTE --
-CREATE OR REPLACE TRIGGER Trigger_Expediente 
-BEFORE INSERT ON tbExpedientes 
-FOR EACH ROW 
-BEGIN 
-    SELECT expedientes.NEXTVAL 
-    INTO: NEW.ID_Expediente 
+CREATE OR REPLACE TRIGGER Trigger_Expediente
+BEFORE INSERT ON tbExpedientes
+FOR EACH ROW
+BEGIN
+    SELECT expedientes.NEXTVAL
+    INTO: NEW.ID_Expediente
     FROM DUAL;
 END Trigger_Expediente;
 /
 
 -- TRIGGER_CITA_M?DICA --
-CREATE OR REPLACE TRIGGER Trigger_CitaMedica 
-BEFORE INSERT ON tbCitasMedicas 
-FOR EACH ROW 
-BEGIN 
-    SELECT citas.NEXTVAL 
-    INTO: NEW.ID_Cita 
+CREATE OR REPLACE TRIGGER Trigger_CitaMedica
+BEFORE INSERT ON tbCitasMedicas
+FOR EACH ROW
+BEGIN
+    SELECT citas.NEXTVAL
+    INTO: NEW.ID_Cita
     FROM DUAL;
 END Trigger_CitaMedica;
 /
 
 -- TRIGGER_INDICACI?N --
-CREATE OR REPLACE TRIGGER Trigger_Indicacion 
-BEFORE INSERT ON tbIndicaciones 
-FOR EACH ROW 
-BEGIN 
-    SELECT indicaciones.NEXTVAL 
-    INTO: NEW.ID_Indicacion 
+CREATE OR REPLACE TRIGGER Trigger_Indicacion
+BEFORE INSERT ON tbIndicaciones
+FOR EACH ROW
+BEGIN
+    SELECT indicaciones.NEXTVAL
+    INTO: NEW.ID_Indicacion
     FROM DUAL;
 END Trigger_Indicacion;
 /
 
 -- TRIGGER_FICHA --
-CREATE OR REPLACE TRIGGER Trigger_Ficha 
-BEFORE INSERT ON tbFichasMedicas 
-FOR EACH ROW 
-BEGIN 
-    SELECT fichas.NEXTVAL 
-    INTO: NEW.ID_Ficha 
+CREATE OR REPLACE TRIGGER Trigger_Ficha
+BEFORE INSERT ON tbFichasMedicas
+FOR EACH ROW
+BEGIN
+    SELECT fichas.NEXTVAL
+    INTO: NEW.ID_Ficha
     FROM DUAL;
 END Trigger_Ficha;
 /
@@ -1319,13 +1320,13 @@ SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbTiempos (lapsosTiempo, frecuenciaMedi)
-         VALUES ('1 Vez al d?a', '4')
+         VALUES ('1 Vez al día', '4')
     INTO tbTiempos (lapsosTiempo, frecuenciaMedi)
-         VALUES ('2 Veces al d?a', '3')
+         VALUES ('2 Veces al día', '3')
     INTO tbTiempos (lapsosTiempo, frecuenciaMedi)
-         VALUES ('3 Veces al d?a', '5')
+         VALUES ('3 Veces al día', '5')
     INTO tbTiempos (lapsosTiempo, frecuenciaMedi)
-         VALUES ('4 Veces al d?a', '2')
+         VALUES ('4 Veces al día', '2')
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -1337,15 +1338,15 @@ SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbEspecialidades (nombreEspecialidad, nuevaEspecialidad)
-         VALUES ('Pediatr?a', '')
+         VALUES ('Pediatría', '')
     INTO tbEspecialidades (nombreEspecialidad, nuevaEspecialidad)
-         VALUES ('Neonatolog?a', '')
+         VALUES ('Neonatología', '')
     INTO tbEspecialidades (nombreEspecialidad, nuevaEspecialidad)
-         VALUES ('Cardiolog?a', '')
+         VALUES ('Cardiología', '')
     INTO tbEspecialidades (nombreEspecialidad, nuevaEspecialidad)
          VALUES ('Ortopedia', '')
     INTO tbEspecialidades (nombreEspecialidad, nuevaEspecialidad)
-         VALUES ('Odontolog?a', '')
+         VALUES ('Odontología', '')
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -1363,13 +1364,15 @@ SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbAseguradoras (nombreAseguradora)
+         VALUES ('Ninguno')
+    INTO tbAseguradoras (nombreAseguradora)
          VALUES ('MAPFRE')
     INTO tbAseguradoras (nombreAseguradora)
          VALUES ('SISA')
     INTO tbAseguradoras (nombreAseguradora)
          VALUES ('ACSA MED')
     INTO tbAseguradoras (nombreAseguradora)
-         VALUES ('ATL?NTIDA VIDA')
+         VALUES ('ATLÁNTIDA VIDA')
     INTO tbAseguradoras (nombreAseguradora)
          VALUES ('ASESUISA')
 SELECT DUMMY FROM DUAL;
@@ -1389,7 +1392,7 @@ SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
-        VALUES ('Francisco', 'Mej?a', 'fran@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'San Salvador', '6143-1352', 'M', '20/02/1980', NULL, 1)
+        VALUES ('Francisco', 'Mejía', 'fran@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'San Salvador', '6143-1352', 'M', '20/02/1980', NULL, 1)
     INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
         VALUES ('Steven', 'Palacios', 'venosin@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'Ciudad Arce', '2245-9312', 'M', '15/07/1999', NULL, 1)
     INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
@@ -1412,17 +1415,23 @@ INSERT ALL
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
-    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Cl?nica Ginecol?gica, San Salvador', 235656, 'clinica_ginecologica@gmail.com', '2264-7856', '25 Av. Norte, Colonia M?dica, San Salvador', 'ubicacionSucur.Ginecologica', '7589-4365', 'Esta sucursal no posee una fotograf?a', 1, 2)
-    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Cl?nica Asistencial Salvadore?a, Santa Ana', 675429, 'clinica_asistencial@gmail.com', '2256-6576', 'Calle Libertad y Avenida Independencia, Santa Ana', 'ubicacionSucur.Asistencial', '5383-4365', 'Esta sucursal no tiene una fotograf?a', 5, 1)
-    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Hospital de Diagn?stico, San Salvador', 990764, 'hospital_diagnostico@gmail.com', '2224-7887', '79 Av. Norte y 11 Calle Poniente, Colonia Escal?n, San Salvador', 'ubicacionSucur.Diagnostico', '7519-2335', 'Esta sucursal ha puesto una fotograf?a', 3, 1)
-    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Centro M?dico Escal?n, San Salvador', 224216, 'medico_escalon@gmail.com', '2235-7856', '85 Av. Norte y Calle Juan Jos? Ca?as, Colonia Escal?n, San Salvador', 'ubicacionSucur.Escalon', '7509-3230', 'Neles', 4, 2)
-    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Hospital La Divina Providencia, San Salvador', 012483, 'divina_providencia@gmail.com', '2211-2956', 'Avenida Masferrer Norte, Colonia Escal?n, San Salvador', 'ubicacionSucur.Providencia', '3278-3561', 'Tampoco tu', 2, 2)
+    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
+         VALUES ('Clínica Ginecológica', 235656, 'clinica_ginecologica@gmail.com', '2264-7856', '25 Av. Norte, Colonia M?dica, San Salvador', '13.709362', '-89.202990', '7589-4365', 'Esta sucursal no posee una fotograf?a', 1, 2)
+    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
+         VALUES ('Clínica Asistencial Salvadoreña', 675429, 'clinica_asistencial@gmail.com', '2256-6576', 'Calle Libertad y Avenida Independencia, Santa Ana', '13.714547', '-89.192849', '5383-4365', 'Esta sucursal no tiene una fotograf?a', 5, 1)
+    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
+         VALUES ('Hospital de Diagnóstico', 990764, 'hospital_diagnostico@gmail.com', '2224-7887', '79 Av. Norte y 11 Calle Poniente, Colonia Escalón, San Salvador', '13.710252' , '-89.202537', '7519-2335', 'Esta sucursal ha puesto una fotograf?a', 3, 1)
+    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
+         VALUES ('Centro Médico Escalón', 224216, 'medico_escalon@gmail.com', '2235-7856', '85 Av. Norte y Calle Juan José Cañas, Colonia Escalón, San Salvador', '13.711853', '-89.234307', '7509-3230', 'Neles', 4, 2)
+    INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
+         VALUES ('Hospital La Divina Providencia', 012483, 'divina_providencia@gmail.com', '2211-2956', 'Avenida Masferrer Norte, Colonia Escal?n, San Salvador', '13.711245', '-89.223008', '3278-3561', 'Tampoco tu', 2, 2)
 SELECT DUMMY FROM DUAL;
+
+UPDATE tbSucursales SET imgSucursal = 'https://centroginecologico.com.sv/wp-content/uploads/2020/10/facahadanew20.jpg' WHERE ID_Sucursal = 1;
+UPDATE tbSucursales SET imgSucursal = 'https://upload.wikimedia.org/wikipedia/commons/b/b3/Hospital_Nacional_de_Ni%C3%B1os_Benjamin_Bloom.jpg' WHERE ID_Sucursal = 2;
+UPDATE tbSucursales SET imgSucursal = 'https://www.hospitaldiagnostico.com/images/sucursal/Escalon.png' WHERE ID_Sucursal = 3;
+UPDATE tbSucursales SET imgSucursal = 'https://static.elmundo.sv/wp-content/uploads/2020/10/Centro-Me%CC%81dico-Escalo%CC%81n.jpg' WHERE ID_Sucursal = 4;
+UPDATE tbSucursales SET imgSucursal = 'https://www.ecured.cu/images/e/e3/Hospita_Divina_Providencia_1.jpg' WHERE ID_Sucursal = 5;
 
 INSERT ALL
     INTO tbIndicaciones (duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
@@ -1502,7 +1511,7 @@ INSERT ALL
          VALUES (5, TO_DATE('2024-10-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-05 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada', 1, 5)
 SELECT DUMMY FROM DUAL;
 
-INSERT INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
+INSERT INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti)
 VALUES (TO_DATE('2024-07-14', 'YYYY-MM-DD'), 'P', 'Descargar pdf de tu ultima cita', 'S', 1, 1);
 
 INSERT ALL
@@ -1517,6 +1526,7 @@ INSERT ALL
     INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
         VALUES ('Terapia Cognitiva', 55.00, 5, 5)
 SELECT DUMMY FROM DUAL;
+
 
 COMMIT;
 
@@ -1546,37 +1556,38 @@ SELECT DUMMY FROM DUAL;
 
 *************************************************************************************************/
 --INNER JOIN CENTROMEDICO--
-SELECT 
+SELECT
     d.ID_Doctor,
-    u.nombreUsuario, 
-    u.apellidoUsuario, 
+    u.nombreUsuario,
+    u.apellidoUsuario,
     u.imgUsuario,
     e.nombreEspecialidad,
     s.nombreSucursal,
-    s.telefonoSucur, 
-    s.direccionSucur, 
-    s.ubicacionSucur, 
-    srv.nombreServicio, 
+    s.telefonoSucur,
+    s.direccionSucur,
+    s.longSucur,
+    s.latiSucur,
+    s.imgSucursal,
+    srv.nombreServicio,
     srv.costo
-FROM 
+FROM
     tbCentrosMedicos cm
-INNER JOIN 
+INNER JOIN
     tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-INNER JOIN 
+INNER JOIN
     tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
 INNER JOIN
     tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
 INNER JOIN
     tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
-INNER JOIN 
+INNER JOIN
     tbServicios srv ON cm.ID_Centro = srv.ID_Centro
-WHERE 
-    (
-        LOWER(u.nombreUsuario) LIKE LOWER('%xam%')
-        OR LOWER(u.apellidoUsuario) LIKE LOWER('%?%')
-        OR LOWER(e.nombreEspecialidad) LIKE LOWER('%?%')
-    )
-    AND u.ID_TipoUsuario = 2;
+    WHERE
+    LOWER(nombreUsuario) LIKE LOWER('')
+OR
+    LOWER(apellidoUsuario) LIKE LOWER('')
+AND
+    u.ID_TipoUsuario = 2;
 
 --INNER JOIN CITASMEDICAS--
 
@@ -1605,21 +1616,23 @@ FROM  tbcitasmedicas CITAS
     INNER JOIN
         tbpacientes PACS ON citas.id_paciente = pacs.id_paciente WHERE pacs.id_usuario = 1 ;
 
-SELECT  
+--INNER JOIN FAVORITOS--
+
+SELECT
     u.ID_Usuario,
-    u.nombreUsuario, 
-    u.imgUsuario, 
-    d.ID_Doctor, 
-    s.ID_Sucursal, 
-    s.imgSucursal, 
-    ts.nombreTipoSucursal 
-    FROM 
-    tbFavoritos f 
-    INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor 
-    INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal 
-    INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario 
-    INNER JOIN tbTipoSucursales ts ON ts.ID_TipoSucursal = s.ID_TipoSucursal 
-    WHERE 
+    u.nombreUsuario,
+    u.imgUsuario,
+    d.ID_Doctor,
+    s.ID_Sucursal,
+    s.imgSucursal,
+    ts.nombreTipoSucursal
+    FROM
+    tbFavoritos f
+    INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor
+    INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal
+    INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario
+    INNER JOIN tbTipoSucursales ts ON ts.ID_TipoSucursal = s.ID_TipoSucursal
+    WHERE
     f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = 'fran@gmail.com');
 
     SELECT * FROM tbFavoritos;
@@ -1637,9 +1650,9 @@ BEGIN
     WHERE u.EmailUsuario = var_email;
 
 
-    DELETE FROM tbFavoritos 
-    WHERE ID_Usuario = var_ID_Usuario 
-    AND ID_Sucursal = var_ID_Sucursal 
+    DELETE FROM tbFavoritos
+    WHERE ID_Usuario = var_ID_Usuario
+    AND ID_Sucursal = var_ID_Sucursal
     AND ID_Doctor = var_ID_Doctor;
 
     COMMIT WORK;
@@ -1656,31 +1669,31 @@ SELECT * FROM TBUsuarios;
 *************************************************************************************************/
 /*
 
-SELECT 
-    u.nombreUsuario, 
-    u.apellidoUsuario, 
-    u.imgUsuario, 
+SELECT
+    u.nombreUsuario,
+    u.apellidoUsuario,
+    u.imgUsuario,
 	e.nombreEspecialidad,
     s.nombreSucursal,
-    s.telefonoSucur, 
-    s.direccionSucur, 
-    s.ubicacionSucur, 
-    srv.nombreServicio, 
-    srv.costo, 
+    s.telefonoSucur,
+    s.direccionSucur,
+    s.ubicacionSucur,
+    srv.nombreServicio,
+    srv.costo,
     cm.favorito
-FROM 
+FROM
     tbCentrosMedicos cm
-INNER JOIN 
+INNER JOIN
     tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-INNER JOIN 
+INNER JOIN
     tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
 INNER JOIN
 	tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
 INNER JOIN
     tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
-INNER JOIN 
+INNER JOIN
     tbServicios srv ON cm.ID_Centro = srv.ID_Centro
-WHERE 
+WHERE
     u.ID_Usuario IS NOT NULL;
 
 SELECT citas.ID_Cita,
@@ -1694,13 +1707,13 @@ SELECT citas.ID_Cita,
     usua.id_usuario,
     USUA.nombreUsuario,
     USUA.apellidoUsuario,
-    esp.nombreespecialidad 
+    esp.nombreespecialidad
 FROM  tbcitasmedicas CITAS
     INNER JOIN tbcentrosmedicos CENTROS ON CITAS.id_centro=CENTROS.id_centro
     INNER JOIN tbdoctores DOCS ON CENTROS.id_doctor=DOCS.id_doctor
     INNER JOIN tbEspecialidades ESP ON docs.id_especialidad = esp.id_especialidad
     INNER JOIN tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario
-    INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente 
+    INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente
         WHERE pacs.id_usuario = 1
 
 */
