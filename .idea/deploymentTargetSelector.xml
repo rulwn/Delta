@@ -2,7 +2,11 @@
 <project version="4">
   <component name="deploymentTargetSelector">
     <selectionStates>
+<<<<<<< HEAD
+      <SelectionState runConfigName="activity_busqueda_rapida_hombre">
+=======
       <SelectionState runConfigName="App">
+>>>>>>> master
         <option name="selectionMode" value="DROPDOWN" />
         <DropdownSelection timestamp="2024-08-19T04:35:28.800546500Z">
           <Target type="DEFAULT_BOOT">

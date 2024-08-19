@@ -11,7 +11,7 @@ GRANT "CONNECT" TO DeltaMed;
 
 ALTER SESSION SET NLS_DATE_FORMAT = 'DD-MM-YYYY';
 COMMIT;
-*/
+
 
 /*******************************************************************************
 
