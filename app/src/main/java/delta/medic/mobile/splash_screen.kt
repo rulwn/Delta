@@ -29,9 +29,6 @@ class splash_screen : AppCompatActivity() {
             val lottieView = findViewById<LottieAnimationView>(R.id.lottie_view)
             lottieView.setImageAssetsFolder("images/")
 
-            //lottieView.setAnimation("animation.json")
-            //lottieView.playAnimation()
-            /*
             val userPreferences = getSharedPreferences("userPreferences", MODE_PRIVATE)
             val isLogedIn = userPreferences.getBoolean("IsLogedIn", false)
             val isWelcomed = userPreferences.getBoolean("IsWelcomed", false)
@@ -48,16 +45,14 @@ class splash_screen : AppCompatActivity() {
                 startActivity(intent)
             }
             else if (isLogedIn == false || email == null) {
-            val intent = Intent(this@splash_screen, activity_login::class.java)
-            startActivity(intent)
+                val intent = Intent(this@splash_screen, activity_login::class.java)
+                startActivity(intent)
             }
             else {
                 userEmail = email
                 val intent = Intent(this@splash_screen, MainActivity::class.java)
                 startActivity(intent)
-            }*/
-
-
+            }
         }
     }
 }
