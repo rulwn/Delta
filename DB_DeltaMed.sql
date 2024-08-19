@@ -11,7 +11,7 @@ GRANT "CONNECT" TO DeltaMed;
 
 ALTER SESSION SET NLS_DATE_FORMAT = 'DD-MM-YYYY';
 COMMIT;
-
+*/
 
 /*******************************************************************************
 
@@ -1528,6 +1528,20 @@ INSERT ALL
         VALUES ('Terapia Cognitiva', 55.00, 5, 5)
 SELECT DUMMY FROM DUAL;
 
+INSERT ALL
+    INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
+    VALUES (1,1,2)
+    INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
+    VALUES (2,1,3)
+    INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
+    VALUES (3,1,4)
+    INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
+    VALUES (4,1,5)
+    INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
+    VALUES (1,1,2)
+SELECT DUMMY FROM DUAL;
+
+
 
 COMMIT;
 
@@ -1627,17 +1641,43 @@ SELECT
     s.ID_Sucursal,
     s.imgSucursal,
     ts.nombreTipoSucursal
-    FROM
+FROM
     tbFavoritos f
-    INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor
-    INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal
-    INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario
-    INNER JOIN tbTipoSucursales ts ON ts.ID_TipoSucursal = s.ID_TipoSucursal
-    WHERE
+INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor
+INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal
+INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario
+INNER JOIN tbTipoSucursales ts ON ts.ID_TipoSucursal = s.ID_TipoSucursal
+WHERE
     f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = 'fran@gmail.com');
 
-    SELECT * FROM tbFavoritos;
+--Este select selecciona todos los datos relacionados a un doctor en base a su ID_Doctor
+SELECT 
+    d.ID_Doctor,
+    u.ID_Usuario,
+    u.nombreUsuario, 
+    u.apellidoUsuario, 
+    u.imgUsuario, 
+    e.nombreEspecialidad,
+    s.ID_Sucursal,
+    s.nombreSucursal, 
+    s.telefonoSucur, 
+    s.direccionSucur, 
+    s.longSucur, 
+    s.latiSucur, 
+    s.imgSucursal, 
+    se.nombreServicio, 
+    se.costo
+FROM 
+    tbDoctores d
+    INNER JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
+    INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+    INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
+    INNER JOIN tbCentrosMedicos cm ON d.ID_Doctor = cm.ID_Doctor
+    INNER JOIN tbServicios se ON cm.ID_Centro = se.ID_Centro
+WHERE 
+    d.ID_Doctor = 5;
 
+SELECT * FROM TBDOCTORES;
 CREATE OR REPLACE PROCEDURE PROC_DELT_FAVORITOS(
     var_email IN tbUsuarios.EmailUsuario%TYPE,
     var_ID_Doctor IN tbDoctores.ID_Doctor%TYPE,
@@ -1659,10 +1699,8 @@ BEGIN
     COMMIT WORK;
 END PROC_DELT_FAVORITOS;
 /
-INSERT INTO tbFavoritos(ID_Usuario, ID_Sucursal, ID_Doctor)
-Values(1,4,3);
 
-SELECT * FROM TBUsuarios;
+
 /*************************************************************************************************
 
     ~ Consultas Inner Extras~
