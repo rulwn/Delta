@@ -34,17 +34,16 @@ class splash_screen : AppCompatActivity() {
             val isWelcomed = userPreferences.getBoolean("IsWelcomed", false)
             val email = userPreferences.getString("email", null)
 
-
-
             Log.d("Preferences", "IsLogedIn: $isLogedIn")
             Log.d("Preferences", "IsWelcomed: $isWelcomed")
             Log.d("Preferences", "Email: $email")
 
-            if (isWelcomed == false) {
+            delay(3000)
+            if (!isWelcomed) {
                 val intent = Intent(this@splash_screen, activity_bienvenida::class.java)
                 startActivity(intent)
             }
-            else if (isLogedIn == false || email == null) {
+            else if (!isLogedIn || email.isNullOrEmpty()) {
                 val intent = Intent(this@splash_screen, activity_login::class.java)
                 startActivity(intent)
             }
