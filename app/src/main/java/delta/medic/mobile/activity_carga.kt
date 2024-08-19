@@ -28,6 +28,7 @@ class activity_carga : AppCompatActivity() {
 
             val lottieView = findViewById<LottieAnimationView>(R.id.lottie_view)
 
+            delay(3000)
                 val intent = Intent(this@activity_carga, MainActivity::class.java)
                 startActivity(intent)
 
