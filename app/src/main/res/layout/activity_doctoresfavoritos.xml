@@ -44,12 +44,13 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvDoctoresFav"
-        android:layout_width="402dp"
-        android:layout_height="632dp"
+        android:layout_width="342dp"
+        android:layout_height="627dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.521"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout9" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout9"
+        app:layout_wrapBehaviorInParent="horizontal_only" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ package RecycleViewHelper
 
 import Modelo.ClaseConexion
 import Modelo.dataClassFavoritos
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import delta.medic.mobile.R
 
 import delta.medic.mobile.activity_login.UserData.userEmail
+import delta.medic.mobile.activity_vistadoctores
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -86,6 +88,15 @@ class AdaptadorFavoritos(private var Datos: List<dataClassFavoritos>):RecyclerVi
             val email = emailUsuario
             eliminarFavorito(email, favorito.ID_Sucursal, favorito.ID_Doctor, position)
 
+        }
+
+        holder.itemView.setOnClickListener {
+            val context = holder.itemView.context
+            val doctorFavorito = Datos[position]
+            val pantallaDetalle = Intent(context, activity_vistadoctores::class.java)
+            pantallaDetalle.putExtra("ID_Doctor", doctorFavorito.ID_Doctor)
+            pantallaDetalle.putExtra("Fav", true)
+            context.startActivity(pantallaDetalle)
         }
 
 
