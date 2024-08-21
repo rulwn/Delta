@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-08-20T03:58:59.628812700Z">
+        <DropdownSelection timestamp="2024-08-21T18:12:58.292257200Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Luzma\.android\avd\DeltaMedic.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Luzma\.android\avd\Delta_Prueba.avd" />
             </handle>
           </Target>
         </DropdownSelection>

@@ -1756,3 +1756,5 @@ FROM  tbcitasmedicas CITAS
         WHERE pacs.id_usuario = 1
 
 */
+
+select * from tbUsuarios;
