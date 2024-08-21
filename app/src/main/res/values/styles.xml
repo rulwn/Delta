@@ -36,13 +36,18 @@
             <item name="cornerSize">50%</item>
         </style>
 
-   <style name="CustomBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/CustomBottomSheetStyle</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
+    <style name="RoundedBottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/RoundedBottomSheet</item>
     </style>
 
-    <style name="CustomBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/rounded_top_corner</item>
+    <style name="RoundedBottomSheet" parent="Widget.Design.BottomSheet.Modal">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.RoundedTopCorners</item>
     </style>
+
+    <style name="ShapeAppearanceOverlay.RoundedTopCorners" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">16dp</item>
+        <item name="cornerSizeTopRight">16dp</item>
+    </style>
+
 </resources>

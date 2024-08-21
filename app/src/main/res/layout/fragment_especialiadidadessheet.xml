@@ -1,45 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-    tools:context=".ui.SpecialtiesBottomSheetFragment"
-    android:background="@drawable/rounded_top_corner">
+    android:background="@drawable/bordes_bottom_sheet"
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <LinearLayout
+    <!-- Drag handle -->
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/drag_handle_background"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/specialtiesTitleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:text="Especialidades:"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/poppins_semibold"
+        android:textColor="@color/black"/>
 
-        <!-- Drag handle -->
-        <View
-            android:id="@+id/dragHandle"
-            android:layout_width="40dp"
-            android:layout_height="4dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/drag_handle_background"
-            android:layout_marginBottom="16dp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/specialtiesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp" />
 
-        <TextView
-            android:id="@+id/specialtiesTitleTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Especialidades:"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:fontFamily="@font/poppins_semibold"
-            android:textColor="@color/black"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/specialtiesRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="16dp" />
-
-    </LinearLayout>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>
