@@ -796,6 +796,7 @@ CREATE TABLE tbExpedientes (
 CREATE TABLE tbCitasMedicas (
     ID_Cita INT PRIMARY KEY,
     diaCita DATE NOT NULL,
+    estadoCita CHAR(1) CHECK (estadoCita in ('C', 'A')) NOT NULL,
     horaCita TIMESTAMP NOT NULL,
     motivo VARCHAR2(150) NOT NULL,
     ID_Centro INT NOT NULL,
@@ -1499,16 +1500,16 @@ INSERT ALL
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
-    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (1, TO_DATE('2024-10-01', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general', 5, 1)
-    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (2, TO_DATE('2024-10-02', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-02 11:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Revisi?n anual', 4, 2)
-    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (3, TO_DATE('2024-10-03', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-03 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta de seguimiento', 3, 3)
-    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (4, TO_DATE('2024-10-04', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-04 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general', 2, 4)
-    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
-         VALUES (5, TO_DATE('2024-10-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-05 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada', 1, 5)
+    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, estadoCita, ID_Centro, ID_Paciente)
+         VALUES (1, TO_DATE('2024-10-01', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general','A', 5, 1)
+    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, estadoCita, ID_Centro, ID_Paciente)
+         VALUES (2, TO_DATE('2024-10-02', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-02 11:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Revisi?n anual','A', 4, 2)
+    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, estadoCita, ID_Centro, ID_Paciente)
+         VALUES (3, TO_DATE('2024-10-03', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-03 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta de seguimiento','A', 3, 3)
+    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, estadoCita, ID_Centro, ID_Paciente)
+         VALUES (4, TO_DATE('2024-10-04', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-04 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general','A', 2, 4)
+    INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, estadoCita, ID_Centro, ID_Paciente)
+         VALUES (5, TO_DATE('2024-10-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-05 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada','A', 1, 5)
 SELECT DUMMY FROM DUAL;
 
 INSERT INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti)
@@ -1526,6 +1527,20 @@ INSERT ALL
     INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
         VALUES ('Terapia Cognitiva', 55.00, 5, 5)
 SELECT DUMMY FROM DUAL;
+
+INSERT ALL
+    INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
+    VALUES (1,1,2)
+    INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
+    VALUES (2,1,3)
+    INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
+    VALUES (3,1,4)
+    INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
+    VALUES (4,1,5)
+    INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
+    VALUES (1,1,2)
+SELECT DUMMY FROM DUAL;
+
 
 
 COMMIT;
@@ -1625,17 +1640,43 @@ SELECT
     s.ID_Sucursal,
     s.imgSucursal,
     ts.nombreTipoSucursal
-    FROM
+FROM
     tbFavoritos f
-    INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor
-    INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal
-    INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario
-    INNER JOIN tbTipoSucursales ts ON ts.ID_TipoSucursal = s.ID_TipoSucursal
-    WHERE
+INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor
+INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal
+INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario
+INNER JOIN tbTipoSucursales ts ON ts.ID_TipoSucursal = s.ID_TipoSucursal
+WHERE
     f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = 'fran@gmail.com');
 
-    SELECT * FROM tbFavoritos;
+--Este select selecciona todos los datos relacionados a un doctor en base a su ID_Doctor
+SELECT 
+    d.ID_Doctor,
+    u.ID_Usuario,
+    u.nombreUsuario, 
+    u.apellidoUsuario, 
+    u.imgUsuario, 
+    e.nombreEspecialidad,
+    s.ID_Sucursal,
+    s.nombreSucursal, 
+    s.telefonoSucur, 
+    s.direccionSucur, 
+    s.longSucur, 
+    s.latiSucur, 
+    s.imgSucursal, 
+    se.nombreServicio, 
+    se.costo
+FROM 
+    tbDoctores d
+    INNER JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
+    INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+    INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
+    INNER JOIN tbCentrosMedicos cm ON d.ID_Doctor = cm.ID_Doctor
+    INNER JOIN tbServicios se ON cm.ID_Centro = se.ID_Centro
+WHERE 
+    d.ID_Doctor = 5;
 
+SELECT * FROM TBDOCTORES;
 CREATE OR REPLACE PROCEDURE PROC_DELT_FAVORITOS(
     var_email IN tbUsuarios.EmailUsuario%TYPE,
     var_ID_Doctor IN tbDoctores.ID_Doctor%TYPE,
@@ -1657,10 +1698,8 @@ BEGIN
     COMMIT WORK;
 END PROC_DELT_FAVORITOS;
 /
-INSERT INTO tbFavoritos(ID_Usuario, ID_Sucursal, ID_Doctor)
-Values(1,4,3);
 
-SELECT * FROM TBUsuarios;
+
 /*************************************************************************************************
 
     ~ Consultas Inner Extras~

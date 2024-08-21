@@ -147,11 +147,16 @@ class activity_configuracion : AppCompatActivity() {
             startActivity(intent)
         }
         linearCerrarSesion.setOnClickListener {
-            val intent = Intent(this, activity_login::class.java)
+
+            val sharedPreferences = getSharedPreferences("userPreferences", MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.putString("email", null)
+            editor.putBoolean("IsLogedIn", false)
+            editor.apply()
+
+            val intent = Intent(this, splash_screen::class.java)
             startActivity(intent)
             finish()
-            val mainActivity = MainActivity()
-            mainActivity.signOutAndStartSignInActivity()
         }
     }
 }

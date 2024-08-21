@@ -5,10 +5,12 @@ import Modelo.dataClassFavoritos
 import RecycleViewHelper.AdaptadorFavoritos
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
@@ -32,13 +34,18 @@ class activity_doctoresfavoritos : AppCompatActivity() {
 
         val emailUsuario = activity_login.userEmail
         val rcvDoctoresFav = findViewById<RecyclerView>(R.id.rcvDoctoresFav)
+        val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
 
-        rcvDoctoresFav.layoutManager = LinearLayoutManager(this)
+        rcvDoctoresFav.layoutManager = GridLayoutManager(this,2, LinearLayoutManager.VERTICAL, false)
         CoroutineScope(Dispatchers.Main).launch {
             val listaFavoritos = obtenerFavoritos(emailUsuario)
             val adapter = AdaptadorFavoritos(listaFavoritos)
             adapter.emailUsuario = emailUsuario
             rcvDoctoresFav.adapter = adapter
+        }
+
+        btnRegresar.setOnClickListener {
+            finish()
         }
     }
 

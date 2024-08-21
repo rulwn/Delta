@@ -2,6 +2,7 @@ package delta.medic.mobile
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -28,32 +29,29 @@ class splash_screen : AppCompatActivity() {
             val lottieView = findViewById<LottieAnimationView>(R.id.lottie_view)
             lottieView.setImageAssetsFolder("images/")
 
-            //lottieView.setAnimation("animation.json")
-            //lottieView.playAnimation()
-            val sharedPreferences = getSharedPreferences("PrimerUso", MODE_PRIVATE)
-            val sharedPreferencesStatus = getSharedPreferences("Sesion", MODE_PRIVATE)
+            val userPreferences = getSharedPreferences("userPreferences", MODE_PRIVATE)
+            val isLogedIn = userPreferences.getBoolean("IsLogedIn", false)
+            val isWelcomed = userPreferences.getBoolean("IsWelcomed", false)
+            val email = userPreferences.getString("email", null)
 
-            val sesionIniciada = sharedPreferencesStatus.getBoolean("sesionIniciada", false)
-            val primerUso = sharedPreferences.getBoolean("P_Ejecutado", false)
-            val email = sharedPreferences.getString("email", null)
+            Log.d("Preferences", "IsLogedIn: $isLogedIn")
+            Log.d("Preferences", "IsWelcomed: $isWelcomed")
+            Log.d("Preferences", "Email: $email")
 
-            if(sesionIniciada && email != null){
-                delay(4000)
+            delay(3000)
+            if (!isWelcomed) {
+                val intent = Intent(this@splash_screen, activity_bienvenida::class.java)
+                startActivity(intent)
+            }
+            else if (!isLogedIn || email.isNullOrEmpty()) {
+                val intent = Intent(this@splash_screen, activity_login::class.java)
+                startActivity(intent)
+            }
+            else {
                 userEmail = email
-                startActivity(Intent(this@splash_screen, MainActivity::class.java))
-                finish()
+                val intent = Intent(this@splash_screen, MainActivity::class.java)
+                startActivity(intent)
             }
-            else if(!primerUso){
-                delay(4000)
-                startActivity(Intent(this@splash_screen, activity_bienvenida::class.java))
-                finish()
-            }
-            else{
-                delay(4000)
-                startActivity(Intent(this@splash_screen, activity_login::class.java))
-                finish()
-            }
-
         }
     }
 }

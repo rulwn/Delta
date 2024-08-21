@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_cancelar"
+        android:title="Cancelar"
+        />
+    <item
+        android:id="@+id/menu_ir_a_citas"
+        android:title="Ir a cita"
+        android:icon="@drawable/ic_irhacia" />
+</menu>

@@ -20,9 +20,9 @@ COMMIT;
 /*******************************************************************************
 
     ~ ELIMINACIÓN DE TABLAS EXISTENTES ~
+    Para cada una de las tablas y se elimina junto con todas sus restricciones
 
 *******************************************************************************/
-
 BEGIN
     EXECUTE IMMEDIATE 'DROP TABLE tbFichasMedicas CASCADE CONSTRAINTS';
 EXCEPTION
@@ -475,44 +475,92 @@ END;
 
 *******************************************************************************/
 
+
+/*******************************************************************************
+
+    ~ Creación de la tabla indepentiente tbTipoNotis ~
+
+*******************************************************************************/
 CREATE TABLE tbTipoNotis (
     ID_TipoNoti INT PRIMARY KEY,
     nombreTipoNoti VARCHAR2(25)
 );
 
+
+/*******************************************************************************
+
+    ~ Creación de la tabla indepentiente tbTipoUsuarios ~
+
+*******************************************************************************/
 CREATE TABLE tbTipoUsuarios (
     ID_TipoUsuario INT PRIMARY KEY,
     nombreTipoUsuario VARCHAR2(50) NOT NULL UNIQUE
 );
 
+
+/*******************************************************************************
+
+    ~ Creación de la tabla indepentiente tbTiempos ~
+
+*******************************************************************************/
 CREATE TABLE tbTiempos (
     ID_Tiempo INT PRIMARY KEY,
     lapsosTiempo VARCHAR2(50) NOT NULL,
     frecuenciaMedi VARCHAR2(50) NOT NULL
 );
 
+
+/*******************************************************************************
+
+    ~ Creación de la tabla indepentiente tbTipoSucursales ~
+
+*******************************************************************************/
 CREATE TABLE tbTipoSucursales (
     ID_TipoSucursal INT PRIMARY KEY,
     nombreTipoSucursal VARCHAR2(50) NOT NULL UNIQUE
 );
 
+
+/*******************************************************************************
+
+    ~ Creación de la tabla indepentiente tbEspecialidades ~
+
+*******************************************************************************/
 CREATE TABLE tbEspecialidades (
     ID_Especialidad INT PRIMARY KEY,
     nombreEspecialidad VARCHAR2(60) NOT NULL UNIQUE,
     nuevaEspecialidad VARCHAR2(60) UNIQUE
 );
 
+
+/*******************************************************************************
+
+    ~ Creación de la tabla indepentiente tbEstablecimientos ~
+
+*******************************************************************************/
 CREATE TABLE tbEstablecimientos (
     ID_Establecimiento INT PRIMARY KEY,
     nombreClinica VARCHAR2(50) NOT NULL UNIQUE,
     imgPrincipal VARCHAR2(256) NOT NULL UNIQUE
 );
 
+
+/*******************************************************************************
+
+    ~ Creación de la tabla indepentiente tbAseguradoras ~
+
+*******************************************************************************/
 CREATE TABLE tbAseguradoras (
     ID_Aseguradora INT PRIMARY KEY,
     nombreAseguradora VARCHAR2(50) NOT NULL UNIQUE
 );
 
+
+/*******************************************************************************
+
+    ~ Creación de la tabla indepentiente tbRecetas ~
+
+*******************************************************************************/
 CREATE TABLE tbRecetas (
     ID_Receta INT PRIMARY KEY,
     fechaReceta DATE NOT NULL,
@@ -525,6 +573,11 @@ CREATE TABLE tbRecetas (
 
 *************************************************************************************************/
 
+/*******************************************************************************
+
+    ~ Creación de la tabla depentiente tbUsuarios ~
+
+*******************************************************************************/
 CREATE TABLE tbUsuarios (
     ID_Usuario INT PRIMARY KEY,
     nombreUsuario VARCHAR2(50) NOT NULL,
@@ -544,6 +597,12 @@ CREATE TABLE tbUsuarios (
     ON DELETE CASCADE
 );
 
+
+/*******************************************************************************
+
+    ~ Creación de la tabla depentiente tbSeguros ~
+
+*******************************************************************************/
 CREATE TABLE tbSeguros (
     ID_Seguro INT PRIMARY KEY,
     carnetSeguro VARCHAR2(20) NOT NULL UNIQUE,
@@ -561,6 +620,12 @@ CREATE TABLE tbSeguros (
     ON DELETE CASCADE
 );
 
+
+/*******************************************************************************
+
+    ~ Creación de la tabla depentiente tbDoctores ~
+
+*******************************************************************************/
 CREATE TABLE tbDoctores (
     ID_Doctor INT PRIMARY KEY,
     codProfesional VARCHAR2(12) NOT NULL,
@@ -576,6 +641,12 @@ CREATE TABLE tbDoctores (
     ON DELETE CASCADE
 );
 
+
+/*******************************************************************************
+
+    ~ Creación de la tabla depentiente tbSucursales ~
+
+*******************************************************************************/
 CREATE TABLE tbSucursales (
     ID_Sucursal INT PRIMARY KEY,
     nombreSucursal VARCHAR2(60) NOT NULL,
@@ -599,6 +670,12 @@ CREATE TABLE tbSucursales (
     ON DELETE CASCADE
 );
 
+
+/*******************************************************************************
+
+    ~ Creación de la tabla depentiente tbCentrosMedicos ~
+
+*******************************************************************************/
 CREATE TABLE tbCentrosMedicos (
     ID_Centro INT PRIMARY KEY,
     favorito CHAR(1) CHECK (favorito IN ('T', 'F')) NOT NULL,
@@ -614,6 +691,12 @@ CREATE TABLE tbCentrosMedicos (
     ON DELETE CASCADE
 );
 
+
+/*******************************************************************************
+
+    ~ Creación de la tabla depentiente tbHorarios ~
+
+*******************************************************************************/
 CREATE TABLE tbHorarios (
     ID_Horario INT PRIMARY KEY,
     horaInicio TIMESTAMP NOT NULL UNIQUE,
@@ -631,6 +714,12 @@ CREATE TABLE tbHorarios (
     ON DELETE CASCADE
 );
 
+
+/*******************************************************************************
+
+    ~ Creación de la tabla depentiente tbServicios ~
+
+*******************************************************************************/
 CREATE TABLE tbServicios (
     ID_Servicio INT PRIMARY KEY,
     nombreServicio VARCHAR2(60) NOT NULL UNIQUE,
@@ -648,6 +737,12 @@ CREATE TABLE tbServicios (
     ON DELETE CASCADE
 );
 
+
+/*******************************************************************************
+
+    ~ Creación de la tabla depentiente tbReviews ~
+
+*******************************************************************************/
 CREATE TABLE tbReviews (
     ID_Review INT PRIMARY KEY,
     nombreCentro VARCHAR2(50) NOT NULL,
@@ -661,6 +756,12 @@ CREATE TABLE tbReviews (
     ON DELETE CASCADE
 );
 
+
+/*******************************************************************************
+
+    ~ Creación de la tabla depentiente tbNotis ~
+
+*******************************************************************************/
 CREATE TABLE tbNotis (
     ID_Notificacion INT PRIMARY KEY,
     fechaNoti DATE NOT NULL,
@@ -680,6 +781,12 @@ CREATE TABLE tbNotis (
     ON DELETE CASCADE
 );
 
+
+/*******************************************************************************
+
+    ~ Creación de la tabla depentiente tbPacientes ~
+
+*******************************************************************************/
 CREATE TABLE tbPacientes (
     ID_Paciente INT PRIMARY KEY,
     nombrePaciente VARCHAR2(50) NOT NULL,
@@ -694,6 +801,12 @@ CREATE TABLE tbPacientes (
     ON DELETE CASCADE
 );
 
+
+/*******************************************************************************
+
+    ~ Creación de la tabla depentiente tbExpedientes ~
+
+*******************************************************************************/
 CREATE TABLE tbExpedientes (
     ID_Expediente INT PRIMARY KEY,
     antecedentes VARCHAR2(200) NOT NULL,
@@ -717,6 +830,12 @@ CREATE TABLE tbExpedientes (
     ON DELETE CASCADE
 );
 
+
+/*******************************************************************************
+
+    ~ Creación de la tabla depentiente tbCitasMedicas ~
+
+*******************************************************************************/
 CREATE TABLE tbCitasMedicas (
     ID_Cita INT PRIMARY KEY,
     diaCita DATE NOT NULL,
@@ -735,6 +854,12 @@ CREATE TABLE tbCitasMedicas (
     ON DELETE CASCADE
 );
 
+
+/*******************************************************************************
+
+    ~ Creación de la tabla depentiente tbIndicaciones ~
+
+*******************************************************************************/
 CREATE TABLE tbIndicaciones (
     ID_Indicacion INT PRIMARY KEY,
     duracionMedi TIMESTAMP NOT NULL,
@@ -756,6 +881,12 @@ CREATE TABLE tbIndicaciones (
 --SELECT ID_Tiempo FROM tbTiempos WHERE ID_Tiempo IN (1, 2, 3, 4, 5);
 --SELECT ID_Receta FROM tbRecetas WHERE ID_Receta IN (1, 2, 3, 4, 5);
 
+
+/*******************************************************************************
+
+    ~ Creación de la tabla depentiente tbFichasMedicas ~
+
+*******************************************************************************/
 CREATE TABLE tbFichasMedicas (
     ID_Ficha INT PRIMARY KEY,
     diagnostico VARCHAR2(200) NOT NULL,
@@ -781,111 +912,244 @@ CREATE TABLE tbFichasMedicas (
 
 *************************************************************************************************/
 
+
+/*************************************************************************************************
+
+    ~ Creación de la secuencia TipoNoti, se irá incrementando de 1 en 1~
+
+*************************************************************************************************/
 -- SECUENCIA_TIPONOTI --
 CREATE SEQUENCE tipoNotis
 START WITH 1 
 INCREMENT BY 1;
 
+
+/*************************************************************************************************
+
+    ~ Creación de la secuencia TipoUsuarios, se irá incrementando de 1 en 1~
+
+*************************************************************************************************/
 -- SECUENCIA_TIPOUSUARIOS --
 CREATE SEQUENCE tipoUsuarios 
 START WITH 1 
 INCREMENT BY 1;
 
+
+/*************************************************************************************************
+
+    ~ Creación de la secuencia Tiempos, se irá incrementando de 1 en 1~
+
+*************************************************************************************************/
 -- SECUENCIA_TIEMPOS --
 CREATE SEQUENCE tiempos 
 START WITH 1 
 INCREMENT BY 1;
 
+
+/*************************************************************************************************
+
+    ~ Creación de la secuencia TipoSucursales, se irá incrementando de 1 en 1~
+
+*************************************************************************************************/
 -- SECUENCIA_TIPOSUCURSALES --
 CREATE SEQUENCE tipoSucursales 
 START WITH 1 
 INCREMENT BY 1;
 
+
+/*************************************************************************************************
+
+    ~ Creación de la secuencia Especialidades, se irá incrementando de 1 en 1~
+
+*************************************************************************************************/
 -- SECUENCIA_ESPECIALIDADES --
 CREATE SEQUENCE especialidades 
 START WITH 1 
 INCREMENT BY 1;
 
+
+/*************************************************************************************************
+
+    ~ Creación de la secuencia Establecimientos, se irá incrementando de 1 en 1~
+
+*************************************************************************************************/
 -- SECUENCIA_ESTABLECIMIENTOS --
 CREATE SEQUENCE establecimientos 
 START WITH 1 
 INCREMENT BY 1;
 
+
+/*************************************************************************************************
+
+    ~ Creación de la secuencia Aseguradoras, se irá incrementando de 1 en 1~
+
+*************************************************************************************************/
 -- SECUENCIA_ASEGURADORAS --
 CREATE SEQUENCE aseguradoras 
 START WITH 1 
 INCREMENT BY 1;
 
+
+/*************************************************************************************************
+
+    ~ Creación de la secuencia Recetas, se irá incrementando de 1 en 1~
+
+*************************************************************************************************/
 -- SECUENCIA_RECETAS --
 CREATE SEQUENCE recetas 
 START WITH 1 
 INCREMENT BY 1;
 
+
+/*************************************************************************************************
+
+    ~ Creación de la secuencia Doctores, se irá incrementando de 1 en 1~
+
+*************************************************************************************************/
 -- SECUENCIA_DOCTORES --
 CREATE SEQUENCE doctores 
 START WITH 1 
 INCREMENT BY 1;
 
+
+/*************************************************************************************************
+
+    ~ Creación de la secuencia Sucursales, se irá incrementando de 1 en 1~
+
+*************************************************************************************************/
 -- SECUENCIA_SUCURSALES --
 CREATE SEQUENCE sucursales 
 START WITH 1 
 INCREMENT BY 1;
 
+
+/*************************************************************************************************
+
+    ~ Creación de la secuencia Cent5ros, se irá incrementando de 1 en 1~
+
+*************************************************************************************************/
 -- SECUENCIA_CENTROS --
 CREATE SEQUENCE centros 
 START WITH 1 
 INCREMENT BY 1;
 
+
+/*************************************************************************************************
+
+    ~ Creación de la secuencia Horarios, se irá incrementando de 1 en 1~
+
+*************************************************************************************************/
 -- SECUENCIA_HORARIOS --
 CREATE SEQUENCE horarios 
 START WITH 1 
 INCREMENT BY 1;
 
+
+/*************************************************************************************************
+
+    ~ Creación de la secuencia Servicios, se irá incrementando de 1 en 1~
+
+*************************************************************************************************/
 -- SECUENCIA_SERVICIOS --
 CREATE SEQUENCE serviciosMedicos
 START WITH 1
 INCREMENT BY 1;
 
+
+/*************************************************************************************************
+
+    ~ Creación de la secuencia Seguros, se irá incrementando de 1 en 1~
+
+*************************************************************************************************/
 -- SECUENCIA_SEGUROS --
 CREATE SEQUENCE seguros 
 START WITH 1 
 INCREMENT BY 1;
 
+
+/*************************************************************************************************
+
+    ~ Creación de la secuencia Usuarios, se irá incrementando de 1 en 1~
+
+*************************************************************************************************/
 -- SECUENCIA_USUARIOS --
 CREATE SEQUENCE usuarios 
 START WITH 1 
 INCREMENT BY 1;
 
+
+/*************************************************************************************************
+
+    ~ Creación de la secuencia Reviews, se irá incrementando de 1 en 1~
+
+*************************************************************************************************/
 -- SECUENCIA_REVIEWS --
 CREATE SEQUENCE reviews 
 START WITH 1 
 INCREMENT BY 1;
 
+
+/*************************************************************************************************
+
+    ~ Creación de la secuencia Notis, se irá incrementando de 1 en 1~
+
+*************************************************************************************************/
 -- SECUENCIA_NOTIS --
 CREATE SEQUENCE notis 
 START WITH 1 
 INCREMENT BY 1;
 
+
+
+/*************************************************************************************************
+
+    ~ Creación de la secuencia Pacientes, se irá incrementando de 1 en 1~
+
+*************************************************************************************************/
 -- SECUENCIA_PACIENTES --
 CREATE SEQUENCE pacientes 
 START WITH 1 
 INCREMENT BY 1;
 
+
+/*************************************************************************************************
+
+    ~ Creación de la secuencia Expedientes, se irá incrementando de 1 en 1~
+
+*************************************************************************************************/
 -- SECUENCIA_EXPEDIENTES --
 CREATE SEQUENCE expedientes 
 START WITH 1 
 INCREMENT BY 1;
 
+
+/*************************************************************************************************
+
+    ~ Creación de la secuencia Citas, se irá incrementando de 1 en 1~
+
+*************************************************************************************************/
 -- SECUENCIA_CITAS --
 CREATE SEQUENCE citas 
 START WITH 1 
 INCREMENT BY 1;
 
+
+/*************************************************************************************************
+
+    ~ Creación de la secuencia Indicaciones, se irá incrementando de 1 en 1~
+
+*************************************************************************************************/
 -- SECUENCIA_INDICACIONES --
 CREATE SEQUENCE indicaciones 
 START WITH 1 
 INCREMENT BY 1;
 
+
+/*************************************************************************************************
+
+    ~ Creación de la secuencia Fichas, se irá incrementando de 1 en 1~
+
+*************************************************************************************************/
 -- SECUENCIA_FICHAS --
 CREATE SEQUENCE fichas 
 START WITH 1 
@@ -898,6 +1162,12 @@ INCREMENT BY 1;
 
 *************************************************************************************************/
 
+
+/*************************************************************************************************
+
+    ~ Creación del trigger TipoNoti ~
+
+*************************************************************************************************/
 -- TRIGGER_TIPO_NOTI --
 CREATE OR REPLACE TRIGGER Trigger_TipoNoti 
 BEFORE INSERT ON tbTipoNotis 
@@ -909,6 +1179,11 @@ BEGIN
 END Trigger_TipoNoti;
 /
 
+/*************************************************************************************************
+
+    ~ Creación del trigger TipoUsuario ~
+
+*************************************************************************************************/
 -- TRIGGER_TIPO_USUARIO --
 CREATE OR REPLACE TRIGGER Trigger_TipoUsuario 
 BEFORE INSERT ON tbTipoUsuarios 
@@ -920,6 +1195,12 @@ BEGIN
 END Trigger_TipoUsuario;
 /
 
+
+/*************************************************************************************************
+
+    ~ Creación del trigger Tiempo ~
+
+*************************************************************************************************/
 -- TRIGGER_TIEMPO --
 CREATE OR REPLACE TRIGGER Trigger_Tiempo 
 BEFORE INSERT ON tbTiempos 
@@ -931,6 +1212,12 @@ BEGIN
 END Trigger_Tiempo;
 /
 
+
+/*************************************************************************************************
+
+    ~ Creación del trigger Sucursal ~
+
+*************************************************************************************************/
 -- TRIGGER_TIPO_SUCURSAL --
 CREATE OR REPLACE TRIGGER Trigger_TipoSucursal 
 BEFORE INSERT ON tbTipoSucursales 
@@ -942,6 +1229,12 @@ BEGIN
 END Trigger_TipoSucursal;
 /
 
+
+/*************************************************************************************************
+
+    ~ Creación del trigger Especialidad ~
+
+*************************************************************************************************/
 -- TRIGGER_ESPECIALIDAD --
 CREATE OR REPLACE TRIGGER Trigger_Especialidad 
 BEFORE INSERT ON tbEspecialidades 
@@ -953,6 +1246,12 @@ BEGIN
 END Trigger_Especialidad;
 /
 
+
+/*************************************************************************************************
+
+    ~ Creación del trigger Establecimiento ~
+
+*************************************************************************************************/
 -- TRIGGER_ESTABLECIMIENTO --
 CREATE OR REPLACE TRIGGER Trigger_Establecimiento 
 BEFORE INSERT ON tbEstablecimientos 
@@ -964,6 +1263,12 @@ BEGIN
 END Trigger_Establecimiento;
 /
 
+
+/*************************************************************************************************
+
+    ~ Creación del trigger Aseguradora ~
+
+*************************************************************************************************/
 -- TRIGGER_ASEGURADORA --
 CREATE OR REPLACE TRIGGER Trigger_Aseguradora 
 BEFORE INSERT ON tbAseguradoras 
@@ -975,6 +1280,12 @@ BEGIN
 END Trigger_Aseguradora;
 /
 
+
+/*************************************************************************************************
+
+    ~ Creación del trigger Receta ~
+
+*************************************************************************************************/
 -- TRIGGER_RECETA --
 CREATE OR REPLACE TRIGGER Trigger_Receta 
 BEFORE INSERT ON tbRecetas
@@ -986,6 +1297,12 @@ BEGIN
 END Trigger_Receta;
 /
 
+
+/*************************************************************************************************
+
+    ~ Creación del trigger Doctor ~
+
+*************************************************************************************************/
 -- TRIGGER_DOCTOR --
 CREATE OR REPLACE TRIGGER Trigger_Doctor 
 BEFORE INSERT ON tbDoctores 
@@ -997,6 +1314,12 @@ BEGIN
 END Trigger_Doctor;
 /
 
+
+/*************************************************************************************************
+
+    ~ Creación del trigger Sucursal ~
+
+*************************************************************************************************/
 -- TRIGGER_SUCURSAL --
 CREATE OR REPLACE TRIGGER Trigger_Sucursal 
 BEFORE INSERT ON tbSucursales 
@@ -1008,6 +1331,12 @@ BEGIN
 END Trigger_Sucursal;
 /
 
+
+/*************************************************************************************************
+
+    ~ Creación del trigger Medico ~
+
+*************************************************************************************************/
 -- TRIGGER_CENTRO_MÉDICO --
 CREATE OR REPLACE TRIGGER Trigger_CentroMedico 
 BEFORE INSERT ON tbCentrosMedicos 
@@ -1019,6 +1348,12 @@ BEGIN
 END Trigger_CentroMedico;
 /
 
+
+/*************************************************************************************************
+
+    ~ Creación del trigger Horario ~
+
+*************************************************************************************************/
 -- TRIGGER_HORARIO --
 CREATE OR REPLACE TRIGGER Trigger_Horario 
 BEFORE INSERT ON tbHorarios
@@ -1030,6 +1365,12 @@ BEGIN
 END Trigger_Horario;
 /
 
+
+/*************************************************************************************************
+
+    ~ Creación del trigger Servicio ~
+
+*************************************************************************************************/
 -- TRIGGER_SERVICIO --
 CREATE OR REPLACE TRIGGER Trigger_Servicio 
 BEFORE INSERT ON tbServicios 
@@ -1041,6 +1382,12 @@ BEGIN
 END Trigger_Servicio;
 /
 
+
+/*************************************************************************************************
+
+    ~ Creación del trigger Seguro ~
+
+*************************************************************************************************/
 -- TRIGGER_SEGURO --
 CREATE OR REPLACE TRIGGER Trigger_Seguro 
 BEFORE INSERT ON tbSeguros 
@@ -1052,6 +1399,12 @@ BEGIN
 END Trigger_Seguro;
 /
 
+
+/*************************************************************************************************
+
+    ~ Creación del trigger Usuario ~
+
+*************************************************************************************************/
 -- TRIGGER_USUARIO --
 CREATE OR REPLACE TRIGGER Trigger_Usuario 
 BEFORE INSERT ON tbUsuarios 
@@ -1063,6 +1416,12 @@ BEGIN
 END Trigger_Usuario;
 /
 
+
+/*************************************************************************************************
+
+    ~ Creación del trigger Review ~
+
+*************************************************************************************************/
 -- TRIGGER_REVIEW --
 CREATE OR REPLACE TRIGGER Trigger_Review 
 BEFORE INSERT ON tbReviews 
@@ -1074,6 +1433,12 @@ BEGIN
 END Trigger_Review;
 /
 
+
+/*************************************************************************************************
+
+    ~ Creación del trigger Noti ~
+
+*************************************************************************************************/
 -- TRIGGER_NOTI --
 CREATE OR REPLACE TRIGGER Trigger_Noti 
 BEFORE INSERT ON tbNotis
@@ -1085,6 +1450,12 @@ BEGIN
 END Trigger_Noti;
 /
 
+
+/*************************************************************************************************
+
+    ~ Creación del trigger Paciente ~
+
+*************************************************************************************************/
 -- TRIGGER_PACIENTE --
 CREATE OR REPLACE TRIGGER Trigger_Paciente 
 BEFORE INSERT ON tbPacientes 
@@ -1096,6 +1467,12 @@ BEGIN
 END Trigger_Paciente;
 /
 
+
+/*************************************************************************************************
+
+    ~ Creación del trigger Expediente ~
+
+*************************************************************************************************/
 -- TRIGGER_EXPEDIENTE --
 CREATE OR REPLACE TRIGGER Trigger_Expediente 
 BEFORE INSERT ON tbExpedientes 
@@ -1107,6 +1484,12 @@ BEGIN
 END Trigger_Expediente;
 /
 
+
+/*************************************************************************************************
+
+    ~ Creación del trigger CitaMedica ~
+
+*************************************************************************************************/
 -- TRIGGER_CITA_MÉDICA --
 CREATE OR REPLACE TRIGGER Trigger_CitaMedica 
 BEFORE INSERT ON tbCitasMedicas 
@@ -1118,6 +1501,12 @@ BEGIN
 END Trigger_CitaMedica;
 /
 
+
+/*************************************************************************************************
+
+    ~ Creación del trigger Indicacion ~
+
+*************************************************************************************************/
 -- TRIGGER_INDICACIÓN --
 CREATE OR REPLACE TRIGGER Trigger_Indicacion 
 BEFORE INSERT ON tbIndicaciones 
@@ -1129,6 +1518,12 @@ BEGIN
 END Trigger_Indicacion;
 /
 
+
+/*************************************************************************************************
+
+    ~ Creación del trigger Ficha ~
+
+*************************************************************************************************/
 -- TRIGGER_FICHA --
 CREATE OR REPLACE TRIGGER Trigger_Ficha 
 BEFORE INSERT ON tbFichasMedicas 
@@ -1142,10 +1537,16 @@ END Trigger_Ficha;
 
 /*************************************************************************************************
 
-~ INSERTS A CADA TABLA ~
+   ~ INSERTS A CADA TABLA ~
 
 *************************************************************************************************/
 
+
+/*************************************************************************************************
+
+   ~ Insertar valores a la tabla tbTipoNotis ~
+
+*************************************************************************************************/
 INSERT ALL
     INTO tbTipoNotis (nombreTipoNoti)
          VALUES ('Avisos')
@@ -1159,6 +1560,12 @@ INSERT ALL
          VALUES ('Recetas')
 SELECT DUMMY FROM DUAL;
 
+
+/*************************************************************************************************
+
+   ~ Insertar valores a la tabla tbTipoUsuarios ~
+
+*************************************************************************************************/
 INSERT ALL
     INTO tbTipoUsuarios (nombreTipoUsuario)
          VALUES ('Administrador de Establecimientos')
@@ -1168,6 +1575,12 @@ INSERT ALL
          VALUES ('Paciente')
 SELECT DUMMY FROM DUAL;
 
+
+/*************************************************************************************************
+
+   ~ Insertar valores a la tabla tbTiempos ~
+
+*************************************************************************************************/
 INSERT ALL
     INTO tbTiempos (lapsosTiempo, frecuenciaMedi)
          VALUES ('1 Vez al día', '4')
@@ -1179,6 +1592,12 @@ INSERT ALL
          VALUES ('4 Veces al día', '2')
 SELECT DUMMY FROM DUAL;
 
+
+/*************************************************************************************************
+
+   ~ Insertar valores a la tabla tbTipoSucursales ~
+
+*************************************************************************************************/
 INSERT ALL
     INTO tbTipoSucursales (nombreTipoSucursal)
          VALUES ('Clinica General')
@@ -1186,6 +1605,12 @@ INSERT ALL
          VALUES ('Clinica Especializada')
 SELECT DUMMY FROM DUAL;
 
+
+/*************************************************************************************************
+
+   ~ Insertar valores a la tabla tbEspecialidades ~
+
+*************************************************************************************************/
 INSERT ALL
     INTO tbEspecialidades (nombreEspecialidad, nuevaEspecialidad)
          VALUES ('Pediatrìa', '')
@@ -1199,6 +1624,12 @@ INSERT ALL
          VALUES ('Odontología', '')
 SELECT DUMMY FROM DUAL;
 
+
+/*************************************************************************************************
+
+   ~ Insertar valores a la tabla tbEspecialidades ~
+
+*************************************************************************************************/
 INSERT ALL
     INTO tbEstablecimientos (nombreClinica, imgPrincipal)
          VALUES ('Sonrisas', 'img.ClinicaSonrisas')
@@ -1212,6 +1643,12 @@ INSERT ALL
          VALUES ('Ecomedic', 'img.ClinicaEcomedic')
 SELECT DUMMY FROM DUAL;
 
+
+/*************************************************************************************************
+
+   ~ Insertar valores a la tabla tbAseguradoras ~
+
+*************************************************************************************************/
 INSERT ALL
     INTO tbAseguradoras (nombreAseguradora)
          VALUES ('MAPFRE')
@@ -1225,6 +1662,12 @@ INSERT ALL
          VALUES ('ASESUISA')
 SELECT DUMMY FROM DUAL;
 
+
+/*************************************************************************************************
+
+   ~ Insertar valores a la tabla tbRecetas ~
+
+*************************************************************************************************/
 INSERT ALL
     INTO tbRecetas (fechaReceta, ubicacionPDF)
          VALUES ('26-04-2024', '')
@@ -1238,6 +1681,12 @@ INSERT ALL
          VALUES ('23-05-2024', '')
 SELECT DUMMY FROM DUAL;
 
+
+/*************************************************************************************************
+
+   ~ Insertar valores a la tabla tbUsuarios ~
+
+*************************************************************************************************/
 INSERT ALL
     INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
         VALUES ('Francisco', 'Mejía', 'fran@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'San Salvador', '6143-1352', 'M', '20/02/1980', NULL, 1)
@@ -1251,6 +1700,12 @@ INSERT ALL
         VALUES ('Hector', 'Gallardo', 'hector@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'La Paz', '8723-1293', 'M', '25/08/2000', NULL, 1)
 SELECT DUMMY FROM DUAL;
 
+
+/*************************************************************************************************
+
+   ~ Insertar valores a la tabla tbSeguros ~
+
+*************************************************************************************************/
 INSERT ALL
     INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('TOEWQ12', 'PRIMER2', 1, 1)
     INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('ABCD1234', 'POLIZA1', 2, 2)
@@ -1259,6 +1714,12 @@ INSERT ALL
     INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('MNOP2345', 'POLIZA4', 5, 5)
 SELECT DUMMY FROM DUAL;
 
+
+/*************************************************************************************************
+
+   ~ Insertar valores a la tabla tbSucursales ~
+
+*************************************************************************************************/
 INSERT ALL
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, ubicacionSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
          VALUES ('Clínica Ginecológica, San Salvador', 235656, 'clinica_ginecologica@gmail.com', '2264-7856', '25 Av. Norte, Colonia Médica, San Salvador', 'ubicacionSucur.Ginecologica', '7589-4365', 'Esta sucursal no posee una fotografía', 1, 2)
@@ -1272,6 +1733,12 @@ INSERT ALL
          VALUES ('Hospital La Divina Providencia, San Salvador', 012483, 'divina_providencia@gmail.com', '2211-2956', 'Avenida Masferrer Norte, Colonia Escalón, San Salvador', 'ubicacionSucur.Providencia', '3278-3561', 'Tampoco tu', 2, 2)
 SELECT DUMMY FROM DUAL;
 
+
+/*************************************************************************************************
+
+   ~ Insertar valores a la tabla tbIndicaciones ~
+
+*************************************************************************************************/
 INSERT ALL
     INTO tbIndicaciones (duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
          VALUES (TO_TIMESTAMP('2023-06-01 08:00:00', 'YYYY-MM-DD HH24:MI:SS'), '1 tableta', 'Paracetamol', 'Tomar después de las comidas', 1, 1)
@@ -1285,6 +1752,12 @@ INSERT ALL
          VALUES (TO_TIMESTAMP('2023-06-05 07:00:00', 'YYYY-MM-DD HH24:MI:SS'), '10 gotas', 'Clorfenamina', 'Tomar en la mañana y noche', 5, 4)
 SELECT DUMMY FROM DUAL;
 
+
+/*************************************************************************************************
+
+   ~ Insertar valores a la tabla tbDoctores ~
+
+*************************************************************************************************/
 INSERT ALL
     INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario)
          VALUES ('JVPM12345', 1, 5)
@@ -1298,6 +1771,12 @@ INSERT ALL
          VALUES ('JVPM34567', 5, 1)
 SELECT DUMMY FROM DUAL;
 
+
+/*************************************************************************************************
+
+   ~ Insertar valores a la tabla tbCentrosMedicos ~
+
+*************************************************************************************************/
 INSERT ALL
     INTO tbCentrosMedicos (favorito, ID_Doctor, ID_Sucursal)
          VALUES ('T', 5, 1)
@@ -1311,6 +1790,12 @@ INSERT ALL
          VALUES ('F', 1, 5)
 SELECT DUMMY FROM DUAL;
 
+
+/*************************************************************************************************
+
+   ~ Insertar valores a la tabla tbHorarios ~
+
+*************************************************************************************************/
 INSERT ALL
     INTO tbHorarios (horaInicio, horaSalida, dias, exclusiones, almuerzo, descansos, lapsosCita, ID_Centro)
          VALUES (TIMESTAMP '2024-06-18 07:00:00.000000', TIMESTAMP '2024-06-18 19:00:00.000000', TO_DATE('2024-06-18', 'YYYY-MM-DD'), TO_DATE('2024-06-17', 'YYYY-MM-DD'), TIMESTAMP '2024-06-18 12:00:00.000000', TO_DATE('2024-06-16', 'YYYY-MM-DD'), 1, 5)
@@ -1324,6 +1809,12 @@ INSERT ALL
          VALUES (TIMESTAMP '2024-06-22 07:00:00.000000', TIMESTAMP '2024-06-22 19:00:00.000000', TO_DATE('2024-06-22', 'YYYY-MM-DD'), TO_DATE('2024-06-15', 'YYYY-MM-DD'), TIMESTAMP '2024-06-22 12:00:00.000000', TO_DATE('2024-06-15', 'YYYY-MM-DD'), 5, 1)
 SELECT DUMMY FROM DUAL;
 
+
+/*************************************************************************************************
+
+   ~ Insertar valores a la tabla tbPacientes ~
+
+*************************************************************************************************/
 INSERT ALL
     INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
          VALUES (1, 'Juan', 'Perez', NULL, 'Padre', 1)
@@ -1337,6 +1828,12 @@ INSERT ALL
          VALUES (5, 'Luis', 'Sanchez', NULL, 'Hermano', 5)
 SELECT DUMMY FROM DUAL;
 
+
+/*************************************************************************************************
+
+   ~ Insertar valores a la tabla tbCitasMedicas ~
+
+*************************************************************************************************/
 INSERT ALL
     INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente)
          VALUES (1, TO_DATE('2023-01-01', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general', 5, 1)
@@ -1350,9 +1847,21 @@ INSERT ALL
          VALUES (5, TO_DATE('2023-01-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-05 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada', 1, 5)
 SELECT DUMMY FROM DUAL;
 
+
+/*************************************************************************************************
+
+   ~ Insertar valores a la tabla tbNotis ~
+
+*************************************************************************************************/
 INSERT INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
 VALUES (TO_DATE('2024-07-14', 'YYYY-MM-DD'), 'P', 'Descargar pdf de tu ultima cita', 'S', 1, 1);
 
+
+/*************************************************************************************************
+
+   ~ Insertar valores a la tabla tbServicios ~
+
+*************************************************************************************************/
 INSERT ALL
     INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
         VALUES ('Limpieza Bucal', 40.00, 1, 1)

@@ -35,51 +35,57 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
+        arguments?.let {}
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         val root = inflater.inflate(R.layout.fragment_home, container, false)
         val txtBienvenido = root.findViewById<TextView>(R.id.txtBienvenido)
-        val txtaunnotienestratamientos = root.findViewById<TextView>(R.id.txtaunnotienesTratamientos)
+        val txtaunnotienestratamientos =
+            root.findViewById<TextView>(R.id.txtaunnotienesTratamientos)
         val rcvTratamientos = root.findViewById<RecyclerView>(R.id.rcvTratamientosMini)
         val fragmentControlTratamientos = fragment_control_tratamientos()
         val rcvRecordatoriosCitas = root.findViewById<RecyclerView>(R.id.rcvProximaCita)
         val txtaunotienescitas = root.findViewById<TextView>(R.id.txtaunnotienescitas)
+        val txtAunotienescentros = root.findViewById<TextView>(R.id.txtaunnotienescentros)
         rcvRecordatoriosCitas.overScrollMode = View.OVER_SCROLL_NEVER
-        rcvTratamientos.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        rcvTratamientos.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         rcvRecordatoriosCitas.layoutManager = NoScrollLinearLayoutManager(requireContext())
         loadData(txtBienvenido)
 
-        CoroutineScope(Dispatchers.IO).launch{
+        CoroutineScope(Dispatchers.IO).launch {
             try {
                 val tratamientosDB = fragmentControlTratamientos.obtenerDatosTratamientos()
                 withContext(Dispatchers.Main) {
-                    val miAdaptador = AdaptadorTratamientosChiquito(tratamientosDB)
-                    rcvTratamientos.adapter = miAdaptador
-                    txtaunnotienestratamientos.visibility = View.GONE
+                    if (tratamientosDB.isEmpty()) {
+                        txtaunnotienestratamientos.visibility = View.VISIBLE
+                    } else {
+                        txtaunnotienestratamientos.visibility = View.GONE
+                        val miAdaptador = AdaptadorTratamientosChiquito(tratamientosDB)
+                        rcvTratamientos.adapter = miAdaptador
+                    }
                 }
             } catch (e: Exception) {
-                println("Este es el error ${e.message}")
-                txtaunnotienestratamientos.visibility = View.VISIBLE
+                println("Error al obtener los tratamientos: ${e.message}")
             }
         }
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val citasDB = obtenerDatos()
                 withContext(Dispatchers.Main) {
-                    val miAdaptador = AdaptadorCitas(citasDB)
-                    rcvRecordatoriosCitas.adapter = miAdaptador
-                    txtaunotienescitas.visibility = View.GONE
+                    if (citasDB.isEmpty()) {
+                        txtaunotienescitas.visibility = View.VISIBLE
+                    } else {
+                        txtaunotienescitas.visibility = View.GONE
+                        val miAdaptador = AdaptadorCitas(citasDB)
+                        rcvRecordatoriosCitas.adapter = miAdaptador
+                    }
                 }
             } catch (e: Exception) {
                 println("Error al obtener los datos de la base de datos: ${e.message}")
-                txtaunotienescitas.visibility = View.VISIBLE
             }
         }
         return root
@@ -105,6 +111,7 @@ class HomeFragment : Fragment() {
             citas.diacita,
             citas.horacita,
             citas.motivo,
+            citas.estadoCita,
             citas.id_centro,
             citas.id_paciente,
             pacs.nombrepaciente,
@@ -121,6 +128,7 @@ class HomeFragment : Fragment() {
         INNER JOIN tbpacientes PACS ON CITAS.id_paciente = PACS.id_paciente
         WHERE USUA.emailUsuario = ?
         AND CITAS.diacita >= CURRENT_DATE
+        AND CITAS.estadoCita = 'A'
         ORDER BY CITAS.diacita ASC, CITAS.horacita ASC
     )
     WHERE ROWNUM = 1
@@ -134,6 +142,7 @@ class HomeFragment : Fragment() {
                         val diaCita = resultset.getDate("diaCita")
                         val horaCita = resultset.getTimestamp("horaCita")
                         val motivo = resultset.getString("motivo")
+                        val estadoCita = resultset.getString("estadoCita")
                         val ID_Centro = resultset.getInt("ID_Centro")
                         val ID_Paciente = resultset.getInt("ID_Paciente")
                         val nombrePaciente = resultset.getString("nombrePaciente")
@@ -142,7 +151,21 @@ class HomeFragment : Fragment() {
                         val nombreDoctor = resultset.getString("nombreUsuario")
                         val apellidoDoctor = resultset.getString("apellidoUsuario")
                         val especialidad = resultset.getString("nombreespecialidad")
-                        val cita = dataClassCitas(ID_Cita, diaCita, horaCita, motivo, ID_Centro, ID_Paciente, nombrePaciente, parentesco, ID_Usuario, nombreDoctor, apellidoDoctor, especialidad)
+                        val cita = dataClassCitas(
+                            ID_Cita,
+                            diaCita,
+                            horaCita,
+                            motivo,
+                            estadoCita,
+                            ID_Centro,
+                            ID_Paciente,
+                            nombrePaciente,
+                            parentesco,
+                            ID_Usuario,
+                            nombreDoctor,
+                            apellidoDoctor,
+                            especialidad
+                        )
                         citas.add(cita)
                     }
                 } else {
@@ -172,7 +195,7 @@ class HomeFragment : Fragment() {
                     )
                 }
             }
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             println("Error: $e")
         }
     }

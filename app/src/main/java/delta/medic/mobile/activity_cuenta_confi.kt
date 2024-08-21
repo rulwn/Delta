@@ -25,6 +25,14 @@ class activity_cuenta_confi : AppCompatActivity() {
 
     private lateinit var binding: ActivityCuentaConfiBinding
 
+    private lateinit var txtNom: TextView
+    private lateinit var txtCorr: TextView
+    private lateinit var txtDire: TextView
+    private lateinit var txtTel: TextView
+    private lateinit var txtFech: TextView
+    private lateinit var txtSex: TextView
+    private lateinit var txtApe: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -36,6 +44,7 @@ class activity_cuenta_confi : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
         val btnCambiarContra = findViewById<Button>(R.id.btnCambiarContra1)
         val txtCuenta = findViewById<TextView>(R.id.txtCuentaConfi)
@@ -49,6 +58,7 @@ class activity_cuenta_confi : AppCompatActivity() {
         val btnEliminarUsuario = findViewById<Button>(R.id.btnEliminarUsuario)
 
 
+        //Modo claro y oscuro
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         when (currentNightMode) {
             Configuration.UI_MODE_NIGHT_NO -> {
@@ -77,11 +87,14 @@ class activity_cuenta_confi : AppCompatActivity() {
         btnRegresar.setOnClickListener {
             finish()
         }
+
+        //Cambiar la contraseña con un botón
         btnCambiarContra.setOnClickListener {
             val intent = Intent(this, activity_cambiarcontra::class.java)
             startActivity(intent)
         }
 
+        //Eliminar el usuario con un botón
         btnEliminarUsuario.setOnClickListener {
             val emailToDelete = activity_login.userEmail
             CoroutineScope(Dispatchers.Main).launch {
@@ -98,6 +111,57 @@ class activity_cuenta_confi : AppCompatActivity() {
         }
     }
 
+    //Para que se carguen los datos del register
+    private fun CargarDatos(emailUsuario: String) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val userData = withContext(Dispatchers.IO) {
+                try {
+                    val objConexion = ClaseConexion().cadenaConexion()
+                    val statement = objConexion?.prepareStatement("SELECT nombre, apellido, emailUsuario, direccion, telefono, fechaNacimiento, sexo FROM tbUsuarios WHERE emailUsuario = ?")
+                    statement?.setString(1, emailUsuario)
+                    val resultSet = statement?.executeQuery()
+                    if (resultSet?.next() == true) {
+                        val nombre = resultSet.getString("nombre")
+                        val apellido = resultSet.getString("apellido")
+                        val email = resultSet.getString("emailUsuario")
+                        val direccion = resultSet.getString("direccion")
+                        val telefono = resultSet.getString("telefono")
+                        val fechaNacimiento = resultSet.getString("fechaNacimiento")
+                        val sexo = resultSet.getString("sexo")
+                        resultSet.close()
+                        statement.close()
+                        objConexion?.close()
+                        mapOf(
+                            "nombre" to nombre,
+                            "apellido" to apellido,
+                            "email" to email,
+                            "direccion" to direccion,
+                            "telefono" to telefono,
+                            "fechaNacimiento" to fechaNacimiento,
+                            "sexo" to sexo
+                        )
+                    } else {
+                        null
+                    }
+                } catch (e: SQLException) {
+                    e.printStackTrace()
+                    null
+                }
+            }
+            userData?.let {
+                txtNom.text = it["nombre"]
+                txtApe.text = it["apellido"]
+                txtCorr.text = it["email"]
+                txtDire.text = it["direccion"]
+                txtTel.text = it["telefono"]
+                txtFech.text = it["fechaNacimiento"]
+                txtSex.text = it["sexo"]
+            }
+        }
+    }
+
+
+    //Eliminar el usuario
     private suspend fun deleteUser(emailUsuario: String): Boolean {
         return withContext(Dispatchers.IO) {
             var isDeleted = false

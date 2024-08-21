@@ -33,7 +33,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import delta.medic.mobile.activity_login.UserData.userEmail
 import delta.medic.mobile.ui.dashboard.DashboardFragment
-import delta.medic.mobile.ui.home.HomeFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -42,16 +41,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
 
+
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         //Preferencias de usuario
         val userPreferences = getSharedPreferences("userPreferences", MODE_PRIVATE)
-        val editor = userPreferences.edit()
-        editor.putBoolean("IsWelcomed", true)
-        editor.putBoolean("IsLogedIn", true)
-        editor.putString("email", userEmail)
-        editor.apply()
+        userEmail = userPreferences.getString("email", null).toString()
 
 
 
@@ -71,9 +67,24 @@ class MainActivity : AppCompatActivity() {
 
         val auth = Firebase.auth
         val user = auth.currentUser
-        val correoF = user?.email
+        user?.let{
+            // Name, email address, and profile photo Url
+            val name = it.displayName
+            val email = it.email
+            val photoUrl = it.photoUrl
+
+            // Check if user's email is verified
+            val emailVerified = it.isEmailVerified
+
+            // The user's ID, unique to the Firebase project. Do NOT use this value to
+            // authenticate with your backend server, if you have one. Use
+            // FirebaseUser.getIdToken() instead.
+            val uid = it.uid
+        }
+
 
         if (user != null) {
+            userEmail = user.email.toString()
             Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, "No se pudo iniciar sesion", Toast.LENGTH_SHORT).show()
@@ -153,7 +164,6 @@ class MainActivity : AppCompatActivity() {
     }
     fun signOutAndStartSignInActivity() {
         auth.signOut()
-
         googleSignInClient.signOut().addOnCompleteListener(this) {
             val intent = Intent(this@MainActivity, activity_login::class.java)
             startActivity(intent)

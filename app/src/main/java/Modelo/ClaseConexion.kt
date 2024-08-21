@@ -9,7 +9,9 @@ class ClaseConexion {
     suspend fun cadenaConexion(): Connection? {
         return withContext(Dispatchers.IO) {
             try {
-                val url = "jdbc:oracle:thin:@192.168.1.12:1521:xe"
+
+
+                val url = "jdbc:oracle:thin:@192.168.1.5:1521:xe"
                 val usuario = "DeltaMed" //DeltaMed
                 val clave = "deltaTeam1" //deltaTeam1
                 val conexion = DriverManager.getConnection(url, usuario, clave)
@@ -31,7 +33,7 @@ val url = "jdbc:oracle:thin:@192.168.1.7:1521:xe"
 
 /*
 Luz
-
+val url = "jdbc:oracle:thin:@ 192.168.1.16:xe"
 
 Alejandro
 val url = "jdbc:oracle:thin:@192.168.1.23:1521:xe"
@@ -42,7 +44,7 @@ Jorge
 Raul colegio
 val url = "jdbc:oracle:thin:@10.10.1.1:1521:xe"
 y normal
-//val url = "jdbc:oracle:thin:@192.168.1.153:1521:xe"
+//val url = "jdbc:oracle:thin:@192.168.31.105:1521:xe"
 
 Huezo
 val url = "jdbc:oracle:thin:@192.168.1.12:1521:xe"
