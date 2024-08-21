@@ -168,7 +168,7 @@
             android:resource="@array/preloaded_fonts" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAGEHkbuQ0_ghXExyCvpt24fUZz9vs4O4A" />
+            android:value="@string/googleMapsApiKey"/>
     </application>
 
 </manifest>

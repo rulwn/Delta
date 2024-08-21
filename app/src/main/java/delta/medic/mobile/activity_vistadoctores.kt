@@ -47,7 +47,6 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
 
     companion object {
         private const val MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey"
-        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -239,113 +238,48 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+//funciones fuera
     suspend fun EjecutarProcesoAlmacenado(idUsuario: Int, idSucursal: String) {
         withContext(Dispatchers.IO){
 
         }
     }
 
-    override fun onMapReady(map: GoogleMap) {
-        googleMap = map
-        googleMap.uiSettings.isMyLocationButtonEnabled = true
+    override fun onMapReady(googleMap: GoogleMap) {
+        this.googleMap = googleMap
+        val latitudDB = intent.getDoubleExtra("latiSucur", 0.0)
+        val longitudDB = intent.getDoubleExtra("longSucur", 0.0)
+        println("$latitudDB y $longitudDB")
+        val location = LatLng(latitudDB, longitudDB)
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED) {
-            getLocation()
-        } else {
-            ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE)
+        this.googleMap.addMarker(MarkerOptions().position(location).title("Esta es la ubicación de la sucursal"))
+        this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
+    }
+
+        override fun onResume() {
+            super.onResume()
+            mapView.onResume()
         }
 
-        googleMap.setOnMapClickListener { latLng ->
-            googleMap.clear()
-            googleMap.addMarker(MarkerOptions().position(latLng).title("Selected Location"))
-            Toast.makeText(this, "Coordinates: ${latLng.latitude}, ${latLng.longitude}", Toast.LENGTH_LONG).show()
+        override fun onPause() {
+            super.onPause()
+            mapView.onPause()
         }
-    }
 
-    private fun getLocation() {
-        try {
-            val latitudStr = intent.getStringExtra("latiSucur")
-            val longitudStr = intent.getStringExtra("longSucur")
-
-            if (!latitudStr.isNullOrEmpty() && !longitudStr.isNullOrEmpty()) {
-            val latitud = latitudStr.toDoubleOrNull()
-            val longitud = longitudStr.toDoubleOrNull()
-
-          if (latitud != null && longitud != null) {
-            val currentLatLng = LatLng(latitud, longitud)
-
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
-            googleMap.addMarker(MarkerOptions().position(currentLatLng).title("Selected location"))
-        } else {
-            Toast.makeText(this, "Invalid coordinate format", Toast.LENGTH_SHORT).show()
+        override fun onDestroy() {
+            super.onDestroy()
+            mapView.onDestroy()
         }
-    } else {
-        Toast.makeText(this, "Coordinates are missing", Toast.LENGTH_SHORT).show()
-    }
-} catch (e: Exception) {
-    e.printStackTrace()
-    Toast.makeText(this, "An error occurred", Toast.LENGTH_SHORT).show()
-}
-}
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            LOCATION_PERMISSION_REQUEST_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                        == PackageManager.PERMISSION_GRANTED) {
-                        getLocation()
-                    }
-                } else {
-                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
-                }
-            }
+        override fun onLowMemory() {
+            super.onLowMemory()
+            mapView.onLowMemory()
         }
-    }
 
-    override fun onResume() {
-        super.onResume()
-        mapView.onResume()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        mapView.onStart()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        mapView.onStop()
-    }
-
-    override fun onPause() {
-        mapView.onPause()
-        super.onPause()
-    }
-
-    override fun onDestroy() {
-        mapView.onDestroy()
-        super.onDestroy()
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-        mapView.onLowMemory()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-        var mapViewBundle = outState.getBundle(MAP_VIEW_BUNDLE_KEY)
-        if (mapViewBundle == null) {
-            mapViewBundle = Bundle()
+        override fun onSaveInstanceState(outState: Bundle) {
+            super.onSaveInstanceState(outState)
+            val mapViewBundle = Bundle()
+            mapView.onSaveInstanceState(mapViewBundle)
             outState.putBundle(MAP_VIEW_BUNDLE_KEY, mapViewBundle)
         }
-
-        mapView.onSaveInstanceState(mapViewBundle)
     }
-}
