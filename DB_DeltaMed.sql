@@ -604,8 +604,8 @@ CREATE TABLE tbSucursales (
     emailSucur VARCHAR2(30) NOT NULL UNIQUE,
     telefonoSucur VARCHAR2(9) NOT NULL UNIQUE,
     direccionSucur VARCHAR2(200) NOT NULL UNIQUE,
-    latiSucur VARCHAR2(200) NOT NULL,
-    longSucur VARCHAR2(200) NOT NULL,
+    latiSucur NUMBER(15,10) NOT NULL,
+    longSucur NUMBER(15,10) NOT NULL,
     whatsapp VARCHAR2(12),
     imgSucursal VARCHAR2(250) NOT NULL UNIQUE,
     ID_Establecimiento INT NOT NULL,
@@ -1417,15 +1417,15 @@ SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Clínica Ginecológica', 235656, 'clinica_ginecologica@gmail.com', '2264-7856', '25 Av. Norte, Colonia M?dica, San Salvador', '13.709362', '-89.202990', '7589-4365', 'Esta sucursal no posee una fotograf?a', 1, 2)
+         VALUES ('Clínica Ginecológica', 235656, 'clinica_ginecologica@gmail.com', '2264-7856', '25 Av. Norte, Colonia M?dica, San Salvador', 13.709362, -89.202990, '7589-4365', 'Esta sucursal no posee una fotograf?a', 1, 2)
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Clínica Asistencial Salvadoreña', 675429, 'clinica_asistencial@gmail.com', '2256-6576', 'Calle Libertad y Avenida Independencia, Santa Ana', '13.714547', '-89.192849', '5383-4365', 'Esta sucursal no tiene una fotograf?a', 5, 1)
+         VALUES ('Clínica Asistencial Salvadoreña', 675429, 'clinica_asistencial@gmail.com', '2256-6576', 'Calle Libertad y Avenida Independencia, Santa Ana', 13.714547, -89.192849, '5383-4365', 'Esta sucursal no tiene una fotograf?a', 5, 1)
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Hospital de Diagnóstico', 990764, 'hospital_diagnostico@gmail.com', '2224-7887', '79 Av. Norte y 11 Calle Poniente, Colonia Escalón, San Salvador', '13.710252' , '-89.202537', '7519-2335', 'Esta sucursal ha puesto una fotograf?a', 3, 1)
+         VALUES ('Hospital de Diagnóstico', 990764, 'hospital_diagnostico@gmail.com', '2224-7887', '79 Av. Norte y 11 Calle Poniente, Colonia Escalón, San Salvador', 13.710252 , -89.202537, '7519-2335', 'Esta sucursal ha puesto una fotograf?a', 3, 1)
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Centro Médico Escalón', 224216, 'medico_escalon@gmail.com', '2235-7856', '85 Av. Norte y Calle Juan José Cañas, Colonia Escalón, San Salvador', '13.711853', '-89.234307', '7509-3230', 'Neles', 4, 2)
+         VALUES ('Centro Médico Escalón', 224216, 'medico_escalon@gmail.com', '2235-7856', '85 Av. Norte y Calle Juan José Cañas, Colonia Escalón, San Salvador', 13.711853, -89.234307, '7509-3230', 'Neles', 4, 2)
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Hospital La Divina Providencia', 012483, 'divina_providencia@gmail.com', '2211-2956', 'Avenida Masferrer Norte, Colonia Escal?n, San Salvador', '13.711245', '-89.223008', '3278-3561', 'Tampoco tu', 2, 2)
+         VALUES ('Hospital La Divina Providencia', 012483, 'divina_providencia@gmail.com', '2211-2956', 'Avenida Masferrer Norte, Colonia Escal?n, San Salvador', 13.711245, -89.223008, '3278-3561', 'Tampoco tu', 2, 2)
 SELECT DUMMY FROM DUAL;
 
 UPDATE tbSucursales SET imgSucursal = 'https://centroginecologico.com.sv/wp-content/uploads/2020/10/facahadanew20.jpg' WHERE ID_Sucursal = 1;
@@ -1571,41 +1571,40 @@ SELECT DUMMY FROM DUAL;
 
 *************************************************************************************************/
 --INNER JOIN CENTROMEDICO--
-SELECT
-    d.ID_Doctor,
-    u.nombreUsuario,
-    u.apellidoUsuario,
-    u.imgUsuario,
-    e.nombreEspecialidad,
-    s.nombreSucursal,
-    s.telefonoSucur,
-    s.direccionSucur,
-    s.longSucur,
-    s.latiSucur,
-    s.imgSucursal,
-    srv.nombreServicio,
-    srv.costo
-FROM
-    tbCentrosMedicos cm
-INNER JOIN
-    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-INNER JOIN
-    tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
-INNER JOIN
-    tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-INNER JOIN
-    tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
-INNER JOIN
-    tbServicios srv ON cm.ID_Centro = srv.ID_Centro
-    WHERE
-    LOWER(nombreUsuario) LIKE LOWER('')
-OR
-    LOWER(apellidoUsuario) LIKE LOWER('')
-AND
-    u.ID_TipoUsuario = 2;
+    SELECT 
+        d.ID_Doctor,
+        u.nombreUsuario, 
+        u.apellidoUsuario, 
+        u.imgUsuario, 
+        e.nombreEspecialidad,
+        s.nombreSucursal,
+        s.telefonoSucur, 
+        s.direccionSucur, 
+        s.longSucur,
+        s.latiSucur,
+        s.imgSucursal,
+        srv.nombreServicio, 
+        srv.costo
+    FROM 
+        tbCentrosMedicos cm
+    INNER JOIN 
+        tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+    INNER JOIN 
+        tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
+    INNER JOIN
+        tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+    INNER JOIN
+        tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
+    INNER JOIN 
+        tbServicios srv ON cm.ID_Centro = srv.ID_Centro
+    WHERE        
+        (LOWER(u.nombreUsuario) LIKE LOWER('')
+    OR
+        LOWER(u.apellidoUsuario) LIKE LOWER(''))
+    AND
+        u.ID_TipoUsuario = 2;
 
 --INNER JOIN CITASMEDICAS--
-
 SELECT
     citas.ID_Cita,
     citas.diacita,

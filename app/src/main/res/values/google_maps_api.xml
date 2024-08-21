@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="googleMapsApiKey" templeteMergeStrategy="preserve" translatable="false">AIzaSyDP_tCbbVMP8DRZBet68ccsxx97D2AS8zU</string>
+</resources>
