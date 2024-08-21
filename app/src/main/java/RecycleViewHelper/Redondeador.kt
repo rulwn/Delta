@@ -1,0 +1,4 @@
+package RecycleViewHelper
+
+class Redondeador {
+}
