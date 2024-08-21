@@ -32,9 +32,6 @@ class fragment_Resultados : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment__resultados, container, false)
 
-        // Obtener los argumentos del fragmento
-        val nombreUsuario = arguments?.getString("nombreUsuario") ?: ""
-        val apellidoUsuario = arguments?.getString("apellidoUsuario") ?: ""
 
         btnRegresar = root.findViewById(R.id.btnRegresar)
         rcvResultados = root.findViewById(R.id.rcvResultados)
@@ -43,15 +40,15 @@ class fragment_Resultados : Fragment() {
         txtSearch = activity?.getSearchEditText() ?: EditText(context)
         val txtResultadoBusqueda = root.findViewById<TextView>(R.id.txtResultadoBusqueda)
         txtResultadoBusqueda.text = txtSearch.text
+
         btnRegresar.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
-
         rcvResultados.layoutManager = LinearLayoutManager(context)
 
         // Ejecutar la búsqueda en una coroutine
         CoroutineScope(Dispatchers.IO).launch {
-            val centrosDB = obtenerDatos(nombreUsuario, apellidoUsuario)
+            val centrosDB = obtenerDatos(txtSearch.text.toString(), txtSearch.text.toString(), txtSearch.text.toString())
             withContext(Dispatchers.Main) {
                 val miAdapter = AdaptadorCentro(centrosDB)
                 rcvResultados.adapter = miAdapter
@@ -61,8 +58,8 @@ class fragment_Resultados : Fragment() {
         return root
     }
 
-    private suspend fun obtenerDatos(nombreUsuario: String, apellidoUsuario: String): List<dataClassCentro> {
-        val objConexion = ClaseConexion()?.cadenaConexion()
+    private suspend fun obtenerDatos(nombreUsuario: String, apellidoUsuario: String, nombreEspecialidad: String): List<dataClassCentro> {
+        val objConexion = ClaseConexion().cadenaConexion()!!
         val centroMedico = mutableListOf<dataClassCentro>()
 
         if (objConexion != null) {
@@ -97,15 +94,15 @@ class fragment_Resultados : Fragment() {
     WHERE        
         (LOWER(u.nombreUsuario) LIKE LOWER(?)
     OR
-        LOWER(u.apellidoUsuario) LIKE LOWER(?))
-    ANDT
+        LOWER(u.apellidoUsuario) LIKE LOWER(?)
+    OR
+        LOWER(e.nombreEspecialidad) LIKE LOWER(?))
+    AND
         u.ID_TipoUsuario = 2
 """)
                 busqueda.setString(1, "%${nombreUsuario}%")
                 busqueda.setString(2, "%${apellidoUsuario}%")
-
-                busqueda.setString(1, "%${nombreUsuario}%")
-                busqueda.setString(2, "%${apellidoUsuario}%")
+                busqueda.setString(3, "%${nombreEspecialidad}%")
 
                 val resultSet = busqueda.executeQuery()
                 while (resultSet.next()) {
@@ -117,8 +114,8 @@ class fragment_Resultados : Fragment() {
                     val nombreSucursal = resultSet.getString("nombreSucursal")
                     val telefonoSucur = resultSet.getString("telefonoSucur")
                     val direccionSucur = resultSet.getString("direccionSucur")
-                    val longSucur = resultSet.getString("longSucur")
-                    val latiSucur = resultSet.getString("latiSucur")
+                    val longSucur = resultSet.getDouble("longSucur")
+                    val latiSucur = resultSet.getDouble("latiSucur")
                     val imgSucursal = resultSet.getString("imgSucursal")
                     val nombreServicio = resultSet.getString("nombreServicio")
                     val costo = resultSet.getFloat("costo")
