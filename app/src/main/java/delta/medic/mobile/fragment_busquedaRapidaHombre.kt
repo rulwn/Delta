@@ -50,7 +50,6 @@ class fragment_busquedaRapidaHombre : Fragment() {
         val specialties = when {
             isChestArea(x, y) -> listOf("Cardiología", "Torax")
             isHeadArea(x, y) -> listOf("Neurología", "Otorrinolaringología")
-
             else -> emptyList()
         }
         if (specialties.isNotEmpty()) {
@@ -60,11 +59,11 @@ class fragment_busquedaRapidaHombre : Fragment() {
     }
 
     private fun isChestArea(x: Float, y: Float): Boolean {
-      return x in 550f..750f && y in 600f..800f
+        return x in 450f..850f && y in 400f..900f
     }
 
     private fun isHeadArea(x: Float, y: Float): Boolean {
-     return x in 550f..750f && y in 100f..300f
+        return x in 350f..850f && y in 50f..350f
     }
 
     override fun onDestroyView() {
