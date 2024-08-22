@@ -27,7 +27,7 @@ class fragment_busquedaRapidaMujer : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnRegresar.setOnClickListener {
-            // Implementa la lógica de navegación aquí si es necesario
+
         }
 
         binding.bodyImageView.setOnTouchListener { _, event ->
@@ -44,7 +44,7 @@ class fragment_busquedaRapidaMujer : Fragment() {
         val specialties = when {
             isChestArea(x, y) -> listOf("Cardiología", "Torax")
             isHeadArea(x, y) -> listOf("Neurología", "Otorrinolaringología")
-            // Agrega más áreas del cuerpo según sea necesario
+
             else -> emptyList()
         }
         if (specialties.isNotEmpty()) {
@@ -54,12 +54,11 @@ class fragment_busquedaRapidaMujer : Fragment() {
     }
 
     private fun isChestArea(x: Float, y: Float): Boolean {
-        // Define las coordenadas específicas para el área del pecho
-        return x in 100f..200f && y in 300f..400f
+               return x in 100f..200f && y in 300f..400f
     }
 
     private fun isHeadArea(x: Float, y: Float): Boolean {
-        // Define las coordenadas específicas para el área de la cabeza
+
         return x in 100f..200f && y in 100f..200f
     }
 
