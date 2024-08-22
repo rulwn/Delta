@@ -11,14 +11,17 @@ GRANT "CONNECT" TO DeltaMed;
 
 ALTER SESSION SET NLS_DATE_FORMAT = 'DD-MM-YYYY';
 COMMIT;
+
+SET SERVEROUTPUT ON;
 */
 
 /*******************************************************************************
 
-    ~ ELIMINACI?N DE TABLAS EXISTENTES ~
+    ~ ELIMINACIÓN DE TABLAS EXISTENTES ~
 
 *******************************************************************************/
-
+--Este procedimiento PL/SQL ejecuta el comando DROP TABLE, pero si ocurre un error
+--y si ese error es que la tabla no existe, lo ignora y continua la ejecución.
 BEGIN
     EXECUTE IMMEDIATE 'DROP TABLE tbFichasMedicas CASCADE CONSTRAINTS';
 EXCEPTION
@@ -81,6 +84,16 @@ END;
 
 BEGIN
     EXECUTE IMMEDIATE 'DROP TABLE tbReviews CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbAuditorias CASCADE CONSTRAINTS';
 EXCEPTION
     WHEN OTHERS THEN
         IF SQLCODE != -942 THEN
@@ -264,7 +277,8 @@ END;
     ~ ELIMINACI?N DE SECUENCIAS EXISTENTES ~
 
 *******************************************************************************/
-
+--Este procedimiento PL/SQL ejecuta el comando DROP SEQCUENCE, pero si ocurre un error
+--y si ese error es que la sequence no existe, lo ignora y continúa la ejecución.
 BEGIN
     EXECUTE IMMEDIATE 'DROP SEQUENCE tipoNotis';
 EXCEPTION
@@ -406,6 +420,16 @@ END;
 /
 
 BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE auditoria';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
     EXECUTE IMMEDIATE 'DROP SEQUENCE usuarios';
 EXCEPTION
     WHEN OTHERS THEN
@@ -456,7 +480,7 @@ END;
 /
 
 BEGIN
-    EXECUTE IMMEDIATE 'DROP SEQUENCE pacientes';
+    EXECUTE IMMEDIATE 'DROP SEQUENCE paciente';
 EXCEPTION
     WHEN OTHERS THEN
         IF SQLCODE != -2289 THEN
@@ -505,9 +529,10 @@ EXCEPTION
 END;
 /
 
+COMMIT;
 /*******************************************************************************
 
-    ~ CREACI?N DE TABLAS INDEPENDIENTES ~
+    ~ CREACIÓN DE TABLAS INDEPENDIENTES ~
 
 *******************************************************************************/
 
@@ -555,9 +580,17 @@ CREATE TABLE tbRecetas (
     ubicacionPDF VARCHAR2(250)
 );
 
+CREATE TABLE tbAuditorias (
+    ID_Auditoria NUMBER PRIMARY KEY,
+    nombreCompleto VARCHAR2(100) NOT NULL,
+    emailUsuario VARCHAR2(50) NOT NULL,
+    telefonoUsuario VARCHAR2(9) NOT NULL,
+    acción VARCHAR2(20) DEFAULT('Eliminó su cuenta.') NOT NULL
+);
+
 /*************************************************************************************************
 
-    ~ CREACI?N DE TABLAS DEPENDIENTES ~
+    ~ CREACIÓN DE TABLAS DEPENDIENTES ~
 
 *************************************************************************************************/
 
@@ -726,16 +759,39 @@ CREATE TABLE tbServicios (
 
 CREATE TABLE tbReviews (
     ID_Review INT PRIMARY KEY,
-    nombreCentro VARCHAR2(50) NOT NULL,
-    promEstrellas NUMBER(5) NOT NULL,
+    promEstrellas NUMBER(5,2) NOT NULL,
     comentario VARCHAR2(200),
+    ID_Centro INT NOT NULL,
     ID_Usuario INT NOT NULL,
 
     --CONSTRAINTS------------------
+    CONSTRAINT FK_Centro_Review FOREIGN KEY (ID_Centro)
+    REFERENCES tbCentrosMedicos(ID_Centro)
+    ON DELETE CASCADE,
+    
     CONSTRAINT FK_Usuario_Review FOREIGN KEY (ID_Usuario)
     REFERENCES tbUsuarios(ID_Usuario)
     ON DELETE CASCADE
 );
+
+SELECT
+    rv.promEstrellas,
+    rv.comentario,
+    u.nombreUsuario,
+    u.apellidoUsuario,
+    u.imgUsuario,
+    d.ID_Doctor
+FROM 
+    tbReviews rv
+INNER JOIN 
+    tbUsuarios u ON rv.ID_Usuario = u.ID_Usuario
+INNER JOIN
+    tbCentrosMedicos cm ON rv.ID_Centro = cm.ID_Centro
+INNER JOIN
+    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+WHERE 
+    d.ID_Doctor = 1;
+    
 
 CREATE TABLE tbNotis (
     ID_Notificacion INT PRIMARY KEY,
@@ -854,7 +910,7 @@ CREATE TABLE tbFichasMedicas (
 
 /*************************************************************************************************
 
-    ~ CREACI?N DE SECUENCIAS ~
+    ~ CREACIÓN DE SECUENCIAS ~
 
 *************************************************************************************************/
 
@@ -928,6 +984,11 @@ CREATE SEQUENCE seguros
 START WITH 1
 INCREMENT BY 1;
 
+-- SECUENCIA_AUDITORÍA -
+CREATE SEQUENCE auditoria
+START WITH 1
+INCREMENT BY 1;
+
 -- SECUENCIA_USUARIOS --
 CREATE SEQUENCE usuarios
 START WITH 1
@@ -954,7 +1015,7 @@ START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_PACIENTES --
-CREATE SEQUENCE pacientes
+CREATE SEQUENCE paciente
 START WITH 1
 INCREMENT BY 1;
 
@@ -978,6 +1039,7 @@ CREATE SEQUENCE fichas
 START WITH 1
 INCREMENT BY 1;
 
+COMMIT;
 
 /*************************************************************************************************
 
@@ -1095,7 +1157,7 @@ BEGIN
 END Trigger_Sucursal;
 /
 
--- TRIGGER_CENTRO_M?DICO --
+-- TRIGGER_CENTRO_MEDICO --
 CREATE OR REPLACE TRIGGER Trigger_CentroMedico
 BEFORE INSERT ON tbCentrosMedicos
 FOR EACH ROW
@@ -1199,7 +1261,7 @@ CREATE OR REPLACE TRIGGER Trigger_Paciente
 BEFORE INSERT ON tbPacientes
 FOR EACH ROW
 BEGIN
-    SELECT pacientes.NEXTVAL
+    SELECT paciente.NEXTVAL
     INTO: NEW.ID_Paciente
     FROM DUAL;
 END Trigger_Paciente;
@@ -1248,6 +1310,35 @@ BEGIN
     FROM DUAL;
 END Trigger_Ficha;
 /
+/*************************************************************************************************
+
+~ TRIGGER PARA TABLA AUDITORÍA ~
+
+*************************************************************************************************/
+--Este trigger se ejecuta antes de eliminar un usuario, lo que hace es guardarlo dentro de tbAuditoría
+CREATE OR REPLACE TRIGGER Trigger_INST_Auditoria
+BEFORE DELETE ON tbUsuarios
+FOR EACH ROW
+DECLARE
+    var_nombre tbUsuarios.nombreUsuario%TYPE;
+    var_apellido tbUsuarios.apellidoUsuario%TYPE;
+    var_nombreComp tbAuditorias.nombreCompleto%TYPE;
+    var_tel tbAuditorias.telefonoUsuario%TYPE;
+BEGIN
+    var_nombre := :OLD.nombreUsuario;
+   
+    var_apellido := :OLD.apellidoUsuario;
+    
+    var_tel := :OLD.telefonoUsuario;
+    
+    var_nombreComp := var_nombre || ' ' || var_apellido;
+    
+    INSERT INTO tbAuditorias (ID_Auditoria, nombreCompleto, emailUsuario, telefonoUsuario)
+    VALUES (auditoria.NEXTVAL, var_nombreComp, :OLD.emailUsuario, var_tel);
+    
+    DBMS_OUTPUT.PUT_LINE('Guardado de seguridad, usuario eliminado');
+END Trigger_INST_Auditoria;
+/
 
 /*************************************************************************************************
 
@@ -1262,7 +1353,7 @@ BEGIN
     WHERE ID_Usuario = var_ID_Usuario
       AND ID_Sucursal = var_ID_Sucursal;
 
-    -- Contar el n?mero de registros existentes para el usuario
+    -- Contar el número de registros existentes para el usuario
     SELECT COUNT(*)
     INTO v_count
     FROM tbRecientes
@@ -1487,16 +1578,16 @@ INSERT ALL
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
-    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES (1, 'Juan', 'Perez', NULL, 'Padre', 1)
-    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES (2, 'Maria', 'Garcia', NULL, 'Madre', 2)
-    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES (3, 'Carlos', 'Lopez', NULL, 'Hijo', 3)
-    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES (4, 'Ana', 'Martinez', NULL, 'Hija', 4)
-    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES (5, 'Luis', 'Sanchez', NULL, 'Hermano', 5)
+    INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
+         VALUES ('Juan', 'Perez', NULL, 'Padre', 1)
+    INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
+         VALUES ('Maria', 'Garcia', NULL, 'Madre', 2)
+    INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
+         VALUES ('Carlos', 'Lopez', NULL, 'Hijo', 3)
+    INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
+         VALUES ('Ana', 'Martinez', NULL, 'Hija', 4)
+    INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
+         VALUES ('Luis', 'Sanchez', NULL, 'Hermano', 5)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -1512,8 +1603,16 @@ INSERT ALL
          VALUES (5, TO_DATE('2024-10-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-05 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada','A', 1, 5)
 SELECT DUMMY FROM DUAL;
 
-INSERT INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti)
-VALUES (TO_DATE('2024-07-14', 'YYYY-MM-DD'), 'P', 'Descargar pdf de tu ultima cita', 'S', 1, 1);
+INSERT ALL
+    INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
+        VALUES (TO_DATE('2024-07-14', 'YYYY-MM-DD'), 'A', 'Cita cancelada para mañana a las 2:00pm', 'S', 1, 1)
+    INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
+        VALUES (TO_DATE('2024-07-15', 'YYYY-MM-DD'), 'R', 'Recuerda tomar tu medicina a las 4:00pm', 'S', 1, 2)
+    INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
+        VALUES (TO_DATE('2024-07-16', 'YYYY-MM-DD'), 'C', 'Confirma tu cita con Dra. Luz María', 'S', 1, 3)
+    INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
+        VALUES (TO_DATE('2024-07-17', 'YYYY-MM-DD'), 'P', 'Receta 17/05/2024', 'S', 1, 5)
+SELECT * FROM dual;
 
 INSERT ALL
     INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
@@ -1527,7 +1626,7 @@ INSERT ALL
     INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
         VALUES ('Terapia Cognitiva', 55.00, 5, 5)
 SELECT DUMMY FROM DUAL;
-
+    
 INSERT ALL
     INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
     VALUES (1,1,2)
@@ -1603,6 +1702,23 @@ SELECT DUMMY FROM DUAL;
         LOWER(u.apellidoUsuario) LIKE LOWER(''))
     AND
         u.ID_TipoUsuario = 2;
+       
+--INNER JOIN SERVICIOS--
+SELECT
+    srv.nombreServicio,
+    srv.costo,
+    a.nombreAseguradora,
+    d.ID_Doctor
+FROM 
+    tbServicios srv
+INNER JOIN 
+    tbAseguradoras a ON srv.ID_Aseguradora = a.ID_Aseguradora
+INNER JOIN
+    tbCentrosMedicos cm ON srv.ID_Centro = cm.ID_Centro
+INNER JOIN
+    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+WHERE 
+    d.ID_Doctor = 1;
 
 --INNER JOIN CITASMEDICAS--
 SELECT

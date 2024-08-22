@@ -12,8 +12,6 @@ import androidx.navigation.fragment.findNavController
 
 
 class fragment_busquedaRapidaHombre : Fragment() {
-
-
     private var _binding: FragmentBusquedaRapidaHombreBinding? = null
     private val binding get() = _binding!!
 
@@ -50,7 +48,9 @@ class fragment_busquedaRapidaHombre : Fragment() {
         val specialties = when {
             isChestArea(x, y) -> listOf("Cardiología", "Torax")
             isHeadArea(x, y) -> listOf("Neurología", "Otorrinolaringología")
-
+            isAbdomenArea(x, y) -> listOf("Gastroenterología", "Cirugía General")
+            isHandArea(x, y) -> listOf("Ortopedia", "Cirugía de Mano")
+            isLegArea(x, y) -> listOf("Ortopedia", "Traumatología")
             else -> emptyList()
         }
         if (specialties.isNotEmpty()) {
@@ -60,16 +60,28 @@ class fragment_busquedaRapidaHombre : Fragment() {
     }
 
     private fun isChestArea(x: Float, y: Float): Boolean {
-      return x in 550f..750f && y in 600f..800f
+        return x in 450f..850f && y in 400f..900f
     }
 
+
     private fun isHeadArea(x: Float, y: Float): Boolean {
-     return x in 550f..750f && y in 100f..300f
+        return x in 350f..850f && y in 50f..350f
+    }
+
+    private fun isAbdomenArea(x: Float, y: Float): Boolean {
+        return x in 450f..850f && y in 900f..1200f
+    }
+
+    private fun isHandArea(x: Float, y: Float): Boolean {
+        return (x in 100f..350f && y in 900f..1200f) || (x in 850f..1100f && y in 900f..1200f)
+    }
+
+    private fun isLegArea(x: Float, y: Float): Boolean {
+        return x in 450f..850f && y in 1200f..1600f
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
 }
