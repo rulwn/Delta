@@ -726,16 +726,23 @@ CREATE TABLE tbServicios (
 
 CREATE TABLE tbReviews (
     ID_Review INT PRIMARY KEY,
-    nombreCentro VARCHAR2(50) NOT NULL,
     promEstrellas NUMBER(5) NOT NULL,
     comentario VARCHAR2(200),
+    ID_Doctor INT NOT NULL,
     ID_Usuario INT NOT NULL,
 
     --CONSTRAINTS------------------
+    CONSTRAINT FK_Doctor_Review FOREIGN KEY (ID_Doctor)
+    REFERENCES tbDoctores(ID_Doctor)
+    ON DELETE CASCADE,
+    
     CONSTRAINT FK_Usuario_Review FOREIGN KEY (ID_Usuario)
     REFERENCES tbUsuarios(ID_Usuario)
     ON DELETE CASCADE
 );
+
+SELECT
+    
 
 CREATE TABLE tbNotis (
     ID_Notificacion INT PRIMARY KEY,
@@ -1095,7 +1102,7 @@ BEGIN
 END Trigger_Sucursal;
 /
 
--- TRIGGER_CENTRO_M?DICO --
+-- TRIGGER_CENTRO_MEDICO --
 CREATE OR REPLACE TRIGGER Trigger_CentroMedico
 BEFORE INSERT ON tbCentrosMedicos
 FOR EACH ROW
@@ -1527,7 +1534,7 @@ INSERT ALL
     INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
         VALUES ('Terapia Cognitiva', 55.00, 5, 5)
 SELECT DUMMY FROM DUAL;
-
+    
 INSERT ALL
     INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
     VALUES (1,1,2)
@@ -1603,6 +1610,23 @@ SELECT DUMMY FROM DUAL;
         LOWER(u.apellidoUsuario) LIKE LOWER(''))
     AND
         u.ID_TipoUsuario = 2;
+       
+--INNER JOIN SERVICIOS--
+SELECT
+    srv.nombreServicio,
+    srv.costo,
+    a.nombreAseguradora,
+            d.ID_Doctor
+FROM 
+    tbServicios srv
+INNER JOIN 
+    tbAseguradoras a ON srv.ID_Aseguradora = a.ID_Aseguradora
+INNER JOIN
+    tbCentrosMedicos cm ON srv.ID_Centro = cm.ID_Centro
+INNER JOIN
+    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+WHERE 
+    d.ID_Doctor = 1;
 
 --INNER JOIN CITASMEDICAS--
 SELECT
