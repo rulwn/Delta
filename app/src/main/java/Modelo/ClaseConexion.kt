@@ -39,7 +39,7 @@ Alejandro
 val url = "jdbc:oracle:thin:@192.168.1.23:1521:xe"
 
 Jorge
-"jdbc:oracle:thin:@192.168.1.5:1521:xe"
+"jdbc:oracle:thin:@192.168.1.7:1521:xe"
 
 Raul colegio
 val url = "jdbc:oracle:thin:@10.10.1.1:1521:xe"
