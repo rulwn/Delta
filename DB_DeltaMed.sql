@@ -480,7 +480,7 @@ END;
 /
 
 BEGIN
-    EXECUTE IMMEDIATE 'DROP SEQUENCE pacientes';
+    EXECUTE IMMEDIATE 'DROP SEQUENCE paciente';
 EXCEPTION
     WHEN OTHERS THEN
         IF SQLCODE != -2289 THEN
@@ -529,6 +529,7 @@ EXCEPTION
 END;
 /
 
+COMMIT;
 /*******************************************************************************
 
     ~ CREACIÓN DE TABLAS INDEPENDIENTES ~
@@ -758,14 +759,14 @@ CREATE TABLE tbServicios (
 
 CREATE TABLE tbReviews (
     ID_Review INT PRIMARY KEY,
-    promEstrellas NUMBER(5) NOT NULL,
+    promEstrellas NUMBER(5,2) NOT NULL,
     comentario VARCHAR2(200),
-    ID_Doctor INT NOT NULL,
+    ID_Centro INT NOT NULL,
     ID_Usuario INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Doctor_Review FOREIGN KEY (ID_Doctor)
-    REFERENCES tbDoctores(ID_Doctor)
+    CONSTRAINT FK_Centro_Review FOREIGN KEY (ID_Centro)
+    REFERENCES tbCentrosMedicos(ID_Centro)
     ON DELETE CASCADE,
     
     CONSTRAINT FK_Usuario_Review FOREIGN KEY (ID_Usuario)
@@ -774,6 +775,22 @@ CREATE TABLE tbReviews (
 );
 
 SELECT
+    rv.promEstrellas,
+    rv.comentario,
+    u.nombreUsuario,
+    u.apellidoUsuario,
+    u.imgUsuario,
+    d.ID_Doctor
+FROM 
+    tbReviews rv
+INNER JOIN 
+    tbUsuarios u ON rv.ID_Usuario = u.ID_Usuario
+INNER JOIN
+    tbCentrosMedicos cm ON rv.ID_Centro = cm.ID_Centro
+INNER JOIN
+    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+WHERE 
+    d.ID_Doctor = 1;
     
 
 CREATE TABLE tbNotis (
@@ -998,7 +1015,7 @@ START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_PACIENTES --
-CREATE SEQUENCE pacientes
+CREATE SEQUENCE paciente
 START WITH 1
 INCREMENT BY 1;
 
@@ -1022,6 +1039,7 @@ CREATE SEQUENCE fichas
 START WITH 1
 INCREMENT BY 1;
 
+COMMIT;
 
 /*************************************************************************************************
 
@@ -1243,7 +1261,7 @@ CREATE OR REPLACE TRIGGER Trigger_Paciente
 BEFORE INSERT ON tbPacientes
 FOR EACH ROW
 BEGIN
-    SELECT pacientes.NEXTVAL
+    SELECT paciente.NEXTVAL
     INTO: NEW.ID_Paciente
     FROM DUAL;
 END Trigger_Paciente;
@@ -1560,16 +1578,16 @@ INSERT ALL
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
-    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES (1, 'Juan', 'Perez', NULL, 'Padre', 1)
-    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES (2, 'Maria', 'Garcia', NULL, 'Madre', 2)
-    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES (3, 'Carlos', 'Lopez', NULL, 'Hijo', 3)
-    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES (4, 'Ana', 'Martinez', NULL, 'Hija', 4)
-    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES (5, 'Luis', 'Sanchez', NULL, 'Hermano', 5)
+    INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
+         VALUES ('Juan', 'Perez', NULL, 'Padre', 1)
+    INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
+         VALUES ('Maria', 'Garcia', NULL, 'Madre', 2)
+    INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
+         VALUES ('Carlos', 'Lopez', NULL, 'Hijo', 3)
+    INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
+         VALUES ('Ana', 'Martinez', NULL, 'Hija', 4)
+    INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
+         VALUES ('Luis', 'Sanchez', NULL, 'Hermano', 5)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -1693,7 +1711,7 @@ SELECT
     srv.nombreServicio,
     srv.costo,
     a.nombreAseguradora,
-            d.ID_Doctor
+    d.ID_Doctor
 FROM 
     tbServicios srv
 INNER JOIN 

@@ -1,69 +1,69 @@
 <androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_margin="8dp"
+app:cardCornerRadius="12dp"
+app:cardElevation="6dp">
+
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="6dp">
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/imgProfile"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="4dp"
+        android:scaleType="centerCrop"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/imgProfile"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="4dp"
-            android:scaleType="centerCrop"
-            tools:srcCompat="@tools:sample/avatars" />
-
-        <LinearLayout
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/txtUserName"
+            android:maxLines="1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:text="Raul Ochoa"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"/>
 
-            <TextView
-                android:id="@+id/txtUserName"
-                android:maxLines="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Raul Ochoa"
-                android:textSize="16sp"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"/>
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="47dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:isIndicator="false"
+            android:numStars="5"
+            android:rating="0"
+            android:stepSize="1.0"
+            android:theme="@style/Widget.AppCompat.RatingBar" />
 
-            <RatingBar
-                android:id="@+id/ratingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:numStars="5"
-                android:stepSize="1.0"
-                android:rating="0"
-                android:isIndicator="false"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:theme="@style/Widget.AppCompat.RatingBar"/>
-
-            <EditText
-                android:id="@+id/edtReview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Escriba una reseña:"
-                android:textColorHint="@android:color/darker_gray"
-                android:background="@android:drawable/editbox_background"
-                android:padding="8dp"
-                android:textSize="14sp"
-                android:textColor="@color/GrisHumo"
-                android:fontFamily="@font/poppins_medium"
-                android:maxLength="150"/>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/edtReview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Reseña"
+            android:background="@android:drawable/editbox_background"
+            android:padding="20dp"
+            android:textSize="13sp"
+            android:textColor="@color/GrisHumo"
+            android:fontFamily="@font/poppins_medium"
+            android:maxLength="150"
+            android:ellipsize="end"/>
     </LinearLayout>
+</LinearLayout>
 </androidx.cardview.widget.CardView>
