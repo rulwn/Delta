@@ -104,7 +104,6 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
         val bundle = intent.extras
         var idUsuario = bundle?.getInt("idUsuario")
         var idSucursal = bundle?.getInt("idSucursal")
-        print("ID_Doctor: $ID_Doctor")
         val rcvServicios = findViewById<RecyclerView>(R.id.rcvServicios)
         rcvServicios.layoutManager = LinearLayoutManager(this)
         CoroutineScope(Dispatchers.IO).launch {
