@@ -11,14 +11,17 @@ GRANT "CONNECT" TO DeltaMed;
 
 ALTER SESSION SET NLS_DATE_FORMAT = 'DD-MM-YYYY';
 COMMIT;
+
+SET SERVEROUTPUT ON;
 */
 
 /*******************************************************************************
 
-    ~ ELIMINACI?N DE TABLAS EXISTENTES ~
+    ~ ELIMINACIÓN DE TABLAS EXISTENTES ~
 
 *******************************************************************************/
-
+--Este procedimiento PL/SQL ejecuta el comando DROP TABLE, pero si ocurre un error
+--y si ese error es que la tabla no existe, lo ignora y continua la ejecución.
 BEGIN
     EXECUTE IMMEDIATE 'DROP TABLE tbFichasMedicas CASCADE CONSTRAINTS';
 EXCEPTION
@@ -81,6 +84,16 @@ END;
 
 BEGIN
     EXECUTE IMMEDIATE 'DROP TABLE tbReviews CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbAuditorias CASCADE CONSTRAINTS';
 EXCEPTION
     WHEN OTHERS THEN
         IF SQLCODE != -942 THEN
@@ -264,7 +277,8 @@ END;
     ~ ELIMINACI?N DE SECUENCIAS EXISTENTES ~
 
 *******************************************************************************/
-
+--Este procedimiento PL/SQL ejecuta el comando DROP SEQCUENCE, pero si ocurre un error
+--y si ese error es que la sequence no existe, lo ignora y continúa la ejecución.
 BEGIN
     EXECUTE IMMEDIATE 'DROP SEQUENCE tipoNotis';
 EXCEPTION
@@ -406,6 +420,16 @@ END;
 /
 
 BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE auditoria';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -2289 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
     EXECUTE IMMEDIATE 'DROP SEQUENCE usuarios';
 EXCEPTION
     WHEN OTHERS THEN
@@ -507,7 +531,7 @@ END;
 
 /*******************************************************************************
 
-    ~ CREACI?N DE TABLAS INDEPENDIENTES ~
+    ~ CREACIÓN DE TABLAS INDEPENDIENTES ~
 
 *******************************************************************************/
 
@@ -555,9 +579,17 @@ CREATE TABLE tbRecetas (
     ubicacionPDF VARCHAR2(250)
 );
 
+CREATE TABLE tbAuditorias (
+    ID_Auditoria NUMBER PRIMARY KEY,
+    nombreCompleto VARCHAR2(100) NOT NULL,
+    emailUsuario VARCHAR2(50) NOT NULL,
+    telefonoUsuario VARCHAR2(9) NOT NULL,
+    acción VARCHAR2(20) DEFAULT('Eliminó su cuenta.') NOT NULL
+);
+
 /*************************************************************************************************
 
-    ~ CREACI?N DE TABLAS DEPENDIENTES ~
+    ~ CREACIÓN DE TABLAS DEPENDIENTES ~
 
 *************************************************************************************************/
 
@@ -854,7 +886,7 @@ CREATE TABLE tbFichasMedicas (
 
 /*************************************************************************************************
 
-    ~ CREACI?N DE SECUENCIAS ~
+    ~ CREACIÓN DE SECUENCIAS ~
 
 *************************************************************************************************/
 
@@ -925,6 +957,11 @@ INCREMENT BY 1;
 
 -- SECUENCIA_SEGUROS --
 CREATE SEQUENCE seguros
+START WITH 1
+INCREMENT BY 1;
+
+-- SECUENCIA_AUDITORÍA -
+CREATE SEQUENCE auditoria
 START WITH 1
 INCREMENT BY 1;
 
@@ -1248,6 +1285,35 @@ BEGIN
     FROM DUAL;
 END Trigger_Ficha;
 /
+/*************************************************************************************************
+
+~ TRIGGER PARA TABLA AUDITORÍA ~
+
+*************************************************************************************************/
+--Este trigger se ejecuta antes de eliminar un usuario, lo que hace es guardarlo dentro de tbAuditoría
+CREATE OR REPLACE TRIGGER Trigger_INST_Auditoria
+BEFORE DELETE ON tbUsuarios
+FOR EACH ROW
+DECLARE
+    var_nombre tbUsuarios.nombreUsuario%TYPE;
+    var_apellido tbUsuarios.apellidoUsuario%TYPE;
+    var_nombreComp tbAuditorias.nombreCompleto%TYPE;
+    var_tel tbAuditorias.telefonoUsuario%TYPE;
+BEGIN
+    var_nombre := :OLD.nombreUsuario;
+   
+    var_apellido := :OLD.apellidoUsuario;
+    
+    var_tel := :OLD.telefonoUsuario;
+    
+    var_nombreComp := var_nombre || ' ' || var_apellido;
+    
+    INSERT INTO tbAuditorias (ID_Auditoria, nombreCompleto, emailUsuario, telefonoUsuario)
+    VALUES (auditoria.NEXTVAL, var_nombreComp, :OLD.emailUsuario, var_tel);
+    
+    DBMS_OUTPUT.PUT_LINE('Guardado de seguridad, usuario eliminado');
+END Trigger_INST_Auditoria;
+/
 
 /*************************************************************************************************
 
@@ -1262,7 +1328,7 @@ BEGIN
     WHERE ID_Usuario = var_ID_Usuario
       AND ID_Sucursal = var_ID_Sucursal;
 
-    -- Contar el n?mero de registros existentes para el usuario
+    -- Contar el número de registros existentes para el usuario
     SELECT COUNT(*)
     INTO v_count
     FROM tbRecientes
