@@ -1853,8 +1853,19 @@ SELECT DUMMY FROM DUAL;
    ~ Insertar valores a la tabla tbNotis ~
 
 *************************************************************************************************/
-INSERT INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
-VALUES (TO_DATE('2024-07-14', 'YYYY-MM-DD'), 'P', 'Descargar pdf de tu ultima cita', 'S', 1, 1);
+INSERT ALL
+    INTO tbNotis (ID_Notificacion, fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
+        VALUES (1, TO_DATE('2024-07-14', 'YYYY-MM-DD'), 'A', 'Este es un aviso importante.', 'S', 1, 1)
+
+    INTO tbNotis (ID_Notificacion, fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
+        VALUES (2, TO_DATE('2024-07-15', 'YYYY-MM-DD'), 'R', 'Recordatorio de cita para mañana.', 'S', 1, 2)
+
+    INTO tbNotis (ID_Notificacion, fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
+        VALUES (3, TO_DATE('2024-07-16', 'YYYY-MM-DD'), 'C', 'Confirmación de cita exitosa.', 'S', 1, 3)
+
+    INTO tbNotis (ID_Notificacion, fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
+        VALUES (4, TO_DATE('2024-07-17', 'YYYY-MM-DD'), 'P', 'Receta médica disponible.', 'S', 1, 5)
+SELECT * FROM dual;
 
 
 /*************************************************************************************************
