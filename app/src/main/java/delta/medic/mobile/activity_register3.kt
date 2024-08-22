@@ -16,11 +16,15 @@ import androidx.core.view.WindowInsetsCompat
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.google.android.gms.auth.api.signin.internal.Storage
+import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.ktx.auth
 import kotlinx.coroutines.CoroutineScope
@@ -35,6 +39,7 @@ import com.google.firebase.storage.ktx.storage
 class activity_register3 : AppCompatActivity() {
 
     private lateinit var btnAgregarFoto: ImageView
+    private lateinit var imgFotoAgregada: ShapeableImageView
     lateinit var miPath: String
     val codigo_opcion_galeria = 102
     val STORAGE_REQUEST_CODE = 1
@@ -50,6 +55,8 @@ class activity_register3 : AppCompatActivity() {
             insets
         }
 // qn sabe 5 (comentario agregado para poder hacer push)
+        imgFotoAgregada = findViewById(R.id.imgFotoAgregada)
+        imgFotoAgregada.visibility = View.GONE
 
         btnAgregarFoto = findViewById(R.id.btnAgregarFoto)
         val btnOmitir = findViewById<TextView>(R.id.btnOmitirFoto)
@@ -85,19 +92,27 @@ class activity_register3 : AppCompatActivity() {
             startActivity(intent)
         }
 
+        imgFotoAgregada.setOnClickListener {
+            checkStoragePermission()
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == Activity.RESULT_OK){
-            when(requestCode){
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
                 codigo_opcion_galeria -> {
                     val imageUri: Uri? = data?.data
                     imageUri?.let {
                         val imageBitmap = MediaStore.Images.Media.getBitmap(contentResolver, it)
                         subirImagenFirebase(imageBitmap) { url ->
                             miPath = url
-                            btnAgregarFoto.setImageURI(it)
+                            Glide.with(this)
+                                .load(it)
+                                .transform(CircleCrop()) // Aplica la transformación de redondeo aquí
+                                .into(imgFotoAgregada)
+                            imgFotoAgregada.visibility = View.VISIBLE
                             activity_register1.imgUsuario = uuid
                         }
                     }

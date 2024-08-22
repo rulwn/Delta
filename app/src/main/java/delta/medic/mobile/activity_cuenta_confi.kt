@@ -25,6 +25,14 @@ class activity_cuenta_confi : AppCompatActivity() {
 
     private lateinit var binding: ActivityCuentaConfiBinding
 
+    lateinit var txtNom: TextView
+    lateinit var txtApe: TextView
+    lateinit var txtCorr: TextView
+    lateinit var txtDire: TextView
+    lateinit var txtTel: TextView
+    lateinit var txtSex: TextView
+    lateinit var txtFech: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -36,52 +44,75 @@ class activity_cuenta_confi : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        txtNom = findViewById(R.id.txtNom)
+        txtApe = findViewById(R.id.txtApe)
+        txtCorr = findViewById(R.id.txtCorr)
+        txtDire = findViewById(R.id.txtDire)
+        txtTel = findViewById(R.id.txtTel)
+        txtSex = findViewById(R.id.txtSex)
+        txtFech = findViewById(R.id.txtFech)
+
+        val nombre = intent.getStringExtra("nombre")
+        val apellido = intent.getStringExtra("apellido")
+        val email = intent.getStringExtra("email")
+        val direccion = intent.getStringExtra("direccion")
+        val telefono = intent.getStringExtra("telefono")
+        val sexo = intent.getStringExtra("sexo")
+        val fechaNacimiento = intent.getStringExtra("fechaNacimiento")
+
+        txtNom.text = nombre
+        txtApe.text = apellido
+        txtCorr.text = email
+        txtDire.text = direccion
+        txtTel.text = telefono
+        txtSex.text = if (sexo == "H") "Hombre" else "Mujer"
+        txtFech.text = fechaNacimiento
+
         val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
         val btnCambiarContra = findViewById<Button>(R.id.btnCambiarContra1)
         val txtCuenta = findViewById<TextView>(R.id.txtCuentaConfi)
-        val txtNombre = findViewById<TextView>(R.id.txtNombre)
-        val txtCorreo = findViewById<TextView>(R.id.txtCorreo)
-        val txtDireccion = findViewById<TextView>(R.id.txtDireccionSucur)
-        val txtTelefono = findViewById<TextView>(R.id.txtTelefono)
-        val txtFechaNacimiento = findViewById<TextView>(R.id.txtFecha)
-        val txtSexo = findViewById<TextView>(R.id.txtSexo)
-        val txtApellido = findViewById<TextView>(R.id.txtApellido)
         val btnEliminarUsuario = findViewById<Button>(R.id.btnEliminarUsuario)
 
 
+        //Modo claro y oscuro
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         when (currentNightMode) {
             Configuration.UI_MODE_NIGHT_NO -> {
                 txtCuenta.setTextColor(ContextCompat.getColor(this, R.color.black))
                 btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.black))
-                txtNombre.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtCorreo.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtDireccion.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtTelefono.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtFechaNacimiento.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtSexo.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtApellido.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtNom.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtCorr.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtDire.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtTel.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtFech.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtSex.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtApe.setTextColor(ContextCompat.getColor(this, R.color.black))
             }
             Configuration.UI_MODE_NIGHT_YES -> {
                 txtCuenta.setTextColor(ContextCompat.getColor(this, R.color.white))
                 btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.white))
-                txtNombre.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtCorreo.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtDireccion.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtTelefono.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtFechaNacimiento.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtSexo.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtApellido.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtNom.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtCorr.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtDire.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtTel.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtFech.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtSex.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtApe.setTextColor(ContextCompat.getColor(this, R.color.white))
             }
         }
+
         btnRegresar.setOnClickListener {
             finish()
         }
+
+        //Cambiar la contraseña con un botón
         btnCambiarContra.setOnClickListener {
             val intent = Intent(this, activity_cambiarcontra::class.java)
             startActivity(intent)
         }
 
+        //Eliminar el usuario con un botón
         btnEliminarUsuario.setOnClickListener {
             val emailToDelete = activity_login.userEmail
             CoroutineScope(Dispatchers.Main).launch {
@@ -98,6 +129,7 @@ class activity_cuenta_confi : AppCompatActivity() {
         }
     }
 
+    //Eliminar el usuario
     private suspend fun deleteUser(emailUsuario: String): Boolean {
         return withContext(Dispatchers.IO) {
             var isDeleted = false
