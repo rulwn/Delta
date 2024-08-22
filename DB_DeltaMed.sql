@@ -1578,8 +1578,19 @@ INSERT ALL
          VALUES (5, TO_DATE('2024-10-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-05 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada','A', 1, 5)
 SELECT DUMMY FROM DUAL;
 
-INSERT INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti)
-VALUES (TO_DATE('2024-07-14', 'YYYY-MM-DD'), 'P', 'Descargar pdf de tu ultima cita', 'S', 1, 1);
+INSERT ALL
+    INTO tbNotis (ID_Notificacion, fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
+        VALUES (1, TO_DATE('2024-07-14', 'YYYY-MM-DD'), 'A', 'Cita cancelada para mañana a las 2:00pm', 'S', 1, 1)
+
+    INTO tbNotis (ID_Notificacion, fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
+        VALUES (2, TO_DATE('2024-07-15', 'YYYY-MM-DD'), 'R', 'Recuerda tomar tu medicina a las 4:00pm', 'S', 1, 2)
+
+    INTO tbNotis (ID_Notificacion, fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
+        VALUES (3, TO_DATE('2024-07-16', 'YYYY-MM-DD'), 'C', 'Confirma tu cita con Dra. Luz María', 'S', 1, 3)
+
+    INTO tbNotis (ID_Notificacion, fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
+        VALUES (4, TO_DATE('2024-07-17', 'YYYY-MM-DD'), 'P', 'Receta 17/05/2024', 'S', 1, 5)
+SELECT * FROM dual;
 
 INSERT ALL
     INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
