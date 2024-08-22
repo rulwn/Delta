@@ -9,216 +9,246 @@
     android:padding="16dp"
     tools:context=".activity_centroadeyuda">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
-        android:orientation="vertical">
+    <ScrollView
+        android:id="@+id/scrollView4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">>
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/cen1" />
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/linearLayout6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:layout_editor_absoluteY="60dp">
+
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/cen1" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txtPodemosAudarte"
+                        android:layout_width="189dp"
+                        android:layout_height="52dp"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginEnd="45dp"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:text="¿Qué podemos ayudarte a encontrar?"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtContactanos"
+                        android:layout_width="158dp"
+                        android:layout_height="55dp"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:text="Contáctate con nosotros"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"></LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:orientation="horizontal"
+                tools:layout_editor_absoluteY="30dp">
+
+                <ImageView
+                    android:id="@+id/btnRegresar"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+
+                    android:layout_margin="10dp"
+                    app:srcCompat="@drawable/ic_arrow_back" />
+
+                <TextView
+                    android:id="@+id/txtCentroAyuda"
+                    android:layout_width="210dp"
+                    android:layout_height="27dp"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="Centro de ayuda"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/txtEmailCentroAyuda"
+                android:layout_width="355dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="-250dp"
+                android:background="@drawable/textboxprueba"
+                android:fontFamily="@font/poppins_regular"
+                android:hint="lugaspario@gmail.com"
+                android:inputType="textEmailAddress"
+                android:padding="8dp"
+                android:textColor="@color/GrisAzulito"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/txtEscribaComentarioCA"
+                android:layout_width="355dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="200dp"
+                android:background="@drawable/textboxprueba"
+                android:fontFamily="@font/poppins_regular"
+                android:hint="Escriba su comentario:"
+                android:inputType="textEmailAddress"
+                android:padding="8dp"
+                android:textColor="@color/GrisAzulito"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/txtPodemosAudarte"
-                android:layout_width="189dp"
-                android:layout_height="52dp"
+                android:id="@+id/txtPreguntasF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="13dp"
+                android:layout_marginEnd="156dp"
                 android:fontFamily="@font/poppins_semibold"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="45dp"
-                android:text="¿Qué podemos ayudarte a encontrar?"
+                android:text="Preguntas Frecuentes"
                 android:textColor="#000000"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.847" />
+
+            <Button
+                android:id="@+id/btnEnviarCorreo"
+                style="@style/Widget.Material3.Button.ElevatedButton"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="200dp"
+                android:backgroundTint="@color/Azul2"
+                android:fontFamily="@font/poppins_medium"
+                android:foregroundTint="#FFFFFF"
+                android:text="Enviar Comentario"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@+id/txtPreguntasF"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+                app:layout_constraintVertical_bias="1.0"
+                tools:layout_editor_absoluteX="95dp" />
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_search"
+                tools:layout_editor_absoluteX="26dp"
+                tools:layout_editor_absoluteY="666dp" />
+
+            <ImageView
+                android:id="@+id/imageView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/txtPregunta1"
+                app:layout_constraintHorizontal_bias="0.65"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtPreguntasF"
+                app:layout_constraintVertical_bias="0.977"
+                app:srcCompat="@drawable/ic_search" />
+
+            <ImageView
+                android:id="@+id/imageView13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_search"
+                tools:layout_editor_absoluteX="26dp"
+                tools:layout_editor_absoluteY="706dp" />
 
             <TextView
-                android:id="@+id/txtContactanos"
-                android:layout_width="158dp"
-                android:layout_height="55dp"
-                android:fontFamily="@font/poppins_semibold"
-                android:text="Contáctate con nosotros"
-                android:textColor="#000000"
-                android:textSize="16sp" />
-        </LinearLayout>
-    </LinearLayout>
+                android:id="@+id/txtPregunta1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginEnd="44dp"
+                android:layout_marginBottom="7dp"
+                android:fontFamily="@font/poppins_regular"
+                android:text="¿Se puede pagar desde la app?"
+                android:textColor="@color/Azul1"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/txtPregunta2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView5"
+                app:layout_constraintTop_toBottomOf="@+id/txtPreguntasF" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="34dp"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+            <TextView
+                android:id="@+id/txtPregunta2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginEnd="48dp"
+                android:layout_marginBottom="7dp"
+                android:fontFamily="@font/poppins_regular"
+                android:text="¿Qué pasa si cancelan mi cita?"
+                android:textColor="@color/Azul1"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/txtPregunta3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView13"
+                app:layout_constraintTop_toBottomOf="@+id/txtPregunta1" />
 
-        <ImageView
-            android:id="@+id/btnRegresar"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center"
+            <TextView
+                android:id="@+id/txtPregunta3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/poppins_regular"
+                android:text="¿Encontraré aca los mejores doctores?"
+                android:textColor="@color/Azul1"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtPregunta2" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
-            android:layout_margin="10dp"
-            app:srcCompat="@drawable/ic_arrow_back" />
-
-        <TextView
-            android:id="@+id/txtCentroAyuda"
-            android:layout_width="210dp"
-            android:layout_height="27dp"
-            android:layout_gravity="center"
-            android:fontFamily="@font/poppins_semibold"
-            android:text="Centro de ayuda"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
-
-    </LinearLayout>
-
-    <EditText
-        android:id="@+id/txtEmailCentroAyuda"
-        android:layout_width="355dp"
-        android:layout_height="40dp"
-        android:background="@drawable/textboxprueba"
-        android:fontFamily="@font/poppins_regular"
-        android:hint="lugaspario@gmail.com"
-        android:inputType="textEmailAddress"
-        android:padding="8dp"
-        android:textColor="@color/GrisAzulito"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/txtEscribaComentarioCA"
-        android:layout_width="355dp"
-        android:layout_height="150dp"
-        android:background="@drawable/textboxprueba"
-        android:fontFamily="@font/poppins_regular"
-        android:hint="Escriba su comentario:"
-        android:inputType="textEmailAddress"
-        android:padding="8dp"
-        android:textColor="@color/GrisAzulito"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.693" />
-
-    <TextView
-        android:id="@+id/txtPreguntasF"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_semibold"
-        android:text="Preguntas Frecuentes"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.06"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.809" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp"></LinearLayout>
-
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.033"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.878"
-        app:srcCompat="@drawable/ic_search" />
-
-    <ImageView
-        android:id="@+id/imageView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.033"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976"
-        app:srcCompat="@drawable/ic_search" />
-
-    <ImageView
-        android:id="@+id/imageView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.033"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.928"
-        app:srcCompat="@drawable/ic_search" />
-
-    <TextView
-        android:id="@+id/txtPregunta1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_regular"
-        android:text="¿Se puede pagar desde la app?"
-        android:textColor="@color/Azul1"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.41"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.877" />
-
-    <TextView
-        android:id="@+id/txtPregunta2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_regular"
-        android:text="¿Qué pasa si cancelan mi cita?"
-        android:textColor="@color/Azul1"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.398"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.928" />
-
-    <TextView
-        android:id="@+id/txtPregunta3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_regular"
-        android:text="¿Encontraré aca los mejores doctores?"
-        android:textColor="@color/Azul1"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.757"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
