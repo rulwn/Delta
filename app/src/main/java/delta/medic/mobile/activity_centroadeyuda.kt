@@ -1,5 +1,6 @@
 package delta.medic.mobile
 
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.widget.ImageView
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.content.res.Configuration
+import android.widget.Button
 import androidx.core.content.ContextCompat
 
 class activity_centroadeyuda : AppCompatActivity() {
@@ -23,6 +25,7 @@ class activity_centroadeyuda : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
         val txtCentroAyuda = findViewById<TextView>(R.id.txtCentroAyuda)
         val txtPodemosAyudarte = findViewById<TextView>(R.id.txtPodemosAudarte)
@@ -33,6 +36,8 @@ class activity_centroadeyuda : AppCompatActivity() {
         val txtPregunta1 = findViewById<TextView>(R.id.txtPregunta1)
         val txtPregunta2 = findViewById<TextView>(R.id.txtPregunta2)
         val txtPregunta3 = findViewById<TextView>(R.id.txtPregunta3)
+        val btnEnviarCorreo = findViewById<Button>(R.id.btnEnviarCorreo)
+
 
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         when (currentNightMode) {
@@ -63,11 +68,32 @@ class activity_centroadeyuda : AppCompatActivity() {
             } // Night mode is active, we're using dark theme.
         }
 
-
-
         btnRegresar.setOnClickListener {
             finish()
         }
 
+        btnEnviarCorreo.setOnClickListener {
+            val email = txtEmailCentroAyuda.text.toString()
+            val comentario = txtEscribaComentario.text.toString()
+
+            if (email.isNotEmpty() && comentario.isNotEmpty()) {
+                enviarCorreo(email, comentario)
+            }
+        }
+    }
+
+    private fun enviarCorreo(email: String, comentario: String) {
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "message/rfc822"
+            putExtra(Intent.EXTRA_EMAIL, arrayOf("delta.medic.help@gmail.com"))
+            putExtra(Intent.EXTRA_SUBJECT, "Comentario desde la App")
+            putExtra(Intent.EXTRA_TEXT, "Correo del usuario: $email\n\nComentario:\n$comentario")
+        }
+
+        try {
+            startActivity(Intent.createChooser(intent, "Enviar correo..."))
+        } catch (ex: android.content.ActivityNotFoundException) {
+            ex.printStackTrace()
+        }
     }
 }
