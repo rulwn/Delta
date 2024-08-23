@@ -78,7 +78,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="34dp"
                 android:orientation="horizontal"
-                tools:layout_editor_absoluteY="30dp">
+                tools:layout_editor_absoluteY="30dp"
+                tools:ignore="MissingConstraints">
 
                 <ImageView
                     android:id="@+id/btnRegresar"
@@ -159,7 +160,9 @@
                 style="@style/Widget.Material3.Button.ElevatedButton"
                 android:layout_width="200dp"
                 android:layout_height="50dp"
+                android:layout_marginStart="99dp"
                 android:layout_marginTop="200dp"
+                android:layout_marginEnd="70dp"
                 android:backgroundTint="@color/Azul2"
                 android:fontFamily="@font/poppins_medium"
                 android:foregroundTint="#FFFFFF"
@@ -167,17 +170,20 @@
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toTopOf="@+id/txtPreguntasF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-                app:layout_constraintVertical_bias="1.0"
-                tools:layout_editor_absoluteX="95dp" />
+                app:layout_constraintVertical_bias="0.91" />
 
             <ImageView
                 android:id="@+id/imageView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_search"
-                tools:layout_editor_absoluteX="26dp"
-                tools:layout_editor_absoluteY="666dp" />
+                android:layout_marginStart="32dp"
+                android:layout_marginBottom="18dp"
+                app:layout_constraintBottom_toTopOf="@+id/imageView13"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@drawable/ic_search" />
 
             <ImageView
                 android:id="@+id/imageView12"
@@ -195,9 +201,12 @@
                 android:id="@+id/imageView13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_search"
-                tools:layout_editor_absoluteX="26dp"
-                tools:layout_editor_absoluteY="706dp" />
+                android:layout_marginStart="28dp"
+                android:layout_marginBottom="26dp"
+                app:layout_constraintBottom_toTopOf="@+id/imageView12"
+                app:layout_constraintEnd_toStartOf="@+id/txtPregunta2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@drawable/ic_search" />
 
             <TextView
                 android:id="@+id/txtPregunta1"
@@ -220,8 +229,8 @@
                 android:id="@+id/txtPregunta2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="17dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="48dp"
                 android:layout_marginBottom="7dp"
                 android:fontFamily="@font/poppins_regular"
@@ -237,8 +246,8 @@
                 android:id="@+id/txtPregunta3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="60dp"
-                android:layout_marginTop="6dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="12dp"
                 android:fontFamily="@font/poppins_regular"
                 android:text="¿Encontraré aca los mejores doctores?"
                 android:textColor="@color/Azul1"
