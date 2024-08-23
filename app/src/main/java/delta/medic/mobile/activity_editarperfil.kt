@@ -1,9 +1,14 @@
 package delta.medic.mobile
 
 import Modelo.ClaseConexion
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
@@ -12,23 +17,40 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.firebase.Firebase
+import com.google.firebase.storage.storage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
+import java.util.UUID
 
 class activity_editarperfil : AppCompatActivity() {
+
+    val codigo_opcion_galeria = 102
+    val codigo_opcion_tomar_foto = 103
+    val CAMERA_REQUEST_CODE = 0
+    val STORAGE_REQUEST_CODE = 1
+
+    lateinit var imgvFotoEP: ImageView
+    lateinit var myPath: String
+
+    val uuid = UUID.randomUUID().toString()
+
 
     //Para los que pregunten, estas son las validaciones
     fun validarNombre(nombre: String): String? {
         val regex = "^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]*(?: [A-ZÁÉÍÓÚÑ][a-záéíóúñ]*)*$".toRegex()
         return when {
-            nombre.isBlank() -> "El nombre/apellido no puede estar vacío."
+            nombre.isBlank() -> "El nombre no puede estar vacío."
             nombre.contains("  ") -> "No se permiten dobles espacios."
-            !nombre.matches(regex) -> "El nombre/apellido debe comenzar con mayúscula y no contener caracteres especiales."
+            !nombre.matches(regex) -> "El nombre debe comenzar con mayúscula y no contener caracteres especiales."
             else -> null
         }
     }
@@ -218,7 +240,7 @@ class activity_editarperfil : AppCompatActivity() {
         }
     }
 
-    fun actualizarDatosUsuario(nombre: String, apellido: String, correo: String,Dirección: String, teléfono: String){
+    fun actualizarDatosUsuario(nombre: String, apellido: String, correo: String,Dirección: String, teléfono: String, imageUri: String){
 
         try{
             val id = intent.getIntExtra("idUsuario", 0)
@@ -227,13 +249,14 @@ class activity_editarperfil : AppCompatActivity() {
                 val objConnection = ClaseConexion().cadenaConexion()
 
                 val updateUserData = objConnection?.prepareStatement("UPDATE tbUsuarios SET nombreUsuario = ?, " +
-                        "apellidoUsuario = ?, emailUsuario = ?, direccion = ?, telefonousuario = ? where ID_Usuario =?")!!
+                        "apellidoUsuario = ?, emailUsuario = ?, direccion = ?, telefonousuario = ?, imgUsuario = ? where ID_Usuario =?")!!
                 updateUserData.setString(1,nombre)
                 updateUserData.setString(2,apellido)
                 updateUserData.setString(3,correo)
                 updateUserData.setString(4,Dirección)
                 updateUserData.setString(5,teléfono)
-                updateUserData.setInt(6,id)
+                updateUserData.setString(6,imageUri)
+                updateUserData.setInt(7,id)
                 updateUserData.executeUpdate()
 
                 val commit = objConnection.prepareStatement("commit")!!
@@ -246,6 +269,85 @@ class activity_editarperfil : AppCompatActivity() {
             println(e.message)
         }
 
+    }
+
+    private fun pedirPermisoAlmacenamiento(){
+        if(ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)){
+        }
+        else{
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), STORAGE_REQUEST_CODE)
+        }
+    }
+
+    private fun checkStoragePermission(){
+        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            pedirPermisoAlmacenamiento()
+        }
+        else{
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, codigo_opcion_galeria)
+        }
+    }
+
+    override fun onRequestPermissionResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ){
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when(requestCode){
+            STORAGE_REQUEST_CODE -> {
+                if((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)){
+                    val intent = Intent(Intent.ACTION_PICK)
+                    intent.type = "image/*"
+                    startActivityForResult(intent, codigo_opcion_galeria)
+                }
+                else{
+                    Toast.makeText(this, "Permiso denegado", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+
+            else ->{
+
+            }
+        }
+    }
+
+    private fun subirimagenFirebase(bitmap: Bitmap, onSuccess: (String) -> Unit){
+        val storageRef = Firebase.storage.reference
+        val imageRef = storageRef.child("images/${uuid}.jpg")
+        val baos= ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data = baos.toByteArray()
+        val uploadTask = imageRef.putBytes(data)
+
+        uploadTask.addOnFailureListener{taskSnapshot ->
+            Toast.makeText(this@activity_editarperfil, "Error al tratar de subir la imagen",Toast.LENGTH_SHORT).show()
+        }.addOnSuccessListener { taskSnapshot ->
+            imageRef.downloadUrl.addOnSuccessListener { uri ->
+                onSuccess(uri.toString())
+        }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK){
+         when(requestCode){
+             codigo_opcion_galeria -> {
+                 val imageUri: Uri? = data?.data
+                 imageUri?.let {
+                     val imageBitmap = MediaStore.Images.Media.getBitmap(contentResolver, it)
+                     subirimagenFirebase(imageBitmap) { url ->
+                         myPath = url
+                         imgvFotoEP.setImageURI(it)
+                     }
+                 }
+             }
+         }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -269,6 +371,7 @@ class activity_editarperfil : AppCompatActivity() {
         val lbCorreoEP = findViewById<TextView>(R.id.lbCorreoEP)
         val lbDirecciónEP = findViewById<TextView>(R.id.lbDirecciónEP)
         val lbTeléfonoEP = findViewById<TextView>(R.id.lbTeléfonoEP)
+        val lbEditarFoto = findViewById<TextView>(R.id.lbEditarFoto)
 
         //EditText
         val txtNombreEP = findViewById<EditText>(R.id.txtNombreEP)
@@ -278,7 +381,7 @@ class activity_editarperfil : AppCompatActivity() {
         val txtTeléfonoEP = findViewById<EditText>(R.id.txtTeléfonoEP)
 
         //ImageView
-        val imgvFotoEP = findViewById<ImageView>(R.id.imgvFotoEP)
+        imgvFotoEP = findViewById(R.id.imgvFotoEP)
         val btnCancelarEP = findViewById<ImageView>(R.id.imgvCancelarEP)
         val btnActualizarUserEP = findViewById<ImageView>(R.id.imgvActualizarUserEP)
 
@@ -289,6 +392,10 @@ class activity_editarperfil : AppCompatActivity() {
         setTextChangedApellido(txtApellidoEP)
         setTextChangedCorreo(txtCorreoEP)
         setTextChangedTelefono(txtTeléfonoEP)
+
+        lbEditarPerfil.setOnClickListener{
+            checkStoragePermission();
+        }
 
         btnActualizarUserEP.setOnClickListener{
 
@@ -321,7 +428,8 @@ class activity_editarperfil : AppCompatActivity() {
                         txtApellidoEP.text.toString(),
                         txtCorreoEP.text.toString(),
                         txtDirecciónEP.text.toString(),
-                        txtTeléfonoEP.text.toString()
+                        txtTeléfonoEP.text.toString(),
+
                     )
                     Toast.makeText(this, "Datos actualizados correctamente", Toast.LENGTH_SHORT).show()
                     activity_login.userEmail = txtCorreoEP.text.toString()
