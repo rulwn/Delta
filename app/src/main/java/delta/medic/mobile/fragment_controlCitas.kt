@@ -19,7 +19,6 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import delta.medic.mobile.activity_login.UserData.userEmail as sentEmail
-import java.util.Date
 import java.util.Locale
 
 // TODO: Rename parameter arguments, choose names that match
