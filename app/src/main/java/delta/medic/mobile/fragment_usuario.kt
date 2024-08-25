@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import delta.medic.mobile.activity_login.UserData.userEmail
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.sql.SQLException
@@ -39,7 +40,6 @@ class fragment_usuario : Fragment() {
     val cam_req_code = 0
     val stor_req_code = 1
     lateinit var dataUser: dataClassUsuario
-
 
     suspend fun GetUserParameters(email: String): List<dataClassUsuario> {
         return withContext(Dispatchers.IO) {
@@ -159,6 +159,7 @@ class fragment_usuario : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
+
         val root = inflater.inflate(R.layout.fragment_usuario, container, false)
 
         fun ActivitySettings(activitySettings: Intent): Intent {

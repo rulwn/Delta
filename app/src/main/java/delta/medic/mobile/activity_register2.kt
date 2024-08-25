@@ -34,6 +34,8 @@ class activity_register2 : AppCompatActivity() {
         val txtTienesUnaCuenta = findViewById<TextView>(R.id.txtTienesUnaCuenta2)
         val txtFechaNacimientoPaciente = findViewById<EditText>(R.id.txtFechadeNacimiento)
 
+
+
         txtTienesUnaCuenta.setOnClickListener {
             val intent = Intent(this, activity_login::class.java)
             startActivity(intent)

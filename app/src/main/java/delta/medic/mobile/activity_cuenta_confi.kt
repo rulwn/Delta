@@ -39,12 +39,6 @@ class activity_cuenta_confi : AppCompatActivity() {
         setContentView(R.layout.activity_cuenta_confi)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-
         txtNom = findViewById(R.id.txtNom)
         txtApe = findViewById(R.id.txtApe)
         txtCorr = findViewById(R.id.txtCorr)
@@ -53,27 +47,69 @@ class activity_cuenta_confi : AppCompatActivity() {
         txtSex = findViewById(R.id.txtSex)
         txtFech = findViewById(R.id.txtFech)
 
-        val nombre = intent.getStringExtra("nombre")
-        val apellido = intent.getStringExtra("apellido")
-        val email = intent.getStringExtra("email")
-        val direccion = intent.getStringExtra("direccion")
-        val telefono = intent.getStringExtra("telefono")
-        val sexo = intent.getStringExtra("sexo")
-        val fechaNacimiento = intent.getStringExtra("fechaNacimiento")
+        val emailUsuario = activity_login.userEmail
 
-        txtNom.text = nombre
-        txtApe.text = apellido
-        txtCorr.text = email
-        txtDire.text = direccion
-        txtTel.text = telefono
-        txtSex.text = if (sexo == "H") "Hombre" else "Mujer"
-        txtFech.text = fechaNacimiento
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
+        data class Usuario(
+            val nombre: String,
+            val apellido: String,
+            val email: String,
+            val direccion: String,
+            val telefono: String,
+            val sexo: String,
+            val fechaNacimiento: String
+        )
+
+        //Cargar los datos del usuario
+        suspend fun obtenerDatosUsuario(emailUsuario: String): Usuario? {
+            var usuario: Usuario? = null
+            try {
+                val objConexion = ClaseConexion().cadenaConexion()
+                if (objConexion != null) {
+                    val query = "SELECT nombre, apellido, email, direccion, telefono, sexo, fechaNacimiento FROM tbUsuarios WHERE emailUsuario = ?"
+                    val statement = objConexion.prepareStatement(query)
+                    statement.setString(1, emailUsuario)
+
+                    val resultSet = statement.executeQuery()
+                    if (resultSet.next()) {
+                        usuario = Usuario(
+                            nombre = resultSet.getString("nombre"),
+                            apellido = resultSet.getString("apellido"),
+                            email = resultSet.getString("email"),
+                            direccion = resultSet.getString("direccion"),
+                            telefono = resultSet.getString("telefono"),
+                            sexo = resultSet.getString("sexo"),
+                            fechaNacimiento = resultSet.getString("fechaNacimiento")
+                        )
+                    }
+
+                    resultSet.close()
+                    statement.close()
+                    objConexion.close()
+                }
+            } catch (e: SQLException) {
+                println("Error en la consulta SQL: ${e.message}")
+            } catch (e: Exception) {
+                println("Error: ${e.message}")
+            }
+            return usuario
+        }
+
+        suspend fun obtenerDatosUsuarioCorutina(emailUsuario: String): Usuario? {
+            return withContext(Dispatchers.IO) {
+                obtenerDatosUsuario(emailUsuario)
+            }
+        }
 
         val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
         val btnCambiarContra = findViewById<Button>(R.id.btnCambiarContra1)
         val txtCuenta = findViewById<TextView>(R.id.txtCuentaConfi)
         val btnEliminarUsuario = findViewById<Button>(R.id.btnEliminarUsuario)
-
 
         //Modo claro y oscuro
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
@@ -104,6 +140,26 @@ class activity_cuenta_confi : AppCompatActivity() {
 
         btnRegresar.setOnClickListener {
             finish()
+        }
+
+        // Función para mostrar los datos del usuario
+        fun mostrarDatosUsuario(usuario: Usuario) {
+            txtNom.text = usuario.nombre
+            txtApe.text = usuario.apellido
+            txtCorr.text = usuario.email
+            txtDire.text = usuario.direccion
+            txtTel.text = usuario.telefono
+            txtSex.text = usuario.sexo
+            txtFech.text = usuario.fechaNacimiento
+        }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val usuario = obtenerDatosUsuarioCorutina(emailUsuario)
+            if (usuario != null) {
+                mostrarDatosUsuario(usuario)
+            } else {
+                Toast.makeText(this@activity_cuenta_confi, "No se encontraron datos para el usuario.", Toast.LENGTH_SHORT).show()
+            }
         }
 
         //Cambiar la contraseña con un botón

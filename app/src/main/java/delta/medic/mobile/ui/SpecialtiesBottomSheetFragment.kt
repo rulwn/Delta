@@ -16,12 +16,17 @@ import delta.medic.mobile.activity_busqueda
 class SpecialtiesBottomSheetFragment : BottomSheetDialogFragment() {
 
     private var specialties: List<String> = listOf()
+    private var bodyArea: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_especialiadidadessheet, container, false)
+
+        val titleTextView = view.findViewById<TextView>(R.id.specialtiesTitleTextView)
+        titleTextView.text = "Especialidades de $bodyArea"
+
         val recyclerView = view.findViewById<RecyclerView>(R.id.specialtiesRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = AdaptadorEspecialidades(specialties) { specialty ->
@@ -40,10 +45,11 @@ class SpecialtiesBottomSheetFragment : BottomSheetDialogFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(specialties: List<String>) =
+        fun newInstance(specialties: List<String>, bodyArea: String) =
             SpecialtiesBottomSheetFragment().apply {
                 arguments = Bundle().apply {
                     putStringArrayList("specialties", ArrayList(specialties))
+                    putString("bodyArea", bodyArea)
                 }
             }
     }
@@ -52,6 +58,7 @@ class SpecialtiesBottomSheetFragment : BottomSheetDialogFragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             specialties = it.getStringArrayList("specialties") ?: listOf()
+            bodyArea = it.getString("bodyArea") ?: ""
         }
     }
     

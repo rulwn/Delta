@@ -39,6 +39,9 @@ Alejandro
 val url = "jdbc:oracle:thin:@192.168.1.23:1521:xe"
 
 Jorge
+cole:
+"jdbc:oracle:thin:@10.10.2.140:1521:xe"
+casita:
 "jdbc:oracle:thin:@192.168.1.7:1521:xe"
 
 Raul colegio

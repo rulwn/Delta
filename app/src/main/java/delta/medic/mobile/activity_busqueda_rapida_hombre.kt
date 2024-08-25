@@ -50,16 +50,16 @@ class activity_busqueda_rapida_hombre : AppCompatActivity() {
     }
 
     private fun handleBodyPartClick(x: Float, y: Float) {
-        val specialties = when {
-            isHeadArea(x, y) -> listOf("Neurología", "Otorrinolaringología", "Cirugía Plástica")
-            isChestArea(x, y) -> listOf("Cardiología", "Cirugía Torácica", "Neumología")
-            isAbdomenArea(x, y) -> listOf("Gastroenterología", "Cirugía General", "Urología")
-            isArmArea(x, y) -> listOf("Traumatología", "Cirugía de Mano", "Rehabilitación")
-            isLegArea(x, y) -> listOf("Ortopedia", "Cirugía Vascular", "Fisioterapia")
-            else -> emptyList()
+        val (specialties, bodyArea) = when {
+            isHeadArea(x, y) -> listOf("Neurología", "Otorrinolaringología", "Cirugía Plástica") to "Cabeza"
+            isChestArea(x, y) -> listOf("Cardiología", "Cirugía Torácica", "Neumología") to "Pecho"
+            isAbdomenArea(x, y) -> listOf("Gastroenterología", "Cirugía General", "Urología") to "Abdomen"
+            isArmArea(x, y) -> listOf("Traumatología", "Cirugía de Mano", "Rehabilitación") to "Brazos"
+            isLegArea(x, y) -> listOf("Ortopedia", "Cirugía Vascular", "Fisioterapia") to "Piernas"
+            else -> emptyList<String>() to ""
         }
         if (specialties.isNotEmpty()) {
-            val bottomSheet = SpecialtiesBottomSheetFragment.newInstance(specialties)
+            val bottomSheet = SpecialtiesBottomSheetFragment.newInstance(specialties, bodyArea)
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
     }
