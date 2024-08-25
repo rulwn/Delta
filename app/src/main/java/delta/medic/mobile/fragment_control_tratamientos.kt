@@ -2,6 +2,7 @@ package delta.medic.mobile
 
 import Modelo.ClaseConexion
 import Modelo.dataClassIndicaciones
+import RecycleViewHelper.AdaptadorCitas
 import RecycleViewHelper.AdaptadorTratamientos
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CalendarView
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
@@ -45,14 +47,20 @@ class fragment_control_tratamientos : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_control_tratamientos, container, false)
         val calendarView = root.findViewById<CalendarView>(R.id.calendarTratamientos)
+        val txtAunNotienescitas = root.findViewById<TextView>(R.id.txtAunNotienescitas)
         val rcvTratamientos = root.findViewById<RecyclerView>(R.id.rcvRecordatoriosTratamientos)
         rcvTratamientos.layoutManager = LinearLayoutManager(requireContext())
         CoroutineScope(Dispatchers.IO).launch{
             try {
                 val tratamientosDB = obtenerDatosTratamientos()
                 withContext(Dispatchers.Main) {
-                    val miAdaptador = AdaptadorTratamientos(tratamientosDB)
-                    rcvTratamientos.adapter = miAdaptador
+                    if (tratamientosDB.isEmpty()) {
+                        txtAunNotienescitas.visibility = View.VISIBLE
+                    } else {
+                        txtAunNotienescitas.visibility = View.GONE
+                        val miAdaptador = AdaptadorTratamientos(tratamientosDB)
+                        rcvTratamientos.adapter = miAdaptador
+                    }
                 }
             } catch (e: Exception) {
                 println("Este es el error ${e.message}")
