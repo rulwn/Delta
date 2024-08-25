@@ -1,6 +1,6 @@
 /*******************************************************************************
 
-    ~ Creacion del usuario de DeltaMed ~
+    ~ Creacin del usuario de DeltaMed ~
 
 *******************************************************************************/
 
@@ -17,11 +17,11 @@ SET SERVEROUTPUT ON;
 
 /*******************************************************************************
 
-    ~ ELIMINACI”N DE TABLAS EXISTENTES ~
+    ~ ELIMINACI√ìN DE TABLAS EXISTENTES ~
 
 *******************************************************************************/
 --Este procedimiento PL/SQL ejecuta el comando DROP TABLE, pero si ocurre un error
---y si ese error es que la tabla no existe, lo ignora y continua la ejecuciÛn.
+--y si ese error es que la tabla no existe, lo ignora y continua la ejecuci√≥n.
 BEGIN
     EXECUTE IMMEDIATE 'DROP TABLE tbFichasMedicas CASCADE CONSTRAINTS';
 EXCEPTION
@@ -274,11 +274,11 @@ END;
 
 /*******************************************************************************
 
-    ~ ELIMINACI?N DE SECUENCIAS EXISTENTES ~
+    ~ ELIMINACI√ìN DE SECUENCIAS EXISTENTES ~
 
 *******************************************************************************/
 --Este procedimiento PL/SQL ejecuta el comando DROP SEQCUENCE, pero si ocurre un error
---y si ese error es que la sequence no existe, lo ignora y contin˙a la ejecuciÛn.
+--y si ese error es que la sequence no existe, lo ignora y contin√∫a la ejecuci√≥n.
 BEGIN
     EXECUTE IMMEDIATE 'DROP SEQUENCE tipoNotis';
 EXCEPTION
@@ -480,7 +480,7 @@ END;
 /
 
 BEGIN
-    EXECUTE IMMEDIATE 'DROP SEQUENCE pacientes';
+    EXECUTE IMMEDIATE 'DROP SEQUENCE paciente';
 EXCEPTION
     WHEN OTHERS THEN
         IF SQLCODE != -2289 THEN
@@ -529,9 +529,10 @@ EXCEPTION
 END;
 /
 
+COMMIT;
 /*******************************************************************************
 
-    ~ CREACI”N DE TABLAS INDEPENDIENTES ~
+    ~ CREACI√ìN DE TABLAS INDEPENDIENTES ~
 
 *******************************************************************************/
 
@@ -584,12 +585,12 @@ CREATE TABLE tbAuditorias (
     nombreCompleto VARCHAR2(100) NOT NULL,
     emailUsuario VARCHAR2(50) NOT NULL,
     telefonoUsuario VARCHAR2(9) NOT NULL,
-    acciÛn VARCHAR2(20) DEFAULT('EliminÛ su cuenta.') NOT NULL
+    accion VARCHAR2(20) DEFAULT('Elimin√≥ su cuenta.') NOT NULL
 );
 
 /*************************************************************************************************
 
-    ~ CREACI”N DE TABLAS DEPENDIENTES ~
+    ~ CREACI√ìN DE TABLAS DEPENDIENTES ~
 
 *************************************************************************************************/
 
@@ -758,14 +759,14 @@ CREATE TABLE tbServicios (
 
 CREATE TABLE tbReviews (
     ID_Review INT PRIMARY KEY,
-    promEstrellas NUMBER(5) NOT NULL,
+    promEstrellas NUMBER(5,2) NOT NULL,
     comentario VARCHAR2(200),
-    ID_Doctor INT NOT NULL,
+    ID_Centro INT NOT NULL,
     ID_Usuario INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Doctor_Review FOREIGN KEY (ID_Doctor)
-    REFERENCES tbDoctores(ID_Doctor)
+    CONSTRAINT FK_Centro_Review FOREIGN KEY (ID_Centro)
+    REFERENCES tbCentrosMedicos(ID_Centro)
     ON DELETE CASCADE,
     
     CONSTRAINT FK_Usuario_Review FOREIGN KEY (ID_Usuario)
@@ -774,6 +775,22 @@ CREATE TABLE tbReviews (
 );
 
 SELECT
+    rv.promEstrellas,
+    rv.comentario,
+    u.nombreUsuario,
+    u.apellidoUsuario,
+    u.imgUsuario,
+    d.ID_Doctor
+FROM 
+    tbReviews rv
+INNER JOIN 
+    tbUsuarios u ON rv.ID_Usuario = u.ID_Usuario
+INNER JOIN
+    tbCentrosMedicos cm ON rv.ID_Centro = cm.ID_Centro
+INNER JOIN
+    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+WHERE 
+    d.ID_Doctor = 1;
     
 
 CREATE TABLE tbNotis (
@@ -893,7 +910,7 @@ CREATE TABLE tbFichasMedicas (
 
 /*************************************************************************************************
 
-    ~ CREACI”N DE SECUENCIAS ~
+    ~ CREACI√ìN DE SECUENCIAS ~
 
 *************************************************************************************************/
 
@@ -967,7 +984,7 @@ CREATE SEQUENCE seguros
 START WITH 1
 INCREMENT BY 1;
 
--- SECUENCIA_AUDITORÕA -
+-- SECUENCIA_AUDITOR√çA -
 CREATE SEQUENCE auditoria
 START WITH 1
 INCREMENT BY 1;
@@ -998,7 +1015,7 @@ START WITH 1
 INCREMENT BY 1;
 
 -- SECUENCIA_PACIENTES --
-CREATE SEQUENCE pacientes
+CREATE SEQUENCE paciente
 START WITH 1
 INCREMENT BY 1;
 
@@ -1022,10 +1039,11 @@ CREATE SEQUENCE fichas
 START WITH 1
 INCREMENT BY 1;
 
+COMMIT;
 
 /*************************************************************************************************
 
-    ~ CREACI?N DE TRIGGERS ~
+    ~ CREACI√ìN DE TRIGGERS ~
 
 *************************************************************************************************/
 
@@ -1243,7 +1261,7 @@ CREATE OR REPLACE TRIGGER Trigger_Paciente
 BEFORE INSERT ON tbPacientes
 FOR EACH ROW
 BEGIN
-    SELECT pacientes.NEXTVAL
+    SELECT paciente.NEXTVAL
     INTO: NEW.ID_Paciente
     FROM DUAL;
 END Trigger_Paciente;
@@ -1260,7 +1278,7 @@ BEGIN
 END Trigger_Expediente;
 /
 
--- TRIGGER_CITA_M?DICA --
+-- TRIGGER_CITA_M√âDICA --
 CREATE OR REPLACE TRIGGER Trigger_CitaMedica
 BEFORE INSERT ON tbCitasMedicas
 FOR EACH ROW
@@ -1271,7 +1289,7 @@ BEGIN
 END Trigger_CitaMedica;
 /
 
--- TRIGGER_INDICACI?N --
+-- TRIGGER_INDICACI√ìN --
 CREATE OR REPLACE TRIGGER Trigger_Indicacion
 BEFORE INSERT ON tbIndicaciones
 FOR EACH ROW
@@ -1294,10 +1312,10 @@ END Trigger_Ficha;
 /
 /*************************************************************************************************
 
-~ TRIGGER PARA TABLA AUDITORÕA ~
+~ TRIGGER PARA TABLA AUDITOR√çA ~
 
 *************************************************************************************************/
---Este trigger se ejecuta antes de eliminar un usuario, lo que hace es guardarlo dentro de tbAuditorÌa
+--Este trigger se ejecuta antes de eliminar un usuario, lo que hace es guardarlo dentro de tbAuditor√ça
 CREATE OR REPLACE TRIGGER Trigger_INST_Auditoria
 BEFORE DELETE ON tbUsuarios
 FOR EACH ROW
@@ -1335,13 +1353,13 @@ BEGIN
     WHERE ID_Usuario = var_ID_Usuario
       AND ID_Sucursal = var_ID_Sucursal;
 
-    -- Contar el n˙mero de registros existentes para el usuario
+    -- Contar el n√∫mero de registros existentes para el usuario
     SELECT COUNT(*)
     INTO v_count
     FROM tbRecientes
     WHERE ID_Usuario = var_ID_Usuario;
 
-    -- Si hay 19 registros, eliminar el m?s antiguo para dejar espacio al nuevo
+    -- Si hay 19 registros, eliminar el m√°s antiguo para dejar espacio al nuevo
     IF v_count > 19 THEN
         DELETE FROM tbRecientes
         WHERE ID_Usuario = var_ID_Usuario
@@ -1351,9 +1369,9 @@ BEGIN
                   SELECT ID_Sucursal
                   FROM tbRecientes
                   WHERE ID_Usuario = var_ID_Usuario
-                  ORDER BY ROWNUM  -- Orden natural de inserci?n
+                  ORDER BY ROWNUM  -- Orden natural de inserci√≥n
               )
-              WHERE ROWNUM = 1  -- Selecciona solo la fila m?s antigua
+              WHERE ROWNUM = 1  -- Selecciona solo la fila m√°s antigua
           );
     END IF;
 
@@ -1376,9 +1394,9 @@ INSERT ALL
     INTO tbTipoNotis (nombreTipoNoti)
          VALUES ('Recordatorio')
     INTO tbTipoNotis (nombreTipoNoti)
-         VALUES ('Confirmaci?n')
+         VALUES ('Confirmaci√≥n')
     INTO tbTipoNotis (nombreTipoNoti)
-         VALUES ('Configuraci?n')
+         VALUES ('Configuraci√≥n')
     INTO tbTipoNotis (nombreTipoNoti)
          VALUES ('Recetas')
 SELECT DUMMY FROM DUAL;
@@ -1394,13 +1412,13 @@ SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbTiempos (lapsosTiempo, frecuenciaMedi)
-         VALUES ('1 Vez al dÌa', '4')
+         VALUES ('1 Vez al d√≠a', '4')
     INTO tbTiempos (lapsosTiempo, frecuenciaMedi)
-         VALUES ('2 Veces al dÌa', '3')
+         VALUES ('2 Veces al d√≠a', '3')
     INTO tbTiempos (lapsosTiempo, frecuenciaMedi)
-         VALUES ('3 Veces al dÌa', '5')
+         VALUES ('3 Veces al d√≠a', '5')
     INTO tbTiempos (lapsosTiempo, frecuenciaMedi)
-         VALUES ('4 Veces al dÌa', '2')
+         VALUES ('4 Veces al d√≠a', '2')
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -1412,15 +1430,15 @@ SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbEspecialidades (nombreEspecialidad, nuevaEspecialidad)
-         VALUES ('PediatrÌa', '')
+         VALUES ('Pediatr√≠a', '')
     INTO tbEspecialidades (nombreEspecialidad, nuevaEspecialidad)
-         VALUES ('NeonatologÌa', '')
+         VALUES ('Neonatolog√≠a', '')
     INTO tbEspecialidades (nombreEspecialidad, nuevaEspecialidad)
-         VALUES ('CardiologÌa', '')
+         VALUES ('Cardiolog√≠a', '')
     INTO tbEspecialidades (nombreEspecialidad, nuevaEspecialidad)
          VALUES ('Ortopedia', '')
     INTO tbEspecialidades (nombreEspecialidad, nuevaEspecialidad)
-         VALUES ('OdontologÌa', '')
+         VALUES ('Odontolog√≠a', '')
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -1446,7 +1464,7 @@ INSERT ALL
     INTO tbAseguradoras (nombreAseguradora)
          VALUES ('ACSA MED')
     INTO tbAseguradoras (nombreAseguradora)
-         VALUES ('ATL¡NTIDA VIDA')
+         VALUES ('ATL√ÅNTIDA VIDA')
     INTO tbAseguradoras (nombreAseguradora)
          VALUES ('ASESUISA')
 SELECT DUMMY FROM DUAL;
@@ -1466,7 +1484,7 @@ SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
-        VALUES ('Francisco', 'MejÌa', 'fran@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'San Salvador', '6143-1352', 'M', '20/02/1980', NULL, 1)
+        VALUES ('Francisco', 'Mej√≠a', 'fran@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'San Salvador', '6143-1352', 'M', '20/02/1980', NULL, 1)
     INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
         VALUES ('Steven', 'Palacios', 'venosin@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'Ciudad Arce', '2245-9312', 'M', '15/07/1999', NULL, 1)
     INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
@@ -1490,15 +1508,15 @@ SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('ClÌnica GinecolÛgica', 235656, 'clinica_ginecologica@gmail.com', '2264-7856', '25 Av. Norte, Colonia M?dica, San Salvador', 13.709362, -89.202990, '7589-4365', 'Esta sucursal no posee una fotograf?a', 1, 2)
+         VALUES ('Cl√≠nica Ginecol√≥gica', 235656, 'clinica_ginecologica@gmail.com', '2264-7856', '25 Av. Norte, Colonia M√©dica, San Salvador', 13.709362, -89.202990, '7589-4365', 'Esta sucursal no posee una fotograf√≠a', 1, 2)
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('ClÌnica Asistencial SalvadoreÒa', 675429, 'clinica_asistencial@gmail.com', '2256-6576', 'Calle Libertad y Avenida Independencia, Santa Ana', 13.714547, -89.192849, '5383-4365', 'Esta sucursal no tiene una fotograf?a', 5, 1)
+         VALUES ('Cl√≠nica Asistencial Salvadore√±a', 675429, 'clinica_asistencial@gmail.com', '2256-6576', 'Calle Libertad y Avenida Independencia, Santa Ana', 13.714547, -89.192849, '5383-4365', 'Esta sucursal no tiene una fotograf√≠a', 5, 1)
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Hospital de DiagnÛstico', 990764, 'hospital_diagnostico@gmail.com', '2224-7887', '79 Av. Norte y 11 Calle Poniente, Colonia EscalÛn, San Salvador', 13.710252 , -89.202537, '7519-2335', 'Esta sucursal ha puesto una fotograf?a', 3, 1)
+         VALUES ('Hospital de Diagn√≥stico', 990764, 'hospital_diagnostico@gmail.com', '2224-7887', '79 Av. Norte y 11 Calle Poniente, Colonia Escal√≥n, San Salvador', 13.710252 , -89.202537, '7519-2335', 'Esta sucursal ha puesto una fotograf√≠a', 3, 1)
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Centro MÈdico EscalÛn', 224216, 'medico_escalon@gmail.com', '2235-7856', '85 Av. Norte y Calle Juan JosÈ CaÒas, Colonia EscalÛn, San Salvador', 13.711853, -89.234307, '7509-3230', 'Neles', 4, 2)
+         VALUES ('Centro M√©dico Escal√≥n', 224216, 'medico_escalon@gmail.com', '2235-7856', '85 Av. Norte y Calle Juan Jos√© Ca√±as, Colonia Escal√≥n, San Salvador', 13.711853, -89.234307, '7509-3230', 'Neles', 4, 2)
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Hospital La Divina Providencia', 012483, 'divina_providencia@gmail.com', '2211-2956', 'Avenida Masferrer Norte, Colonia Escal?n, San Salvador', 13.711245, -89.223008, '3278-3561', 'Tampoco tu', 2, 2)
+         VALUES ('Hospital La Divina Providencia', 012483, 'divina_providencia@gmail.com', '2211-2956', 'Avenida Masferrer Norte, Colonia Escal√≥n, San Salvador', 13.711245, -89.223008, '3278-3561', 'Tampoco tu', 2, 2)
 SELECT DUMMY FROM DUAL;
 
 UPDATE tbSucursales SET imgSucursal = 'https://centroginecologico.com.sv/wp-content/uploads/2020/10/facahadanew20.jpg' WHERE ID_Sucursal = 1;
@@ -1509,15 +1527,15 @@ UPDATE tbSucursales SET imgSucursal = 'https://www.ecured.cu/images/e/e3/Hospita
 
 INSERT ALL
     INTO tbIndicaciones (duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
-         VALUES (TO_TIMESTAMP('2023-06-01 08:00:00', 'YYYY-MM-DD HH24:MI:SS'), '1 tableta', 'Paracetamol', 'Tomar despu?s de las comidas', 1, 1)
+         VALUES (TO_TIMESTAMP('2023-06-01 08:00:00', 'YYYY-MM-DD HH24:MI:SS'), '1 tableta', 'Paracetamol', 'Tomar despu√©s de las comidas', 1, 1)
     INTO tbIndicaciones (duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
          VALUES (TO_TIMESTAMP('2023-06-02 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), '2 cucharadas', 'Ibuprofeno', 'Tomar con agua', 2, 2)
     INTO tbIndicaciones (duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
          VALUES (TO_TIMESTAMP('2023-06-03 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '5 ml', 'Amoxicilina', 'Tomar cada 8 horas', 3, 3)
     INTO tbIndicaciones (duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
-         VALUES (TO_TIMESTAMP('2023-06-04 20:00:00', 'YYYY-MM-DD HH24:MI:SS'), '1 c?psula', 'Omeprazol', 'Tomar antes de dormir', 4, 4)
+         VALUES (TO_TIMESTAMP('2023-06-04 20:00:00', 'YYYY-MM-DD HH24:MI:SS'), '1 c√°psula', 'Omeprazol', 'Tomar antes de dormir', 4, 4)
     INTO tbIndicaciones (duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
-         VALUES (TO_TIMESTAMP('2023-06-05 07:00:00', 'YYYY-MM-DD HH24:MI:SS'), '10 gotas', 'Clorfenamina', 'Tomar en la ma?ana y noche', 5, 4)
+         VALUES (TO_TIMESTAMP('2023-06-05 07:00:00', 'YYYY-MM-DD HH24:MI:SS'), '10 gotas', 'Clorfenamina', 'Tomar en la ma√±ana y noche', 5, 4)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -1560,23 +1578,23 @@ INSERT ALL
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
-    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES (1, 'Juan', 'Perez', NULL, 'Padre', 1)
-    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES (2, 'Maria', 'Garcia', NULL, 'Madre', 2)
-    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES (3, 'Carlos', 'Lopez', NULL, 'Hijo', 3)
-    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES (4, 'Ana', 'Martinez', NULL, 'Hija', 4)
-    INTO tbPacientes (ID_Paciente, nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES (5, 'Luis', 'Sanchez', NULL, 'Hermano', 5)
+    INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
+         VALUES ('Juan', 'Perez', NULL, 'Padre', 1)
+    INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
+         VALUES ('Maria', 'Garcia', NULL, 'Madre', 2)
+    INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
+         VALUES ('Carlos', 'Lopez', NULL, 'Hijo', 3)
+    INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
+         VALUES ('Ana', 'Martinez', NULL, 'Hija', 4)
+    INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
+         VALUES ('Luis', 'Sanchez', NULL, 'Hermano', 5)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, estadoCita, ID_Centro, ID_Paciente)
          VALUES (1, TO_DATE('2024-10-01', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general','A', 5, 1)
     INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, estadoCita, ID_Centro, ID_Paciente)
-         VALUES (2, TO_DATE('2024-10-02', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-02 11:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Revisi?n anual','A', 4, 2)
+         VALUES (2, TO_DATE('2024-10-02', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-02 11:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Revisi√≥n anual','A', 4, 2)
     INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, estadoCita, ID_Centro, ID_Paciente)
          VALUES (3, TO_DATE('2024-10-03', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-03 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta de seguimiento','A', 3, 3)
     INTO tbCitasMedicas (ID_Cita, diaCita, horaCita, motivo, estadoCita, ID_Centro, ID_Paciente)
@@ -1586,18 +1604,17 @@ INSERT ALL
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
-    INTO tbNotis (ID_Notificacion, fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
-        VALUES (1, TO_DATE('2024-07-14', 'YYYY-MM-DD'), 'A', 'Cita cancelada para maÒana a las 2:00pm', 'S', 1, 1)
-
-    INTO tbNotis (ID_Notificacion, fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
-        VALUES (2, TO_DATE('2024-07-15', 'YYYY-MM-DD'), 'R', 'Recuerda tomar tu medicina a las 4:00pm', 'S', 1, 2)
-
-    INTO tbNotis (ID_Notificacion, fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
-        VALUES (3, TO_DATE('2024-07-16', 'YYYY-MM-DD'), 'C', 'Confirma tu cita con Dra. Luz MarÌa', 'S', 1, 3)
-
-    INTO tbNotis (ID_Notificacion, fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
-        VALUES (4, TO_DATE('2024-07-17', 'YYYY-MM-DD'), 'P', 'Receta 17/05/2024', 'S', 1, 5)
+    INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
+        VALUES (TO_DATE('2024-07-14', 'YYYY-MM-DD'), 'A', 'Cita cancelada para ma√±ana a las 2:00pm', 'S', 1, 1)
+    INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
+        VALUES (TO_DATE('2024-07-15', 'YYYY-MM-DD'), 'R', 'Recuerda tomar tu medicina a las 4:00pm', 'S', 1, 2)
+    INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
+        VALUES (TO_DATE('2024-07-16', 'YYYY-MM-DD'), 'C', 'Confirma tu cita con Dra. Luz Mar√≠a', 'S', 1, 3)
+    INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
+        VALUES (TO_DATE('2024-07-17', 'YYYY-MM-DD'), 'P', 'Receta 17/05/2024', 'S', 1, 5)
 SELECT * FROM dual;
+INSERT INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti)
+VALUES (TO_DATE('2024-07-14', 'YYYY-MM-DD'), 'P', 'Descargar pdf de tu ultima cita', 'S', 1, 1);
 
 INSERT ALL
     INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
@@ -1645,7 +1662,7 @@ INSERT ALL
     INTO tbMotivo (motivo)
          VALUES ('Heridas')
     INTO tbMotivo (motivo)
-         VALUES ('Revisi?n de rutina')
+         VALUES ('Revisi√≥n de rutina')
 SELECT DUMMY FROM DUAL;
 */
 
@@ -1693,7 +1710,7 @@ SELECT
     srv.nombreServicio,
     srv.costo,
     a.nombreAseguradora,
-            d.ID_Doctor
+    d.ID_Doctor
 FROM 
     tbServicios srv
 INNER JOIN 
@@ -1857,4 +1874,4 @@ FROM  tbcitasmedicas CITAS
 
 */
 
-select * from tbUsuarios;
+select * from tbAuditorias;

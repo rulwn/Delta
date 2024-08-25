@@ -1,10 +1,10 @@
 package Modelo
 
 data class dataClassResena(
+    val comentario  : String,
     val promEstrellas : Float,
-    val motivo : String,
-    val ID_Doctor : Int,
+    val imgUsuario : String,
     val nombreUsuario : String,
     val apellidoUsuario : String,
-    val imgUsuario : String
+    val ID_Doctor : Int
 )
