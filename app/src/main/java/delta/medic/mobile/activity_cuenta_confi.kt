@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.sql.SQLException
 import Modelo.dataClassUsuario
+import delta.medic.mobile.activity_login.UserData.userEmail
 
 class activity_cuenta_confi : AppCompatActivity() {
 
@@ -49,22 +50,27 @@ class activity_cuenta_confi : AppCompatActivity() {
         txtSex = findViewById(R.id.txtSex)
         txtFech = findViewById(R.id.txtFech)
 
-        val emailUsuario = activity_login.userEmail
-
         //Llamar la función para cargar los datos del usuario
         CoroutineScope(Dispatchers.Main).launch {
-            val usuario = CargarDatosUsuario(emailUsuario)
-            if (usuario != null) {
-                // Actualizar la UI en el hilo principal
-                withContext(Dispatchers.Main) {
-                    txtNom.text = usuario.nombreUsuario
-                    txtApe.text = usuario.apellidoUsuario
-                    txtCorr.text = usuario.emailUsuario
-                    txtDire.text = usuario.dirección
-                    txtTel.text = usuario.teléfonoUsuario
-                    txtSex.text = usuario.sexo
-                    txtFech.text = usuario.fechaNacimiento
-                }
+            val fragmentUsuario = fragment_usuario()
+            val user = fragmentUsuario.GetUserParameters(userEmail)
+            val nombreUsuario = user.map { it.nombreUsuario }
+            val apellidoUsuario = user.map { it.apellidoUsuario }
+            val emailUsuario = user.map { it.emailUsuario }
+            val direccion = user.map { it.dirección }
+            val telefonoUsuario = user.map { it.teléfonoUsuario }
+            val sexo = user.map { it.sexo }
+            val fechaNacimiento = user.map { it.fechaNacimiento }
+
+            withContext(Dispatchers.Main) {
+                //Para solucionarlo se coloca replace
+                txtNom.setText(nombreUsuario.toString().replace("[", "").replace("]", ""))
+                txtApe.setText(apellidoUsuario.toString().replace("[", "").replace("]", ""))
+                txtCorr.setText(emailUsuario.toString().replace("[", "").replace("]", ""))
+                txtDire.setText(direccion.toString().replace("[", "").replace("]", ""))
+                txtTel.setText(telefonoUsuario.toString().replace("[", "").replace("]", ""))
+                txtSex.setText(sexo.toString().replace("[", "").replace("]", ""))
+                txtFech.setText(fechaNacimiento.toString().replace("[", "").replace("]", ""))
             }
         }
 
@@ -111,21 +117,21 @@ class activity_cuenta_confi : AppCompatActivity() {
 
         btnEliminarUsuario.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
-                val isDeleted = deleteUser(emailUsuario)
+                val isDeleted = deleteUser(userEmail)
                 if (isDeleted) {
                     Toast.makeText(this@activity_cuenta_confi, "Usuario eliminado correctamente", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@activity_cuenta_confi, activity_login::class.java)
                     startActivity(intent)
                     finish()
                 } else {
-                    Toast.makeText(this@activity_cuenta_confi, "No se encontró el usuario con email $emailUsuario", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@activity_cuenta_confi, "No se encontró el usuario con email $userEmail", Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
 
     // Función para cargar datos del usuario desde la base de datos
-    private suspend fun CargarDatosUsuario(userEmail: String): dataClassUsuario? {
+    /*private suspend fun CargarDatosUsuario(userEmail: String): dataClassUsuario? {
         return withContext(Dispatchers.IO) {
             var usuario: dataClassUsuario? = null
             try {
@@ -164,7 +170,7 @@ class activity_cuenta_confi : AppCompatActivity() {
             usuario
         }
     }
-
+        */
     // Función para eliminar usuario
     private suspend fun deleteUser(emailUsuario: String): Boolean {
         return withContext(Dispatchers.IO) {
