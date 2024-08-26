@@ -9,9 +9,9 @@
         android:required="false" />
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
         android:name="android.permission.READ_MEDIA_IMAGES"
         tools:ignore="SelectedPhotoAccess" />
@@ -32,6 +32,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DeltaMedic"
         tools:targetApi="31">
+        <activity
+            android:name=".item_pacientes"
+            android:exported="false" />
         <activity
             android:name=".activity_seguro_paciente"
             android:exported="false" />
@@ -167,7 +170,7 @@
             android:resource="@array/preloaded_fonts" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/googleMapsApiKey"/>
+            android:value="@string/googleMapsApiKey" />
     </application>
 
 </manifest>

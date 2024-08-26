@@ -1,0 +1,86 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/textboxprueba"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/lblBorrar"
+        android:layout_width="284dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_bold"
+        android:text="Borrar cuenta"
+        android:textColor="@color/avisos"
+        android:textSize="26sp" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/rubik"
+        android:text="Para asegurar que quieres borrar tu cuenta verifica tu contraseña"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textView113"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <TextView
+        android:id="@+id/textView116"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/txtCorreoBorrar"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="@drawable/textboxprueba"
+        android:ems="10"
+        android:fontFamily="@font/poppins_regular"
+        android:hint="Contraseña"
+        android:inputType="textEmailAddress"
+        android:padding="8dp"
+        android:textColor="@color/GrisAzulito"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/txtCorreoRepetidoBorrar"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="@drawable/textboxprueba"
+        android:ems="10"
+        android:fontFamily="@font/poppins_regular"
+        android:hint="Repite la contraseña"
+        android:inputType="textEmailAddress"
+        android:padding="8dp"
+        android:textColor="@color/GrisAzulito"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btnBorrarCuenta"
+        style="@style/Widget.Material3.Button.ElevatedButton"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/avisos"
+        android:fontFamily="@font/poppins_medium"
+        android:foregroundTint="#FFFFFF"
+        android:text="Borrar"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:cornerRadius="15dp" />
+
+</LinearLayout>

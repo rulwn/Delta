@@ -4,7 +4,6 @@ import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.ImageView
-import android.widget.ScrollView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -25,7 +24,7 @@ class activity_privacidadyseguridad : AppCompatActivity() {
             insets
         }
         val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
-        val txtPrivacidad = findViewById<TextView>(R.id.txtPrivacidad)
+        val txtPrivacidad = findViewById<TextView>(R.id.txtPacientes)
         val txtTerminos1 = findViewById<TextView>(R.id.txtTerminos1)
         val txtTerminos2 = findViewById<TextView>(R.id.txtTerminos2)
         val txtTerminos3 = findViewById<TextView>(R.id.txtTerminos3)
