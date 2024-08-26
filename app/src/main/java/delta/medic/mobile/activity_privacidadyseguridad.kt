@@ -24,7 +24,7 @@ class activity_privacidadyseguridad : AppCompatActivity() {
             insets
         }
         val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
-        val txtPrivacidad = findViewById<TextView>(R.id.txtPacientes)
+        val txtPrivacidad = findViewById<TextView>(R.id.txtPrivacidad)
         val txtTerminos1 = findViewById<TextView>(R.id.txtTerminos1)
         val txtTerminos2 = findViewById<TextView>(R.id.txtTerminos2)
         val txtTerminos3 = findViewById<TextView>(R.id.txtTerminos3)
