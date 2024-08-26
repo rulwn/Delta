@@ -2,13 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="20dp">
 
     <TextView
         android:id="@+id/textView15"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cambio de contraseña"
+        android:fontFamily="@font/poppins_bold"
+        android:text="Reestablecer contraseña"
+        android:textColor="@color/GrisHumo"
         android:textSize="26sp" />
 
     <TextView
@@ -19,32 +23,51 @@
     <EditText
         android:id="@+id/txtNuevaClave"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="54dp"
         android:ems="10"
+        android:background="@drawable/textboxprueba"
+        android:fontFamily="@font/poppins_regular"
         android:hint="Nueva contraseña"
-        android:inputType="text" />
+        android:inputType="text"
+        android:padding="8dp"
+        android:textColor="@color/GrisAzulito"
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/textView17"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+
     <EditText
         android:id="@+id/txtConfirmarNuevaClave"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="54dp"
         android:ems="10"
+        android:background="@drawable/textboxprueba"
+        android:fontFamily="@font/poppins_regular"
         android:hint="Confirmar contraseña"
-        android:inputType="text" />
+        android:inputType="text"
+        android:padding="8dp"
+        android:textColor="@color/GrisAzulito"
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/textView24"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+
     <Button
         android:id="@+id/btnConfirmarCambio"
+        style="@style/Widget.Material3.Button.ElevatedButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Confirmar" />
+        android:layout_height="60dp"
+        android:backgroundTint="@color/Azul2"
+        android:fontFamily="@font/poppins_medium"
+        android:foregroundTint="#FFFFFF"
+        android:text="Confirmar"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:cornerRadius="15dp"/>
 </LinearLayout>

@@ -83,12 +83,12 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        if (user != null) {
+        /*if (user != null) {
             userEmail = user.email.toString()
             Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, "No se pudo iniciar sesion", Toast.LENGTH_SHORT).show()
-        }
+        }*/
 
         val navView: BottomNavigationView = binding.navView
         val tuerquita = findViewById<ImageView>(R.id.imgVSettingsPerfil)
