@@ -22,7 +22,7 @@ class AdaptadorResenas (var Datos: List<dataClassResena>) : RecyclerView.Adapter
         holder.render(item)
         Glide.with(holder.itemView)
             .load(item.imgUsuario)
-            .circleCrop()git 
+            .circleCrop()git
             .into(holder.imgProfile)
 
         holder.edtReview.text = item.comentario
