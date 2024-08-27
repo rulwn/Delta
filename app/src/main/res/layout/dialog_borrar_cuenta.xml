@@ -1,73 +1,86 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@drawable/textboxprueba"
     android:padding="20dp">
 
     <TextView
-        android:id="@+id/textView15"
-        android:layout_width="match_parent"
+        android:id="@+id/lblBorrar"
+        android:layout_width="284dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_bold"
-        android:text="Reestablecer contraseña"
-        android:textColor="@color/GrisHumo"
+        android:text="Borrar cuenta"
+        android:textColor="@color/avisos"
         android:textSize="26sp" />
 
     <TextView
-        android:id="@+id/textView16"
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/rubik"
+        android:text="Para asegurar que quieres borrar tu cuenta verifica tu contraseña"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textView113"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <TextView
+        android:id="@+id/textView116"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/txtNuevaClave"
+        android:id="@+id/txtCorreoBorrar"
         android:layout_width="match_parent"
         android:layout_height="54dp"
-        android:ems="10"
         android:background="@drawable/textboxprueba"
+        android:ems="10"
         android:fontFamily="@font/poppins_regular"
-        android:hint="Nueva contraseña"
-        android:inputType="text"
+        android:hint="Contraseña"
+        android:inputType="textEmailAddress"
         android:padding="8dp"
         android:textColor="@color/GrisAzulito"
-        android:textSize="16sp"/>
+        android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/textView17"
+        android:id="@+id/textView12"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
 
     <EditText
-        android:id="@+id/txtConfirmarNuevaClave"
+        android:id="@+id/txtCorreoRepetidoBorrar"
         android:layout_width="match_parent"
         android:layout_height="54dp"
-        android:ems="10"
         android:background="@drawable/textboxprueba"
+        android:ems="10"
         android:fontFamily="@font/poppins_regular"
-        android:hint="Confirmar contraseña"
-        android:inputType="text"
+        android:hint="Repite la contraseña"
+        android:inputType="textEmailAddress"
         android:padding="8dp"
         android:textColor="@color/GrisAzulito"
-        android:textSize="16sp"/>
+        android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/textView24"
+        android:id="@+id/textView11"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
 
     <Button
-        android:id="@+id/btnConfirmarCambio"
+        android:id="@+id/btnBorrarCuenta"
         style="@style/Widget.Material3.Button.ElevatedButton"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:backgroundTint="@color/Azul2"
+        android:backgroundTint="@color/avisos"
         android:fontFamily="@font/poppins_medium"
         android:foregroundTint="#FFFFFF"
-        android:text="Confirmar"
+        android:text="Borrar"
         android:textColor="@color/white"
         android:textSize="20sp"
-        app:cornerRadius="15dp"/>
+        app:cornerRadius="15dp" />
+
 </LinearLayout>

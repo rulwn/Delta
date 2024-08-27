@@ -585,7 +585,7 @@ CREATE TABLE tbAuditorias (
     nombreCompleto VARCHAR2(100) NOT NULL,
     emailUsuario VARCHAR2(50) NOT NULL,
     telefonoUsuario VARCHAR2(9) NOT NULL,
-    accion VARCHAR2(20) DEFAULT('Elimin√≥ su cuenta.') NOT NULL
+    accion VARCHAR2(20) DEFAULT('EliminÛ su cuenta.') NOT NULL
 );
 
 /*************************************************************************************************
@@ -984,7 +984,7 @@ CREATE SEQUENCE seguros
 START WITH 1
 INCREMENT BY 1;
 
--- SECUENCIA_AUDITOR√çA -
+-- SECUENCIA_AUDITOR√?A -
 CREATE SEQUENCE auditoria
 START WITH 1
 INCREMENT BY 1;
@@ -1312,10 +1312,10 @@ END Trigger_Ficha;
 /
 /*************************************************************************************************
 
-~ TRIGGER PARA TABLA AUDITOR√çA ~
+~ TRIGGER PARA TABLA AUDITOR√?A ~
 
 *************************************************************************************************/
---Este trigger se ejecuta antes de eliminar un usuario, lo que hace es guardarlo dentro de tbAuditor√ça
+--Este trigger se ejecuta antes de eliminar un usuario, lo que hace es guardarlo dentro de tbAuditor√?a
 CREATE OR REPLACE TRIGGER Trigger_INST_Auditoria
 BEFORE DELETE ON tbUsuarios
 FOR EACH ROW
@@ -1464,7 +1464,7 @@ INSERT ALL
     INTO tbAseguradoras (nombreAseguradora)
          VALUES ('ACSA MED')
     INTO tbAseguradoras (nombreAseguradora)
-         VALUES ('ATL√ÅNTIDA VIDA')
+         VALUES ('ATL√?NTIDA VIDA')
     INTO tbAseguradoras (nombreAseguradora)
          VALUES ('ASESUISA')
 SELECT DUMMY FROM DUAL;

@@ -1,21 +1,25 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@drawable/textboxprueba"
     android:padding="20dp">
 
     <TextView
         android:id="@+id/txtaunnotienesTratamientos"
         android:layout_width="284dp"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_bold"
         android:text="Recuperación de contraseña"
+        android:textColor="@color/GrisHumo"
         android:textSize="26sp" />
 
     <TextView
         android:id="@+id/textView10"
         android:layout_width="288dp"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/rubik"
         android:text="Te enviaremos un codigo de 4 digitos a tu correo electronico"
         android:textSize="18sp" />
 
@@ -24,13 +28,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+
     <EditText
         android:id="@+id/txtEmailRecuperacion"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="54dp"
         android:ems="10"
+        android:background="@drawable/textboxprueba"
+        android:fontFamily="@font/poppins_regular"
         android:hint="Email"
-        android:inputType="text" />
+        android:inputType="textEmailAddress"
+        android:padding="8dp"
+        android:textColor="@color/GrisAzulito"
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/textView12"
@@ -39,8 +49,16 @@
 
     <Button
         android:id="@+id/btnSiguienteAlert"
+        style="@style/Widget.Material3.Button.ElevatedButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Siguiente" />
+        android:layout_height="60dp"
+        android:backgroundTint="@color/Azul2"
+        android:fontFamily="@font/poppins_medium"
+        android:foregroundTint="#FFFFFF"
+        android:text="Siguiente"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:cornerRadius="15dp"/>
+
 </LinearLayout>
 
