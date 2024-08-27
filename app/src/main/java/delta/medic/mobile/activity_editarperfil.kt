@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
@@ -413,18 +414,22 @@ class activity_editarperfil : AppCompatActivity() {
                 nombreError != null -> {
                     txtNombreEP.error = nombreError
                     txtNombreEP.requestFocus()
+                    txtNombreEP.setBackgroundColor(ContextCompat.getColor(this, R.color.avisos))
                 }
                 apellidoError != null -> {
                     txtApellidoEP.error = apellidoError
                     txtApellidoEP.requestFocus()
+                    txtApellidoEP.setBackgroundColor(ContextCompat.getColor(this, R.color.avisos))
                 }
                 correoError != null -> {
                     txtCorreoEP.error = correoError
                     txtCorreoEP.requestFocus()
+                    txtCorreoEP.setBackgroundColor(ContextCompat.getColor(this, R.color.avisos))
                 }
                 telefonoError != null -> {
                     txtTeléfonoEP.error = telefonoError
                     txtTeléfonoEP.requestFocus()
+                    txtTeléfonoEP.setBackgroundColor(ContextCompat.getColor(this, R.color.avisos))
                 }
                 else -> {
                     // Si no hay errores, procede con la actualización

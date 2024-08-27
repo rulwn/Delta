@@ -81,19 +81,24 @@ class activity_register2 : AppCompatActivity() {
             if (fechaNacimiento.isEmpty()) {
                 txtFechaNacimientoPaciente.error = "Llena este campo"
                 hayVacio = true
+                txtFechaNacimientoPaciente.setBackgroundResource(R.drawable.textboxpruebarojo)
             } else {
                 txtFechaNacimientoPaciente.error = null
+                txtFechaNacimientoPaciente.setBackgroundResource(R.drawable.textboxprueba)
             }
 
             val telefono = txtTelefono.text.toString()
             if (telefono.isEmpty()) {
                 txtTelefono.error = "Llena este campo"
                 hayVacio = true
+                txtTelefono.setBackgroundResource(R.drawable.textboxpruebarojo)
             } else if (!telefono.matches(Regex("^[0-9]{4}[0-9]{4}$"))) {
                 txtTelefono.error = "El teléfono está incorrecto"
                 hayError = true
+                txtTelefono.setBackgroundResource(R.drawable.textboxpruebarojo)
             } else {
                 txtTelefono.error = null
+                txtTelefono.setBackgroundResource(R.drawable.textboxprueba)
             }
 
             if (rbTerminos.isChecked.not()) {
