@@ -289,7 +289,7 @@ class activity_editarperfil : AppCompatActivity() {
             startActivityForResult(intent, codigo_opcion_galeria)
         }
     }
-
+    /*
     override fun onRequestPermissionResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -315,6 +315,8 @@ class activity_editarperfil : AppCompatActivity() {
         }
     }
 
+     */
+     */
     private fun subirimagenFirebase(bitmap: Bitmap, onSuccess: (String) -> Unit){
         val storageRef = Firebase.storage.reference
         val imageRef = storageRef.child("images/${uuid}.jpg")
@@ -331,7 +333,7 @@ class activity_editarperfil : AppCompatActivity() {
         }
 
     }
-
+/*
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == Activity.RESULT_OK){
@@ -350,6 +352,7 @@ class activity_editarperfil : AppCompatActivity() {
         }
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -361,6 +364,8 @@ class activity_editarperfil : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+ */
 
         /*TODO Llamar a todos los elementos en pantalla para trabajar con ellos.*/
 
@@ -396,7 +401,7 @@ class activity_editarperfil : AppCompatActivity() {
         lbEditarPerfil.setOnClickListener{
             checkStoragePermission();
         }
-
+/*
         btnActualizarUserEP.setOnClickListener{
 
             val nombreError = validarNombre(txtNombreEP.text.toString())
@@ -449,7 +454,8 @@ class activity_editarperfil : AppCompatActivity() {
 
     }
 
+        
+ */
 
-
-
+}
 }
