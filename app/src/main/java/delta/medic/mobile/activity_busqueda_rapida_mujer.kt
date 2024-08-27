@@ -44,23 +44,40 @@ class activity_busqueda_rapida_mujer : AppCompatActivity() {
         }
     }
     private fun handleBodyPartClick(x: Float, y: Float) {
-        val specialties = when {
-            isChestArea(x, y) -> listOf("Cardiología", "Torax")
-            isHeadArea(x, y) -> listOf("Neurología", "Otorrinolaringología")
-            else -> emptyList()
+        val (specialties, bodyArea) = when {
+            isHeadArea(x, y) -> listOf("Neurología", "Otorrinolaringología", "Cirugía Plástica") to "Cabeza"
+            isChestArea(x, y) -> listOf("Cardiología", "Cirugía Torácica", "Neumología") to "Pecho"
+            isAbdomenArea(x, y) -> listOf("Gastroenterología", "Cirugía General", "Ginecología") to "Abdomen"
+            isHandArea(x, y) -> listOf("Traumatología", "Cirugía de Mano", "Rehabilitación") to "Manos"
+            isLegArea(x, y) -> listOf("Ortopedia", "Cirugía Vascular", "Fisioterapia") to "Piernas"
+            else -> emptyList<String>() to ""
         }
         if (specialties.isNotEmpty()) {
-            val bottomSheet = SpecialtiesBottomSheetFragment.newInstance(specialties)
+            val bottomSheet = SpecialtiesBottomSheetFragment.newInstance(specialties, bodyArea)
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
     }
+
     private fun isChestArea(x: Float, y: Float): Boolean {
-        //nose m olvide q son coordenadas para el pecho
-        return x in 100f..200f && y in 300f..400f
+        return x in 400f..800f && y in 400f..900f
     }
 
+
     private fun isHeadArea(x: Float, y: Float): Boolean {
-        //y estas para la cabeza we
-        return x in 100f..200f && y in 100f..200f
+        return x in 300f..800f && y in 50f..350f
+    }
+
+
+    private fun isAbdomenArea(x: Float, y: Float): Boolean {
+        return x in 400f..800f && y in 850f..1150f
+    }
+
+
+    private fun isHandArea(x: Float, y: Float): Boolean {
+        return (x in 50f..300f && y in 700f..1000f) || (x in 800f..1050f && y in 700f..1000f)
+    }
+
+    private fun isLegArea(x: Float, y: Float): Boolean {
+        return x in 400f..800f && y in 1200f..1600f
     }
 }

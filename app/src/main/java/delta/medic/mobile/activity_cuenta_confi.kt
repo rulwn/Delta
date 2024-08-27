@@ -1,6 +1,7 @@
 package delta.medic.mobile
 
 import Modelo.ClaseConexion
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -9,8 +10,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import delta.medic.mobile.databinding.ActivityCuentaConfiBinding
 import android.content.res.Configuration
 import android.widget.Toast
@@ -20,148 +19,158 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.sql.SQLException
+import delta.medic.mobile.activity_login.UserData.userEmail
 
 class activity_cuenta_confi : AppCompatActivity() {
 
     private lateinit var binding: ActivityCuentaConfiBinding
 
     private lateinit var txtNom: TextView
+    private lateinit var txtApe: TextView
     private lateinit var txtCorr: TextView
     private lateinit var txtDire: TextView
     private lateinit var txtTel: TextView
-    private lateinit var txtFech: TextView
     private lateinit var txtSex: TextView
-    private lateinit var txtApe: TextView
+    private lateinit var txtFech: TextView
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_cuenta_confi)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        //Inicializar los textViews
+        txtNom = findViewById(R.id.txtNom)
+        txtApe = findViewById(R.id.txtApe)
+        txtCorr = findViewById(R.id.txtCorr)
+        txtDire = findViewById(R.id.txtDire)
+        txtTel = findViewById(R.id.txtTel)
+        txtSex = findViewById(R.id.txtSex)
+        txtFech = findViewById(R.id.txtFech)
+
+        //Llamar la función para cargar los datos del usuario
+        CoroutineScope(Dispatchers.Main).launch {
+            val fragmentUsuario = fragment_usuario()
+            val user = fragmentUsuario.GetUserParameters(userEmail)
+            val nombreUsuario = user.map { it.nombreUsuario }
+            val apellidoUsuario = user.map { it.apellidoUsuario }
+            val emailUsuario = user.map { it.emailUsuario }
+            val direccion = user.map { it.dirección }
+            val telefonoUsuario = user.map { it.teléfonoUsuario }
+            val sexo = user.map { it.sexo }
+            val fechaNacimiento = user.map { it.fechaNacimiento }
+
+            withContext(Dispatchers.Main) {
+                //Para solucionarlo se coloca replace
+                txtNom.setText(nombreUsuario.toString().replace("[", "").replace("]", ""))
+                txtApe.setText(apellidoUsuario.toString().replace("[", "").replace("]", ""))
+                txtCorr.setText(emailUsuario.toString().replace("[", "").replace("]", ""))
+                txtDire.setText(direccion.toString().replace("[", "").replace("]", ""))
+                txtTel.setText(telefonoUsuario.toString().replace("[", "").replace("]", ""))
+                txtSex.setText(sexo.toString().replace("[", "").replace("]", ""))
+                txtFech.setText(fechaNacimiento.toString().replace("[", "").replace("]", ""))
+            }
         }
 
-        val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
-        val btnCambiarContra = findViewById<Button>(R.id.btnCambiarContra1)
-        val txtCuenta = findViewById<TextView>(R.id.txtCuentaConfi)
-        val txtNombre = findViewById<TextView>(R.id.txtNombre)
-        val txtCorreo = findViewById<TextView>(R.id.txtCorreo)
-        val txtDireccion = findViewById<TextView>(R.id.txtDireccionSucur)
-        val txtTelefono = findViewById<TextView>(R.id.txtTelefono)
-        val txtFechaNacimiento = findViewById<TextView>(R.id.txtFecha)
-        val txtSexo = findViewById<TextView>(R.id.txtSexo)
-        val txtApellido = findViewById<TextView>(R.id.txtApellido)
-        val btnEliminarUsuario = findViewById<Button>(R.id.btnEliminarUsuario)
-
-
         //Modo claro y oscuro
+        val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
+        val btnCambiarContrasena = findViewById<Button>(R.id.btnCambiarContrasena)
+        val txtCuenta = findViewById<TextView>(R.id.txtCuentaConfi)
+        val btnEliminarUsuario = findViewById<TextView>(R.id.btnEliminarUsuario)
+
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         when (currentNightMode) {
             Configuration.UI_MODE_NIGHT_NO -> {
                 txtCuenta.setTextColor(ContextCompat.getColor(this, R.color.black))
                 btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.black))
-                txtNombre.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtCorreo.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtDireccion.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtTelefono.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtFechaNacimiento.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtSexo.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtApellido.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtNom.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtCorr.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtDire.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtTel.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtFech.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtSex.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtApe.setTextColor(ContextCompat.getColor(this, R.color.black))
             }
             Configuration.UI_MODE_NIGHT_YES -> {
                 txtCuenta.setTextColor(ContextCompat.getColor(this, R.color.white))
                 btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.white))
-                txtNombre.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtCorreo.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtDireccion.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtTelefono.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtFechaNacimiento.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtSexo.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtApellido.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtNom.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtCorr.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtDire.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtTel.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtFech.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtSex.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtApe.setTextColor(ContextCompat.getColor(this, R.color.white))
             }
         }
+
         btnRegresar.setOnClickListener {
             finish()
         }
 
-        //Cambiar la contraseña con un botón
-        btnCambiarContra.setOnClickListener {
+        btnCambiarContrasena.setOnClickListener {
             val intent = Intent(this, activity_cambiarcontra::class.java)
             startActivity(intent)
         }
 
-        //Eliminar el usuario con un botón
         btnEliminarUsuario.setOnClickListener {
-            val emailToDelete = activity_login.userEmail
             CoroutineScope(Dispatchers.Main).launch {
-                val isDeleted = deleteUser(emailToDelete)
+                val isDeleted = deleteUser(userEmail)
                 if (isDeleted) {
                     Toast.makeText(this@activity_cuenta_confi, "Usuario eliminado correctamente", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@activity_cuenta_confi, activity_login::class.java)
                     startActivity(intent)
                     finish()
                 } else {
-                    Toast.makeText(this@activity_cuenta_confi, "No se encontró el usuario con email $emailToDelete", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@activity_cuenta_confi, "No se encontró el usuario con email $userEmail", Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
 
-    //Para que se carguen los datos del register
-    private fun CargarDatos(emailUsuario: String) {
-        CoroutineScope(Dispatchers.Main).launch {
-            val userData = withContext(Dispatchers.IO) {
-                try {
-                    val objConexion = ClaseConexion().cadenaConexion()
-                    val statement = objConexion?.prepareStatement("SELECT nombre, apellido, emailUsuario, direccion, telefono, fechaNacimiento, sexo FROM tbUsuarios WHERE emailUsuario = ?")
-                    statement?.setString(1, emailUsuario)
-                    val resultSet = statement?.executeQuery()
-                    if (resultSet?.next() == true) {
-                        val nombre = resultSet.getString("nombre")
-                        val apellido = resultSet.getString("apellido")
-                        val email = resultSet.getString("emailUsuario")
-                        val direccion = resultSet.getString("direccion")
-                        val telefono = resultSet.getString("telefono")
-                        val fechaNacimiento = resultSet.getString("fechaNacimiento")
-                        val sexo = resultSet.getString("sexo")
-                        resultSet.close()
-                        statement.close()
-                        objConexion?.close()
-                        mapOf(
-                            "nombre" to nombre,
-                            "apellido" to apellido,
-                            "email" to email,
-                            "direccion" to direccion,
-                            "telefono" to telefono,
-                            "fechaNacimiento" to fechaNacimiento,
-                            "sexo" to sexo
+    // Función para cargar datos del usuario desde la base de datos
+    /*private suspend fun CargarDatosUsuario(userEmail: String): dataClassUsuario? {
+        return withContext(Dispatchers.IO) {
+            var usuario: dataClassUsuario? = null
+            try {
+                val objConexion = ClaseConexion().cadenaConexion()
+                if (objConexion != null) {
+                    val statement = objConexion.prepareStatement(
+                        "SELECT nombreUsuario, apellidoUsuario, emailUsuario, direccion, telefono, sexo, fechanacimiento " +
+                                "FROM tbUsuarios WHERE emailUsuario = ?"
+                    )
+                    statement.setString(1, userEmail)
+
+                    val resultSet = statement.executeQuery()
+                    if (resultSet.next()) {
+                        usuario = dataClassUsuario(
+                            nombreUsuario = resultSet.getString("nombreUsuario"),
+                            apellidoUsuario = resultSet.getString("apellidoUsuario"),
+                            emailUsuario = resultSet.getString("emailUsuario"),
+                            dirección = resultSet.getString("direccion"),
+                            teléfonoUsuario = resultSet.getString("telefono"),
+                            sexo = resultSet.getString("sexo"),
+                            fechaNacimiento = resultSet.getString("fechanacimiento")
                         )
-                    } else {
-                        null
                     }
-                } catch (e: SQLException) {
-                    e.printStackTrace()
-                    null
+
+                    resultSet.close()
+                    statement.close()
+                    objConexion.close()
+                } else {
+                    println("No se pudo establecer una conexión con la base de datos.")
                 }
+            } catch (e: SQLException) {
+                println("Error en la consulta SQL: ${e.message}")
+            } catch (e: Exception) {
+                println("Este es el error: ${e.message}")
             }
-            userData?.let {
-                txtNom.text = it["nombre"]
-                txtApe.text = it["apellido"]
-                txtCorr.text = it["email"]
-                txtDire.text = it["direccion"]
-                txtTel.text = it["telefono"]
-                txtFech.text = it["fechaNacimiento"]
-                txtSex.text = it["sexo"]
-            }
+            usuario
         }
     }
-
-
-    //Eliminar el usuario
+        */
+    // Función para eliminar usuario
     private suspend fun deleteUser(emailUsuario: String): Boolean {
         return withContext(Dispatchers.IO) {
             var isDeleted = false

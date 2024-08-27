@@ -42,7 +42,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.292">
+        app:layout_constraintVertical_bias="0.33">
 
         <EditText
             android:id="@+id/txtNombreEP"
@@ -50,8 +50,8 @@
             android:layout_height="49dp"
             android:ems="10"
             android:fontFamily="@font/poppins_regular"
-            android:inputType="text"
             android:hint="Nombre"
+            android:inputType="text"
             android:textColor="@color/GrisHumo"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -71,6 +71,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.108" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -80,16 +81,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.420">
+        app:layout_constraintVertical_bias="0.843">
 
         <EditText
-            android:id="@+id/txtApellidoEP"
+            android:id="@+id/txtTeléfonoEP"
             android:layout_width="315dp"
             android:layout_height="49dp"
             android:ems="10"
             android:fontFamily="@font/poppins_regular"
+            android:hint="Teléfono"
             android:inputType="text"
-            android:hint="Apellido"
             android:textColor="@color/GrisHumo"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -97,11 +98,11 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/lbApellidoEP"
+            android:id="@+id/lbTeléfonoEP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_regular"
-            android:text="Apellido"
+            android:text="Teléfono"
             android:textColor="#000000"
             android:textSize="10sp"
             android:typeface="normal"
@@ -118,45 +119,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.548">
-
-        <EditText
-            android:id="@+id/txtCorreoEP"
-            android:layout_width="315dp"
-            android:layout_height="49dp"
-            android:ems="10"
-            android:fontFamily="@font/poppins_regular"
-            android:inputType="text"
-            android:hint="Correo"
-            android:textColor="@color/GrisHumo"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/lbCorreoEP"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_regular"
-            android:text="Correo"
-            android:textColor="#000000"
-            android:textSize="10sp"
-            android:typeface="normal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.108" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="315dp"
-        android:layout_height="62dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.676">
+        app:layout_constraintVertical_bias="0.715">
 
         <EditText
             android:id="@+id/txtDirecciónEP"
@@ -164,8 +127,8 @@
             android:layout_height="49dp"
             android:ems="10"
             android:fontFamily="@font/poppins_regular"
-            android:inputType="text"
             android:hint="Dirección"
+            android:inputType="text"
             android:textColor="@color/GrisHumo"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -194,16 +157,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.804">
+        app:layout_constraintVertical_bias="0.587">
 
         <EditText
-            android:id="@+id/txtTeléfonoEP"
+            android:id="@+id/txtCorreoEP"
             android:layout_width="315dp"
             android:layout_height="49dp"
             android:ems="10"
             android:fontFamily="@font/poppins_regular"
+            android:hint="Correo"
             android:inputType="text"
-            android:hint="Teléfono"
             android:textColor="@color/GrisHumo"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -211,11 +174,49 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/lbTeléfonoEP"
+            android:id="@+id/lbCorreoEP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_regular"
-            android:text="Teléfono"
+            android:text="Correo"
+            android:textColor="#000000"
+            android:textSize="10sp"
+            android:typeface="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.108" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="315dp"
+        android:layout_height="62dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.458">
+
+        <EditText
+            android:id="@+id/txtApellidoEP"
+            android:layout_width="315dp"
+            android:layout_height="49dp"
+            android:ems="10"
+            android:fontFamily="@font/poppins_regular"
+            android:hint="Apellido"
+            android:inputType="text"
+            android:textColor="@color/GrisHumo"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/lbApellidoEP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:text="Apellido"
             android:textColor="#000000"
             android:textSize="10sp"
             android:typeface="normal"
@@ -249,6 +250,19 @@
         app:layout_constraintTop_toTopOf="@+id/lbEditarPerfil"
         app:layout_constraintVertical_bias="0.588"
         app:srcCompat="@drawable/ic_actualizar_user_ep" />
+
+    <TextView
+        android:id="@+id/lbEditarFoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="Cambiar foto de perfil"
+        android:textColor="@color/Azul3"
+        android:textSize="11sp"
+        android:typeface="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgvFotoEP" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
