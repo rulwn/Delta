@@ -984,7 +984,7 @@ CREATE SEQUENCE seguros
 START WITH 1
 INCREMENT BY 1;
 
--- SECUENCIA_AUDITOR√çA -
+-- SECUENCIA_AUDITOR√?A -
 CREATE SEQUENCE auditoria
 START WITH 1
 INCREMENT BY 1;
@@ -1312,10 +1312,10 @@ END Trigger_Ficha;
 /
 /*************************************************************************************************
 
-~ TRIGGER PARA TABLA AUDITOR√çA ~
+~ TRIGGER PARA TABLA AUDITOR√?A ~
 
 *************************************************************************************************/
---Este trigger se ejecuta antes de eliminar un usuario, lo que hace es guardarlo dentro de tbAuditor√ça
+--Este trigger se ejecuta antes de eliminar un usuario, lo que hace es guardarlo dentro de tbAuditor√?a
 CREATE OR REPLACE TRIGGER Trigger_INST_Auditoria
 BEFORE DELETE ON tbUsuarios
 FOR EACH ROW
@@ -1430,15 +1430,15 @@ SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbEspecialidades (nombreEspecialidad, nuevaEspecialidad)
-         VALUES ('Pediatr√≠a', '')
+         VALUES ('PediatrÌa', '')
     INTO tbEspecialidades (nombreEspecialidad, nuevaEspecialidad)
-         VALUES ('Neonatolog√≠a', '')
+         VALUES ('NeonatologÌa', '')
     INTO tbEspecialidades (nombreEspecialidad, nuevaEspecialidad)
-         VALUES ('Cardiolog√≠a', '')
+         VALUES ('CardiologÌa', '')
     INTO tbEspecialidades (nombreEspecialidad, nuevaEspecialidad)
          VALUES ('Ortopedia', '')
     INTO tbEspecialidades (nombreEspecialidad, nuevaEspecialidad)
-         VALUES ('Odontolog√≠a', '')
+         VALUES ('OdontologÌa', '')
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -1464,7 +1464,7 @@ INSERT ALL
     INTO tbAseguradoras (nombreAseguradora)
          VALUES ('ACSA MED')
     INTO tbAseguradoras (nombreAseguradora)
-         VALUES ('ATL√ÅNTIDA VIDA')
+         VALUES ('ATL√?NTIDA VIDA')
     INTO tbAseguradoras (nombreAseguradora)
          VALUES ('ASESUISA')
 SELECT DUMMY FROM DUAL;
