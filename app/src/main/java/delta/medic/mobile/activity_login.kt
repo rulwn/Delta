@@ -6,6 +6,7 @@ import Modelo.Encrypter
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.graphics.drawable.InsetDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -18,6 +19,7 @@ import androidx.activity.addCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
@@ -36,7 +38,8 @@ import kotlinx.coroutines.withContext
 class activity_login : AppCompatActivity() {
     private var codigoRecu: Int = 0
     private lateinit var auth: FirebaseAuth
-    companion object UserData{
+
+    companion object UserData {
         lateinit var userEmail: String
         private const val RC_SIGN_IN = 9001
     }
@@ -47,7 +50,7 @@ class activity_login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_login)
-        requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         auth = FirebaseAuth.getInstance()
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -76,32 +79,58 @@ class activity_login : AppCompatActivity() {
         btnContinuar.setOnClickListener {
 
             CoroutineScope(Dispatchers.Main).launch {
-                val intentoClave =  Encrypter().encrypt(txtClave.text.toString())
-             val inicio = inicioSesion(txtEmail.text.toString(), intentoClave)
-              if (inicio) {
-                  Log.wtf("Intento de inicio","Sesion iniciada")
-                  userEmail = txtEmail.text.toString()
-                  withContext(Dispatchers.Main) {
-                      Toast.makeText(this@activity_login, "Sesion iniciada", Toast.LENGTH_SHORT)
-                          .show()
-                      val userPreferences = getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
-                      val editor = userPreferences.edit()
-                      editor.putBoolean("IsLogedIn", true)
-                      editor.putBoolean("IsWelcomed", true)
-                      editor.putString("email", userEmail)
-                      editor.apply()
-                      Log.d("Preferences", "Email: $userEmail")
-                      val intent = Intent(this@activity_login, activity_carga::class.java)
-                      startActivity(intent)
-                      finish()
-                  }
+                val intentoClave = Encrypter().encrypt(txtClave.text.toString())
+                val inicio = inicioSesion(txtEmail.text.toString(), intentoClave)
+                if (inicio) {
+                    Log.wtf("Intento de inicio", "Sesion iniciada")
+                    userEmail = txtEmail.text.toString()
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@activity_login, "Sesion iniciada", Toast.LENGTH_SHORT)
+                            .show()
+                        txtEmail.setCompoundDrawablesWithIntrinsicBounds(
+                            0,
+                            0,
+                            R.drawable.ic_check,
+                            0
+                        )
+                        txtClave.setBackgroundResource(R.drawable.textboxprueba)
+                        txtEmail.setBackgroundResource(R.drawable.textboxprueba)
+                        val userPreferences =
+                            getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
+                        val editor = userPreferences.edit()
+                        editor.putBoolean("IsLogedIn", true)
+                        editor.putBoolean("IsWelcomed", true)
+                        editor.putString("email", userEmail)
+                        editor.apply()
+                        Log.d("Preferences", "Email: $userEmail")
+                        val intent = Intent(this@activity_login, activity_carga::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
 
-              } else {
-                  withContext(Dispatchers.Main){
-                      Toast.makeText(this@activity_login, "Error de Inicio de sesión, verifica las credenciales.", Toast.LENGTH_SHORT).show()
-                  }
-              }
-          }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(
+                            this@activity_login,
+                            "Error de Inicio de sesión, verifica las credenciales.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        val exitDrawable =
+                            ContextCompat.getDrawable(applicationContext, R.drawable.ic_exit)
+                        val insetDrawable =
+                            InsetDrawable(exitDrawable, 0, 0, 16, 0) // 16dp de padding a la derecha
+
+                        txtEmail.setCompoundDrawablesWithIntrinsicBounds(
+                            null,
+                            null,
+                            insetDrawable,
+                            null
+                        )
+                        txtEmail.setBackgroundResource(R.drawable.textboxpruebarojo)
+                        txtClave.setBackgroundResource(R.drawable.textboxpruebarojo)
+                    }
+                }
+            }
         }
 
 
@@ -111,12 +140,14 @@ class activity_login : AppCompatActivity() {
         }
         txtOlvidarContra.setOnClickListener {
             val builder = AlertDialog.Builder(this)
-            val dialogLayout = LayoutInflater.from(this).inflate(R.layout.dialog_correo_recuperacion, null)
+            val dialogLayout =
+                LayoutInflater.from(this).inflate(R.layout.dialog_correo_recuperacion, null)
             builder.setView(dialogLayout)
             val dialog = builder.create()
             dialog.show()
             dialog.window?.setBackgroundDrawableResource(R.drawable.textboxprueba)
-            val txtEmailRecuperacion = dialogLayout.findViewById<EditText>(R.id.txtEmailRecuperacion)
+            val txtEmailRecuperacion =
+                dialogLayout.findViewById<EditText>(R.id.txtEmailRecuperacion)
             val btnSiguienteAlert = dialogLayout.findViewById<Button>(R.id.btnSiguienteAlert)
 
             btnSiguienteAlert.setOnClickListener {
@@ -124,7 +155,11 @@ class activity_login : AppCompatActivity() {
 
                 CoroutineScope(Dispatchers.Main).launch {
                     // Llamada a la función suspendida verificarCorreo dentro de una corrutina
-                    if (txtEmailRecuperacion.text.isNotEmpty() && withContext(Dispatchers.IO) { verificarCorreo(userEmail) }) {
+                    if (txtEmailRecuperacion.text.isNotEmpty() && withContext(Dispatchers.IO) {
+                            verificarCorreo(
+                                userEmail
+                            )
+                        }) {
                         withContext(Dispatchers.IO) {
                             codigoRecu = (1000..9999).random()
                             EmailSender().enviarCorreo(
@@ -138,7 +173,8 @@ class activity_login : AppCompatActivity() {
 
                         // Mostrar el segundo dialog
                         val segundoBuilder = AlertDialog.Builder(this@activity_login)
-                        val segundoLayout = LayoutInflater.from(this@activity_login).inflate(R.layout.dialog_codigo_recuperacion, null)
+                        val segundoLayout = LayoutInflater.from(this@activity_login)
+                            .inflate(R.layout.dialog_codigo_recuperacion, null)
                         segundoBuilder.setView(segundoLayout)
                         val dialog2 = segundoBuilder.create()
                         dialog2.window?.setBackgroundDrawableResource(R.drawable.textboxprueba)
@@ -186,32 +222,40 @@ class activity_login : AppCompatActivity() {
                         }
 
                         btnRecuSig.setOnClickListener {
-                            val textosJuntos = txtRecu1.text.toString() + txtRecu2.text.toString() + txtRecu3.text.toString() + txtRecu4.text.toString()
+                            val textosJuntos =
+                                txtRecu1.text.toString() + txtRecu2.text.toString() + txtRecu3.text.toString() + txtRecu4.text.toString()
                             val intentoRecu = textosJuntos.toInt()
                             if (intentoRecu == codigoRecu) {
                                 Log.d("Recuperacion", "Recuperacion exitosa")
                                 dialog2.dismiss()
 
                                 val tercerBuilder = AlertDialog.Builder(this@activity_login)
-                                val tercerLayout = LayoutInflater.from(this@activity_login).inflate(R.layout.dialog_cambiar_clave, null)
+                                val tercerLayout = LayoutInflater.from(this@activity_login)
+                                    .inflate(R.layout.dialog_cambiar_clave, null)
                                 tercerBuilder.setView(tercerLayout)
                                 val dialog3 = tercerBuilder.create()
                                 dialog3.window?.setBackgroundDrawableResource(R.drawable.textboxprueba)
-                                val txtNuevaClave = tercerLayout.findViewById<EditText>(R.id.txtNuevaClave)
-                                val txtConfirmarNuevaClave = tercerLayout.findViewById<EditText>(R.id.txtConfirmarNuevaClave)
-                                val btnConfirmarCambio = tercerLayout.findViewById<Button>(R.id.btnConfirmarCambio)
+                                val txtNuevaClave =
+                                    tercerLayout.findViewById<EditText>(R.id.txtNuevaClave)
+                                val txtConfirmarNuevaClave =
+                                    tercerLayout.findViewById<EditText>(R.id.txtConfirmarNuevaClave)
+                                val btnConfirmarCambio =
+                                    tercerLayout.findViewById<Button>(R.id.btnConfirmarCambio)
 
                                 btnConfirmarCambio.setOnClickListener {
                                     if (txtConfirmarNuevaClave.text.toString() == txtNuevaClave.text.toString()) {
-                                        val contra = Encrypter().encrypt(txtNuevaClave.text.toString())
+                                        val contra =
+                                            Encrypter().encrypt(txtNuevaClave.text.toString())
                                         CoroutineScope(Dispatchers.IO).launch {
                                             try {
                                                 val objConexion = ClaseConexion().cadenaConexion()
-                                                val cambiarClave = objConexion?.prepareStatement("update tbUsuarios set contrasena = ? where emailusuario = ?")!!
+                                                val cambiarClave =
+                                                    objConexion?.prepareStatement("update tbUsuarios set contrasena = ? where emailusuario = ?")!!
                                                 cambiarClave.setString(1, contra)
                                                 cambiarClave.setString(2, userEmail)
                                                 cambiarClave.executeUpdate()
-                                                val commit = objConexion.prepareStatement("commit")!!
+                                                val commit =
+                                                    objConexion.prepareStatement("commit")!!
                                                 commit.executeUpdate()
                                             } catch (e: Exception) {
                                                 println("Error: $e")
@@ -226,7 +270,8 @@ class activity_login : AppCompatActivity() {
                         dialog2.show()
                     } else {
                         // Mostrar mensaje de error si el correo no es válido o está vacío
-                        Toast.makeText(this@activity_login, "Correo inválido", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@activity_login, "Correo inválido", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }
@@ -234,15 +279,18 @@ class activity_login : AppCompatActivity() {
         }
 
     }
-    private suspend fun inicioSesion(correo: String, clave:String): Boolean{
+
+    private suspend fun inicioSesion(correo: String, clave: String): Boolean {
         //Las funciones suspend se pueden llamar desde otras corrutinas u otras funciones de suspension
         return withContext(Dispatchers.IO) {//Significa que la funcion se ejecuta en el hilo IO
             try {
                 val objConexion = ClaseConexion().cadenaConexion()
-                val buscarUsuario = objConexion?.prepareStatement("select * from tbUsuarios where emailusuario = ? and contrasena = ?")!!
+                val buscarUsuario =
+                    objConexion?.prepareStatement("select * from tbUsuarios where emailusuario = ? and contrasena = ?")!!
                 buscarUsuario.setString(1, correo)
-                buscarUsuario.setString(2,clave)
-                val filas = buscarUsuario.executeQuery() //Filas es igual al numero de filas que el select encuentre, idealmente será solo 1
+                buscarUsuario.setString(2, clave)
+                val filas =
+                    buscarUsuario.executeQuery() //Filas es igual al numero de filas que el select encuentre, idealmente será solo 1
                 filas.next()//si filas tiene un valor, retornara true
             } catch (e: Exception) {
                 println(e)
@@ -250,14 +298,17 @@ class activity_login : AppCompatActivity() {
             }
         }
     }
-    private suspend fun verificarCorreo(correo: String): Boolean{
+
+    private suspend fun verificarCorreo(correo: String): Boolean {
         //Las funciones suspend se pueden llamar desde otras corrutinas u otras funciones de suspension
         return withContext(Dispatchers.IO) {//Significa que la funcion se ejecuta en el hilo IO
             try {
                 val objConexion = ClaseConexion().cadenaConexion()
-                val buscarUsuario = objConexion?.prepareStatement("select * from tbUsuarios where emailusuario = ?")!!
+                val buscarUsuario =
+                    objConexion?.prepareStatement("select * from tbUsuarios where emailusuario = ?")!!
                 buscarUsuario.setString(1, correo)
-                val filas = buscarUsuario.executeQuery() //Filas es igual al numero de filas que el select encuentre, idealmente será solo 1
+                val filas =
+                    buscarUsuario.executeQuery() //Filas es igual al numero de filas que el select encuentre, idealmente será solo 1
                 filas.next()//si filas tiene un valor, retornara true
             } catch (e: Exception) {
                 println(e)
@@ -293,7 +344,8 @@ class activity_login : AppCompatActivity() {
                 val account = task.getResult(ApiException::class.java)
                 firebaseAuthWithGoogle(account.idToken!!)
             } catch (e: ApiException) {
-                Toast.makeText(this, "Google sign in failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Google sign in failed: ${e.message}", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }
@@ -306,12 +358,17 @@ class activity_login : AppCompatActivity() {
                     // Autenticación exitosa, obtiene el usuario actual
                     val user = auth.currentUser
                     if (user != null) {
-                        Toast.makeText(this, "Signed in as ${user.displayName}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Signed in as ${user.displayName}", Toast.LENGTH_SHORT)
+                            .show()
 
                         startActivity(Intent(this, MainActivity::class.java))
                         finish()
                     } else {
-                        Toast.makeText(this, "No se pudo obtener la información del usuario", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this,
+                            "No se pudo obtener la información del usuario",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 } else {
                     Toast.makeText(this, "Authentication failed", Toast.LENGTH_SHORT).show()

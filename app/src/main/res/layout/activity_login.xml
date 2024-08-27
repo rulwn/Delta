@@ -74,7 +74,6 @@
         android:layout_width="355dp"
         android:layout_height="54dp"
         android:background="@drawable/textboxprueba"
-        android:drawableEnd="@drawable/ic_check"
         android:hint=" Email"
         android:inputType="textEmailAddress"
         android:padding="8dp"
