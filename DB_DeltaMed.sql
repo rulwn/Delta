@@ -1430,15 +1430,15 @@ SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbEspecialidades (nombreEspecialidad, nuevaEspecialidad)
-         VALUES ('PediatrÃ­a', '')
+         VALUES ('Pediatría', '')
     INTO tbEspecialidades (nombreEspecialidad, nuevaEspecialidad)
-         VALUES ('NeonatologÃ­a', '')
+         VALUES ('Neonatología', '')
     INTO tbEspecialidades (nombreEspecialidad, nuevaEspecialidad)
-         VALUES ('CardiologÃ­a', '')
+         VALUES ('Cardiología', '')
     INTO tbEspecialidades (nombreEspecialidad, nuevaEspecialidad)
          VALUES ('Ortopedia', '')
     INTO tbEspecialidades (nombreEspecialidad, nuevaEspecialidad)
-         VALUES ('OdontologÃ­a', '')
+         VALUES ('Odontología', '')
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL

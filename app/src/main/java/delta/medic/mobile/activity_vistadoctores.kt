@@ -3,9 +3,11 @@ package delta.medic.mobile
 import Modelo.ClaseConexion
 import Modelo.Encrypter
 import Modelo.dataClassCentro
+import Modelo.dataClassResena
 import Modelo.dataClassServicios
 import RecycleViewHelper.AdaptadorCentro
 import RecycleViewHelper.AdaptadorFavoritos
+import RecycleViewHelper.AdaptadorResenas
 import RecycleViewHelper.AdaptadorServicios
 import android.Manifest
 import android.content.Intent
@@ -14,6 +16,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -114,6 +117,25 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
+        val rcvResenas = findViewById<RecyclerView>(R.id.rcvResenas)
+        val textViewError = findViewById<TextView>(R.id.lblNoComments)
+        rcvResenas.layoutManager = LinearLayoutManager(this)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val centrosDB = obtenerDatosReviews(ID_Doctor)
+            withContext(Dispatchers.Main) {
+                if (centrosDB.isNullOrEmpty()) {
+                    textViewError.visibility = View.VISIBLE
+                    rcvResenas.visibility = View.GONE
+                } else {
+                    textViewError.visibility = View.GONE
+                    val miAdapter = AdaptadorResenas(centrosDB)
+                    rcvResenas.adapter = miAdapter
+                    rcvResenas.visibility = View.VISIBLE
+                }
+            }
+        }
+
         button_reservar.setOnClickListener {
             val intent = Intent(this, activity_agendar::class.java)
             intent.putExtra("ID_Doctor", ID_Doctor)
@@ -165,7 +187,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                     apellidoUsuario = resultSet.getString("apellidoUsuario")
                     idUsuario = resultSet.getInt("ID_Usuario")
                     idSucursal = resultSet.getInt("ID_Sucursal")
-                    nombreCompleto = "Dr. ${nombreUsuario ?: ""}${apellidoUsuario ?: ""}"
+                    val nombreCompleto = "Dr. ${nombreUsuario ?: ""} ${apellidoUsuario ?: ""}".trim()
                     nombreDoctor.text = nombreCompleto
                     Especialidad.text = resultSet.getString("nombreEspecialidad")
 
@@ -176,11 +198,13 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val objConexion = ClaseConexion().cadenaConexion()
+                val idUsuario = userEmail
                 if (objConexion != null) {
                     objConexion.prepareCall("{CALL PROC_STATE_VALIDATION_RECIENTES(?,?)")
                         .use { validation ->
-                            validation.setInt(1, ID_Doctor)
-                            validation.setInt(2, idUsuario!!)
+
+                            validation.setString(1, idUsuario)
+                            validation.setInt(2, idSucursal!!)
                             validation.execute()
                         }
                 }
@@ -188,6 +212,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                 println("Error: $e")
             }
         }
+
         Glide.with(this)
             .load(imgSucursal)
             .into(img_clinic)
@@ -261,10 +286,55 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
     }
 
 //funciones fuera
+    /*
     suspend fun EjecutarProcesoAlmacenado(idUsuario: Int, idSucursal: String) {
         withContext(Dispatchers.IO){
 
         }
+    }
+*/
+    private suspend fun obtenerDatosReviews(ID_Doctor : Int): MutableList<dataClassResena> {
+        val objConexion = ClaseConexion().cadenaConexion()!!
+        val reseña = mutableListOf<dataClassResena>()
+        if (objConexion != null) {
+            try {
+                val statement = objConexion.prepareStatement("""
+SELECT
+    rv.comentario,
+    rv.promEstrellas,
+    u.nombreUsuario,
+    u.apellidoUsuario,
+    u.imgUsuario,
+    d.ID_Doctor
+FROM 
+    tbReviews rv
+INNER JOIN 
+    tbUsuarios u ON rv.ID_Usuario = u.ID_Usuario
+INNER JOIN
+    tbCentrosMedicos cm ON rv.ID_Centro = cm.ID_Centro
+INNER JOIN
+    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+WHERE 
+    d.ID_Doctor = ?
+""")
+                statement.setInt(1, ID_Doctor)
+                val resultSet = statement.executeQuery()
+                while (resultSet.next()) {
+                    val comentario = resultSet.getString("comentario")
+                    val promEstrellas = resultSet.getFloat("promEstrellas")
+                    val nombreUsuario = resultSet.getString("nombreUsuario")
+                    val apellidoUsuario = resultSet.getString("apellidoUsuario")
+                    val imgUsuario = resultSet.getString("imgUsuario")
+                    val valoresJuntos = dataClassResena(comentario, promEstrellas, nombreUsuario, apellidoUsuario, imgUsuario, ID_Doctor)
+                    reseña.add(valoresJuntos)
+                }
+            } catch (e: Exception) {
+                Log.e("obtenerDatos", "Error al obtener datos: ${e.message}")
+            }
+        } else {
+            Log.e("obtenerDatos", "No se pudo establecer una conexión con la base de datos.")
+        }
+        return reseña
     }
 
     private suspend fun obtenerDatos(ID_Doctor : Int): MutableList<dataClassServicios> {
