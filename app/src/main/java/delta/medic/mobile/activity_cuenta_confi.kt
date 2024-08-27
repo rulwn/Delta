@@ -1,6 +1,7 @@
 package delta.medic.mobile
 
 import Modelo.ClaseConexion
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -9,8 +10,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import delta.medic.mobile.databinding.ActivityCuentaConfiBinding
 import android.content.res.Configuration
 import android.widget.Toast
@@ -20,7 +19,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.sql.SQLException
-import Modelo.dataClassUsuario
 import delta.medic.mobile.activity_login.UserData.userEmail
 
 class activity_cuenta_confi : AppCompatActivity() {
@@ -35,6 +33,7 @@ class activity_cuenta_confi : AppCompatActivity() {
     private lateinit var txtSex: TextView
     private lateinit var txtFech: TextView
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -76,9 +75,9 @@ class activity_cuenta_confi : AppCompatActivity() {
 
         //Modo claro y oscuro
         val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
-        val btnCambiarContra = findViewById<Button>(R.id.btnCambiarContra1)
+        val btnCambiarContrasena = findViewById<Button>(R.id.btnCambiarContrasena)
         val txtCuenta = findViewById<TextView>(R.id.txtCuentaConfi)
-        val btnEliminarUsuario = findViewById<Button>(R.id.btnEliminarUsuario)
+        val btnEliminarUsuario = findViewById<TextView>(R.id.btnEliminarUsuario)
 
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         when (currentNightMode) {
@@ -110,7 +109,7 @@ class activity_cuenta_confi : AppCompatActivity() {
             finish()
         }
 
-        btnCambiarContra.setOnClickListener {
+        btnCambiarContrasena.setOnClickListener {
             val intent = Intent(this, activity_cambiarcontra::class.java)
             startActivity(intent)
         }
