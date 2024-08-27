@@ -113,7 +113,7 @@ class activity_register3 : AppCompatActivity() {
                                 .transform(CircleCrop()) // Aplica la transformación de redondeo aquí
                                 .into(imgFotoAgregada)
                             imgFotoAgregada.visibility = View.VISIBLE
-                            activity_register1.imgUsuario = uuid
+                            activity_register1.imgUsuario = miPath
                         }
                     }
                 }
