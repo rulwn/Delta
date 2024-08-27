@@ -585,7 +585,7 @@ CREATE TABLE tbAuditorias (
     nombreCompleto VARCHAR2(100) NOT NULL,
     emailUsuario VARCHAR2(50) NOT NULL,
     telefonoUsuario VARCHAR2(9) NOT NULL,
-    accion VARCHAR2(20) DEFAULT('EliminÃ³ su cuenta.') NOT NULL
+    accion VARCHAR2(20) DEFAULT('Eliminó su cuenta.') NOT NULL
 );
 
 /*************************************************************************************************
