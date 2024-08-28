@@ -4,22 +4,24 @@ import Modelo.ClaseConexion
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import delta.medic.mobile.databinding.ActivityCuentaConfiBinding
-import android.content.res.Configuration
-import android.widget.Toast
 import androidx.core.content.ContextCompat
+import delta.medic.mobile.databinding.ActivityCuentaConfiBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.sql.SQLException
 import delta.medic.mobile.activity_login.UserData.userEmail
+import android.widget.Toast
 
 class activity_cuenta_confi : AppCompatActivity() {
 
@@ -33,14 +35,14 @@ class activity_cuenta_confi : AppCompatActivity() {
     private lateinit var txtSex: TextView
     private lateinit var txtFech: TextView
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_cuenta_confi)
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
 
-        //Inicializar los textViews
+        // Inicializar los TextViews
         txtNom = findViewById(R.id.txtNom)
         txtApe = findViewById(R.id.txtApe)
         txtCorr = findViewById(R.id.txtCorr)
@@ -48,6 +50,12 @@ class activity_cuenta_confi : AppCompatActivity() {
         txtTel = findViewById(R.id.txtTel)
         txtSex = findViewById(R.id.txtSex)
         txtFech = findViewById(R.id.txtFech)
+
+        val btnEliminarUsuario = findViewById<TextView>(R.id.btnEliminarUsuarioS)
+
+        btnEliminarUsuario.setOnClickListener {
+            showDeleteUserDialog()
+        }
 
         //Llamar la función para cargar los datos del usuario
         CoroutineScope(Dispatchers.Main).launch {
@@ -77,7 +85,7 @@ class activity_cuenta_confi : AppCompatActivity() {
         val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
         val btnCambiarContrasena = findViewById<Button>(R.id.btnCambiarContrasena)
         val txtCuenta = findViewById<TextView>(R.id.txtCuentaConfi)
-        val btnEliminarUsuario = findViewById<TextView>(R.id.btnEliminarUsuario)
+        val btnEliminarUsuarioS = findViewById<TextView>(R.id.btnEliminarUsuarioS)
 
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         when (currentNightMode) {
@@ -170,8 +178,79 @@ class activity_cuenta_confi : AppCompatActivity() {
         }
     }
         */
-    // Función para eliminar usuario
-    private suspend fun deleteUser(emailUsuario: String): Boolean {
+
+    // Mostrar el diálogo para eliminar el usuario
+    private fun showDeleteUserDialog() {
+        val builder = AlertDialog.Builder(this)
+        val dialogLayout = layoutInflater.inflate(R.layout.dialog_borrar_cuenta, null)
+        builder.setView(dialogLayout)
+        val dialog = builder.create()
+        dialog.show()
+
+        val txtPasswordConfirm = dialogLayout.findViewById<EditText>(R.id.txtCorreoBorrar)
+        val txtPasswordRepeat = dialogLayout.findViewById<EditText>(R.id.txtCorreoRepetidoBorrar)
+        val btnConfirmDelete = dialogLayout.findViewById<Button>(R.id.btnBorrarCuenta)
+
+        btnConfirmDelete.setOnClickListener {
+            val enteredPassword = txtPasswordConfirm.text.toString()
+            val repeatedPassword = txtPasswordRepeat.text.toString()
+
+            CoroutineScope(Dispatchers.Main).launch {
+                if (enteredPassword.isNotEmpty() && enteredPassword == repeatedPassword) {
+                    if (withContext(Dispatchers.IO) { verifyPassword(userEmail, enteredPassword) }) {
+                        // Si la contraseña es correcta, eliminar el usuario
+                        val isDeleted = deleteUser(userEmail)
+                        if (isDeleted) {
+                            Toast.makeText(this@activity_cuenta_confi, "Usuario eliminado correctamente", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this@activity_cuenta_confi, activity_login::class.java)
+                            startActivity(intent)
+                            finish()
+                        } else {
+                            Toast.makeText(this@activity_cuenta_confi, "No se encontró el usuario con email $userEmail", Toast.LENGTH_SHORT).show()
+                        }
+                        dialog.dismiss()
+                    } else {
+                        txtPasswordConfirm.error = "Contraseña incorrecta"
+                    }
+                } else {
+                    txtPasswordRepeat.error = "Las contraseñas no coinciden"
+                }
+            }
+        }
+    }
+
+    // Verificar la contraseña del usuario
+    suspend fun verifyPassword(emailUsuario: String, password: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            var isValid = false
+            try {
+                val objConexion = ClaseConexion().cadenaConexion()
+                if (objConexion != null) {
+                    val statement = objConexion.prepareStatement(
+                        "SELECT COUNT(*) FROM tbUsuarios WHERE emailUsuario = ? AND contraseña = ?"
+                    )
+                    statement.setString(1, emailUsuario)
+                    statement.setString(2, password)
+
+                    val resultSet = statement.executeQuery()
+                    if (resultSet.next()) {
+                        isValid = resultSet.getInt(1) > 0
+                    }
+
+                    resultSet.close()
+                    statement.close()
+                    objConexion.close()
+                }
+            } catch (e: SQLException) {
+                println("Error en la consulta SQL: ${e.message}")
+            }
+            isValid
+        }
+    }
+
+
+    // Eliminar usuario
+    suspend fun deleteUser(emailUsuario: String): Boolean {
         return withContext(Dispatchers.IO) {
             var isDeleted = false
             try {
