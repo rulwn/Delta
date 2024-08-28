@@ -1394,9 +1394,9 @@ INSERT ALL
     INTO tbTipoNotis (nombreTipoNoti)
          VALUES ('Recordatorio')
     INTO tbTipoNotis (nombreTipoNoti)
-         VALUES ('Confirmaci√≥n')
+         VALUES ('ConfirmaciÛn')
     INTO tbTipoNotis (nombreTipoNoti)
-         VALUES ('Configuraci√≥n')
+         VALUES ('ConfiguraciÛn')
     INTO tbTipoNotis (nombreTipoNoti)
          VALUES ('Recetas')
 SELECT DUMMY FROM DUAL;
@@ -1412,13 +1412,13 @@ SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbTiempos (lapsosTiempo, frecuenciaMedi)
-         VALUES ('1 Vez al d√≠a', '4')
+         VALUES ('1 Vez al dÌa', '4')
     INTO tbTiempos (lapsosTiempo, frecuenciaMedi)
-         VALUES ('2 Veces al d√≠a', '3')
+         VALUES ('2 Veces al dÌa', '3')
     INTO tbTiempos (lapsosTiempo, frecuenciaMedi)
-         VALUES ('3 Veces al d√≠a', '5')
+         VALUES ('3 Veces al dÌa', '5')
     INTO tbTiempos (lapsosTiempo, frecuenciaMedi)
-         VALUES ('4 Veces al d√≠a', '2')
+         VALUES ('4 Veces al dÌa', '2')
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -1464,7 +1464,7 @@ INSERT ALL
     INTO tbAseguradoras (nombreAseguradora)
          VALUES ('ACSA MED')
     INTO tbAseguradoras (nombreAseguradora)
-         VALUES ('ATL√?NTIDA VIDA')
+         VALUES ('ATL¡NTIDA VIDA')
     INTO tbAseguradoras (nombreAseguradora)
          VALUES ('ASESUISA')
 SELECT DUMMY FROM DUAL;
@@ -1484,7 +1484,7 @@ SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
-        VALUES ('Francisco', 'Mej√≠a', 'fran@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'San Salvador', '6143-1352', 'M', '20/02/1980', NULL, 1)
+        VALUES ('Francisco', 'MejÌa', 'fran@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'San Salvador', '6143-1352', 'M', '20/02/1980', NULL, 1)
     INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
         VALUES ('Steven', 'Palacios', 'venosin@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'Ciudad Arce', '2245-9312', 'M', '15/07/1999', NULL, 1)
     INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
@@ -1510,15 +1510,15 @@ SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Cl√≠nica Ginecol√≥gica', 235656, 'clinica_ginecologica@gmail.com', '2264-7856', '25 Av. Norte, Colonia M√©dica, San Salvador', 13.709362, -89.202990, '7589-4365', 'Esta sucursal no posee una fotograf√≠a', 1, 2)
+         VALUES ('ClÌnica Ginecologica', 235656, 'clinica_ginecologica@gmail.com', '2264-7856', '25 Av. Norte, Colonia MÈdica, San Salvador', 13.709362, -89.202990, '7589-4365', 'Esta sucursal no posee una fotografia', 1, 2)
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Cl√≠nica Asistencial Salvadore√±a', 675429, 'clinica_asistencial@gmail.com', '2256-6576', 'Calle Libertad y Avenida Independencia, Santa Ana', 13.714547, -89.192849, '5383-4365', 'Esta sucursal no tiene una fotograf√≠a', 5, 1)
+         VALUES ('ClÌnica Asistencial SalvadoreÒa', 675429, 'clinica_asistencial@gmail.com', '2256-6576', 'Calle Libertad y Avenida Independencia, Santa Ana', 13.714547, -89.192849, '5383-4365', 'Esta sucursal no tiene una fotograf√≠a', 5, 1)
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Hospital de Diagn√≥stico', 990764, 'hospital_diagnostico@gmail.com', '2224-7887', '79 Av. Norte y 11 Calle Poniente, Colonia Escal√≥n, San Salvador', 13.710252 , -89.202537, '7519-2335', 'Esta sucursal ha puesto una fotograf√≠a', 3, 1)
+         VALUES ('Hospital de Diagnostico', 990764, 'hospital_diagnostico@gmail.com', '2224-7887', '79 Av. Norte y 11 Calle Poniente, Colonia Escal√≥n, San Salvador', 13.710252 , -89.202537, '7519-2335', 'Esta sucursal ha puesto una fotograf√≠a', 3, 1)
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Centro M√©dico Escal√≥n', 224216, 'medico_escalon@gmail.com', '2235-7856', '85 Av. Norte y Calle Juan Jos√© Ca√±as, Colonia Escal√≥n, San Salvador', 13.711853, -89.234307, '7509-3230', 'Neles', 4, 2)
+         VALUES ('Centro MÈdico Escalon', 224216, 'medico_escalon@gmail.com', '2235-7856', '85 Av. Norte y Calle Juan JosÈ CaÒas, Colonia EscalÛn, San Salvador', 13.711853, -89.234307, '7509-3230', 'Neles', 4, 2)
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Hospital La Divina Providencia', 012483, 'divina_providencia@gmail.com', '2211-2956', 'Avenida Masferrer Norte, Colonia Escal√≥n, San Salvador', 13.711245, -89.223008, '3278-3561', 'Tampoco tu', 2, 2)
+         VALUES ('Hospital La Divina Providencia', 012483, 'divina_providencia@gmail.com', '2211-2956', 'Avenida Masferrer Norte, Colonia EscalÛn, San Salvador', 13.711245, -89.223008, '3278-3561', 'Tampoco tu', 2, 2)
 SELECT DUMMY FROM DUAL;
 
 UPDATE tbSucursales SET imgSucursal = 'https://centroginecologico.com.sv/wp-content/uploads/2020/10/facahadanew20.jpg' WHERE ID_Sucursal = 1;
@@ -1607,11 +1607,11 @@ SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
-        VALUES (TO_DATE('2024-07-14', 'YYYY-MM-DD'), 'A', 'Cita cancelada para ma√±ana a las 2:00pm', 'S', 1, 1)
+        VALUES (TO_DATE('2024-07-14', 'YYYY-MM-DD'), 'A', 'Cita cancelada para ma~Òana a las 2:00pm', 'S', 1, 1)
     INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
         VALUES (TO_DATE('2024-07-15', 'YYYY-MM-DD'), 'R', 'Recuerda tomar tu medicina a las 4:00pm', 'S', 1, 2)
     INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
-        VALUES (TO_DATE('2024-07-16', 'YYYY-MM-DD'), 'C', 'Confirma tu cita con Dra. Luz Mar√≠a', 'S', 1, 3)
+        VALUES (TO_DATE('2024-07-16', 'YYYY-MM-DD'), 'C', 'Confirma tu cita con Dra. Luz MarÌa', 'S', 1, 3)
     INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
         VALUES (TO_DATE('2024-07-17', 'YYYY-MM-DD'), 'P', 'Receta 17/05/2024', 'S', 1, 5)
 SELECT * FROM dual;
@@ -1877,3 +1877,4 @@ FROM  tbcitasmedicas CITAS
 */
 
 select * from tbAuditorias;
+select * from tbUsuarios;
