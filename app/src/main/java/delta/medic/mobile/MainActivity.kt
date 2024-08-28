@@ -105,8 +105,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.fragment_inicio,
                 R.id.fragment_control,
                 R.id.fragment_agendar,
+                R.id.fragment_notificaciones,
                 R.id.fragment_usuario,
-                R.id.fragment_notificaciones
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

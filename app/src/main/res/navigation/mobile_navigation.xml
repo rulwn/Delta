@@ -22,12 +22,6 @@
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
-        android:id="@+id/fragment_agendar"
-        android:name="delta.medic.mobile.ui.notifications.NotificationsFragment"
-        android:label="Agendar cita"
-        tools:layout="@layout/fragment_notifications" />
-
-    <fragment
         android:id="@+id/fragment_notificaciones"
         android:name="delta.medic.mobile.fragment_notificaciones"
         android:label="Notificaciones"
