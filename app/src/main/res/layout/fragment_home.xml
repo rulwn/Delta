@@ -132,13 +132,13 @@
         android:fontFamily="@font/poppins_regular"
         android:text="Aún no tienes tratamientos asignados"
         android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="@+id/rcvTratamientosMini"
+        app:layout_constraintBottom_toBottomOf="@+id/scrollTratamientos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/rcvTratamientosMini" />
+        app:layout_constraintTop_toTopOf="@+id/scrollTratamientos" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcvTratamientosMini"
+        android:id="@+id/scrollTratamientos"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginStart="18dp"
@@ -160,7 +160,7 @@
         android:text="Recordatorio de tratamientos."
         android:textColor="#000000"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/rcvTratamientosMini"
+        app:layout_constraintBottom_toTopOf="@+id/scrollTratamientos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

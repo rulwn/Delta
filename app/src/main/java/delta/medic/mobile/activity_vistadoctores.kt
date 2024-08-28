@@ -132,6 +132,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                     val miAdapter = AdaptadorResenas(centrosDB)
                     rcvResenas.adapter = miAdapter
                     rcvResenas.visibility = View.VISIBLE
+                    textViewError.visibility = View.GONE
                 }
             }
         }
