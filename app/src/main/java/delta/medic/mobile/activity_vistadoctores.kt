@@ -57,6 +57,21 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
     companion object {
         private const val MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey"
     }
+    suspend fun getFavStatus(email: String, ID_Doctor: Int, ID_Sucursal: Int): Boolean {
+        return withContext(Dispatchers.IO) {
+            val objConexion = ClaseConexion().cadenaConexion()
+            val statement = objConexion?.prepareStatement(
+                "SELECT * FROM TBFAVORITOS WHERE ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?) AND ID_Doctor = ? AND ID_Sucursal = ?"
+            )
+            statement?.setString(1, email)
+            statement?.setInt(2, ID_Doctor)
+            statement?.setInt(3, ID_Sucursal)
+            val resultSet = statement?.executeQuery()
+
+            resultSet?.next() ?: false
+        }
+    }
+
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,11 +97,8 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
         var toggleButton = findViewById<ToggleButton>(R.id.toggleButton)
         val button_reservar = findViewById<TextView>(R.id.button_reservar)
 
-        if (intent.getBooleanExtra("Fav", false)) {
-            toggleButton.isChecked = true
-        } else {
-            toggleButton.isChecked = false
-        }
+        val rcvResenas = findViewById<RecyclerView>(R.id.rcvResenas)
+
 
         var ID_Doctor = intent.getIntExtra("ID_Doctor", 0)
         var latitud = intent.getDoubleExtra("latiSucur", 0.0)
@@ -117,22 +129,35 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
-        val rcvResenas = findViewById<RecyclerView>(R.id.rcvResenas)
-        val textViewError = findViewById<TextView>(R.id.lblNoComments)
-        rcvResenas.layoutManager = LinearLayoutManager(this)
+        CoroutineScope(Dispatchers.Main).launch {
+            println("$userEmail $ID_Doctor $idSucursal")
+            val isFavorite = getFavStatus(userEmail, ID_Doctor, idSucursal!!)
+
+            if (isFavorite) {
+                toggleButton.background = getDrawable(R.drawable.corazon_favoritos)
+                toggleButton.isChecked = true
+            } else {
+                toggleButton.background = getDrawable(R.drawable.corazon_vacio)
+                toggleButton.isChecked = false
+            }
+        }
+
+
 
         CoroutineScope(Dispatchers.IO).launch {
             val centrosDB = obtenerDatosReviews(ID_Doctor)
             withContext(Dispatchers.Main) {
                 if (centrosDB.isNullOrEmpty()) {
+                    /*
                     textViewError.visibility = View.VISIBLE
-                    rcvResenas.visibility = View.GONE
+                    rcvResenas.visibility = View.GONE*/
                 } else {
-                    textViewError.visibility = View.GONE
+
+                    //textViewError.visibility = View.GONE
                     val miAdapter = AdaptadorResenas(centrosDB)
                     rcvResenas.adapter = miAdapter
                     rcvResenas.visibility = View.VISIBLE
-                    textViewError.visibility = View.GONE
+                    //textViewError.visibility = View.GONE
                 }
             }
         }
@@ -250,6 +275,8 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                     statement?.setInt(2, ID_Doctor)
                     statement?.setString(3, userEmail)
                     statement?.executeUpdate()
+                    conexion?.commit()
+                    statement?.close()
                     withContext(Dispatchers.Main) {
                         toggleButton.background = getDrawable(R.drawable.corazon_favoritos)
                         toggleButton.isChecked = true

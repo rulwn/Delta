@@ -1,6 +1,6 @@
 /*******************************************************************************
 
-    ~ Creacin del usuario de DeltaMed ~
+    ~ Creacion del usuario de DeltaMed ~
 
 *******************************************************************************/
 
@@ -1909,4 +1909,6 @@ INNER JOIN tbUsuarios USUA ON PACS.id_usuario = USUA.id_usuario
 WHERE USUA.emailusuario = 'venosin@gmail.com';
 
 select * from tbAuditorias;
-select * from tbUsuarios;
+select * from tbDoctores;
+select * from tbFavoritos;
+
