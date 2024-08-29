@@ -9,14 +9,12 @@
 
     <ImageView
         android:id="@+id/imgFondo"
-        android:layout_width="413dp"
-        android:layout_height="846dp"
-        android:layout_marginTop="66dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgCirculoazul"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/gradient_azul_background" />
 
     <ImageView

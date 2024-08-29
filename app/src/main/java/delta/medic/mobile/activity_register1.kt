@@ -61,48 +61,62 @@ class activity_register1 : AppCompatActivity() {
             if (nombre.isEmpty()) {
                 nombreEditText.error = "Llena este campo"
                 hayVacio = true
+                nombreEditText.setBackgroundResource(R.drawable.textboxpruebarojo)
             } else if (!nombre.matches(Regex("^[a-zA-Z]+$"))) {
                 nombreEditText.error = "El nombre solo contiene letras"
                 hayError = true
+                nombreEditText.setBackgroundResource(R.drawable.textboxpruebarojo)
             } else {
                 nombreEditText.error = null
+                nombreEditText.setBackgroundResource(R.drawable.textboxprueba)
             }
 
             if (apellido.isEmpty()) {
                 apellidoEditText.error = "Llena este campo"
                 hayVacio = true
+                apellidoEditText.setBackgroundResource(R.drawable.textboxpruebarojo)
             } else if (!apellido.matches(Regex("^[a-zA-Z]+$"))) {
                 apellidoEditText.error = "El apellido solo contiene letras"
                 hayError = true
+                apellidoEditText.setBackgroundResource(R.drawable.textboxpruebarojo)
             } else {
                 apellidoEditText.error = null
+                apellidoEditText.setBackgroundResource(R.drawable.textboxprueba)
             }
 
             if (email.isEmpty()) {
                 txtEmail.error = "Llena este campo"
                 hayVacio = true
+                txtEmail.setBackgroundResource(R.drawable.textboxpruebarojo)
             } else if (!email.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.][a-z]+"))) {
                 txtEmail.error = "El correo no tiene formato válido"
                 hayError = true
+                txtEmail.setBackgroundResource(R.drawable.textboxpruebarojo)
             } else {
                 txtEmail.error = null
+                txtEmail.setBackgroundResource(R.drawable.textboxprueba)
             }
 
             if (direccion.isEmpty()) {
                 direccionEditText.error = "Llena este campo"
                 hayVacio = true
+                direccionEditText.setBackgroundResource(R.drawable.textboxpruebarojo)
             } else {
                 direccionEditText.error = null
+                direccionEditText.setBackgroundResource(R.drawable.textboxprueba)
             }
 
             if (clave.isEmpty()) {
                 txtClave.error = "Llena este campo"
                 hayVacio = true
+                txtClave.setBackgroundResource(R.drawable.textboxpruebarojo)
             } else if (clave.length < 8) {
                 txtClave.error = "La contraseña debe tener mínimo 8 caracteres"
                 hayError = true
+                txtClave.setBackgroundResource(R.drawable.textboxpruebarojo)
             } else {
                 txtClave.error = null
+                txtClave.setBackgroundResource(R.drawable.textboxprueba)
             }
 
             if (hayVacio || hayError) {

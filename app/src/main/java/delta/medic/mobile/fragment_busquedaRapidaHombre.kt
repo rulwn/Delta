@@ -45,16 +45,17 @@ class fragment_busquedaRapidaHombre : Fragment() {
     }
 
     private fun handleBodyPartClick(x: Float, y: Float) {
-        val specialties = when {
-            isChestArea(x, y) -> listOf("Cardiología", "Torax")
-            isHeadArea(x, y) -> listOf("Neurología", "Otorrinolaringología")
-            isAbdomenArea(x, y) -> listOf("Gastroenterología", "Cirugía General")
-            isHandArea(x, y) -> listOf("Ortopedia", "Cirugía de Mano")
-            isLegArea(x, y) -> listOf("Ortopedia", "Traumatología")
-            else -> emptyList()
+        val (specialties, bodyArea) = when {
+            isChestArea(x, y) -> listOf("Cardiología", "Torax", "Mastología") to "Pecho"
+            isHeadArea(x, y) -> listOf("Neurología", "Otorrinolaringología") to "Cabeza"
+            isAbdomenArea(x, y) -> listOf("Gastroenterología", "Urologia", "Cirugía General") to "Abdomen"
+            isHandArea(x, y) -> listOf("Ortopedia", "Cirugía de Mano") to "Manos"
+            isLegArea(x, y) -> listOf("Ortopedia", "Traumatología", "Flebología") to "Piernas"
+            else -> emptyList<String>() to ""
         }
+
         if (specialties.isNotEmpty()) {
-            val bottomSheet = SpecialtiesBottomSheetFragment.newInstance(specialties)
+            val bottomSheet = SpecialtiesBottomSheetFragment.newInstance(specialties, bodyArea)
             bottomSheet.show(parentFragmentManager, bottomSheet.tag)
         }
     }
@@ -62,7 +63,6 @@ class fragment_busquedaRapidaHombre : Fragment() {
     private fun isChestArea(x: Float, y: Float): Boolean {
         return x in 450f..850f && y in 400f..900f
     }
-
 
     private fun isHeadArea(x: Float, y: Float): Boolean {
         return x in 350f..850f && y in 50f..350f

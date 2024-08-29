@@ -1,69 +1,81 @@
 <androidx.cardview.widget.CardView
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_margin="8dp"
-app:cardCornerRadius="12dp"
-app:cardElevation="6dp">
-
-<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="16dp">
-
-    <ImageView
-        android:id="@+id/imgProfile"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="4dp"
-        android:scaleType="centerCrop"
-        tools:srcCompat="@tools:sample/avatars" />
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp">
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="16dp">
 
-        <TextView
-            android:id="@+id/txtUserName"
-            android:maxLines="1"
+        <ImageView
+            android:id="@+id/imgProfileReview"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="4dp"
+            android:scaleType="centerCrop"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtUserReview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="Raul Ochoa"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:isIndicator="true"
+                android:max="5"
+                android:numStars="5"
+                android:progressTint="#F3C02A"
+                android:rating="5"
+                android:stepSize="1.0" />
+
+            <TextView
+                android:id="@+id/txtReview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/editbox_background"
+                android:ellipsize="end"
+                android:fontFamily="@font/poppins_medium"
+                android:hint="Reseña"
+                android:maxLength="120"
+                android:padding="10dp"
+                android:textAlignment="viewStart"
+                android:textColor="@color/GrisHumo"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btnBorrar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Raul Ochoa"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"/>
-
-        <RatingBar
-            android:id="@+id/ratingBar"
-            android:layout_width="wrap_content"
-            android:layout_height="47dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:isIndicator="false"
-            android:numStars="5"
-            android:rating="0"
-            android:stepSize="1.0"
-            android:theme="@style/Widget.AppCompat.RatingBar" />
-
-        <TextView
-            android:id="@+id/edtReview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Reseña"
-            android:background="@android:drawable/editbox_background"
-            android:padding="20dp"
-            android:textSize="13sp"
-            android:textColor="@color/GrisHumo"
-            android:fontFamily="@font/poppins_medium"
-            android:maxLength="150"
-            android:ellipsize="end"/>
+            android:layout_gravity="top"
+            android:layout_marginStart="15dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Borrar"
+            android:src="@drawable/ic_masopciones" />
     </LinearLayout>
-</LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -10,9 +10,8 @@
 
     <ImageView
         android:id="@+id/imgFondo"
-        android:layout_width="413dp"
-        android:layout_height="846dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.8"
@@ -383,7 +382,7 @@
         app:layout_constraintVertical_bias="0.607"
         app:srcCompat="@drawable/ic_arrow_back" />
 
-    <RadioButton
+    <com.google.android.material.radiobutton.MaterialRadioButton
         android:id="@+id/rbTerminos"
         android:layout_width="355dp"
         android:layout_height="25dp"

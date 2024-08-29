@@ -9,9 +9,8 @@
 
     <ImageView
         android:id="@+id/imgFondo"
-        android:layout_width="413dp"
-        android:layout_height="846dp"
-        android:layout_marginTop="66dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +73,6 @@
         android:layout_width="355dp"
         android:layout_height="54dp"
         android:background="@drawable/textboxprueba"
-        android:drawableEnd="@drawable/ic_check"
         android:hint=" Email"
         android:inputType="textEmailAddress"
         android:padding="8dp"

@@ -2,34 +2,26 @@ package delta.medic.mobile.ui.home
 
 import Modelo.ClaseConexion
 import Modelo.dataClassCitas
-import Modelo.dataClassUsuario
 import RecycleViewHelper.AdaptadorCitas
-import RecycleViewHelper.AdaptadorTratamientos
 import RecycleViewHelper.AdaptadorTratamientosChiquito
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CalendarView
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import delta.medic.mobile.R
 import delta.medic.mobile.activity_login.UserData.userEmail
-import delta.medic.mobile.databinding.FragmentHomeBinding
-import delta.medic.mobile.fragment_controlCitas
 import delta.medic.mobile.fragment_control_tratamientos
 import delta.medic.mobile.fragment_usuario
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.sql.SQLException
 
 class HomeFragment : Fragment() {
 
@@ -45,7 +37,7 @@ class HomeFragment : Fragment() {
         val txtBienvenido = root.findViewById<TextView>(R.id.txtBienvenido)
         val txtaunnotienestratamientos =
             root.findViewById<TextView>(R.id.txtaunnotienesTratamientos)
-        val rcvTratamientos = root.findViewById<RecyclerView>(R.id.rcvTratamientosMini)
+        val rcvTratamientos = root.findViewById<RecyclerView>(R.id.scrollTratamientos)
         val fragmentControlTratamientos = fragment_control_tratamientos()
         val rcvRecordatoriosCitas = root.findViewById<RecyclerView>(R.id.rcvProximaCita)
         val txtaunotienescitas = root.findViewById<TextView>(R.id.txtaunnotienescitas)

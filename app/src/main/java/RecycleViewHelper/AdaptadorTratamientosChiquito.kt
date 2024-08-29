@@ -29,7 +29,7 @@ class AdaptadorTratamientosChiquito(private var Datos: List<dataClassIndicacione
         val tratamiento = Datos[position]
         //holder.txtNombreMedicina.text = "${tratamiento.medicina} - ${tratamiento.dosisMedi}"
         //holder.txtDetallesIndicaciones.text = tratamiento.detalleIndi
-        holder.txtTiempo.text = tratamiento.id_tiempo.toString()
+        holder.txtTiempo.text = tratamiento.hora
         val itemColor = getItemColor(position)
         holder.cardview.setCardBackgroundColor(itemColor)
         holder.imgOpciones.setOnClickListener {
