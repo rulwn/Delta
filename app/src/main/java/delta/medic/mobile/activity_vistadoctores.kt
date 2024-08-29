@@ -1,10 +1,10 @@
 package delta.medic.mobile
 
 import Modelo.ClaseConexion
-import Modelo.Encrypter
-import Modelo.dataClassCentro
+import Modelo.dataClassDoctorInfo
 import Modelo.dataClassResena
 import Modelo.dataClassServicios
+import Modelo.dataClassUsuario
 import RecycleViewHelper.AdaptadorCentro
 import RecycleViewHelper.AdaptadorFavoritos
 import RecycleViewHelper.AdaptadorResenas
@@ -47,6 +47,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.sql.CallableStatement
 import java.sql.ResultSet
+import java.sql.SQLException
 
 class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
 
@@ -57,6 +58,22 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
     companion object {
         private const val MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey"
     }
+
+    suspend fun getFavStatus(email: String, ID_Doctor: Int, ID_Sucursal: Int): Boolean {
+        return withContext(Dispatchers.IO) {
+            val objConexion = ClaseConexion().cadenaConexion()
+            val statement = objConexion?.prepareStatement(
+                "SELECT * FROM TBFAVORITOS WHERE ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?) AND ID_Doctor = ? AND ID_Sucursal = ?"
+            )
+            statement?.setString(1, email)
+            statement?.setInt(2, ID_Doctor)
+            statement?.setInt(3, ID_Sucursal)
+            val resultSet = statement?.executeQuery()
+
+            resultSet?.next() ?: false
+        }
+    }
+
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,45 +87,30 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        var btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
 
-        var nombreDoctor = findViewById<TextView>(R.id.nombreDoctor)
-        var Especialidad = findViewById<TextView>(R.id.Especialidad)
-        var nombreSucursal = findViewById<TextView>(R.id.nombreSucursal)
-        var numeroClinica = findViewById<TextView>(R.id.numeroClinica)
-        var direccion_Clinica = findViewById<TextView>(R.id.direccion_Clinica)
-        var img_clinic = findViewById<ImageView>(R.id.img_clinic)
-        var imgDoctor = findViewById<ShapeableImageView>(R.id.imgDoctor)
-        var toggleButton = findViewById<ToggleButton>(R.id.toggleButton)
+        val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
+        val nombreDoctor = findViewById<TextView>(R.id.nombreDoctor)
+        val Especialidad = findViewById<TextView>(R.id.Especialidad)
+        val nombreSucursal = findViewById<TextView>(R.id.nombreSucursal)
+        val numeroClinica = findViewById<TextView>(R.id.numeroClinica)
+        val direccion_Clinica = findViewById<TextView>(R.id.direccion_Clinica)
+        val img_clinic = findViewById<ImageView>(R.id.img_clinic)
+        val imgDoctor = findViewById<ShapeableImageView>(R.id.imgDoctor)
+        val toggleButton = findViewById<ToggleButton>(R.id.toggleButton)
         val button_reservar = findViewById<TextView>(R.id.button_reservar)
 
-        if (intent.getBooleanExtra("Fav", false)) {
-            toggleButton.isChecked = true
-        } else {
-            toggleButton.isChecked = false
-        }
 
         var ID_Doctor = intent.getIntExtra("ID_Doctor", 0)
-        var latitud = intent.getDoubleExtra("latiSucur", 0.0)
-        var longitud = intent.getDoubleExtra("longSucur", 0.0)
-        var nombreUsuario = intent.getStringExtra("nombreUsuario")
-        var apellidoUsuario = intent.getStringExtra("apellidoUsuario")
-        var nombreCompleto = "Dr. ${nombreUsuario ?: ""}${apellidoUsuario ?: ""}"
-        Log.e("Apellido", "$apellidoUsuario")
-        nombreDoctor.text = nombreCompleto
-        Especialidad.text = intent.getStringExtra("nombreEspecialidad")
-        nombreSucursal.text = intent.getStringExtra("nombreSucursal")
-        numeroClinica.text = intent.getStringExtra("telefonoSucur")
-        direccion_Clinica.text = intent.getStringExtra("direccionSucur")
+        Log.e("ID_Doctor", ID_Doctor.toString())
 
-        var imgSucursal = intent.getStringExtra("imgSucursal")
-        var imgUsuario = intent.getStringExtra("imgUsuario")
 
         val bundle = intent.extras
         var idUsuario = bundle?.getInt("idUsuario")
         var idSucursal = bundle?.getInt("idSucursal")
+
+
         val rcvServicios = findViewById<RecyclerView>(R.id.rcvServicios)
-        rcvServicios.layoutManager = LinearLayoutManager(this)
+        rcvServicios.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         CoroutineScope(Dispatchers.IO).launch {
             val centrosDB = obtenerDatos(ID_Doctor)
             withContext(Dispatchers.Main) {
@@ -117,22 +119,35 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
-        val rcvResenas = findViewById<RecyclerView>(R.id.rcvResenas)
         val textViewError = findViewById<TextView>(R.id.lblNoComments)
-        rcvResenas.layoutManager = LinearLayoutManager(this)
+        val rcvResenas = findViewById<RecyclerView>(R.id.rcvResenas)
+        rcvResenas.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        CoroutineScope(Dispatchers.Main).launch {
+            println("$userEmail $ID_Doctor $idSucursal")
+            val isFavorite = getFavStatus(userEmail, ID_Doctor, idSucursal!!)
+
+            if (isFavorite) {
+                toggleButton.background = getDrawable(R.drawable.corazon_favoritos)
+                toggleButton.isChecked = true
+            } else {
+                toggleButton.background = getDrawable(R.drawable.corazon_vacio)
+                toggleButton.isChecked = false
+            }
+        }
+
+
 
         CoroutineScope(Dispatchers.IO).launch {
-            val centrosDB = obtenerDatosReviews(ID_Doctor)
+            val review = obtenerDatosReviews(ID_Doctor)
             withContext(Dispatchers.Main) {
-                if (centrosDB.isNullOrEmpty()) {
+                if (review.isNullOrEmpty()) {
                     textViewError.visibility = View.VISIBLE
                     rcvResenas.visibility = View.GONE
                 } else {
                     textViewError.visibility = View.GONE
-                    val miAdapter = AdaptadorResenas(centrosDB)
+                    val miAdapter = AdaptadorResenas(review)
                     rcvResenas.adapter = miAdapter
                     rcvResenas.visibility = View.VISIBLE
-                    textViewError.visibility = View.GONE
                 }
             }
         }
@@ -147,49 +162,51 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
         CoroutineScope(Dispatchers.IO).launch {
             val conexion = ClaseConexion().cadenaConexion()
             val statement = conexion?.prepareStatement(
-                "SELECT \n" +
-                        "    d.ID_Doctor,\n" +
-                        "    u.ID_Usuario,\n" +
-                        "    u.nombreUsuario, \n" +
-                        "    u.apellidoUsuario, \n" +
-                        "    u.imgUsuario, \n" +
-                        "    e.nombreEspecialidad,\n" +
-                        "    s.ID_Sucursal,\n" +
-                        "    s.nombreSucursal, \n" +
-                        "    s.telefonoSucur, \n" +
-                        "    s.direccionSucur, \n" +
-                        "    s.longSucur, \n" +
-                        "    s.latiSucur, \n" +
-                        "    s.imgSucursal, \n" +
-                        "    se.nombreServicio, \n" +
-                        "    se.costo\n" +
-                        "FROM \n" +
-                        "    tbDoctores d\n" +
-                        "    INNER JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario\n" +
-                        "    INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad\n" +
-                        "    INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal\n" +
-                        "    INNER JOIN tbCentrosMedicos cm ON d.ID_Doctor = cm.ID_Doctor\n" +
-                        "    INNER JOIN tbServicios se ON cm.ID_Centro = se.ID_Centro\n" +
-                        "WHERE \n" +
-                        "    d.ID_Doctor = ?"
+                """
+            SELECT 
+                d.ID_Doctor,
+                u.ID_Usuario,
+                u.nombreUsuario,
+                u.apellidoUsuario,
+                u.imgUsuario,
+                e.nombreEspecialidad,
+                s.ID_Sucursal,
+                s.nombreSucursal,
+                s.telefonoSucur,
+                s.direccionSucur,
+                s.longSucur,
+                s.latiSucur,
+                s.imgSucursal,
+                se.nombreServicio,
+                se.costo
+            FROM 
+                tbDoctores d
+            INNER JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
+            INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+            INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
+            INNER JOIN tbCentrosMedicos cm ON d.ID_Doctor = cm.ID_Doctor
+            INNER JOIN tbServicios se ON cm.ID_Centro = se.ID_Centro
+            WHERE 
+                d.ID_Doctor = ?
+            """
             )!!
             statement.setInt(1, ID_Doctor)
             val resultSet = statement.executeQuery()
             withContext(Dispatchers.Main) {
                 while (resultSet.next()) {
-                    latitud = resultSet.getDouble("latiSucur")
-                    longitud = resultSet.getDouble("longSucur")
+                    //latitud = resultSet.getDouble("latiSucur")
+                    //longitud = resultSet.getDouble("longSucur")
                     nombreSucursal.text = resultSet.getString("nombreSucursal")
                     numeroClinica.text = resultSet.getString("telefonoSucur")
                     direccion_Clinica.text = resultSet.getString("direccionSucur")
-                    imgSucursal = resultSet.getString("imgSucursal")
-                    imgUsuario = resultSet.getString("imgUsuario")
-                    nombreUsuario = resultSet.getString("nombreUsuario")
-                    apellidoUsuario = resultSet.getString("apellidoUsuario")
+                    //imgSucursal = resultSet.getString("imgSucursal")
+                    //imgUsuario = resultSet.getString("imgUsuario")
+                    //nombreUsuario = resultSet.getString("nombreUsuario")
+                    //apellidoUsuario = resultSet.getString("apellidoUsuario")
                     idUsuario = resultSet.getInt("ID_Usuario")
                     idSucursal = resultSet.getInt("ID_Sucursal")
-                    val nombreCompleto = "Dr. ${nombreUsuario ?: ""} ${apellidoUsuario ?: ""}".trim()
-                    nombreDoctor.text = nombreCompleto
+                    //val nombreCompleto = "Dr. ${nombreUsuario ?: ""} ${apellidoUsuario ?: ""}".trim()
+                    //nombreDoctor.text = nombreCompleto
                     Especialidad.text = resultSet.getString("nombreEspecialidad")
 
                 }
@@ -203,7 +220,6 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                 if (objConexion != null) {
                     objConexion.prepareCall("{CALL PROC_STATE_VALIDATION_RECIENTES(?,?)")
                         .use { validation ->
-
                             validation.setString(1, idUsuario)
                             validation.setInt(2, idSucursal!!)
                             validation.execute()
@@ -213,16 +229,29 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                 println("Error: $e")
             }
         }
+/*
+        gitCoroutineScope(Dispatchers.IO).launch {
+            val doctorInfo = obtenerInfoDoctor(ID_Doctor)
+            withContext(Dispatchers.Main) {
+                if (doctorInfo != null) {
+                    nombreDoctor.text = "${doctorInfo.nombreUsuario} ${doctorInfo.apellidoUsuario}"
+                    Especialidad.text = doctorInfo.nombreEspecialidad
+                    nombreSucursal.text = doctorInfo.nombreSucursal
+                    numeroClinica.text = doctorInfo.telefonoSucur
+                    direccion_Clinica.text = doctorInfo.direccionSucur
 
-        Glide.with(this)
-            .load(imgSucursal)
-            .into(img_clinic)
+                    Glide.with(this@activity_vistadoctores)
+                        .load(doctorInfo.imgUsuario)
+                        .circleCrop()
+                        .into(imgDoctor)
 
-        Glide.with(this)
-            .load(imgUsuario)
-            .circleCrop()
-            .into(imgDoctor)
-
+                    Glide.with(this@activity_vistadoctores)
+                        .load(doctorInfo.imgSucursal)
+                        .into(img_clinic)
+                }
+            }
+        }
+*/
         mapView = findViewById(R.id.mapUbicacion)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -250,6 +279,8 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                     statement?.setInt(2, ID_Doctor)
                     statement?.setString(3, userEmail)
                     statement?.executeUpdate()
+                    conexion?.commit()
+                    statement?.close()
                     withContext(Dispatchers.Main) {
                         toggleButton.background = getDrawable(R.drawable.corazon_favoritos)
                         toggleButton.isChecked = true
@@ -284,16 +315,12 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
 
             }
         }
+
+
+
     }
 
-//funciones fuera
-    /*
-    suspend fun EjecutarProcesoAlmacenado(idUsuario: Int, idSucursal: String) {
-        withContext(Dispatchers.IO){
-
-        }
-    }
-*/
+////////////////////////////Funcion para información de las reseñas//////////////////////////////////
     private suspend fun obtenerDatosReviews(ID_Doctor : Int): MutableList<dataClassResena> {
         val objConexion = ClaseConexion().cadenaConexion()!!
         val reseña = mutableListOf<dataClassResena>()
@@ -338,6 +365,8 @@ WHERE
         return reseña
     }
 
+///////////////////////////Función para información de los servicios//////////////////////////////////
+
     private suspend fun obtenerDatos(ID_Doctor : Int): MutableList<dataClassServicios> {
         val objConexion = ClaseConexion().cadenaConexion()!!
         val service = mutableListOf<dataClassServicios>()
@@ -379,6 +408,15 @@ WHERE
         return service
     }
 
+
+
+
+
+
+
+
+
+///////////////////////////////Funcion del mapa para ubicación//////////////////////////////////////
     override fun onMapReady(googleMap: GoogleMap) {
         this.googleMap = googleMap
         val latitudDB = intent.getDoubleExtra("latiSucur", 0.0)

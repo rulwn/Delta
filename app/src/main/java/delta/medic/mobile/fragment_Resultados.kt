@@ -76,9 +76,7 @@ class fragment_Resultados : Fragment() {
         s.direccionSucur, 
         s.longSucur,
         s.latiSucur,
-        s.imgSucursal,
-        srv.nombreServicio, 
-        srv.costo
+        s.imgSucursal
     FROM 
         tbCentrosMedicos cm
     INNER JOIN 
@@ -89,8 +87,6 @@ class fragment_Resultados : Fragment() {
         tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
     INNER JOIN
         tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
-    INNER JOIN 
-        tbServicios srv ON cm.ID_Centro = srv.ID_Centro
     WHERE        
         (LOWER(u.nombreUsuario) LIKE LOWER(?)
     OR
@@ -117,13 +113,11 @@ class fragment_Resultados : Fragment() {
                     val longSucur = resultSet.getDouble("longSucur")
                     val latiSucur = resultSet.getDouble("latiSucur")
                     val imgSucursal = resultSet.getString("imgSucursal")
-                    val nombreServicio = resultSet.getString("nombreServicio")
-                    val costo = resultSet.getFloat("costo")
 
                     val valoresJuntos = dataClassCentro(
                         ID_Doctor, nombreUsuario, apellidoUsuario, imgUsuario,
                         nombreEspecialidad, nombreSucursal, telefonoSucur, direccionSucur,
-                        longSucur, latiSucur, imgSucursal, nombreServicio, costo
+                        longSucur, latiSucur, imgSucursal
                     )
 
                     centroMedico.add(valoresJuntos)
@@ -134,7 +128,6 @@ class fragment_Resultados : Fragment() {
         } else {
             Log.e("obtenerDatos", "No se pudo establecer una conexión con la base de datos.")
         }
-
         return centroMedico
     }
 }

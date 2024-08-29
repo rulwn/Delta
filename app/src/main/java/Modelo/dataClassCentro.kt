@@ -11,7 +11,5 @@ val telefonoSucur: String,
 val direccionSucur: String,
 val longSucur: Double,
 val latiSucur: Double,
-val imgSucursal: String,
-val nombreServicio: String,
-val costo: Float
+val imgSucursal: String
 )

@@ -109,35 +109,15 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="Clinica escalon n97, Av Sur"
+            android:textAlignment="textEnd"
             android:textColor="@android:color/white"
             android:textSize="14sp"
-            android:textAlignment="textEnd"
-            app:layout_constraintBottom_toTopOf="@+id/txtCosto"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/imgSucursal"
-            app:layout_constraintHorizontal_bias="0.948"
+            app:layout_constraintHorizontal_bias="0.935"
             app:layout_constraintStart_toStartOf="@+id/imgSucursal"
             app:layout_constraintTop_toTopOf="@+id/imgSucursal"
-            app:layout_constraintVertical_bias="0.986" />
-
-        <TextView
-            android:id="@+id/txtCosto"
-            android:layout_width="108dp"
-            android:layout_height="16dp"
-            android:layout_below="@id/txtDireccionSucur"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="30dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textAlignment="textEnd"
-            android:text="Chequeo: $30.00"
-            android:textColor="@android:color/white"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/imgSucursal"
-            app:layout_constraintEnd_toEndOf="@+id/imgSucursal"
-            app:layout_constraintHorizontal_bias="0.959"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imgSucursal"
-            app:layout_constraintVertical_bias="0.9" />
+            app:layout_constraintVertical_bias="0.747" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
