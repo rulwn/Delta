@@ -1891,23 +1891,6 @@ FROM  tbcitasmedicas CITAS
         WHERE pacs.id_usuario = 1
 
 */
-
-select indi.ID_Indicacion,
-indi.inicioMedi,
-indi.finalMedi,
-indi.dosisMedi,
-indi.medicina,
-indi.detalleindi,
-tiem.lapsostiempo,
-tiem.frecuenciamedi from tbIndicaciones indi
-inner join tbTiempos tiem on indi.id_tiempo= tiem.id_tiempo
-inner join tbRecetas rec on indi.id_receta = rec.id_receta
-inner join tbFichasMedicas fichi on rec.id_receta = fichi.id_receta
-inner join tbcitasmedicas citas on fichi.id_cita = citas.id_cita
-INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente
-INNER JOIN tbUsuarios USUA ON PACS.id_usuario = USUA.id_usuario
-WHERE usua.emailusuario = ?;
-
 SELECT indi.ID_Indicacion,
        indi.inicioMedi,
        indi.finalMedi,
@@ -1925,6 +1908,5 @@ INNER JOIN tbpacientes PACS ON citas.id_paciente = PACS.id_paciente
 INNER JOIN tbUsuarios USUA ON PACS.id_usuario = USUA.id_usuario
 WHERE USUA.emailusuario = 'venosin@gmail.com';
 
-select * from tbIndicaciones;
 select * from tbAuditorias;
 select * from tbUsuarios;
