@@ -65,32 +65,32 @@ class fragment_controlCitas : Fragment() {
                         txtAunNotienescitas.visibility = View.GONE
                         val miAdaptador = AdaptadorCitas(citasDB)
                         rcvRecordatoriosCitas.adapter = miAdaptador
-                    }
-                }
-            } catch (e: Exception) {
-                println("Error al obtener los datos de la base de datos: ${e.message}")
-            }
-        }
+                        calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
+                            try {
+                                val selectedDate = Calendar.getInstance().apply {
+                                    set(year, month, dayOfMonth)
+                                }.time
+                                txtRecordatorioCitas.text = "Recordatorio de citas del día ${
+                                    SimpleDateFormat("dd/MM/yy", Locale.getDefault()).format(selectedDate)
+                                }"
+                                val fechaFormateada = java.sql.Date(selectedDate.time)
+                                println("Fecha formateada: $fechaFormateada")
 
-        calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            try {
-                val selectedDate = Calendar.getInstance().apply {
-                    set(year, month, dayOfMonth)
-                }.time
-                txtRecordatorioCitas.text = "Recordatorio de citas del día ${
-                    SimpleDateFormat("dd/MM/yy", Locale.getDefault()).format(selectedDate)
-                }"
-                val fechaFormateada = java.sql.Date(selectedDate.time)
-
-                CoroutineScope(Dispatchers.IO).launch {
-                    val citasDelDia = obtenerDiaCita(fechaFormateada)
-                    withContext(Dispatchers.Main) {
-                        if (citasDelDia.isEmpty()) {
-                            txtAunNotienescitas.visibility = View.VISIBLE
-                        } else {
-                            txtAunNotienescitas.visibility = View.GONE
-                            val miAdaptador = AdaptadorCitas(citasDelDia)
-                            rcvRecordatoriosCitas.adapter = miAdaptador
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    val citasDelDia = obtenerDiaCita(fechaFormateada)
+                                    withContext(Dispatchers.Main) {
+                                        if (citasDelDia.isEmpty()) {
+                                            txtAunNotienescitas.visibility = View.GONE
+                                        } else {
+                                            txtAunNotienescitas.visibility = View.GONE
+                                            val miAdaptadorDia = AdaptadorCitas(citasDelDia)
+                                            rcvRecordatoriosCitas.adapter = miAdaptadorDia
+                                        }
+                                    }
+                                }
+                            } catch (e: Exception) {
+                                println("Error al obtener los datos de la base de datos: ${e.message}")
+                            }
                         }
                     }
                 }
@@ -98,6 +98,9 @@ class fragment_controlCitas : Fragment() {
                 println("Error al obtener los datos de la base de datos: ${e.message}")
             }
         }
+
+
+
         return root
     }
 
@@ -109,7 +112,7 @@ class fragment_controlCitas : Fragment() {
                 if (objConexion != null) {
                     val statement = objConexion.prepareStatement(
                         "SELECT \n" + "    citas.ID_Cita,\n" + "    citas.diacita,\n" + "    citas.horacita,\n" + "    citas.motivo,\n" + "    citas.estadoCita,\n" + "    citas.id_centro,\n" + "    citas.id_paciente,\n" + "    pacs.nombrepaciente,\n" + "    pacs.parentesco,\n" + "    usua.id_usuario,\n" + "    USUA.nombreUsuario,\n" + "    USUA.apellidoUsuario,\n" + "    esp.nombreespecialidad\n" + "FROM tbcitasmedicas CITAS \n" + "    INNER JOIN tbcentrosmedicos CENTROS ON CITAS.id_centro=CENTROS.id_centro\n" + "    INNER JOIN tbdoctores DOCS ON CENTROS.id_doctor=DOCS.id_doctor\n" + "    INNER JOIN tbEspecialidades ESP ON docs.id_especialidad = esp.id_especialidad\n" + "    INNER JOIN tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario\n" + "    INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente\n" + "        \n" + "    WHERE usua.emailUsuario = ? AND citas.diacita = ?"
-                    )!!
+                    )
                     statement.setString(1, sentEmail)
                     statement.setDate(2, Fecha)
                     val resultset = statement.executeQuery()

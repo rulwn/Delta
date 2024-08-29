@@ -13,10 +13,13 @@ import android.widget.CalendarView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import delta.medic.mobile.activity_login.UserData.userEmail
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.sql.Date
+import java.util.Calendar
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,7 +53,7 @@ class fragment_control_tratamientos : Fragment() {
         val txtAunNotienescitas = root.findViewById<TextView>(R.id.txtAunNotienescitas)
         val rcvTratamientos = root.findViewById<RecyclerView>(R.id.rcvRecordatoriosTratamientos)
         rcvTratamientos.layoutManager = LinearLayoutManager(requireContext())
-        CoroutineScope(Dispatchers.IO).launch{
+        CoroutineScope(Dispatchers.IO).launch {
             try {
                 val tratamientosDB = obtenerDatosTratamientos()
                 withContext(Dispatchers.Main) {
@@ -60,6 +63,20 @@ class fragment_control_tratamientos : Fragment() {
                         txtAunNotienescitas.visibility = View.GONE
                         val miAdaptador = AdaptadorTratamientos(tratamientosDB)
                         rcvTratamientos.adapter = miAdaptador
+                        println("Adaptador size: ${tratamientosDB.size}")
+
+                        calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
+                            val selectedDate = Calendar.getInstance().apply {
+                                set(year, month, dayOfMonth)
+                            }.time
+
+                            val tratamientosFiltrados = tratamientosDB.filter { tratamiento ->
+                                tratamiento.inicioMedi?.let { it <= selectedDate } == true &&
+                                        tratamiento.finalMedi?.let { it >= selectedDate } == true
+                            }
+
+                            miAdaptador.Actualizarlista(tratamientosFiltrados)
+                        }
                     }
                 }
             } catch (e: Exception) {
@@ -68,47 +85,81 @@ class fragment_control_tratamientos : Fragment() {
         }
         return root
     }
-    //asignar un layout al rcv
 
-    suspend fun obtenerDatosTratamientos(): List<dataClassIndicaciones>{
+    suspend fun obtenerDatosTratamientos(): List<dataClassIndicaciones> {
         return withContext(Dispatchers.IO) {
-            val tratamientos = mutableListOf<dataClassIndicaciones>()
+            val indicaciones = mutableListOf<dataClassIndicaciones>()
             try {
                 val objConexion = ClaseConexion().cadenaConexion()
                 if (objConexion != null) {
-                val statement = objConexion.createStatement()
-                val resultset = statement?.executeQuery("Select * from tbIndicaciones")!!
-                while (resultset.next()) {
-                    val idIndicaciones = resultset.getInt("ID_Indicacion")
-                    val duracion = resultset.getTimestamp("duracionMedi")
-                    val dosisMedicina = resultset.getString("dosisMedi")
-                    val nombreMedicina = resultset.getString("medicina")
-                    val detalleIndi = resultset.getString("detalleIndi")
-                    val idReceta = resultset.getInt("ID_Receta")
-                    val idTiempo = resultset.getInt("ID_Tiempo")
-                    val tratamiento = dataClassIndicaciones(
-                        idIndicaciones,
-                        duracion,
-                        dosisMedicina,
-                        nombreMedicina,
-                        detalleIndi,
-                        idTiempo,
-                        idReceta
+                    val statement = objConexion.prepareStatement(
+                        "SELECT indi.ID_Indicacion, " +
+                                "indi.inicioMedi, " +
+                                "indi.finalMedi, " +
+                                "indi.dosisMedi, " +
+                                "indi.medicina, " +
+                                "indi.detalleindi, " +
+                                "tiem.lapsostiempo, " +
+                                "tiem.frecuenciamedi " +
+                                "FROM tbIndicaciones indi " +
+                                "INNER JOIN tbTiempos tiem ON indi.id_tiempo = tiem.id_tiempo " +
+                                "INNER JOIN tbRecetas rec ON indi.id_receta = rec.id_receta " +
+                                "INNER JOIN tbFichasMedicas fichi ON rec.id_receta = fichi.id_receta " +
+                                "INNER JOIN tbcitasmedicas citas ON fichi.id_cita = citas.id_cita " +
+                                "INNER JOIN tbpacientes PACS ON citas.id_paciente = PACS.id_paciente " +
+                                "INNER JOIN tbUsuarios USUA ON PACS.id_usuario = USUA.id_usuario " +
+                                "WHERE USUA.emailusuario = ?"
                     )
-                    tratamientos.add(tratamiento)
-                }
+                    statement.setString(1, userEmail)
+                    val resultSet = statement.executeQuery()
+                    var resultCount = 0
+
+
+                    while (resultSet.next()) {
+                        resultCount++
+                        val ID_Indicacion = resultSet.getInt("ID_Indicacion")
+                        val inicioMedi = resultSet.getDate("inicioMedi")
+                        val finalMedi = resultSet.getDate("finalMedi")
+                        val dosisMedi = resultSet.getString("dosisMedi")
+                        val medicina = resultSet.getString("medicina")
+                        val detalleIndi = resultSet.getString("detalleindi")
+                        val lapsosTiempo = resultSet.getString("lapsostiempo")
+                        val frecuenciaMedi = resultSet.getInt("frecuenciamedi")
+
+                        val horas = when (frecuenciaMedi) {
+                            1 -> listOf("8:00 AM")
+                            2 -> listOf("8:00 AM", "8:00 PM")
+                            3 -> listOf("8:00 AM", "2:00 PM", "8:00 PM")
+                            4 -> listOf("7:00 AM", "12:00 PM", "5:00 PM", "10:00 PM")
+                            else -> emptyList()
+                        }
+
+                        for (hora in horas) {
+                            val indicacion = dataClassIndicaciones(
+                                ID_Indicacion,
+                                inicioMedi,
+                                finalMedi,
+                                dosisMedi,
+                                medicina,
+                                detalleIndi,
+                                lapsosTiempo,
+                                frecuenciaMedi,
+                                hora
+                            )
+                            indicaciones.add(indicacion)
+                            println("Added indicacion: $medicina at $hora")
+                        }
+                    }
+                    println("Number of records fetched: $resultCount")
                 } else {
                     println("No se pudo establecer una conexión con la base de datos.")
                 }
             } catch (e: Exception) {
                 println("Este es el error ${e.message}")
             }
-        tratamientos
+            indicaciones
         }
     }
-    //Asignar un adaptador
-
-
     companion object {
         /**
          * Use this factory method to create a new instance of
