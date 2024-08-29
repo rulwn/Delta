@@ -1342,43 +1342,75 @@ END Trigger_INST_Auditoria;
 
 /*************************************************************************************************
 
+~ PROCEDURE PARA FAVORITOS ~
+
+*************************************************************************************************/
+
+CREATE OR REPLACE PROCEDURE PROC_DELT_FAVORITOS(
+    var_email IN tbUsuarios.EmailUsuario%TYPE,
+    var_ID_Doctor IN tbDoctores.ID_Doctor%TYPE,
+    var_ID_Sucursal IN tbSucursales.ID_Sucursal%TYPE
+)
+IS
+    var_ID_Usuario tbUsuarios.ID_Usuario%TYPE;
+BEGIN
+    SELECT u.ID_Usuario INTO var_ID_Usuario
+    FROM tbUsuarios u
+    WHERE u.EmailUsuario = var_email;
+
+
+    DELETE FROM tbFavoritos
+    WHERE ID_Usuario = var_ID_Usuario
+    AND ID_Sucursal = var_ID_Sucursal
+    AND ID_Doctor = var_ID_Doctor;
+
+    COMMIT WORK;
+END PROC_DELT_FAVORITOS;
+/
+
+/*************************************************************************************************
+
 ~ PROCEDURE PARA RECIENTES ~
 
 *************************************************************************************************/
-CREATE OR REPLACE PROCEDURE PROC_STATE_VALIDATION_RECIENTES(var_ID_Usuario IN INT, var_ID_Sucursal IN INT) AS
-    v_count INT;
+
+CREATE OR REPLACE PROCEDURE PROC_STATE_VALIDATION_RECIENTES (arg_email IN tbUsuarios.emailUsuario%TYPE, arg_ID_Sucursal IN INT) AS
+    var_Cant_Recientes INT;
+    var_ID_Usuario tbUsuarios.ID_Usuario%TYPE;
 BEGIN
-    -- Elimina cualquier registro existente para el mismo ID_Usuario y ID_Sucursal
+
+    SELECT ID_Usuario
+        INTO var_ID_Usuario
+    FROM tbUsuarios
+        WHERE emailUsuario = arg_email;
+        
     DELETE FROM tbRecientes
     WHERE ID_Usuario = var_ID_Usuario
-      AND ID_Sucursal = var_ID_Sucursal;
-
-    -- Contar el nÃºmero de registros existentes para el usuario
+    AND ID_Sucursal = arg_ID_Sucursal;
+    
     SELECT COUNT(*)
-    INTO v_count
+    INTO var_Cant_Recientes
     FROM tbRecientes
     WHERE ID_Usuario = var_ID_Usuario;
 
-    -- Si hay 19 registros, eliminar el mÃ¡s antiguo para dejar espacio al nuevo
-    IF v_count > 19 THEN
+    IF var_Cant_Recientes > 19 THEN
         DELETE FROM tbRecientes
         WHERE ID_Usuario = var_ID_Usuario
-          AND ID_Sucursal IN (
-              SELECT ID_Sucursal
-              FROM (
-                  SELECT ID_Sucursal
-                  FROM tbRecientes
-                  WHERE ID_Usuario = var_ID_Usuario
-                  ORDER BY ROWNUM  -- Orden natural de inserciÃ³n
-              )
-              WHERE ROWNUM = 1  -- Selecciona solo la fila mÃ¡s antigua
-          );
-    END IF;
+        AND ID_Sucursal IN (
+            SELECT ID_Sucursal
+            FROM (
+                SELECT ID_Sucursal
+                FROM tbRecientes
+                WHERE ID_Usuario = var_ID_Usuario
+                ORDER BY ROWNUM
+                )
+                WHERE ROWNUM = 1
+            );
+END IF;
 
-    -- Insertar el nuevo registro
-    INSERT INTO tbRecientes (ID_Usuario, ID_Sucursal)
-    VALUES (var_ID_Usuario, var_ID_Sucursal);
-    COMMIT WORK;
+INSERT INTO tbRecientes (ID_Usuario, ID_Sucursal)
+VALUES (var_ID_Usuario, arg_ID_Sucursal);
+COMMIT WORK;
 END;
 /
 
@@ -1497,8 +1529,11 @@ INSERT ALL
         VALUES ('Raul', 'Ochoa', 'eduardito.ochoa@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'San Salvador', '3241-7534', 'M', '25/08/2000', NULL, 1)
 SELECT DUMMY FROM DUAL;
 
+UPDATE tbUsuarios SET imgUsuario = 'https://w7.pngwing.com/pngs/312/283/png-transparent-man-s-face-avatar-computer-icons-user-profile-business-user-avatar-blue-face-heroes-thumbnail.png' WHERE ID_Usuario = 1;
+UPDATE tbUsuarios SET imgUsuario = 'https://st3.depositphotos.com/12985790/15794/i/450/depositphotos_157947226-stock-photo-man-looking-at-camera.jpg' WHERE ID_Usuario = 2;
 UPDATE tbUsuarios SET imgUsuario = 'https://us.123rf.com/450wm/antoniodiaz/antoniodiaz1510/antoniodiaz151000120/47228952-apuesto-joven-m%C3%A9dico-con-una-bata-de-laboratorio-y-un-estetoscopio-con-un-tablet-pc-para-comprobar.jpg' WHERE ID_Usuario = 3;
 UPDATE tbUsuarios SET imgUsuario = 'https://img.freepik.com/fotos-premium/medico-sexo-masculino-bata-laboratorio-estetoscopio-brazos-cruzados-pie-pasillo-hospital_752325-3492.jpg' WHERE ID_Usuario = 4;
+UPDATE tbUsuarios SET imgUsuario = 'https://cdn.agenciasinc.es/var/ezwebin_site/storage/images/_aliases/img_1col/en-exclusiva/embargos/el-hombre-de-flores-desaparecio-antes-de-lo-que-se-pensaba/5663917-2-esl-MX/El-Hombre-de-Flores-desaparecio-antes-de-lo-que-se-pensaba.jpg' WHERE ID_Usuario = 5;
 
 INSERT ALL
     INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('TOEWQ12', 'PRIMER2', 1, 1)
@@ -1529,28 +1564,28 @@ UPDATE tbSucursales SET imgSucursal = 'https://www.ecured.cu/images/e/e3/Hospita
 
 INSERT ALL
     INTO tbIndicaciones (duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
-         VALUES (TO_TIMESTAMP('2023-06-01 08:00:00', 'YYYY-MM-DD HH24:MI:SS'), '1 tableta', 'Paracetamol', 'Tomar despuÃ©s de las comidas', 1, 1)
+         VALUES (TO_TIMESTAMP('2023-06-01 08:00:00', 'YYYY-MM-DD HH24:MI:SS'), '1 tableta', 'Paracetamol', 'Tomar después de las comidas', 1, 1)
     INTO tbIndicaciones (duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
          VALUES (TO_TIMESTAMP('2023-06-02 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), '2 cucharadas', 'Ibuprofeno', 'Tomar con agua', 2, 2)
     INTO tbIndicaciones (duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
          VALUES (TO_TIMESTAMP('2023-06-03 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '5 ml', 'Amoxicilina', 'Tomar cada 8 horas', 3, 3)
     INTO tbIndicaciones (duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
-         VALUES (TO_TIMESTAMP('2023-06-04 20:00:00', 'YYYY-MM-DD HH24:MI:SS'), '1 cÃ¡psula', 'Omeprazol', 'Tomar antes de dormir', 4, 4)
+         VALUES (TO_TIMESTAMP('2023-06-04 20:00:00', 'YYYY-MM-DD HH24:MI:SS'), '1 cápsula', 'Omeprazol', 'Tomar antes de dormir', 4, 4)
     INTO tbIndicaciones (duracionMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
-         VALUES (TO_TIMESTAMP('2023-06-05 07:00:00', 'YYYY-MM-DD HH24:MI:SS'), '10 gotas', 'Clorfenamina', 'Tomar en la maÃ±ana y noche', 5, 4)
+         VALUES (TO_TIMESTAMP('2023-06-05 07:00:00', 'YYYY-MM-DD HH24:MI:SS'), '10 gotas', 'Clorfenamina', 'Tomar en la mañana y noche', 5, 4)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario,ID_Sucursal)
-         VALUES ('JVPM12345', 1, 5,1)
+         VALUES ('JVPM12345', 1, 1,1)
     INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario, ID_Sucursal)
-         VALUES ('JVPM67890', 2, 4,1)
+         VALUES ('JVPM67890', 2, 2,1)
     INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario, ID_Sucursal)
          VALUES ('JVPM23456', 3, 3,2)
     INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario, ID_Sucursal)
-         VALUES ('JVPM78901', 4, 2,3)
+         VALUES ('JVPM78901', 4, 4,3)
     INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario, ID_Sucursal)
-         VALUES ('JVPM34567', 5, 1,4)
+         VALUES ('JVPM34567', 5, 5,4)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -1581,15 +1616,15 @@ SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES ('Juan', 'Perez', NULL, 'Padre', 1)
+         VALUES ('Juan', 'Peréz', NULL, 'Padre', 1)
     INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES ('Maria', 'Garcia', NULL, 'Madre', 2)
+         VALUES ('Maria', 'García', NULL, 'Madre', 2)
     INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES ('Carlos', 'Lopez', NULL, 'Hijo', 3)
+         VALUES ('Carlos', 'López', NULL, 'Hijo', 3)
     INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES ('Ana', 'Martinez', NULL, 'Hija', 4)
+         VALUES ('Ana', 'Martínez', NULL, 'Hija', 4)
     INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES ('Luis', 'Sanchez', NULL, 'Hermano', 5)
+         VALUES ('Luis', 'Sánchez', NULL, 'Hermano', 5)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -1620,31 +1655,46 @@ VALUES (TO_DATE('2024-07-14', 'YYYY-MM-DD'), 'P', 'Descargar pdf de tu ultima ci
 
 INSERT ALL
     INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
-        VALUES ('Limpieza Bucal', 40.00, 1, 1)
+        VALUES ('Limpieza Bucal', 40.00, 1, 4)
     INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
-        VALUES ('Chequeo General', 30.00, 2, 2)
+        VALUES ('Chequeo General', 30.00, 2, 4)
     INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
         VALUES ('Examen Visual', 45.00, 3, 3)
     INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
         VALUES ('Blanqueamiento Dental', 60.00, 4, 4)
     INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
-        VALUES ('Terapia Cognitiva', 55.00, 5, 5)
+        VALUES ('Terapia Cognitiva', 55.00, 5, 3)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Ayuda Personal', 25.00, 1, 3) 
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Chequeo Lumbar', 35.00, 2, 3) 
 SELECT DUMMY FROM DUAL;
     
 INSERT ALL
     INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
-    VALUES (1,1,2)
+        VALUES (1,1,2)
     INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
-    VALUES (2,1,3)
+        VALUES (2,1,3)
     INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
-    VALUES (3,1,4)
+        VALUES (3,1,4)
     INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
-    VALUES (4,1,5)
+        VALUES (4,1,5)
     INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
-    VALUES (1,1,2)
+        VALUES (1,1,2)
 SELECT DUMMY FROM DUAL;
 
-
+INSERT ALL 
+    INTO tbReviews(promEstrellas, comentario, ID_Centro, ID_Usuario)
+        VALUES(5, 'Excelente Servicio!', 3, 5)
+INTO tbReviews(promEstrellas, comentario, ID_Centro, ID_Usuario)
+        VALUES(1, 'El doctor no se presento a mi cita', 3, 1)
+INTO tbReviews(promEstrellas, comentario, ID_Centro, ID_Usuario)
+        VALUES(4.5, 'Muy buen ambiente en esa clinica', 4, 2)
+INTO tbReviews(promEstrellas, comentario, ID_Centro, ID_Usuario)
+        VALUES(3, 'Bueno pero pudo ser mejor con el tiempo', 3, 4)
+INTO tbReviews(promEstrellas, comentario, ID_Centro, ID_Usuario)
+        VALUES(4, 'Excelente música', 3, 2)
+SELECT DUMMY FROM DUAL;
 
 COMMIT;
 
@@ -1675,7 +1725,6 @@ SELECT DUMMY FROM DUAL;
 *************************************************************************************************/
 --INNER JOIN CENTROMEDICO--
     SELECT 
-        d.ID_Doctor,
         u.nombreUsuario, 
         u.apellidoUsuario, 
         u.imgUsuario, 
@@ -1685,9 +1734,7 @@ SELECT DUMMY FROM DUAL;
         s.direccionSucur, 
         s.longSucur,
         s.latiSucur,
-        s.imgSucursal,
-        srv.nombreServicio, 
-        srv.costo
+        s.imgSucursal
     FROM 
         tbCentrosMedicos cm
     INNER JOIN 
@@ -1698,10 +1745,8 @@ SELECT DUMMY FROM DUAL;
         tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
     INNER JOIN
         tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
-    INNER JOIN 
-        tbServicios srv ON cm.ID_Centro = srv.ID_Centro
     WHERE        
-        (LOWER(u.nombreUsuario) LIKE LOWER('')
+        (LOWER(u.nombreUsuario) LIKE LOWER('%X%')
     OR
         LOWER(u.apellidoUsuario) LIKE LOWER(''))
     AND
@@ -1711,8 +1756,7 @@ SELECT DUMMY FROM DUAL;
 SELECT
     srv.nombreServicio,
     srv.costo,
-    a.nombreAseguradora,
-    d.ID_Doctor
+    a.nombreAseguradora
 FROM 
     tbServicios srv
 INNER JOIN 
@@ -1726,15 +1770,11 @@ WHERE
 
 --INNER JOIN CITASMEDICAS--
 SELECT
-    citas.ID_Cita,
     citas.diacita,
     citas.horacita,
     citas.motivo,
-    citas.id_centro,
-    citas.id_paciente,
     pacs.nombrepaciente,
     pacs.parentesco,
-    usua.id_usuario,
     USUA.nombreUsuario,
     USUA.apellidoUsuario,
     esp.nombreespecialidad
@@ -1753,11 +1793,8 @@ FROM  tbcitasmedicas CITAS
 --INNER JOIN FAVORITOS--
 
 SELECT
-    u.ID_Usuario,
     u.nombreUsuario,
     u.imgUsuario,
-    d.ID_Doctor,
-    s.ID_Sucursal,
     s.imgSucursal,
     ts.nombreTipoSucursal
 FROM
@@ -1771,8 +1808,6 @@ WHERE
 
 --Este select selecciona todos los datos relacionados a un doctor en base a su ID_Doctor
 SELECT 
-    d.ID_Doctor,
-    u.ID_Usuario,
     u.nombreUsuario, 
     u.apellidoUsuario, 
     u.imgUsuario, 
@@ -1797,28 +1832,25 @@ WHERE
     d.ID_Doctor = 5;
 
 SELECT * FROM TBDOCTORES;
-CREATE OR REPLACE PROCEDURE PROC_DELT_FAVORITOS(
-    var_email IN tbUsuarios.EmailUsuario%TYPE,
-    var_ID_Doctor IN tbDoctores.ID_Doctor%TYPE,
-    var_ID_Sucursal IN tbSucursales.ID_Sucursal%TYPE
-)
-IS
-    var_ID_Usuario tbUsuarios.ID_Usuario%TYPE;
-BEGIN
-    SELECT u.ID_Usuario INTO var_ID_Usuario
-    FROM tbUsuarios u
-    WHERE u.EmailUsuario = var_email;
 
-
-    DELETE FROM tbFavoritos
-    WHERE ID_Usuario = var_ID_Usuario
-    AND ID_Sucursal = var_ID_Sucursal
-    AND ID_Doctor = var_ID_Doctor;
-
-    COMMIT WORK;
-END PROC_DELT_FAVORITOS;
-/
-
+--CONSULTA INNERJOIN REVIEW--
+SELECT
+    rv.comentario,
+    rv.promEstrellas,
+    u.nombreUsuario,
+    u.apellidoUsuario,
+    u.imgUsuario,
+    d.ID_Doctor
+FROM 
+    tbReviews rv
+INNER JOIN 
+    tbUsuarios u ON rv.ID_Usuario = u.ID_Usuario
+INNER JOIN
+    tbCentrosMedicos cm ON rv.ID_Centro = cm.ID_Centro
+INNER JOIN
+    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+WHERE 
+    d.ID_Doctor = 3;
 
 /*************************************************************************************************
 
@@ -1874,7 +1906,57 @@ FROM  tbcitasmedicas CITAS
     INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente
         WHERE pacs.id_usuario = 1
 
-*/
 
+
+    SELECT 
+        u.nombreUsuario, 
+        u.apellidoUsuario, 
+        u.imgUsuario, 
+        e.nombreEspecialidad,
+        s.nombreSucursal,
+        s.telefonoSucur, 
+        s.direccionSucur, 
+        s.longSucur,
+        s.latiSucur,
+        s.imgSucursal,
+        srv.nombreServicio, 
+        srv.costo
+    FROM 
+        tbCentrosMedicos cm
+    INNER JOIN 
+        tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+    INNER JOIN 
+        tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
+    INNER JOIN
+        tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+    INNER JOIN
+        tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
+    INNER JOIN 
+        tbServicios srv ON cm.ID_Centro = srv.ID_Centro
+    WHERE        
+        (LOWER(u.nombreUsuario) LIKE LOWER('x%'))
+    AND
+        u.ID_TipoUsuario = 2;
+        
+        
+SELECT
+    rv.comentario,
+    rv.promEstrellas,
+    u.nombreUsuario,
+    u.apellidoUsuario,
+    u.imgUsuario,
+    d.ID_Doctor
+FROM 
+    tbReviews rv
+INNER JOIN 
+    tbUsuarios u ON rv.ID_Usuario = u.ID_Usuario
+INNER JOIN
+    tbCentrosMedicos cm ON rv.ID_Centro = cm.ID_Centro
+INNER JOIN
+    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+WHERE 
+    d.ID_Doctor = 3;
+
+*/
 select * from tbAuditorias;
 select * from tbUsuarios;
