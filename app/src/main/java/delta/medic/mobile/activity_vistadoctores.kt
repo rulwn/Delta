@@ -121,54 +121,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
         var idSucursal = bundle?.getInt("idSucursal")
         val rcvServicios = findViewById<RecyclerView>(R.id.rcvServicios)
         rcvServicios.layoutManager = LinearLayoutManager(this)
-        CoroutineScope(Dispatchers.IO).launch {
-            val centrosDB = obtenerDatos(ID_Doctor)
-            withContext(Dispatchers.Main) {
-                val miAdapter = AdaptadorServicios(centrosDB)
-                rcvServicios.adapter = miAdapter
-            }
-        }
-
-        CoroutineScope(Dispatchers.Main).launch {
-            println("$userEmail $ID_Doctor $idSucursal")
-            val isFavorite = getFavStatus(userEmail, ID_Doctor, idSucursal!!)
-
-            if (isFavorite) {
-                toggleButton.background = getDrawable(R.drawable.corazon_favoritos)
-                toggleButton.isChecked = true
-            } else {
-                toggleButton.background = getDrawable(R.drawable.corazon_vacio)
-                toggleButton.isChecked = false
-            }
-        }
-
-
-
-        CoroutineScope(Dispatchers.IO).launch {
-            val centrosDB = obtenerDatosReviews(ID_Doctor)
-            withContext(Dispatchers.Main) {
-                if (centrosDB.isNullOrEmpty()) {
-                    /*
-                    textViewError.visibility = View.VISIBLE
-                    rcvResenas.visibility = View.GONE*/
-                } else {
-
-                    //textViewError.visibility = View.GONE
-                    val miAdapter = AdaptadorResenas(centrosDB)
-                    rcvResenas.adapter = miAdapter
-                    rcvResenas.visibility = View.VISIBLE
-                    //textViewError.visibility = View.GONE
-                }
-            }
-        }
-
-        button_reservar.setOnClickListener {
-            val intent = Intent(this, activity_agendar::class.java)
-            intent.putExtra("ID_Doctor", ID_Doctor)
-            startActivity(intent)
-        }
-
-        //Aquí se obtienen los datos por medio del ID_Doctor
+//Aquí se obtienen los datos por medio del ID_Doctor
         CoroutineScope(Dispatchers.IO).launch {
             val conexion = ClaseConexion().cadenaConexion()
             val statement = conexion?.prepareStatement(
@@ -220,6 +173,56 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                 }
             }
         }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val centrosDB = obtenerDatos(ID_Doctor)
+            withContext(Dispatchers.Main) {
+                val miAdapter = AdaptadorServicios(centrosDB)
+                rcvServicios.adapter = miAdapter
+            }
+        }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            println("$userEmail $ID_Doctor $idSucursal")
+            val isFavorite = getFavStatus(userEmail, ID_Doctor, idSucursal!!)
+
+            if (isFavorite) {
+                toggleButton.background = getDrawable(R.drawable.corazon_favoritos)
+                toggleButton.isChecked = true
+            } else {
+                toggleButton.background = getDrawable(R.drawable.corazon_vacio)
+                toggleButton.isChecked = false
+            }
+        }
+
+
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val centrosDB = obtenerDatosReviews(ID_Doctor)
+            withContext(Dispatchers.Main) {
+                if (centrosDB.isNullOrEmpty()) {
+                    /*
+                    textViewError.visibility = View.VISIBLE
+                    rcvResenas.visibility = View.GONE*/
+                } else {
+
+                    //textViewError.visibility = View.GONE
+                    val miAdapter = AdaptadorResenas(centrosDB)
+                    rcvResenas.adapter = miAdapter
+                    rcvResenas.visibility = View.VISIBLE
+                    //textViewError.visibility = View.GONE
+                }
+            }
+        }
+
+        button_reservar.setOnClickListener {
+            val intent = Intent(this, activity_agendar::class.java)
+            intent.putExtra("ID_Doctor", ID_Doctor)
+            startActivity(intent)
+        }
+
+
+
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
