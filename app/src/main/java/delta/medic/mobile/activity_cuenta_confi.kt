@@ -371,9 +371,15 @@ class activity_cuenta_confi : AppCompatActivity() {
                         // Si la contraseña es correcta, eliminar el usuario
                         val isDeleted = deleteUser(userEmail)
                         if (isDeleted) {
-                            Toast.makeText(this@activity_cuenta_confi, "Usuario eliminado correctamente", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(this@activity_cuenta_confi, activity_login::class.java)
+                            val sharedPreferences = getSharedPreferences("userPreferences", MODE_PRIVATE)
+                            val editor = sharedPreferences.edit()
+                            editor.putString("email", null)
+                            editor.putBoolean("IsLogedIn", false)
+                            editor.apply()
+
+                            val intent = Intent(this@activity_cuenta_confi, splash_screen::class.java)
                             startActivity(intent)
+                            finish()
                             finish()
                         } else {
                             Toast.makeText(this@activity_cuenta_confi, "No se encontró el usuario con email $userEmail", Toast.LENGTH_SHORT).show()

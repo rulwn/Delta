@@ -19,7 +19,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.sql.Date
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,6 +52,7 @@ class fragment_control_tratamientos : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_control_tratamientos, container, false)
         val calendarView = root.findViewById<CalendarView>(R.id.calendarTratamientos)
+        val txtRecordatorioTratamientos = root.findViewById<TextView>(R.id.txtRecordatorioTratamientos)
         val txtAunNotienescitas = root.findViewById<TextView>(R.id.txtAunNotienescitas)
         val rcvTratamientos = root.findViewById<RecyclerView>(R.id.rcvRecordatoriosTratamientos)
         rcvTratamientos.layoutManager = LinearLayoutManager(requireContext())
@@ -69,6 +72,9 @@ class fragment_control_tratamientos : Fragment() {
                             val selectedDate = Calendar.getInstance().apply {
                                 set(year, month, dayOfMonth)
                             }.time
+                            txtRecordatorioTratamientos.text = "Recordatorio de tratamientos del día ${
+                                SimpleDateFormat("dd/MM/yy", Locale.getDefault()).format(selectedDate)
+                            }"
 
                             val tratamientosFiltrados = tratamientosDB.filter { tratamiento ->
                                 tratamiento.inicioMedi?.let { it <= selectedDate } == true &&
