@@ -23,10 +23,10 @@ class activity_busqueda_rapida_mujer : AppCompatActivity() {
         val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
         val btnChangeGender = findViewById<ImageView>(R.id.btnChangeGender2)
         val bodyImageView = findViewById<ImageView>(R.id.bodyImageView)
+
+
         btnRegresar.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("go_back", true)
-            startActivity(intent)
+            finish()
         }
         btnChangeGender.setOnClickListener {
             val intent = Intent(this, activity_busqueda_rapida_hombre::class.java)
@@ -49,7 +49,7 @@ class activity_busqueda_rapida_mujer : AppCompatActivity() {
             isChestArea(x, y) -> listOf("Cardiología", "Cirugía Torácica", "Neumología") to "Pecho"
             isAbdomenArea(x, y) -> listOf("Gastroenterología", "Cirugía General", "Ginecología") to "Abdomen"
             isHandArea(x, y) -> listOf("Traumatología", "Cirugía de Mano", "Rehabilitación") to "Manos"
-            isLegArea(x, y) -> listOf("Ortopedia", "Cirugía Vascular", "Fisioterapia") to "Piernas"
+            isLegArea(x, y) -> listOf("Ortopedia", "Cirugía Vascular", "Fisioterapia", "Ginecologia") to "Piernas"
             else -> emptyList<String>() to ""
         }
         if (specialties.isNotEmpty()) {
