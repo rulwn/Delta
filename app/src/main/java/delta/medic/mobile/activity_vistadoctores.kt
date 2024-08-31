@@ -385,14 +385,6 @@ WHERE
         return service
     }
 
-
-
-
-
-
-
-
-
 ///////////////////////////////Funcion del mapa para ubicación//////////////////////////////////////
     override fun onMapReady(googleMap: GoogleMap) {
         this.googleMap = googleMap
