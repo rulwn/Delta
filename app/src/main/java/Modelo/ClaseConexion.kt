@@ -11,7 +11,11 @@ class ClaseConexion {
             try {
 
 
-                val url = "jdbc:oracle:thin:@192.168.1.23:1521:xe"
+<<<<<<< HEAD
+                val url = "jdbc:oracle:thin:@192.168.1.144:1521:xe"
+=======
+                val url = "jdbc:oracle:thin:@192.168.31.105:1521:xe"
+>>>>>>> 3b0083006c1df0d6631133ab2bef7af182f14495
                 val usuario = "DeltaMed" //DeltaMed
                 val clave = "deltaTeam1" //deltaTeam1
                 val conexion = DriverManager.getConnection(url, usuario, clave)
@@ -42,7 +46,7 @@ Jorge
 cole:
 "jdbc:oracle:thin:@10.10.2.140:1521:xe"
 casita:
-"jdbc:oracle:thin:@192.168.1.7:1521:xe"
+"jdbc:oracle:thin:@192.168.1.144:1521:xe"
 
 Raul colegio
 val url = "jdbc:oracle:thin:@10.10.1.1:1521:xe"
