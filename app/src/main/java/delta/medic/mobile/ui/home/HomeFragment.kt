@@ -2,19 +2,26 @@ package delta.medic.mobile.ui.home
 
 import Modelo.ClaseConexion
 import Modelo.dataClassCitas
+import RecycleViewHelper.AdaptadorCentrosRecientes
 import RecycleViewHelper.AdaptadorCitas
+import RecycleViewHelper.AdaptadorFavoritos
 import RecycleViewHelper.AdaptadorTratamientosChiquito
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import delta.medic.mobile.R
+import delta.medic.mobile.activity_busqueda
+import delta.medic.mobile.activity_doctoresfavoritos
+import delta.medic.mobile.activity_login
 import delta.medic.mobile.activity_login.UserData.userEmail
 import delta.medic.mobile.fragment_control_tratamientos
 import delta.medic.mobile.fragment_usuario
@@ -31,7 +38,7 @@ class HomeFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
         val root = inflater.inflate(R.layout.fragment_home, container, false)
         val txtBienvenido = root.findViewById<TextView>(R.id.txtBienvenido)
@@ -42,12 +49,17 @@ class HomeFragment : Fragment() {
         val rcvRecordatoriosCitas = root.findViewById<RecyclerView>(R.id.rcvProximaCita)
         val txtaunotienescitas = root.findViewById<TextView>(R.id.txtaunnotienescitas)
         val txtAunotienescentros = root.findViewById<TextView>(R.id.txtaunnotienescentros)
+        val rcvCentros = root.findViewById<RecyclerView>(R.id.rcvCentrosRecientes)
+        val btnDolorCabeza = root.findViewById<TextView>(R.id.btnDolordeCabeza)
+        val btnNauseas = root.findViewById<TextView>(R.id.btnNauseas)
+        val btnTemperatura = root.findViewById<TextView>(R.id.btnTemperatura)
         rcvRecordatoriosCitas.overScrollMode = View.OVER_SCROLL_NEVER
         rcvTratamientos.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         rcvRecordatoriosCitas.layoutManager = NoScrollLinearLayoutManager(requireContext())
         loadData(txtBienvenido)
-
+        rcvCentros.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val tratamientosDB = fragmentControlTratamientos.obtenerDatosTratamientos()
@@ -79,6 +91,53 @@ class HomeFragment : Fragment() {
             } catch (e: Exception) {
                 println("Error al obtener los datos de la base de datos: ${e.message}")
             }
+        }
+        val emailUsuario = userEmail
+        CoroutineScope(Dispatchers.Main).launch {
+            val favoritosprueba = activity_doctoresfavoritos()
+            val listaFavoritos = favoritosprueba.obtenerFavoritos(emailUsuario)
+            val adapter = AdaptadorFavoritos(listaFavoritos)
+            adapter.emailUsuario = emailUsuario
+            rcvCentros.adapter = adapter
+        }
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val favoritosprueba = activity_doctoresfavoritos()
+                val recientesDB = favoritosprueba.obtenerFavoritos(userEmail)
+                withContext(Dispatchers.Main) {
+                    if (recientesDB.isEmpty()) {
+                        txtAunotienescentros.visibility = View.VISIBLE
+                    } else {
+                        txtAunotienescentros.visibility = View.GONE
+                        val miAdaptador = AdaptadorFavoritos(recientesDB)
+                        rcvTratamientos.adapter = miAdaptador
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    println("Error al obtener los centros: ${e.message}")
+                }
+            }
+        }
+        btnDolorCabeza.setOnClickListener {
+            val intent = Intent(context, activity_busqueda::class.java).apply {
+                putExtra("query", "Neurólogo")
+            }
+            startActivity(intent)
+            parentFragmentManager.popBackStack()
+        }
+        btnNauseas.setOnClickListener {
+            val intent = Intent(context, activity_busqueda::class.java).apply {
+                putExtra("query", "Gastroenterólogo")
+            }
+            startActivity(intent)
+            parentFragmentManager.popBackStack()
+        }
+        btnTemperatura.setOnClickListener {
+            val intent = Intent(context, activity_busqueda::class.java).apply {
+                putExtra("query", "Medicina general")
+            }
+            startActivity(intent)
         }
         return root
     }

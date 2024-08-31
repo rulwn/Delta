@@ -11,8 +11,15 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import delta.medic.mobile.databinding.ActivityConfiguracionBinding
 import android.content.res.Configuration
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
+import android.view.LayoutInflater
 import android.widget.LinearLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import com.airbnb.lottie.LottieComposition
+import com.airbnb.lottie.LottieDrawable
 
 class activity_configuracion : AppCompatActivity() {
 
@@ -22,7 +29,7 @@ class activity_configuracion : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_configuracion)
-        requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -56,9 +63,6 @@ class activity_configuracion : AppCompatActivity() {
         val imgvApariencia = findViewById<ImageView>(R.id.imgvApariencia)
         val imgvCerrarSesion = findViewById<ImageView>(R.id.imgCerrarSesion)
         val btnCerrarSesion = findViewById<ImageView>(R.id.btnCerrarSesion)
-
-
-
 
 
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
@@ -146,6 +150,41 @@ class activity_configuracion : AppCompatActivity() {
             val intent = Intent(this, activity_apariencia::class.java)
             startActivity(intent)
         }
+        /*linearCerrarSesion.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            val dialogLayout = LayoutInflater.from(this).inflate(R.layout.dialog_cerrarsesion, null)
+            builder.setView(dialogLayout)
+            val dialog = builder.create()
+            dialog.show()
+            dialog.window?.setBackgroundDrawableResource(R.drawable.textboxprueba)
+            val btnContinuar = dialogLayout.findViewById<TextView>(R.id.btnContinuar)
+            val btnCancelar = dialogLayout.findViewById<TextView>(R.id.btnCancelar)
+            btnContinuar.setOnClickListener {
+                Log.d("DEBUG", "btnContinuar clicked")
+                try {
+                    dialog.dismiss()
+                    val sharedPreferences = getSharedPreferences("userPreferences", MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+                    editor.putString("email", null)
+                    editor.putBoolean("IsLogedIn", false)
+                    editor.apply()
+                    Log.d("DEBUG", "SharedPreferences updated")
+
+                    val intent = Intent(this, splash_screen::class.java)
+                    startActivity(intent)
+                    Log.d("DEBUG", "Started splash_screen activity")
+                    finish()
+                    Log.d("DEBUG", "Activity finished")
+                } catch (e: Exception) {
+                    Log.e("ERROR", "Exception caught: ${e.message}")
+                    dialog.dismiss()
+                }
+            }
+            btnCancelar.setOnClickListener {
+                dialog.dismiss()
+            }
+        }*/
+
         linearCerrarSesion.setOnClickListener {
 
             val sharedPreferences = getSharedPreferences("userPreferences", MODE_PRIVATE)

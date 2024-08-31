@@ -1206,7 +1206,7 @@ CREATE OR REPLACE TRIGGER Trigger_Usuario
 BEFORE INSERT ON tbUsuarios
 FOR EACH ROW
 BEGIN
-    SELECT usuarios.NEXTVAL
+    SELECT usuario.NEXTVAL
     INTO: NEW.ID_Usuario
     FROM DUAL;
 END Trigger_Usuario;

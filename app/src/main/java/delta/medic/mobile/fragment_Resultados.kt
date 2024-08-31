@@ -67,10 +67,12 @@ class fragment_Resultados : Fragment() {
                 val busqueda = objConexion.prepareStatement("""
     SELECT 
         d.ID_Doctor,
+        (SELECT ID_Usuario From tbUsuarios WHERE emailUsuario = ?) AS ID_Usuario,
         u.nombreUsuario, 
         u.apellidoUsuario, 
         u.imgUsuario, 
         e.nombreEspecialidad,
+        s.ID_Sucursal,
         s.nombreSucursal,
         s.telefonoSucur, 
         s.direccionSucur, 
@@ -113,9 +115,11 @@ class fragment_Resultados : Fragment() {
                     val longSucur = resultSet.getDouble("longSucur")
                     val latiSucur = resultSet.getDouble("latiSucur")
                     val imgSucursal = resultSet.getString("imgSucursal")
+                    val ID_Usuario = resultSet.getInt("ID_Usuario")
+                    val ID_Sucursal = resultSet.getInt("ID_Sucursal")
 
                     val valoresJuntos = dataClassCentro(
-                        ID_Doctor, nombreUsuario, apellidoUsuario, imgUsuario,
+                        ID_Doctor, ID_Usuario, ID_Sucursal, nombreUsuario, apellidoUsuario, imgUsuario,
                         nombreEspecialidad, nombreSucursal, telefonoSucur, direccionSucur,
                         longSucur, latiSucur, imgSucursal
                     )
