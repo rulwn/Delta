@@ -791,7 +791,6 @@ INNER JOIN
     tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
 WHERE 
     d.ID_Doctor = 1;
-    
 
 CREATE TABLE tbNotis (
     ID_Notificacion INT PRIMARY KEY,
@@ -1358,7 +1357,6 @@ BEGIN
     SELECT u.ID_Usuario INTO var_ID_Usuario
     FROM tbUsuarios u
     WHERE u.EmailUsuario = var_email;
-
 
     DELETE FROM tbFavoritos
     WHERE ID_Usuario = var_ID_Usuario

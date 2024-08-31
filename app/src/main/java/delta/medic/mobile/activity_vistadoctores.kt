@@ -9,16 +9,15 @@ import RecycleViewHelper.AdaptadorCentro
 import RecycleViewHelper.AdaptadorFavoritos
 import RecycleViewHelper.AdaptadorResenas
 import RecycleViewHelper.AdaptadorServicios
-import android.Manifest
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.ToggleButton
@@ -43,17 +42,20 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import com.google.android.material.imageview.ShapeableImageView
 import delta.medic.mobile.activity_login.UserData.userEmail
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.sql.CallableStatement
-import java.sql.ResultSet
-import java.sql.SQLException
-import kotlin.math.log10
-import kotlin.properties.Delegates
+
 
 class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
 
+    var latitud: Double = 0.0;
+    var longitud: Double = 0.0;
+    var ID_User: Int = 0;
+    var nombreUser: String = "";
+    var apellidoUser: String = "";
+    var imgUser: String = "";
+
+    private lateinit var adaptadorResenas: AdaptadorResenas
     private lateinit var mapView: MapView
     private lateinit var googleMap: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -74,9 +76,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
             Log.e("ID_Doctor","este es el valor $ID_Doctor")
             Log.e("ID_Sucursal","este es el valor $ID_Sucursal")
             return resultSet!!.next()
-
     }
-
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,8 +101,10 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
         val imgDoctor = findViewById<ShapeableImageView>(R.id.imgDoctor)
         val toggleButton = findViewById<ToggleButton>(R.id.toggleButton)
         val button_reservar = findViewById<TextView>(R.id.button_reservar)
-        var latitud: Double = 0.0;
-        var longitud: Double = 0.0;
+        val btnSubir = findViewById<Button>(R.id.btnSubir)
+        val RatingBar = findViewById<RatingBar>(R.id.ratingBar2)
+        val txtReview = findViewById<TextView>(R.id.txtReview)
+
         var imgSucursal: String = "";
         var nombreUsuario: String = "";
         var apellidoUsuario: String = "";
@@ -120,12 +122,37 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
         }
 
         val rcvServicios = findViewById<RecyclerView>(R.id.rcvServicios)
-        rcvServicios.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        rcvServicios.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         CoroutineScope(Dispatchers.IO).launch {
             val centrosDB = obtenerDatos(ID_Doctor)
             withContext(Dispatchers.Main) {
                 val miAdapter = AdaptadorServicios(centrosDB)
                 rcvServicios.adapter = miAdapter
+            }
+        }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val objConexion = ClaseConexion().cadenaConexion()
+            val statement =
+                objConexion?.prepareStatement("SELECT * FROM tbUsuarios WHERE emailUsuario = ?")!!
+            statement.setString(1, userEmail)
+            val resultSet = statement?.executeQuery()
+            withContext(Dispatchers.Main) {
+                if (resultSet!!.next()) {
+                    ID_User = resultSet.getInt("ID_Usuario")
+                    nombreUser = resultSet.getString("nombreUsuario")
+                    apellidoUser = resultSet.getString("apellidoUsuario")
+                    imgUser = resultSet.getString("imgUsuario")
+                    val txtUserReview = findViewById<TextView>(R.id.txtUserReview)
+                    val nombreCompleto = "${nombreUser ?: ""} ${apellidoUser ?: ""}".trim()
+                    txtUserReview.text = nombreCompleto
+                    val imgProfileReview = findViewById<ImageView>(R.id.imgProfileReview)
+                    Glide.with(imgProfileReview)
+                        .load(imgUser)
+                        .circleCrop()
+                        .into(imgProfileReview)
+                }
             }
         }
 
@@ -166,16 +193,26 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                 if (resultSet.next()) {
                     latitud = resultSet.getDouble("latiSucur")
                     longitud = resultSet.getDouble("longSucur")
+                    Log.e("latitud", latitud.toString())
+                    Log.e("longitud", longitud.toString())
                     nombreSucursal.text = resultSet.getString("nombreSucursal")
                     numeroClinica.text = resultSet.getString("telefonoSucur")
                     direccion_Clinica.text = resultSet.getString("direccionSucur")
                     imgSucursal = resultSet.getString("imgSucursal")
                     imgUsuario = resultSet.getString("imgUsuario")
+                    Glide.with(imgDoctor)
+                        .load(imgUsuario)
+                        .into(imgDoctor)
+
+                    Glide.with(img_clinic)
+                        .load(imgSucursal)
+                        .into(img_clinic)
                     nombreUsuario = resultSet.getString("nombreUsuario")
                     apellidoUsuario = resultSet.getString("apellidoUsuario")
                     idUsuario = resultSet.getInt("ID_Usuario")
                     idSucursal = resultSet.getInt("ID_Sucursal")
-                    val nombreCompleto = "Dr. ${nombreUsuario ?: ""} ${apellidoUsuario ?: ""}".trim()
+                    val nombreCompleto =
+                        "Dr. ${nombreUsuario ?: ""} ${apellidoUsuario ?: ""}".trim()
                     nombreDoctor.text = nombreCompleto
                     Especialidad.text = resultSet.getString("nombreEspecialidad")
                     Log.e("ID_Sucursal", idSucursal.toString())
@@ -183,6 +220,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                 }
             }
         }
+
 
         val textViewError = findViewById<TextView>(R.id.lblNoComments)
         val rcvResenas = findViewById<RecyclerView>(R.id.rcvResenas)
@@ -205,15 +243,15 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
         CoroutineScope(Dispatchers.IO).launch {
 
             val isFavorite = getFavStatus(userEmail, ID_Doctor, idSucursal)
-                withContext(Dispatchers.Main){
-                    println("$userEmail  $idSucursal $ID_Doctor $isFavorite")
-                    if (isFavorite) {
-                        toggleButton.background = getDrawable(R.drawable.corazon_favoritos)
-                        toggleButton.isChecked = true
-                    } else {
-                        toggleButton.background = getDrawable(R.drawable.corazon_vacio)
-                        toggleButton.isChecked = false
-                    }
+            withContext(Dispatchers.Main) {
+                println("$userEmail  $idSucursal $ID_Doctor $isFavorite")
+                if (isFavorite) {
+                    toggleButton.background = getDrawable(R.drawable.corazon_favoritos)
+                    toggleButton.isChecked = true
+                } else {
+                    toggleButton.background = getDrawable(R.drawable.corazon_vacio)
+                    toggleButton.isChecked = false
+                }
             }
         }
 
@@ -294,9 +332,51 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
 
             }
         }
+        rcvResenas.adapter = adaptadorResenas
+        fun insertResenas(resena: dataClassResena, lista : MutableList<dataClassResena>) {
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    // Aquí va la lógica para realizar el INSERT en Oracle
+                    val conexion = ClaseConexion().cadenaConexion()
+                    val statement = conexion?.prepareStatement(
+                        "INSERT INTO tbReviews (promEstrellas, comentario, ID_Centro, ID_Usuario) VALUES (?, ?, ?, ?)"
+                    )!!
+                    statement.setDouble(1, RatingBar.rating.toDouble())
+                    statement.setString(2, txtReview.text.toString())
+                    statement.setInt(3, ID_Doctor)
+                    statement.setInt(4, ID_User)
+                    statement.executeUpdate()
+                    withContext(Dispatchers.Main) {
+                        adaptadorResenas.agregarItem(resena)
+                        adaptadorResenas.actualizarLista(lista)
+
+                    }
+
+                } catch (e: Exception) {
+                    Log.e("insertResenas", "Error al insertar reseña: ${e.message}")
+                }
+            }
+        }
+
+        btnSubir.setOnClickListener {
+            if (txtReview.text.toString().isNotEmpty() || RatingBar.rating > 0) {
+                val nuevaResena = dataClassResena(
+                    txtReview.text.toString(),
+                    RatingBar.rating,
+                    nombreUser,
+                    apellidoUser,
+                    imgUser,
+                    ID_Doctor
+                )
+                val listaResenas = mutableListOf<dataClassResena>()
+                insertResenas(nuevaResena, listaResenas)
+                adaptadorResenas.actualizarLista(listaResenas)
+            }else {
+                Toast.makeText(this, "Por favor, llena lo necesario.", Toast.LENGTH_LONG)
+            }
+        }
 
     }
-
 ////////////////////////////Funcion para información de las reseñas//////////////////////////////////
     private suspend fun obtenerDatosReviews(ID_Doctor : Int): MutableList<dataClassResena> {
         val objConexion = ClaseConexion().cadenaConexion()!!
@@ -307,6 +387,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
 SELECT
     rv.comentario,
     rv.promEstrellas,
+    u.ID_Usuario,
     u.nombreUsuario,
     u.apellidoUsuario,
     u.imgUsuario,
@@ -388,12 +469,9 @@ WHERE
 ///////////////////////////////Funcion del mapa para ubicación//////////////////////////////////////
     override fun onMapReady(googleMap: GoogleMap) {
         this.googleMap = googleMap
-        val latitudDB = intent.getDoubleExtra("latiSucur", 0.0)
-        val longitudDB = intent.getDoubleExtra("longSucur", 0.0)
-        println("$latitudDB y $longitudDB")
-        val location = LatLng(latitudDB, longitudDB)
-
-        this.googleMap.addMarker(MarkerOptions().position(location).title("Esta es la ubicación de la sucursal"))
+        println("$latitud y $longitud")
+        val location = LatLng( latitud, longitud)
+        this.googleMap.addMarker(MarkerOptions().position(location).title("Ubicación del doctor"))
         this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
     }
 
