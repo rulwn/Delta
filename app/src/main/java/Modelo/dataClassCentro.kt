@@ -2,6 +2,8 @@ package Modelo
 
 data class dataClassCentro (
 val ID_Doctor: Int,
+val ID_Usuario: Int,
+val ID_Sucursal: Int,
 val nombreUsuario: String,
 val apellidoUsuario: String,
 val imgUsuario: String,
