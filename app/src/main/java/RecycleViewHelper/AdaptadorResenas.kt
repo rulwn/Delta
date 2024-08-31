@@ -50,8 +50,9 @@ class AdaptadorResenas(private var Datos: MutableList<dataClassResena>) : Recycl
 
     fun agregarItem(nuevoItem: dataClassResena) {
         Datos.add(nuevoItem)
-        notifyItemInserted(Datos.size - 1)
+        notifyItemInserted(Datos.size)
     }
+
     fun actualizarLista(nuevaLista: List<dataClassResena>) {
         Datos.clear()
         Datos.addAll(nuevaLista)

@@ -444,7 +444,8 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
 
             }
         }
-        rcvResenas.adapter = adaptadorResenas
+
+        adaptadorResenas = rcvResenas.adapter as AdaptadorResenas
         fun insertResenas(resena: dataClassResena, lista: MutableList<dataClassResena>) {
             CoroutineScope(Dispatchers.IO).launch {
                 try {
