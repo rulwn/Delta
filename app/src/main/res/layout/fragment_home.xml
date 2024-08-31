@@ -6,269 +6,282 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="411dp"
-        android:layout_height="213dp"
-        android:layout_marginBottom="632dp"
-        android:src="@drawable/degradado_pantalla_principal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
+    <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginStart="18dp"
-        android:scrollbarSize="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.274">
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btnDolordeCabeza"
-                style="@style/Widget.Material3.Button.ElevatedButton"
-                android:layout_width="225dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="8dp"
-                android:backgroundTint="@color/white"
-                android:fontFamily="@font/poppins_medium"
-                android:foregroundTint="#FFFFFF"
-                android:text="🤕 Dolor de cabeza"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                app:cornerRadius="15dp"
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="411dp"
+                android:layout_height="213dp"
+                android:layout_marginBottom="632dp"
+                android:src="@drawable/degradado_pantalla_principal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.864"
-                app:strokeColor="@color/GrisAzulito"
-                app:strokeWidth="0.5dp" />
+                app:layout_constraintVertical_bias="0.0" />
 
-            <Button
-                android:id="@+id/btnNauseas"
-                style="@style/Widget.Material3.Button.ElevatedButton"
-                android:layout_width="160dp"
+            <HorizontalScrollView
+                android:id="@+id/horizontalScrollView"
+                android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:backgroundTint="@color/white"
-                android:fontFamily="@font/poppins_medium"
-                android:foregroundTint="#FFFFFF"
-                android:text="🤢 Nauseas"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                app:cornerRadius="15dp"
+                android:layout_marginStart="18dp"
+                android:scrollbarSize="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.864"
-                app:strokeColor="@color/GrisAzulito"
-                app:strokeWidth="0.5dp" />
+                app:layout_constraintVertical_bias="0.274">
 
-            <Button
-                android:id="@+id/btnTemperatura"
-                style="@style/Widget.Material3.Button.ElevatedButton"
-                android:layout_width="200dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:backgroundTint="@color/white"
-                android:fontFamily="@font/poppins_medium"
-                android:foregroundTint="#FFFFFF"
-                android:text="🤒 Temperatura"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                app:cornerRadius="15dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnDolordeCabeza"
+                        style="@style/Widget.Material3.Button.ElevatedButton"
+                        android:layout_width="225dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="8dp"
+                        android:backgroundTint="@color/white"
+                        android:fontFamily="@font/poppins_medium"
+                        android:foregroundTint="#FFFFFF"
+                        android:text="🤕 Dolor de cabeza"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        app:cornerRadius="15dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.864"
+                        app:strokeColor="@color/GrisAzulito"
+                        app:strokeWidth="0.5dp" />
+
+                    <Button
+                        android:id="@+id/btnNauseas"
+                        style="@style/Widget.Material3.Button.ElevatedButton"
+                        android:layout_width="160dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:backgroundTint="@color/white"
+                        android:fontFamily="@font/poppins_medium"
+                        android:foregroundTint="#FFFFFF"
+                        android:text="🤢 Nauseas"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        app:cornerRadius="15dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.864"
+                        app:strokeColor="@color/GrisAzulito"
+                        app:strokeWidth="0.5dp" />
+
+                    <Button
+                        android:id="@+id/btnTemperatura"
+                        style="@style/Widget.Material3.Button.ElevatedButton"
+                        android:layout_width="200dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:backgroundTint="@color/white"
+                        android:fontFamily="@font/poppins_medium"
+                        android:foregroundTint="#FFFFFF"
+                        android:text="🤒 Temperatura"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        app:cornerRadius="15dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.864"
+                        app:strokeColor="@color/GrisAzulito"
+                        app:strokeWidth="0.5dp" />
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/txtPodriasSentir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="110dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="Podrías sentir"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imageView"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <TextView
+                android:id="@+id/txtaunnotienesTratamientos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Aún no tienes tratamientos asignados"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="@+id/scrollTratamientos"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/scrollTratamientos" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/scrollTratamientos"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+
+                android:layout_marginStart="18dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.864"
-                app:strokeColor="@color/GrisAzulito"
-                app:strokeWidth="0.5dp" />
+                app:layout_constraintVertical_bias="0.453">
 
-        </LinearLayout>
-    </HorizontalScrollView>
+            </androidx.recyclerview.widget.RecyclerView>
 
-    <TextView
-        android:id="@+id/txtPodriasSentir"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="110dp"
-        android:fontFamily="@font/poppins_semibold"
-        android:text="Podrías sentir"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
-        app:layout_constraintVertical_bias="1.0" />
+            <TextView
+                android:id="@+id/txtTratamientosPrincipal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="Recordatorio de tratamientos."
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/scrollTratamientos"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
+                app:layout_constraintVertical_bias="1.0" />
 
-    <TextView
-        android:id="@+id/txtaunnotienesTratamientos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_regular"
-        android:text="Aún no tienes tratamientos asignados"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="@+id/scrollTratamientos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/scrollTratamientos" />
+            <TextView
+                android:id="@+id/txtaunnotienescitas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Aún no tienes citas asignadas"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="@+id/rcvProximaCita"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/rcvProximaCita" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/scrollTratamientos"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcvProximaCita"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:scrollbars="none"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.669" />
 
-        android:layout_marginStart="18dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.453">
+            <TextView
+                android:id="@+id/txtCitasPrincipal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="320dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="Proxima cita."
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/rcvProximaCita"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imageView"
+                app:layout_constraintVertical_bias="1.0" />
 
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <TextView
-        android:id="@+id/txtTratamientosPrincipal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:fontFamily="@font/poppins_semibold"
-        android:text="Recordatorio de tratamientos."
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/scrollTratamientos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/txtaunnotienescitas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_regular"
-        android:text="Aún no tienes citas asignadas"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="@+id/rcvProximaCita"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/rcvProximaCita" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcvProximaCita"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.691" />
-
-    <TextView
-        android:id="@+id/txtCitasPrincipal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="320dp"
-        android:fontFamily="@font/poppins_semibold"
-        android:text="Proxima cita."
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/rcvProximaCita"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/txtaunnotienescentros"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_regular"
-        android:text="Aún no tienes centros medicos visitados"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="@+id/rcvCentrosRecientes"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/rcvCentrosRecientes" />
+            <TextView
+                android:id="@+id/txtaunnotienescentros"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Aún no tienes centros medicos visitados"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="@+id/rcvCentrosRecientes"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/rcvCentrosRecientes" />
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcvCentrosRecientes"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginStart="18dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.909" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcvCentrosRecientes"
+                android:layout_width="match_parent"
+                android:layout_height="126dp"
+                android:layout_marginStart="18dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.93" />
 
-    <TextView
-        android:id="@+id/txtCentrosRecientesPrincipal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="320dp"
-        android:fontFamily="@font/poppins_semibold"
-        android:text="Recientes."
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/rcvCentrosRecientes"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
-        app:layout_constraintVertical_bias="1.0" />
+            <TextView
+                android:id="@+id/txtCentrosRecientesPrincipal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="310dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="Recientes."
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/rcvCentrosRecientes"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imageView"
+                app:layout_constraintVertical_bias="1.0" />
 
-    <TextView
-        android:id="@+id/txtBienvenido"
-        android:layout_width="360dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="75dp"
-        android:layout_marginEnd="25dp"
-        android:fontFamily="@font/poppins_bold"
-        android:text="Bienvenido "
-        android:textAlignment="viewStart"
-        android:textColor="#FFFFFF"
-        android:textSize="26sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+            <TextView
+                android:id="@+id/txtBienvenido"
+                android:layout_width="360dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="75dp"
+                android:layout_marginEnd="25dp"
+                android:fontFamily="@font/poppins_bold"
+                android:text="Bienvenido "
+                android:textAlignment="viewStart"
+                android:textColor="#FFFFFF"
+                android:textSize="26sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.49"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
