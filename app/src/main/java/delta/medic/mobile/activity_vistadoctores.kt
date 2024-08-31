@@ -75,6 +75,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
     }
 
 
+
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -268,15 +269,13 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val objConexion = ClaseConexion().cadenaConexion()
-                val idUsuario = userEmail
-                if (objConexion != null) {
-                    objConexion.prepareCall("{CALL PROC_STATE_VALIDATION_RECIENTES(?,?)")
-                        .use { validation ->
-                            validation.setString(1, idUsuario)
-                            validation.setInt(2, idSucursal!!)
-                            validation.execute()
-                        }
-                }
+                val idUser = userEmail
+                objConexion?.prepareCall("{CALL PROC_STATE_VALIDATION_RECIENTES(?,?)}")
+                    ?.use { validation ->
+                        validation.setString(1, idUser)
+                        validation.setInt(2, idSucursal!!)
+                        validation.execute()
+                    }
             } catch (e: Exception) {
                 println("Error: $e")
             }

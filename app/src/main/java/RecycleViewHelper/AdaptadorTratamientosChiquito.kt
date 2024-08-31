@@ -49,7 +49,6 @@ class AdaptadorTratamientosChiquito(private var Datos: List<dataClassIndicacione
                     else -> false
                 }
             }
-            // Mostrar el menú
             popupMenu.show()
         }
 
@@ -80,10 +79,14 @@ class AdaptadorTratamientosChiquito(private var Datos: List<dataClassIndicacione
     }
 
     private fun getItemColor(position: Int): Int {
-        val fraction = position.toFloat() / (itemCount - 1)
-        return when {
-            fraction <= 0.5 -> interpolateColor(colorStart, colorMiddle, fraction * 2)
-            else -> interpolateColor(colorMiddle, colorEnd, (fraction - 0.5f) * 2)
+        return if (itemCount == 1) {
+            colorStart
+        } else {
+            val fraction = position.toFloat() / (itemCount - 1)
+            when {
+                fraction <= 0.5 -> interpolateColor(colorStart, colorMiddle, fraction * 2)
+                else -> interpolateColor(colorMiddle, colorEnd, (fraction - 0.5f) * 2)
+            }
         }
     }
 

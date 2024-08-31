@@ -55,7 +55,7 @@ class activity_busqueda_rapida_hombre : AppCompatActivity() {
             isChestArea(x, y) -> listOf("Cardiología", "Cirugía Torácica", "Neumología") to "Pecho"
             isAbdomenArea(x, y) -> listOf("Gastroenterología", "Cirugía General", "Urología") to "Abdomen"
             isArmArea(x, y) -> listOf("Traumatología", "Cirugía de Mano", "Rehabilitación") to "Brazos"
-            isLegArea(x, y) -> listOf("Ortopedia", "Cirugía Vascular", "Fisioterapia") to "Piernas"
+            isLegArea(x, y) -> listOf("Ortopedia", "Cirugía Vascular", "Fisioterapia", "Urologia") to "Piernas"
             else -> emptyList<String>() to ""
         }
         if (specialties.isNotEmpty()) {
