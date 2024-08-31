@@ -691,7 +691,12 @@ CREATE TABLE tbFavoritos (
 
     CONSTRAINT FK_DoctorF FOREIGN KEY (ID_Doctor)
     REFERENCES tbDoctores(ID_Doctor)
-    ON DELETE CASCADE
+    ON DELETE CASCADE,
+    
+    /*Este constraint de acá básicamente hace que cada fila sea única en otras 
+    palabras en lugar de hacer que un campo sea único, hace que el conjunto de 
+    campos (osea la fila) sea única.*/
+    CONSTRAINT Unique_Fav UNIQUE (ID_Usuario, ID_Doctor, ID_Sucursal)
 );
 
 CREATE TABLE tbRecientes (
@@ -1346,28 +1351,44 @@ END Trigger_INST_Auditoria;
 ~ PROCEDURE PARA FAVORITOS ~
 
 *************************************************************************************************/
-
-CREATE OR REPLACE PROCEDURE PROC_DELT_FAVORITOS(
-    var_email IN tbUsuarios.EmailUsuario%TYPE,
-    var_ID_Doctor IN tbDoctores.ID_Doctor%TYPE,
-    var_ID_Sucursal IN tbSucursales.ID_Sucursal%TYPE
+--Procedimiento alamacenado para administrar los favoritos
+CREATE OR REPLACE PROCEDURE PROC_ADMIN_FAVORITOS (
+    arg_email IN tbUsuarios.EmailUsuario%TYPE,
+    arg_ID_Doctor IN tbDoctores.ID_Doctor%TYPE,
+    arg_ID_Sucursal IN tbSucursales.ID_Sucursal%TYPE,
+    arg_fav IN BOOLEAN
 )
 IS
     var_ID_Usuario tbUsuarios.ID_Usuario%TYPE;
 BEGIN
+    -- Obtener ID_Usuario basado en el email proporcionado
     SELECT u.ID_Usuario INTO var_ID_Usuario
     FROM tbUsuarios u
-    WHERE u.EmailUsuario = var_email;
+    WHERE u.EmailUsuario = arg_email;
 
+    IF arg_fav = FALSE THEN
+        -- Insertar el nuevo favorito si no existe
+        BEGIN
+            INSERT INTO tbFavoritos (ID_Sucursal, ID_Doctor, ID_Usuario)
+            VALUES (arg_ID_Sucursal, arg_ID_Doctor, var_ID_Usuario);
+        EXCEPTION
+            WHEN DUP_VAL_ON_INDEX THEN
+                -- Ignorar error si ya existe el favorito
+                NULL;
+        END;
 
-    DELETE FROM tbFavoritos
-    WHERE ID_Usuario = var_ID_Usuario
-    AND ID_Sucursal = var_ID_Sucursal
-    AND ID_Doctor = var_ID_Doctor;
+    ELSIF arg_fav = TRUE THEN
+        -- Eliminación del favorito
+        DELETE FROM tbFavoritos
+        WHERE ID_Usuario = var_ID_Usuario
+        AND ID_Sucursal = arg_ID_Sucursal
+        AND ID_Doctor = arg_ID_Doctor;
+    END IF;
 
     COMMIT WORK;
-END PROC_DELT_FAVORITOS;
+END PROC_ADMIN_FAVORITOS;
 /
+
 
 /*************************************************************************************************
 
@@ -1696,7 +1717,7 @@ INSERT ALL
     INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
         VALUES (4,1,5)
     INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
-        VALUES (1,1,2)
+        VALUES (1,2,2)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -1992,5 +2013,6 @@ WHERE
 */
 select * from tbAuditorias;
 select * from tbDoctores;
+select * from tbUsuarios;
 select * from tbFavoritos;
 
