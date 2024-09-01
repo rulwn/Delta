@@ -46,18 +46,20 @@ import java.sql.SQLException
 
 class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
 
-    var latitud: Double = 0.0;
-    var longitud: Double = 0.0;
-    var ID_User: Int = 0;
-    var nombreUser: String = "";
-    var apellidoUser: String = "";
-    var imgUser: String = "";
-    var ID_Sucursal : Int = 0;
+    var latitud: Double = 0.0
+    var longitud: Double = 0.0
+    var ID_User: Int = 0
+    var nombreUser: String = ""
+    var apellidoUser: String = ""
+    var imgUser: String = ""
+    var ID_Sucursal : Int = 0
+    var isFav: Boolean = false
 
     private lateinit var adaptadorResenas: AdaptadorResenas
     private lateinit var mapView: MapView
     private lateinit var googleMap: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var doctorInfo: dataClassCentro? = null
 
     companion object {
         private const val MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey"
@@ -137,7 +139,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                             Especialidad.text = doctorInfo.nombreEspecialidad
                         }
 
-                        val isFav = getFavStatus(userEmail, ID_Doctor, doctorInfo.ID_Sucursal)
+                        isFav = getFavStatus(userEmail, ID_Doctor, doctorInfo.ID_Sucursal)
                         validarRecientes(doctorInfo.ID_Sucursal)
                         withContext(Dispatchers.Main) {
                             println("${doctorInfo.ID_Sucursal} ${doctorInfo.ID_Usuario} $ID_Doctor $isFav")
@@ -377,9 +379,9 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
-        var doctorInfo: dataClassCentro?= null
+
         CoroutineScope(Dispatchers.IO).launch {
-            val doctorInfo = getData(
+            doctorInfo = getData(
                 ID_Doctor,
                 userEmail,
                 nombreSucursal,
@@ -424,11 +426,14 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
         toggleButton.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 val conexion = ClaseConexion().cadenaConexion()
-                val favStatus = if (toggleButton.isChecked) "T" else "F"
+                val favStatus = if (this@activity_vistadoctores.isFav) {
+                    "T"
+                } else {
+                    "F"
+                }
 
-                println("Estado inicial toggleButton.isChecked: ${toggleButton.isChecked}")
-                println("botón corazón $userEmail $ID_Doctor ${doctorInfo!!.ID_Sucursal} $favStatus")
-                println("Comparación favStatus: $favStatus, getFavStatus: ${getFavStatus(userEmail, ID_Doctor, doctorInfo!!.ID_Sucursal)}")
+                println("Estado inicial toggleButton.isChecked: $isFav")
+
                 conexion?.prepareCall("{CALL PROC_ADMIN_FAVORITOS(?,?,?,?)}").use { callable ->
                     callable?.setString(1, userEmail)
                     callable?.setInt(2, ID_Doctor)
@@ -438,11 +443,11 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                 }
 
                 withContext(Dispatchers.Main) {
-                    if (toggleButton.isChecked) {
-                        toggleButton.isChecked = false
+                    if (isFav) {
+                        isFav = false
                         toggleButton.background = getDrawable(R.drawable.corazon_vacio) // Cambia a icono de no favorito
                     } else {
-                        toggleButton.isChecked = true
+                        isFav = true
                         toggleButton.background = getDrawable(R.drawable.corazon_favoritos) // Cambia a icono de favorito
                     }
                 }
