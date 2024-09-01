@@ -78,4 +78,90 @@
         app:layout_constraintVertical_bias="0.127"
         app:srcCompat="@drawable/ic_cambiogenero" />
 
+
+    <Button
+        android:id="@+id/btnHead"
+        android:layout_width="96dp"
+        android:layout_height="83dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/bodyImageView"
+        app:layout_constraintVertical_bias="0.013" />
+
+    <Button
+        android:id="@+id/btnChest"
+        android:layout_width="115dp"
+        android:layout_height="124dp"
+        android:layout_marginTop="112dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/bodyImageView"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/btnAbdomen"
+        android:layout_width="113dp"
+        android:layout_height="122dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/bodyImageView"
+        app:layout_constraintVertical_bias="0.461" />
+
+    <Button
+        android:id="@+id/btnLeftHand"
+        android:layout_width="47dp"
+        android:layout_height="244dp"
+        android:layout_marginTop="132dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.318"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/bodyImageView" />
+
+    <Button
+        android:id="@+id/btnRightHand"
+        android:layout_width="42dp"
+        android:layout_height="220dp"
+        android:layout_marginTop="132dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.68"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/bodyImageView" />
+
+
+    <Button
+        android:id="@+id/btnLeftLeg"
+        android:layout_width="46dp"
+        android:layout_height="211dp"
+        android:layout_marginBottom="48dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/bodyImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.43"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/btnRightLeg"
+        android:layout_width="60dp"
+        android:layout_height="204dp"
+        android:layout_marginBottom="56dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/bodyImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.578"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

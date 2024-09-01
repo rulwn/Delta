@@ -332,7 +332,7 @@
                         android:layout_marginEnd="8dp"
                         android:background="@android:drawable/editbox_background"
                         android:fontFamily="@font/poppins_medium"
-                        android:hint="Reseña"
+                        android:hint="Mi Reseña"
                         android:inputType="textMultiLine"
                         android:maxLength="120"
                         android:padding="10dp"
@@ -350,11 +350,11 @@
                         android:id="@+id/ratingBar2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:isIndicator="true"
+                        android:isIndicator="false"
                         android:max="5"
                         android:numStars="5"
                         android:progressTint="#F3E98E"
-                        android:rating="5"
+                        android:rating="0"
                         android:scaleX="0.4"
                         android:scaleY="0.4"
                         android:stepSize="1.0"
@@ -373,7 +373,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="25dp"
                 android:fontFamily="@font/poppins_semibold"
                 android:text="Comentarios de pacientes"
                 android:textColor="@color/black"
@@ -422,6 +422,22 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:layout_editor_absoluteY="461dp" />
+
+            <Button
+                android:id="@+id/btnSubir"
+                style="@style/Widget.Material3.Button.ElevatedButton"
+                android:layout_width="137dp"
+                android:layout_height="41dp"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="@color/Turquesa3"
+                android:fontFamily="@font/poppins_medium"
+                android:padding="8dp"
+                android:text="Subir Reseña"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                app:cornerRadius="@dimen/activity_horizontal_margin"
+                app:layout_constraintBottom_toTopOf="@+id/CardComment"
+                app:layout_constraintStart_toEndOf="@+id/Comentarios" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

@@ -7,6 +7,7 @@ import RecycleViewHelper.AdaptadorCitas
 import RecycleViewHelper.AdaptadorFavoritos
 import RecycleViewHelper.AdaptadorTratamientosChiquito
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import delta.medic.mobile.R
+import delta.medic.mobile.activity_busqueda
 import delta.medic.mobile.activity_doctoresfavoritos
 import delta.medic.mobile.activity_login
 import delta.medic.mobile.activity_login.UserData.userEmail
@@ -48,6 +50,9 @@ class HomeFragment : Fragment() {
         val txtaunotienescitas = root.findViewById<TextView>(R.id.txtaunnotienescitas)
         val txtAunotienescentros = root.findViewById<TextView>(R.id.txtaunnotienescentros)
         val rcvCentros = root.findViewById<RecyclerView>(R.id.rcvCentrosRecientes)
+        val btnDolorCabeza = root.findViewById<TextView>(R.id.btnDolordeCabeza)
+        val btnNauseas = root.findViewById<TextView>(R.id.btnNauseas)
+        val btnTemperatura = root.findViewById<TextView>(R.id.btnTemperatura)
         rcvRecordatoriosCitas.overScrollMode = View.OVER_SCROLL_NEVER
         rcvTratamientos.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -113,6 +118,26 @@ class HomeFragment : Fragment() {
                     println("Error al obtener los centros: ${e.message}")
                 }
             }
+        }
+        btnDolorCabeza.setOnClickListener {
+            val intent = Intent(context, activity_busqueda::class.java).apply {
+                putExtra("query", "Neurólogo")
+            }
+            startActivity(intent)
+            parentFragmentManager.popBackStack()
+        }
+        btnNauseas.setOnClickListener {
+            val intent = Intent(context, activity_busqueda::class.java).apply {
+                putExtra("query", "Gastroenterólogo")
+            }
+            startActivity(intent)
+            parentFragmentManager.popBackStack()
+        }
+        btnTemperatura.setOnClickListener {
+            val intent = Intent(context, activity_busqueda::class.java).apply {
+                putExtra("query", "Medicina general")
+            }
+            startActivity(intent)
         }
         return root
     }

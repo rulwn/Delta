@@ -25,6 +25,7 @@
 
             android:layout_marginEnd="281dp"
             android:background="@color/Azul1"
+            android:fontFamily="@font/poppins_medium"
             android:gravity="center"
             android:padding="8dp"
             android:text="8:00 PM"

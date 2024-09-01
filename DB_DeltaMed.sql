@@ -692,10 +692,11 @@ CREATE TABLE tbFavoritos (
     CONSTRAINT FK_DoctorF FOREIGN KEY (ID_Doctor)
     REFERENCES tbDoctores(ID_Doctor)
     ON DELETE CASCADE,
-    
-    /*Este constraint de acá básicamente hace que cada fila sea única en otras 
-    palabras en lugar de hacer que un campo sea único, hace que el conjunto de 
+
+    /*Este constraint de acá básicamente hace que cada fila sea única en otras
+    palabras en lugar de hacer que un campo sea único, hace que el conjunto de
     campos (osea la fila) sea única.*/
+
     CONSTRAINT Unique_Fav UNIQUE (ID_Usuario, ID_Doctor, ID_Sucursal)
 );
 
@@ -796,7 +797,6 @@ INNER JOIN
     tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
 WHERE 
     d.ID_Doctor = 1;
-    
 
 CREATE TABLE tbNotis (
     ID_Notificacion INT PRIMARY KEY,
@@ -2022,8 +2022,8 @@ INNER JOIN
     tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
 WHERE
     d.ID_Doctor = 3;
-    
-   --seleccion de ids del favorito 
+
+   --seleccion de ids del favorito
 SELECT
     s.ID_Sucursal AS SucursalID,
     s.nombreSucursal AS SucursalNombre,
@@ -2039,8 +2039,8 @@ INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor
 INNER JOIN tbUsuarios u_doctor ON u_doctor.ID_Usuario = d.ID_Usuario
 WHERE
     u.emailUsuario = 'fran@gmail.com';
-    
-    
+
+
 
 SELECT * FROM tbCentrosMedicos WHERE ID_Doctor = 5;
 SELECT se.* FROM tbServicios se
@@ -2052,10 +2052,10 @@ select * from tbAuditorias;
 select * from tbDoctores;
 select * from tbUsuarios;
 select * from tbFavoritos;
+select * from tbRecientes;
 
+SELECT
 
-SELECT 
-                
                 u.nombreUsuario,
                 u.apellidoUsuario,
                 u.imgUsuario,
@@ -2069,12 +2069,12 @@ SELECT
                 s.imgSucursal,
                 se.nombreServicio,
                 se.costo
-            FROM 
+            FROM
                 tbDoctores d
             INNER JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
             INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
             INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
             INNER JOIN tbCentrosMedicos cm ON d.ID_Doctor = cm.ID_Doctor
             INNER JOIN tbServicios se ON cm.ID_Centro = se.ID_Centro
-            WHERE 
+            WHERE
                 d.ID_Doctor = 5

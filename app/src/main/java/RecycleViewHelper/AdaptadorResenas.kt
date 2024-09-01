@@ -7,15 +7,16 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import delta.medic.mobile.R
 
-class AdaptadorResenas (var Datos: List<dataClassResena>) : RecyclerView.Adapter<ViewHolderResenas>(){
+class AdaptadorResenas(private var Datos: MutableList<dataClassResena>) : RecyclerView.Adapter<ViewHolderResenas>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderResenas {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_resenas, parent, false)
         return ViewHolderResenas(view)
     }
+
     override fun getItemCount() = Datos.size
 
     override fun onBindViewHolder(holder: ViewHolderResenas, position: Int) {
@@ -33,27 +34,32 @@ class AdaptadorResenas (var Datos: List<dataClassResena>) : RecyclerView.Adapter
 
         holder.btnBorrar.setOnClickListener {
             val popupMenu = PopupMenu(holder.itemView.context, holder.btnBorrar)
-            popupMenu.inflate(R.menu.menu_opciones)
+            popupMenu.inflate(R.menu.menu_reservas)
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
-                    R.id.menu_enviar_control -> {
-                        val bottomNavigationView =
-                            (holder.itemView.context as Activity).findViewById<BottomNavigationView>(
-                                R.id.nav_view
-                            )
-                        bottomNavigationView.selectedItemId = R.id.fragment_control
-                        true
+                    R.id.menu_reseñas -> {
+
+                       true
                     }
                     else -> false
                 }
             }
-            // Mostrar el menú
             popupMenu.show()
         }
     }
 
+    fun obtenerLista(): MutableList<dataClassResena> {
+        return Datos
+    }
+
+    fun agregarItem(nuevoItem: dataClassResena) {
+        Datos.add(nuevoItem)
+        notifyItemInserted(Datos.size)
+    }
+
     fun actualizarLista(nuevaLista: List<dataClassResena>) {
-        Datos = nuevaLista
+        Datos.clear()
+        Datos.addAll(nuevaLista)
         notifyDataSetChanged()
     }
 }
