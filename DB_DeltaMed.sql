@@ -691,7 +691,13 @@ CREATE TABLE tbFavoritos (
 
     CONSTRAINT FK_DoctorF FOREIGN KEY (ID_Doctor)
     REFERENCES tbDoctores(ID_Doctor)
-    ON DELETE CASCADE
+    ON DELETE CASCADE,
+
+    /*Este constraint de acá básicamente hace que cada fila sea única en otras
+    palabras en lugar de hacer que un campo sea único, hace que el conjunto de
+    campos (osea la fila) sea única.*/
+
+    CONSTRAINT Unique_Fav UNIQUE (ID_Usuario, ID_Doctor, ID_Sucursal)
 );
 
 CREATE TABLE tbRecientes (
@@ -791,7 +797,6 @@ INNER JOIN
     tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
 WHERE 
     d.ID_Doctor = 1;
-    
 
 CREATE TABLE tbNotis (
     ID_Notificacion INT PRIMARY KEY,
@@ -1346,28 +1351,51 @@ END Trigger_INST_Auditoria;
 ~ PROCEDURE PARA FAVORITOS ~
 
 *************************************************************************************************/
-
-CREATE OR REPLACE PROCEDURE PROC_DELT_FAVORITOS(
-    var_email IN tbUsuarios.EmailUsuario%TYPE,
-    var_ID_Doctor IN tbDoctores.ID_Doctor%TYPE,
-    var_ID_Sucursal IN tbSucursales.ID_Sucursal%TYPE
+--Procedimiento alamacenado para administrar los favoritos
+CREATE OR REPLACE PROCEDURE PROC_ADMIN_FAVORITOS (
+    arg_email IN tbUsuarios.EmailUsuario%TYPE,
+    arg_ID_Doctor IN tbDoctores.ID_Doctor%TYPE,
+    arg_ID_Sucursal IN tbSucursales.ID_Sucursal%TYPE,
+    arg_fav IN CHAR  -- o NUMBER si prefieres
 )
 IS
     var_ID_Usuario tbUsuarios.ID_Usuario%TYPE;
 BEGIN
+    -- Obtener ID_Usuario basado en el email proporcionado
     SELECT u.ID_Usuario INTO var_ID_Usuario
     FROM tbUsuarios u
-    WHERE u.EmailUsuario = var_email;
+    WHERE u.EmailUsuario = arg_email;
 
+    IF arg_fav = 'F' THEN  -- Usando 'F' para FALSE y 'T' para TRUE
+        -- Insertar el nuevo favorito si no existe
+        BEGIN
+            INSERT INTO tbFavoritos (ID_Sucursal, ID_Doctor, ID_Usuario)
+            VALUES (arg_ID_Sucursal, arg_ID_Doctor, var_ID_Usuario);
+        EXCEPTION
+            WHEN DUP_VAL_ON_INDEX THEN
+                -- Ignorar error si ya existe el favorito
+                NULL;
+        END;
 
-    DELETE FROM tbFavoritos
-    WHERE ID_Usuario = var_ID_Usuario
-    AND ID_Sucursal = var_ID_Sucursal
-    AND ID_Doctor = var_ID_Doctor;
+    ELSIF arg_fav = 'T' THEN
+        -- Eliminación del favorito
+        DELETE FROM tbFavoritos
+        WHERE ID_Usuario = var_ID_Usuario
+        AND ID_Sucursal = arg_ID_Sucursal
+        AND ID_Doctor = arg_ID_Doctor;
+    END IF;
 
     COMMIT WORK;
-END PROC_DELT_FAVORITOS;
+END PROC_ADMIN_FAVORITOS;
 /
+
+
+
+EXECUTE PROC_ADMIN_FAVORITOS('fran@gmail.com',2,1,'T');
+
+Select * from tbFavoritos where ID_Sucursal = 1;
+
+
 
 /*************************************************************************************************
 
@@ -1684,6 +1712,12 @@ INSERT ALL
         VALUES ('Ayuda Personal', 25.00, 1, 3)
     INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
         VALUES ('Chequeo Lumbar', 35.00, 2, 3)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Consulta General', 50.00, 1, 2)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Consulta Especializada', 25.00, 2, 5)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Anestesia General', 75.00, 1, 1)
 SELECT DUMMY FROM DUAL;
     
 INSERT ALL
@@ -1696,7 +1730,7 @@ INSERT ALL
     INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
         VALUES (4,1,5)
     INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
-        VALUES (1,1,2)
+        VALUES (1,2,2)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -1989,8 +2023,58 @@ INNER JOIN
 WHERE
     d.ID_Doctor = 3;
 
+   --seleccion de ids del favorito
+SELECT
+    s.ID_Sucursal AS SucursalID,
+    s.nombreSucursal AS SucursalNombre,
+    u.ID_Usuario AS UsuarioID,
+    u.nombreUsuario AS UsuarioNombre,
+    d.ID_Doctor AS DoctorID,
+    u_doctor.nombreUsuario AS DoctorNombre
+FROM
+    tbFavoritos f
+INNER JOIN tbUsuarios u ON u.ID_Usuario = f.ID_Usuario
+INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal
+INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor
+INNER JOIN tbUsuarios u_doctor ON u_doctor.ID_Usuario = d.ID_Usuario
+WHERE
+    u.emailUsuario = 'fran@gmail.com';
+
+
+
+SELECT * FROM tbCentrosMedicos WHERE ID_Doctor = 5;
+SELECT se.* FROM tbServicios se
+INNER JOIN tbCentrosMedicos cm ON se.ID_Centro = cm.ID_Centro
+WHERE cm.ID_Doctor = 5;
+
 */
 select * from tbAuditorias;
 select * from tbDoctores;
+select * from tbUsuarios;
 select * from tbFavoritos;
+select * from tbRecientes;
 
+SELECT
+
+                u.nombreUsuario,
+                u.apellidoUsuario,
+                u.imgUsuario,
+                e.nombreEspecialidad,
+                s.ID_Sucursal,
+                s.nombreSucursal,
+                s.telefonoSucur,
+                s.direccionSucur,
+                s.longSucur,
+                s.latiSucur,
+                s.imgSucursal,
+                se.nombreServicio,
+                se.costo
+            FROM
+                tbDoctores d
+            INNER JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
+            INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+            INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
+            INNER JOIN tbCentrosMedicos cm ON d.ID_Doctor = cm.ID_Doctor
+            INNER JOIN tbServicios se ON cm.ID_Centro = se.ID_Centro
+            WHERE
+                d.ID_Doctor = 5

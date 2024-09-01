@@ -19,6 +19,7 @@ import kotlinx.coroutines.withContext
 import android.util.Log
 import android.widget.EditText
 import android.widget.TextView
+import delta.medic.mobile.activity_login.UserData.userEmail
 
 class fragment_Resultados : Fragment() {
 
@@ -98,9 +99,10 @@ class fragment_Resultados : Fragment() {
     AND
         u.ID_TipoUsuario = 2
 """)
-                busqueda.setString(1, "%${nombreUsuario}%")
-                busqueda.setString(2, "%${apellidoUsuario}%")
-                busqueda.setString(3, "%${nombreEspecialidad}%")
+                busqueda.setString(1, userEmail)
+                busqueda.setString(2, "%${nombreUsuario}%")
+                busqueda.setString(3, "%${apellidoUsuario}%")
+                busqueda.setString(4, "%${nombreEspecialidad}%")
 
                 val resultSet = busqueda.executeQuery()
                 while (resultSet.next()) {

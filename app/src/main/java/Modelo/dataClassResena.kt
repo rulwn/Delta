@@ -6,5 +6,6 @@ data class dataClassResena(
     val nombreUsuario : String,
     val apellidoUsuario : String,
     val imgUsuario : String,
-    val ID_Doctor : Int
+    val ID_Doctor : Int,
+    val ID_Usuario : Int
 )
