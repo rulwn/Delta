@@ -1356,7 +1356,7 @@ CREATE OR REPLACE PROCEDURE PROC_ADMIN_FAVORITOS (
     arg_email IN tbUsuarios.EmailUsuario%TYPE,
     arg_ID_Doctor IN tbDoctores.ID_Doctor%TYPE,
     arg_ID_Sucursal IN tbSucursales.ID_Sucursal%TYPE,
-    arg_fav IN BOOLEAN
+    arg_fav IN CHAR  -- o NUMBER si prefieres
 )
 IS
     var_ID_Usuario tbUsuarios.ID_Usuario%TYPE;
@@ -1366,7 +1366,7 @@ BEGIN
     FROM tbUsuarios u
     WHERE u.EmailUsuario = arg_email;
 
-    IF arg_fav = FALSE THEN
+    IF arg_fav = 'F' THEN  -- Usando 'F' para FALSE y 'T' para TRUE
         -- Insertar el nuevo favorito si no existe
         BEGIN
             INSERT INTO tbFavoritos (ID_Sucursal, ID_Doctor, ID_Usuario)
@@ -1377,7 +1377,7 @@ BEGIN
                 NULL;
         END;
 
-    ELSIF arg_fav = TRUE THEN
+    ELSIF arg_fav = 'T' THEN
         -- Eliminación del favorito
         DELETE FROM tbFavoritos
         WHERE ID_Usuario = var_ID_Usuario
@@ -1388,6 +1388,13 @@ BEGIN
     COMMIT WORK;
 END PROC_ADMIN_FAVORITOS;
 /
+
+
+
+EXECUTE PROC_ADMIN_FAVORITOS('fran@gmail.com',2,1,'T');
+
+Select * from tbFavoritos where ID_Sucursal = 1;
+
 
 
 /*************************************************************************************************
@@ -1705,6 +1712,12 @@ INSERT ALL
         VALUES ('Ayuda Personal', 25.00, 1, 3)
     INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
         VALUES ('Chequeo Lumbar', 35.00, 2, 3)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Consulta General', 50.00, 1, 2)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Consulta Especializada', 25.00, 2, 5)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+        VALUES ('Anestesia General', 75.00, 1, 1)
 SELECT DUMMY FROM DUAL;
     
 INSERT ALL
@@ -2009,6 +2022,30 @@ INNER JOIN
     tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
 WHERE
     d.ID_Doctor = 3;
+    
+   --seleccion de ids del favorito 
+SELECT
+    s.ID_Sucursal AS SucursalID,
+    s.nombreSucursal AS SucursalNombre,
+    u.ID_Usuario AS UsuarioID,
+    u.nombreUsuario AS UsuarioNombre,
+    d.ID_Doctor AS DoctorID,
+    u_doctor.nombreUsuario AS DoctorNombre
+FROM
+    tbFavoritos f
+INNER JOIN tbUsuarios u ON u.ID_Usuario = f.ID_Usuario
+INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal
+INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor
+INNER JOIN tbUsuarios u_doctor ON u_doctor.ID_Usuario = d.ID_Usuario
+WHERE
+    u.emailUsuario = 'fran@gmail.com';
+    
+    
+
+SELECT * FROM tbCentrosMedicos WHERE ID_Doctor = 5;
+SELECT se.* FROM tbServicios se
+INNER JOIN tbCentrosMedicos cm ON se.ID_Centro = cm.ID_Centro
+WHERE cm.ID_Doctor = 5;
 
 */
 select * from tbAuditorias;
@@ -2016,3 +2053,28 @@ select * from tbDoctores;
 select * from tbUsuarios;
 select * from tbFavoritos;
 
+
+SELECT 
+                
+                u.nombreUsuario,
+                u.apellidoUsuario,
+                u.imgUsuario,
+                e.nombreEspecialidad,
+                s.ID_Sucursal,
+                s.nombreSucursal,
+                s.telefonoSucur,
+                s.direccionSucur,
+                s.longSucur,
+                s.latiSucur,
+                s.imgSucursal,
+                se.nombreServicio,
+                se.costo
+            FROM 
+                tbDoctores d
+            INNER JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
+            INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+            INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
+            INNER JOIN tbCentrosMedicos cm ON d.ID_Doctor = cm.ID_Doctor
+            INNER JOIN tbServicios se ON cm.ID_Centro = se.ID_Centro
+            WHERE 
+                d.ID_Doctor = 5

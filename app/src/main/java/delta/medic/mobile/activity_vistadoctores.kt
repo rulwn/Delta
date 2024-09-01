@@ -125,6 +125,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                         val isFav = getFavStatus(userEmail, ID_Doctor, doctorInfo.ID_Sucursal)
                         validarRecientes(doctorInfo.ID_Sucursal)
                         withContext(Dispatchers.Main) {
+                            println("${doctorInfo.ID_Sucursal} ${doctorInfo.ID_Usuario} $ID_Doctor $isFav")
                             updateToggleButton(toggleButton, isFav)
                         }
                     }
@@ -134,7 +135,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
         } catch (e: SQLException) {
             e.printStackTrace()
             withContext(Dispatchers.Main) {
-                // Podrías mostrar un mensaje de error al usuario aquí
+                Log.e("Err get data doctor", e.message.toString())
             }
             null
         } finally {
@@ -143,31 +144,33 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
     }
 
 
-    suspend fun getFavStatus(email: String, ID_Doctor: Int, ID_Sucursal: Int): Boolean {
-        val objConexion = ClaseConexion().cadenaConexion()
-        return try {
-            val statement = objConexion?.prepareStatement(
-                """
-            SELECT * FROM TBFAVORITOS 
-            WHERE ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?) 
-              AND ID_Doctor = ? 
-              AND ID_Sucursal = ?
-            """
-            )
-            statement?.setString(1, email)
-            statement?.setInt(2, ID_Doctor)
-            statement?.setInt(3, ID_Sucursal)
-            val resultSet = statement?.executeQuery()
-            val isFav = resultSet!!.next()
-            resultSet.close()
-            statement.close()
-            isFav
+    suspend fun getFavStatus(userEmail: String, ID_Doctor: Int, ID_Sucursal: Int): Boolean {
+        // Lógica para obtener el estado del favorito
+        val conexion = ClaseConexion().cadenaConexion()
+        var isFav = false
+
+        try {
+            conexion?.prepareStatement(
+                "SELECT COUNT(*) FROM tbFavoritos WHERE ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?) AND ID_Doctor = ? AND ID_Sucursal = ?"
+            )?.use { statement ->
+                statement.setString(1, userEmail)
+                statement.setInt(2, ID_Doctor)
+                statement.setInt(3, ID_Sucursal)
+
+                statement.executeQuery().use { resultSet ->
+                    if (resultSet.next()) {
+                        isFav = resultSet.getInt(1) > 0
+                    }
+                }
+            }
         } catch (e: SQLException) {
             e.printStackTrace()
-            false
         } finally {
-            objConexion?.close()
+            conexion?.close()
         }
+
+        println("getFavStatus result: $isFav")
+        return isFav
     }
 
     suspend fun validarRecientes(idSucursal: Int){
@@ -260,8 +263,9 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
+        var doctorInfo: dataClassCentro?= null
         CoroutineScope(Dispatchers.IO).launch {
-            val doctorInfo = getData(
+            doctorInfo = getData(
                 ID_Doctor,
                 userEmail,
                 nombreSucursal,
@@ -292,29 +296,32 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
         toggleButton.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 val conexion = ClaseConexion().cadenaConexion()
-                val favStatus = toggleButton.isChecked
+                val favStatus = if (toggleButton.isChecked) "T" else "F"
 
-                conexion?.prepareCall("{CALL PROC_MANAGE_FAVORITOS(?,?,?,?)}").use { callable ->
+                println("Estado inicial toggleButton.isChecked: ${toggleButton.isChecked}")
+                println("botón corazón $userEmail $ID_Doctor ${doctorInfo!!.ID_Sucursal} $favStatus")
+                println("Comparación favStatus: $favStatus, getFavStatus: ${getFavStatus(userEmail, ID_Doctor, doctorInfo!!.ID_Sucursal)}")
+                conexion?.prepareCall("{CALL PROC_ADMIN_FAVORITOS(?,?,?,?)}").use { callable ->
                     callable?.setString(1, userEmail)
                     callable?.setInt(2, ID_Doctor)
-                    callable?.setInt(3, idSucursal!!)
-                    callable?.setBoolean(4, favStatus)
+                    callable?.setInt(3, doctorInfo!!.ID_Sucursal)
+                    callable?.setString(4, favStatus)  // Usar STRING en lugar de BOOLEAN
                     callable?.executeUpdate()
                 }
 
                 withContext(Dispatchers.Main) {
                     if (toggleButton.isChecked) {
                         toggleButton.isChecked = false
-                        toggleButton.background =
-                            getDrawable(R.drawable.corazon_vacio) // Cambia a icono de no favorito
+                        toggleButton.background = getDrawable(R.drawable.corazon_vacio) // Cambia a icono de no favorito
                     } else {
                         toggleButton.isChecked = true
-                        toggleButton.background =
-                            getDrawable(R.drawable.corazon_favoritos) // Cambia a icono de favorito
+                        toggleButton.background = getDrawable(R.drawable.corazon_favoritos) // Cambia a icono de favorito
                     }
                 }
             }
         }
+
+
 
 
 
