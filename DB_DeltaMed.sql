@@ -2015,4 +2015,4 @@ select * from tbAuditorias;
 select * from tbDoctores;
 select * from tbUsuarios;
 select * from tbFavoritos;
-
+select * from tbRecientes;

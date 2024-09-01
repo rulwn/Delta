@@ -34,7 +34,7 @@ class AdaptadorResenas(private var Datos: MutableList<dataClassResena>) : Recycl
 
         holder.btnBorrar.setOnClickListener {
             val popupMenu = PopupMenu(holder.itemView.context, holder.btnBorrar)
-            popupMenu.inflate(R.menu.menu_opciones)
+            popupMenu.inflate(R.menu.menu_reservas)
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.menu_reseñas -> {
@@ -46,6 +46,10 @@ class AdaptadorResenas(private var Datos: MutableList<dataClassResena>) : Recycl
             }
             popupMenu.show()
         }
+    }
+
+    fun obtenerLista(): MutableList<dataClassResena> {
+        return Datos
     }
 
     fun agregarItem(nuevoItem: dataClassResena) {

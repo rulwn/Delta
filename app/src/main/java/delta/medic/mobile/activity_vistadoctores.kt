@@ -40,6 +40,8 @@ import com.google.android.material.imageview.ShapeableImageView
 import delta.medic.mobile.activity_login.UserData.userEmail
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.sql.Connection
+import java.sql.PreparedStatement
 import java.sql.SQLException
 
 class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
@@ -50,6 +52,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
     var nombreUser: String = "";
     var apellidoUser: String = "";
     var imgUser: String = "";
+    var ID_Sucursal : Int = 0;
 
     private lateinit var adaptadorResenas: AdaptadorResenas
     private lateinit var mapView: MapView
@@ -245,11 +248,13 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
         var idSucursal = 0
 
         var ID_Doctor = intent.getIntExtra("ID_Doctor", 0)
+        var DoctorExist : Boolean = true;
         Log.e("ID_Doctor", ID_Doctor.toString())
 
         button_reservar.setOnClickListener {
             val intent = Intent(this, activity_agendar::class.java)
             intent.putExtra("ID_Doctor", ID_Doctor)
+            intent.putExtra("DoctorExist", DoctorExist)
             startActivity(intent)
         }
 
@@ -340,7 +345,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                     nombreUsuario = resultSet.getString("nombreUsuario")
                     apellidoUsuario = resultSet.getString("apellidoUsuario")
                     idUsuario = resultSet.getInt("ID_Usuario")
-                    idSucursal = resultSet.getInt("ID_Sucursal")
+                    ID_Sucursal = resultSet.getInt("ID_Sucursal")
                     val nombreCompleto =
                         "Dr. ${nombreUsuario ?: ""} ${apellidoUsuario ?: ""}".trim()
                     nombreDoctor.text = nombreCompleto
@@ -389,7 +394,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                 objConexion?.prepareCall("{CALL PROC_STATE_VALIDATION_RECIENTES(?,?)}")
                     ?.use { validation ->
                         validation.setString(1, userEmail)
-                        validation.setInt(2, idSucursal)
+                        validation.setInt(2, ID_Sucursal)
                         validation.execute()
                     }
             } catch (e: Exception) {
@@ -429,56 +434,87 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                     if (toggleButton.isChecked) {
                         toggleButton.isChecked = false
                         toggleButton.background =
-                            getDrawable(R.drawable.corazon_vacio) // Cambia a icono de no favorito
+                            getDrawable(R.drawable.corazon_vacio)
                     } else {
                         toggleButton.isChecked = true
                         toggleButton.background =
-                            getDrawable(R.drawable.corazon_favoritos) // Cambia a icono de favorito
+                            getDrawable(R.drawable.corazon_favoritos)
                     }
                 }
             }
         }
-        adaptadorResenas = rcvResenas.adapter as AdaptadorResenas
+
+        adaptadorResenas = AdaptadorResenas(mutableListOf())
         fun insertResenas(resena: dataClassResena, lista: MutableList<dataClassResena>) {
             CoroutineScope(Dispatchers.IO).launch {
+                var conexion: Connection? = null
+                var statement: PreparedStatement? = null
+
                 try {
-                    // Aquí va la lógica para realizar el INSERT en Oracle
-                    val conexion = ClaseConexion().cadenaConexion()
-                    val statement = conexion?.prepareStatement(
+                    conexion = ClaseConexion().cadenaConexion()
+                    statement = conexion?.prepareStatement(
                         "INSERT INTO tbReviews (promEstrellas, comentario, ID_Centro, ID_Usuario) VALUES (?, ?, ?, ?)"
-                    )!!
-                    statement.setDouble(1, RatingBar.rating.toDouble())
-                    statement.setString(2, txtReview.text.toString())
-                    statement.setInt(3, ID_Doctor)
-                    statement.setInt(4, ID_User)
-                    statement.executeUpdate()
+                    )
+
+                    statement?.apply {
+                        setDouble(1, resena.promEstrellas.toDouble())
+                        setString(2, resena.comentario)
+                        setInt(3, resena.ID_Doctor)
+                        setInt(4, resena.ID_Usuario)
+                        executeUpdate()
+                    }
+
+                    lista.add(resena)
+
                     withContext(Dispatchers.Main) {
                         adaptadorResenas.agregarItem(resena)
                         adaptadorResenas.actualizarLista(lista)
-
+                        Toast.makeText(
+                            this@activity_vistadoctores,
+                            "Reseña insertada con éxito.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
 
                 } catch (e: Exception) {
                     Log.e("insertResenas", "Error al insertar reseña: ${e.message}")
+                } finally {
+                    statement?.close()
+                    conexion?.close()
                 }
             }
         }
 
         btnSubir.setOnClickListener {
-            if (txtReview.text.toString().isNotEmpty() || RatingBar.rating > 0) {
+            if (txtReview.text.toString().isNotEmpty() && RatingBar.rating > 0) {
                 val nuevaResena = dataClassResena(
                     txtReview.text.toString(),
                     RatingBar.rating,
                     nombreUser,
                     apellidoUser,
                     imgUser,
-                    ID_Doctor
+                    ID_Doctor,
+                    ID_User
                 )
-                val listaResenas = mutableListOf<dataClassResena>()
+                val listaResenas = adaptadorResenas.obtenerLista()
                 insertResenas(nuevaResena, listaResenas)
-                adaptadorResenas.actualizarLista(listaResenas)
+                rcvResenas.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+                CoroutineScope(Dispatchers.IO).launch {
+                    val review = obtenerDatosReviews(ID_Doctor)
+                    withContext(Dispatchers.Main) {
+                        if (review.isNullOrEmpty()) {
+                            textViewError.visibility = View.VISIBLE
+                            rcvResenas.visibility = View.GONE
+                        } else {
+                            textViewError.visibility = View.GONE
+                            val miAdapter = AdaptadorResenas(review)
+                            rcvResenas.adapter = miAdapter
+                            rcvResenas.visibility = View.VISIBLE
+                        }
+                    }
+                }
             } else {
-                Toast.makeText(this, "Por favor, llena lo necesario.", Toast.LENGTH_LONG)
+                Toast.makeText(this, "Por favor, llena lo necesario.", Toast.LENGTH_LONG).show()
             }
         }
 
@@ -525,7 +561,8 @@ WHERE
                         nombreUsuario,
                         apellidoUsuario,
                         imgUsuario,
-                        ID_Doctor
+                        ID_Doctor,
+                        ID_User
                     )
                     reseña.add(valoresJuntos)
                 }
