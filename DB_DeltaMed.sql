@@ -692,10 +692,11 @@ CREATE TABLE tbFavoritos (
     CONSTRAINT FK_DoctorF FOREIGN KEY (ID_Doctor)
     REFERENCES tbDoctores(ID_Doctor)
     ON DELETE CASCADE,
-    
-    /*Este constraint de acá básicamente hace que cada fila sea única en otras 
-    palabras en lugar de hacer que un campo sea único, hace que el conjunto de 
+
+    /*Este constraint de acá básicamente hace que cada fila sea única en otras
+    palabras en lugar de hacer que un campo sea único, hace que el conjunto de
     campos (osea la fila) sea única.*/
+
     CONSTRAINT Unique_Fav UNIQUE (ID_Usuario, ID_Doctor, ID_Sucursal)
 );
 
@@ -796,7 +797,6 @@ INNER JOIN
     tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
 WHERE 
     d.ID_Doctor = 1;
-    
 
 CREATE TABLE tbNotis (
     ID_Notificacion INT PRIMARY KEY,
@@ -2015,4 +2015,4 @@ select * from tbAuditorias;
 select * from tbDoctores;
 select * from tbUsuarios;
 select * from tbFavoritos;
-
+select * from tbRecientes;
