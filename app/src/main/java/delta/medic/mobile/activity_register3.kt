@@ -1,10 +1,12 @@
 package delta.medic.mobile
 
 import Modelo.EmailSender
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.widget.Button
@@ -17,6 +19,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -44,6 +47,7 @@ class activity_register3 : AppCompatActivity() {
     val codigo_opcion_galeria = 102
     val STORAGE_REQUEST_CODE = 1
     val uuid = UUID.randomUUID().toString()
+    @SuppressLint("WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -54,6 +58,12 @@ class activity_register3 : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        val btnSiguiente3 = findViewById<Button>(R.id.btnSiguiente3)
+        val textoGrande = findViewById<TextView>(R.id.txtTextoGrande)
+
+
+
 // qn sabe 5 (comentario agregado para poder hacer push)
         imgFotoAgregada = findViewById(R.id.imgFotoAgregada)
         imgFotoAgregada.visibility = View.GONE
@@ -80,6 +90,25 @@ class activity_register3 : AppCompatActivity() {
 
 
         }
+/*
+        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        when (currentNightMode) {
+            Configuration.UI_MODE_NIGHT_NO -> {
+                btnSiguiente3.setBackgroundColor(ContextCompat.getColor(this, R.color.Azul1))
+                txtTienesUnaCuenta.setTextColor(ContextCompat.getColor(this, R.color.black))
+                textoGrande.setTextColor(ContextCompat.getColor(this, R.color.black))
+                btnOmitir.setTextColor(ContextCompat.getColor(this, R.color.black))
+            } // Night mode is not active, we're using the light theme.
+            Configuration.UI_MODE_NIGHT_YES -> {
+                btnSiguiente3.setBackgroundColor(ContextCompat.getColor(this, R.color.Turquesa2))
+                txtTienesUnaCuenta.setTextColor(ContextCompat.getColor(this, R.color.white))
+                textoGrande.setTextColor(ContextCompat.getColor(this, R.color.white))
+                btnOmitir.setTextColor(ContextCompat.getColor(this, R.color.white))
+            } // Night mode is active, we're using dark theme.
+        }
+
+ */
+
         btnOmitir.setOnClickListener {
             activity_register1.imgUsuario = "no hay imagen"
 

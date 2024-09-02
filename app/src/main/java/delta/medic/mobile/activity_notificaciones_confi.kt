@@ -1,5 +1,6 @@
 package delta.medic.mobile
 
+import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Bundle
@@ -19,6 +20,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 
 class activity_notificaciones_confi : AppCompatActivity() {
+    @SuppressLint("MissingInflatedId", "UseSwitchCompatOrMaterialCode")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -32,63 +34,68 @@ class activity_notificaciones_confi : AppCompatActivity() {
         }
 
 
-        val canalID = "NotificacionesCanal"
-
+        val txtNotificacionesConfi = findViewById<TextView>(R.id.txtNotificacionesConfi)
+        val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
+        val txtPregunta = findViewById<TextView>(R.id.txtPregunta)
         val switchNotificaciones = findViewById<Switch>(R.id.switchNotificacionesSiNo)
 
-        fun CanalNotificaciones() {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val name = "Nombre del Canal"
-                val descriptionText = "Descripción del Canal"
-                val importance = NotificationManager.IMPORTANCE_DEFAULT
-                val channel = NotificationChannel(canalID, name, importance).apply {
-                    description = descriptionText
-                }
-                val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                notificationManager.createNotificationChannel(channel)
-            }
-        }
+/*
+val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+when (currentNightMode) {
+    Configuration.UI_MODE_NIGHT_NO -> {
+        txtNotificacionesConfi.setTextColor(ContextCompat.getColor(this, R.color.black))
+        btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.black))
+        txtPregunta.setTextColor(ContextCompat.getColor(this, R.color.black))
+        switchNotificaciones.setTextColor(ContextCompat.getColor(this, R.color.black))
+    } // Night mode is not active, we're using the light theme.
+    Configuration.UI_MODE_NIGHT_YES -> {
+        txtNotificacionesConfi.setTextColor(ContextCompat.getColor(this, R.color.white))
+        btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.white))
+        txtPregunta.setTextColor(ContextCompat.getColor(this, R.color.white))
+        switchNotificaciones.setTextColor(ContextCompat.getColor(this, R.color.white))
+    } // Night mode is active, we're using dark theme.
+}
 
-         fun mostrarNotificacion() {
-            val builder = NotificationCompat.Builder(this, canalID)
-                .setSmallIcon(R.drawable.ic_notificaciones)
-                .setContentTitle("Notificación")
-                .setContentText("Descripción de la notificación")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+ */
 
-            val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.notify(1, builder.build())
-        }
+val canalID = "NotificacionesCanal"
 
-        switchNotificaciones.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                CanalNotificaciones()
-                mostrarNotificacion()
-                Toast.makeText(this, "Notificaciones activadas", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Notificaciones desactivadas", Toast.LENGTH_SHORT).show()
-            }
+fun CanalNotificaciones() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val name = "Nombre del Canal"
+        val descriptionText = "Descripción del Canal"
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(canalID, name, importance).apply {
+            description = descriptionText
         }
-
-        val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
-        val txtNotificacionesConfi = findViewById<TextView>(R.id.txtNotificacionesConfi)
-        val txtPregunta = findViewById<TextView>(R.id.txtPregunta)
-
-        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        when (currentNightMode) {
-            Configuration.UI_MODE_NIGHT_NO -> {
-                txtNotificacionesConfi.setTextColor(ContextCompat.getColor(this, R.color.black))
-                btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.black))
-                txtPregunta.setTextColor(ContextCompat.getColor(this, R.color.black))
-            } // Night mode is not active, we're using the light theme.
-            Configuration.UI_MODE_NIGHT_YES -> {
-                txtNotificacionesConfi.setTextColor(ContextCompat.getColor(this, R.color.white))
-                btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.white))
-                txtPregunta.setTextColor(ContextCompat.getColor(this, R.color.white))
-            } // Night mode is active, we're using dark theme.
-        }
-        btnRegresar.setOnClickListener {
-            finish()
-        }
+        val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
     }
+}
+
+ fun mostrarNotificacion() {
+    val builder = NotificationCompat.Builder(this, canalID)
+        .setSmallIcon(R.drawable.ic_notificaciones)
+        .setContentTitle("Notificación")
+        .setContentText("Descripción de la notificación")
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+    val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    notificationManager.notify(1, builder.build())
+}
+
+switchNotificaciones.setOnCheckedChangeListener { _, isChecked ->
+    if (isChecked) {
+        CanalNotificaciones()
+        mostrarNotificacion()
+        Toast.makeText(this, "Notificaciones activadas", Toast.LENGTH_SHORT).show()
+    } else {
+        Toast.makeText(this, "Notificaciones desactivadas", Toast.LENGTH_SHORT).show()
+    }
+}
+
+btnRegresar.setOnClickListener {
+    finish()
+}
+}
 }

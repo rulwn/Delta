@@ -41,6 +41,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/txtSucursal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
@@ -206,6 +207,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/txtDispo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_semibold"
@@ -231,6 +233,7 @@
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/txtEsTar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -252,6 +255,7 @@
         </GridLayout>
 
         <TextView
+            android:id="@+id/txtEsMañ"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -274,6 +278,7 @@
         </GridLayout>
 
         <TextView
+            android:id="@+id/txtMot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -293,6 +298,7 @@
 
         <!-- Quien es el paciente? -->
         <TextView
+            android:id="@+id/txtPaciente"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"

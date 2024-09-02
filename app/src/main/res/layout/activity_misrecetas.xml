@@ -30,6 +30,7 @@
             app:srcCompat="@drawable/ic_arrow_back" />
 
         <TextView
+            android:id="@+id/txtRecetas"
             android:layout_width="210dp"
             android:layout_height="25dp"
             android:layout_gravity="center"

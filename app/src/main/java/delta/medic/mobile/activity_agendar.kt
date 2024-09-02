@@ -6,6 +6,7 @@ import Modelo.Dia
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
@@ -22,6 +23,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -70,6 +72,58 @@ class activity_agendar : AppCompatActivity() {
         val txtNombreDoctor = findViewById<TextView>(R.id.txtNombreDoctor)
         val txtEspecialidad = findViewById<TextView>(R.id.txtEspecialidad)
         val txtDireccionSucur = findViewById<TextView>(R.id.txtDireccionSucur)
+        val txtEsTar = findViewById<TextView>(R.id.txtEsTar)
+        val txtEsMañ = findViewById<TextView>(R.id.txtEsMañ)
+        val txtMot = findViewById<TextView>(R.id.txtMot)
+        val txtPaciente = findViewById<TextView>(R.id.txtPaciente)
+        val rcvEspaciosT = findViewById<RecyclerView>(R.id.rcvEspaciosT)
+        val rcvEspaciosM = findViewById<RecyclerView>(R.id.rcvEspaciosM)
+
+
+        /*
+        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        when (currentNightMode) {
+            Configuration.UI_MODE_NIGHT_NO -> {
+                btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.black))
+                btnContinuar.setBackgroundColor(ContextCompat.getColor(this, R.color.black))
+                btnSelecSucursal.setColorFilter(ContextCompat.getColor(this, R.color.black))
+                txtFecha.setTextColor(ContextCompat.getColor(this, R.color.black))
+                rcvPaciente.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+                rcvDisponibilidad.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+                imgFotoSucursal.setColorFilter(ContextCompat.getColor(this, R.color.black))
+                imgFotoDoctor.setColorFilter(ContextCompat.getColor(this, R.color.black))
+                txtNombreDoctor.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtEspecialidad.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtDireccionSucur.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtEsTar.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtEsMañ.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtMot.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtPaciente.setTextColor(ContextCompat.getColor(this, R.color.black))
+                rcvEspaciosT.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+                rcvEspaciosM.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+            } // Night mode is not active, we're using the light theme.
+            Configuration.UI_MODE_NIGHT_YES -> {
+                btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.white))
+                btnContinuar.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+                btnSelecSucursal.setColorFilter(ContextCompat.getColor(this, R.color.white))
+                txtFecha.setTextColor(ContextCompat.getColor(this, R.color.white))
+                rcvPaciente.setBackgroundColor(ContextCompat.getColor(this, R.color.black))
+                rcvDisponibilidad.setBackgroundColor(ContextCompat.getColor(this, R.color.black))
+                imgFotoSucursal.setColorFilter(ContextCompat.getColor(this, R.color.white))
+                imgFotoDoctor.setColorFilter(ContextCompat.getColor(this, R.color.white))
+                txtNombreDoctor.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtEspecialidad.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtDireccionSucur.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtEsTar.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtEsMañ.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtMot.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtPaciente.setTextColor(ContextCompat.getColor(this, R.color.white))
+                rcvEspaciosT.setBackgroundColor(ContextCompat.getColor(this, R.color.black))
+                rcvEspaciosM.setBackgroundColor(ContextCompat.getColor(this, R.color.black))
+
+            } // Night mode is active, we're using dark theme.
+        }
+         */
 
         val diasDelAno = obtenerDiasDelAno(Year.now().value)
         rcvDisponibilidad.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)

@@ -9,6 +9,37 @@
     android:padding="16dp"
     tools:context=".activity_centroadeyuda">
 
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:orientation="horizontal"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="21dp"
+        tools:layout_editor_absoluteY="22dp">
+
+        <ImageView
+            android:id="@+id/btnRegresar"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+
+            android:layout_margin="10dp"
+            app:srcCompat="@drawable/ic_arrow_back" />
+
+        <TextView
+            android:id="@+id/txtCentroAyuda"
+            android:layout_width="210dp"
+            android:layout_height="27dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Centro de ayuda"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
     <ScrollView
         android:id="@+id/scrollView4"
         android:layout_width="0dp"
@@ -71,35 +102,6 @@
                         android:layout_height="match_parent"
                         android:orientation="horizontal"></LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout2"
-                android:layout_width="match_parent"
-                android:layout_height="34dp"
-                android:orientation="horizontal"
-                tools:layout_editor_absoluteY="30dp"
-                tools:ignore="MissingConstraints">
-
-                <ImageView
-                    android:id="@+id/btnRegresar"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-
-                    android:layout_margin="10dp"
-                    app:srcCompat="@drawable/ic_arrow_back" />
-
-                <TextView
-                    android:id="@+id/txtCentroAyuda"
-                    android:layout_width="210dp"
-                    android:layout_height="27dp"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:text="Centro de ayuda"
-                    android:textAllCaps="false"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
 
             </LinearLayout>
 
@@ -171,16 +173,17 @@
                 android:textSize="14sp"
                 app:layout_constraintBottom_toTopOf="@+id/txtPreguntasF"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-                app:layout_constraintVertical_bias="0.91" />
+                app:layout_constraintVertical_bias="0.868" />
 
             <ImageView
                 android:id="@+id/imageView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginBottom="18dp"
+                android:layout_marginStart="44dp"
+                android:layout_marginBottom="24dp"
                 app:layout_constraintBottom_toTopOf="@+id/imageView13"
                 app:layout_constraintStart_toStartOf="parent"
                 app:srcCompat="@drawable/ic_search" />
@@ -256,6 +259,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtPregunta2" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
