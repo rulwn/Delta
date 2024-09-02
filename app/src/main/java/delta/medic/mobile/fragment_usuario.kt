@@ -5,6 +5,7 @@ import Modelo.dataClassUsuario
 import android.content.Intent
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -208,7 +209,8 @@ class fragment_usuario : Fragment() {
             activityEditarPerfil.putExtra("emailUsuario", dataUser.emailUsuario)
             activityEditarPerfil.putExtra("dirección", dataUser.dirección)
             activityEditarPerfil.putExtra("teléfono", dataUser.teléfonoUsuario)
-            activityEditarPerfil.putExtra("imgUsuario", dataUser.imgUsuario)
+            Log.e("ImgUsuario", "${dataUser.imgUsuario}")
+            activityEditarPerfil.putExtra("imgUsuario1", dataUser.imgUsuario.toString())
             startActivity(ActivitySettings(activityEditarPerfil))
         }
         lbPersonalizar.setOnClickListener {
