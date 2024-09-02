@@ -1,10 +1,12 @@
 import Modelo.Dia
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import delta.medic.mobile.R
@@ -12,32 +14,42 @@ import java.time.format.DateTimeFormatter
 
 class DiasAdapter(
     private var Datos: List<Dia>,
-    private val onDiaSelected: (Dia) -> Unit // Callback para pasar el día seleccionado a la actividad
-) : RecyclerView.Adapter<DiasAdapter.ViewHolderDias>() {
+    private val onDiaSelected: (Dia) -> Unit,
+    private val fechaSeleccionadaTextView: TextView) : RecyclerView.Adapter<DiasAdapter.ViewHolderDias>() {
 
-    private var selectedPosition: Int = RecyclerView.NO_POSITION // Posición seleccionada
+    private var selectedPosition: Int = RecyclerView.NO_POSITION
 
     class ViewHolderDias(view: View) : RecyclerView.ViewHolder(view) {
-        private val tvFecha: TextView = view.findViewById(R.id.tvFecha)
+        val cardView: CardView = view.findViewById(R.id.cardDia)
 
         @RequiresApi(Build.VERSION_CODES.O)
         fun bind(dia: Dia, isSelected: Boolean, onClick: () -> Unit) {
-            // Formatear la fecha a DD/MM/YYYY
             val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
             val formattedDate = dia.fecha.format(formatter)
-
-            // Asigna la fecha formateada al TextView
+            val tvDisponibilidad: TextView = itemView.findViewById(R.id.tvDisponibilidad)
+            val tvFecha: TextView = itemView.findViewById(R.id.tvFecha)
             tvFecha.text = formattedDate
 
-            // Cambiar color de fondo si está seleccionado
             val backgroundColor = if (isSelected) {
-                ContextCompat.getColor(itemView.context, R.color.Azul3)
+                ContextCompat.getColor(itemView.context, R.color.Turquesa1)
             } else {
-                ContextCompat.getColor(itemView.context, android.R.color.transparent)
+                ContextCompat.getColor(itemView.context, R.color.white)
             }
-            itemView.setBackgroundColor(backgroundColor)
+            cardView.setCardBackgroundColor(backgroundColor)
 
-            // Establecer el listener para cambiar la selección
+            val textColor = if (isSelected) {
+                ContextCompat.getColor(itemView.context, android.R.color.white)
+            } else {
+                ContextCompat.getColor(itemView.context, android.R.color.black)
+            }
+            tvFecha.setTextColor(textColor)
+
+            val textColor2 = if (isSelected) {
+                ContextCompat.getColor(itemView.context, android.R.color.white)
+            } else {
+                ContextCompat.getColor(itemView.context, android.R.color.black)
+            }
+            tvDisponibilidad.setTextColor(textColor2)
             itemView.setOnClickListener {
                 onClick()
             }
@@ -58,13 +70,14 @@ class DiasAdapter(
         val isSelected = holder.adapterPosition == selectedPosition
 
         holder.bind(dia, isSelected) {
-            // Actualiza la selección
             val previousPosition = selectedPosition
             selectedPosition = holder.adapterPosition
-            notifyItemChanged(previousPosition) // Notifica el cambio del item previo
-            notifyItemChanged(selectedPosition) // Notifica el cambio del item seleccionado
+            notifyItemChanged(previousPosition)
+            notifyItemChanged(selectedPosition)
 
-            // Llama al callback con el día seleccionado
+            val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+            fechaSeleccionadaTextView.text = "Fecha seleccionada: ${dia.fecha.format(formatter)}"
+
             onDiaSelected(dia)
         }
     }

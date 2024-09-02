@@ -140,7 +140,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                         }
 
                         isFav = getFavStatus(userEmail, ID_Doctor, doctorInfo.ID_Sucursal)
-                        validarRecientes(doctorInfo.ID_Sucursal, ID_Doctor)
+                        validarRecientes(ID_Sucursal, ID_Doctor)
                         withContext(Dispatchers.Main) {
                             println("${doctorInfo.ID_Sucursal} ${doctorInfo.ID_Usuario} $ID_Doctor $isFav")
                             updateToggleButton(toggleButton, isFav)

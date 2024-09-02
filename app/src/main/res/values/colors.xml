@@ -16,6 +16,7 @@
     <color name="calendar_date_text_color">#000000</color>
     <color name="avisos">#D94C4C</color>
     <color name="recordatorio">#1E88E5</color>
-
+    <color name="verde">#337400</color>
+    <color name="rojo">#bc2f26</color>
 
 </resources>

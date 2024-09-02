@@ -223,7 +223,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="5dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/poppins_semibold"
             android:text="Fecha seleccionada..."
@@ -235,7 +234,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/poppins_medium"
-            android:text="Espacios de tarde: ..."
+            android:text="Espacios de cita:"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -243,34 +242,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:columnCount="4">
+            android:columnCount="3">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcvEspaciosT"
+                android:id="@+id/rcvEspacios"
                 android:layout_width="match_parent"
-                android:layout_height="100dp" />
-        </GridLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:fontFamily="@font/poppins_medium"
-            android:text="Espacios de mañana: ..."
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <GridLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:columnCount="4">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcvEspaciosM"
-                android:layout_width="match_parent"
-                android:layout_height="100dp" />
-
+                android:layout_height="match_parent" />
         </GridLayout>
 
         <TextView
@@ -280,7 +257,9 @@
             android:fontFamily="@font/poppins_medium"
             android:text="Motivo de la consulta:"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:clickable="true"
+            android:focusable="true"/>
 
         <EditText
             android:id="@+id/txtMotivo"
