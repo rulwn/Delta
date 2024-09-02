@@ -6,111 +6,127 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
     tools:context=".activity_centroadeyuda">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:orientation="horizontal"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:id="@+id/btnRegresar"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+
+            android:layout_margin="10dp"
+            app:srcCompat="@drawable/ic_arrow_back" />
+
+        <TextView
+            android:id="@+id/txtCentroAyuda"
+            android:layout_width="210dp"
+            android:layout_height="27dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Centro de ayuda"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/scrollView4"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">>
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:id="@+id/linearLayout6"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                tools:layout_editor_absoluteY="60dp">
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bordes"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                app:srcCompat="@drawable/cen1" />
 
+            <TextView
+                android:id="@+id/txtPodemosAudarte"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/poppins_bold"
+                android:text="¿Qué podemos ayudarte a encontrar?"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/txtContactanos"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                app:layout_constraintVertical_bias="0.0" />
 
-                <ImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/cen1" />
+            <TextView
+                android:id="@+id/txtContactanos"
+                android:layout_width="158dp"
+                android:layout_height="55dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="12dp"
+                android:fontFamily="@font/poppins_bold"
+                android:text="Contáctate con nosotros."
+                android:textColor="#000000"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                app:layout_constraintVertical_bias="0.056" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+            <View
+                android:id="@+id/view"
+                android:layout_width="370dp"
+                android:layout_height="2dp"
+                android:layout_gravity="center"
 
-                    <TextView
-                        android:id="@+id/txtPodemosAudarte"
-                        android:layout_width="189dp"
-                        android:layout_height="52dp"
-                        android:layout_marginStart="0dp"
-                        android:layout_marginEnd="45dp"
-                        android:fontFamily="@font/poppins_semibold"
-                        android:text="¿Qué podemos ayudarte a encontrar?"
-                        android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/txtContactanos"
-                        android:layout_width="158dp"
-                        android:layout_height="55dp"
-                        android:fontFamily="@font/poppins_semibold"
-                        android:text="Contáctate con nosotros"
-                        android:textColor="#000000"
-                        android:textSize="16sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"></LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout2"
-                android:layout_width="match_parent"
-                android:layout_height="34dp"
-                android:orientation="horizontal"
-                tools:layout_editor_absoluteY="30dp"
-                tools:ignore="MissingConstraints">
-
-                <ImageView
-                    android:id="@+id/btnRegresar"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-
-                    android:layout_margin="10dp"
-                    app:srcCompat="@drawable/ic_arrow_back" />
-
-                <TextView
-                    android:id="@+id/txtCentroAyuda"
-                    android:layout_width="210dp"
-                    android:layout_height="27dp"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:text="Centro de ayuda"
-                    android:textAllCaps="false"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
-
-            </LinearLayout>
+                android:background="@drawable/lineadelgada"
+                app:layout_constraintBottom_toTopOf="@+id/txtEmailCentroAyuda"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtPodemosAudarte"
+                app:layout_constraintVertical_bias="0.0" />
 
             <EditText
                 android:id="@+id/txtEmailCentroAyuda"
                 android:layout_width="355dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="-250dp"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/textboxprueba"
                 android:fontFamily="@font/poppins_regular"
-                android:hint="lugaspario@gmail.com"
+                android:hint="example@gmail.com"
                 android:inputType="textEmailAddress"
                 android:padding="8dp"
                 android:textColor="@color/GrisAzulito"
@@ -118,13 +134,14 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/txtPodemosAudarte"
+                app:layout_constraintVertical_bias="0.0" />
 
             <EditText
                 android:id="@+id/txtEscribaComentarioCA"
                 android:layout_width="355dp"
                 android:layout_height="150dp"
-                android:layout_marginTop="200dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/textboxprueba"
                 android:fontFamily="@font/poppins_regular"
                 android:hint="Escriba su comentario:"
@@ -135,45 +152,45 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/txtEmailCentroAyuda"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/txtPreguntasF"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="13dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="156dp"
-                android:fontFamily="@font/poppins_semibold"
-                android:text="Preguntas Frecuentes"
+                android:fontFamily="@font/poppins_bold"
+                android:text="Preguntas Frecuentes:"
                 android:textColor="#000000"
-                android:textSize="16sp"
-                android:textStyle="italic"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.847" />
+                app:layout_constraintTop_toBottomOf="@+id/btnEnviarCorreo"
+                app:layout_constraintVertical_bias="0.0" />
 
             <Button
                 android:id="@+id/btnEnviarCorreo"
                 style="@style/Widget.Material3.Button.ElevatedButton"
                 android:layout_width="200dp"
                 android:layout_height="50dp"
-                android:layout_marginStart="99dp"
-                android:layout_marginTop="200dp"
-                android:layout_marginEnd="70dp"
+                android:layout_marginTop="16dp"
                 android:backgroundTint="@color/Azul2"
                 android:fontFamily="@font/poppins_medium"
                 android:foregroundTint="#FFFFFF"
                 android:text="Enviar Comentario"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toTopOf="@+id/txtPreguntasF"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-                app:layout_constraintVertical_bias="0.91" />
+                app:layout_constraintTop_toBottomOf="@+id/txtEscribaComentarioCA"
+                app:layout_constraintVertical_bias="0.0" />
 
             <ImageView
                 android:id="@+id/imageView5"
@@ -182,6 +199,8 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginBottom="18dp"
                 app:layout_constraintBottom_toTopOf="@+id/imageView13"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:srcCompat="@drawable/ic_search" />
 
@@ -189,9 +208,10 @@
                 android:id="@+id/imageView12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/txtPregunta1"
-                app:layout_constraintHorizontal_bias="0.65"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtPreguntasF"
                 app:layout_constraintVertical_bias="0.977"
@@ -201,10 +221,11 @@
                 android:id="@+id/imageView13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="28dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginBottom="26dp"
                 app:layout_constraintBottom_toTopOf="@+id/imageView12"
-                app:layout_constraintEnd_toStartOf="@+id/txtPregunta2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:srcCompat="@drawable/ic_search" />
 
@@ -212,7 +233,7 @@
                 android:id="@+id/txtPregunta1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="17dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="7dp"
                 android:layout_marginEnd="44dp"
                 android:layout_marginBottom="7dp"
@@ -222,6 +243,7 @@
                 android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/txtPregunta2"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/imageView5"
                 app:layout_constraintTop_toBottomOf="@+id/txtPreguntasF" />
 
@@ -229,7 +251,7 @@
                 android:id="@+id/txtPregunta2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="48dp"
                 android:layout_marginBottom="7dp"
@@ -239,6 +261,7 @@
                 android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/txtPregunta3"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/imageView13"
                 app:layout_constraintTop_toBottomOf="@+id/txtPregunta1" />
 
@@ -246,7 +269,7 @@
                 android:id="@+id/txtPregunta3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="80dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
                 android:fontFamily="@font/poppins_regular"
                 android:text="¿Encontraré aca los mejores doctores?"
@@ -254,7 +277,8 @@
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/imageView12"
                 app:layout_constraintTop_toBottomOf="@+id/txtPregunta2" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

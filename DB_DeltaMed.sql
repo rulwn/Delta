@@ -566,7 +566,7 @@ CREATE TABLE tbEspecialidades (
 CREATE TABLE tbEstablecimientos (
     ID_Establecimiento INT PRIMARY KEY,
     nombreClinica VARCHAR2(50) NOT NULL UNIQUE,
-    imgPrincipal VARCHAR2(256) NOT NULL UNIQUE
+    imgPrincipal VARCHAR2(256) NOT NULL
 );
 
 CREATE TABLE tbAseguradoras (
@@ -1650,7 +1650,7 @@ INSERT ALL
     INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Centro, ID_Paciente)
          VALUES (TO_DATE('2024-10-03', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-03 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta de seguimiento','A', 3, 3)
     INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Centro, ID_Paciente)
-         VALUES (TO_DATE('2024-10-04', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-04 13:00:00', 'YYYY-MM-DD  HH24:MI:SS'), 'Consulta general','A', 2, 4)
+         VALUES (TO_DATE('2024-10-04', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-04 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general','A', 2, 4)
     INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Centro, ID_Paciente)
          VALUES (TO_DATE('2024-10-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-05 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada','A', 1, 5)
 SELECT DUMMY FROM DUAL;
@@ -1718,6 +1718,15 @@ INSERT ALL
     INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
         VALUES (1,2,2)
 SELECT DUMMY FROM DUAL;
+
+
+--UNICA INSERCION CON EL USUARIO DE FRANCISCO--
+INSERT INTO tbNotis
+(fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti)
+VALUES
+(TO_DATE('2024-07-15', 'YYYY-MM-DD'), 'R', 'Recordatorio: Consulta general programada', 'S',
+(SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = 'fran@gmail.com'), 2);
+
 
 INSERT ALL
     INTO tbReviews(promEstrellas, comentario, ID_Centro, ID_Usuario)
@@ -2039,10 +2048,35 @@ SELECT
         tbHorarios h
     INNER JOIN
         tbCentrosMedicos cm ON h.ID_Centro = cm.ID_Centro
-    INNER JOIN 
+    INNER JOIN
         tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
     WHERE
-                d.ID_Doctor = 5
+                d.ID_Doctor = 5;
+
+SELECT
+
+                u.nombreUsuario,
+                u.apellidoUsuario,
+                u.imgUsuario,
+                e.nombreEspecialidad,
+                s.ID_Sucursal,
+                s.nombreSucursal,
+                s.telefonoSucur,
+                s.direccionSucur,
+                s.longSucur,
+                s.latiSucur,
+                s.imgSucursal,
+                se.nombreServicio,
+                se.costo
+            FROM
+                tbDoctores d
+            INNER JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
+            INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+            INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
+            INNER JOIN tbCentrosMedicos cm ON d.ID_Doctor = cm.ID_Doctor
+            INNER JOIN tbServicios se ON cm.ID_Centro = se.ID_Centro
+            WHERE
+                d.ID_Doctor = 5;
 */
 
 select * from tbAuditorias;
@@ -2050,3 +2084,24 @@ select * from tbDoctores;
 select * from tbUsuarios;
 select * from tbFavoritos;
 select * from tbRecientes;
+
+SELECT
+u.ID_Usuario,
+u.nombreUsuario,
+u.imgUsuario,
+d.ID_Doctor,
+s.ID_Sucursal,
+s.imgSucursal,
+ts.nombreTipoSucursal
+FROM
+tbRecientes f
+INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor
+INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal
+INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario
+INNER JOIN tbTipoSucursales ts ON ts.ID_TipoSucursal = s.ID_TipoSucursal
+WHERE
+f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = 'fran@gmail.com');
+
+SELECT * FROM tbRecientes;
+SELECT * FROM tbDoctores WHERE ID_Doctor = 1;
+SELECT * FROM tbUsuarios WHERE ID_Usuario = 1;

@@ -5,6 +5,7 @@ import Modelo.dataClassUsuario
 import android.content.Intent
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -178,7 +179,6 @@ class fragment_usuario : Fragment() {
         //Image View
         val imgvFoto = root.findViewById<ImageView>(R.id.imgvPriv)
         val imgvPersonalizar = root.findViewById<ImageView>(R.id.imgvPerfil)
-        val imgvSeguro = root.findViewById<ImageView>(R.id.imgvSeguroPerfil)
         val imgvDoctoresFavoritos = root.findViewById<ImageView>(R.id.imgvDocFav)
         val imgvRecetas = root.findViewById<ImageView>(R.id.imgvRecetas)
         val imgvHistorialCitas = root.findViewById<ImageView>(R.id.imgvHistCitas)
@@ -188,7 +188,6 @@ class fragment_usuario : Fragment() {
         val lbNombre = root.findViewById<TextView>(R.id.txtPrivacidadySeguridad)
         val lbCorreo = root.findViewById<TextView>(R.id.txtNotiiii)
         val lbPersonalizar = root.findViewById<TextView>(R.id.lbPersonalizarPerfil)
-        val lbSeguro = root.findViewById<TextView>(R.id.lbSeguroPerfil)
         val lbPerfil = root.findViewById<TextView>(R.id.lbPerfil)
         val lbPacientes = root.findViewById<TextView>(R.id.lbPacientesPerfil)
 
@@ -208,6 +207,8 @@ class fragment_usuario : Fragment() {
             activityEditarPerfil.putExtra("emailUsuario", dataUser.emailUsuario)
             activityEditarPerfil.putExtra("dirección", dataUser.dirección)
             activityEditarPerfil.putExtra("teléfono", dataUser.teléfonoUsuario)
+            Log.e("ImgUsuario", "${dataUser.imgUsuario}")
+            activityEditarPerfil.putExtra("imgUsuario1", dataUser.imgUsuario.toString())
             startActivity(ActivitySettings(activityEditarPerfil))
         }
         lbPersonalizar.setOnClickListener {
@@ -218,6 +219,7 @@ class fragment_usuario : Fragment() {
             activityEditarPerfil.putExtra("emailUsuario", dataUser.emailUsuario)
             activityEditarPerfil.putExtra("dirección", dataUser.dirección)
             activityEditarPerfil.putExtra("teléfono", dataUser.teléfonoUsuario)
+            activityEditarPerfil.putExtra("imgUsuario", dataUser.imgUsuario)
 
             startActivity(ActivitySettings(activityEditarPerfil))
         }
@@ -229,16 +231,11 @@ class fragment_usuario : Fragment() {
             val activityPacientes = Intent(requireContext(), activity_pacientes::class.java)
             startActivity(activityPacientes)
         }
-        imgvSeguro.setOnClickListener {
+        /*imgvSeguro.setOnClickListener {
             val activitySeguroPaciente =
                 Intent(requireContext(), activity_seguro_paciente::class.java)
             startActivity(activitySeguroPaciente)
-        }
-        lbSeguro.setOnClickListener {
-            val activitySeguroPaciente =
-                Intent(requireContext(), activity_seguro_paciente::class.java)
-            startActivity(activitySeguroPaciente)
-        }
+        }*/
         imgvDoctoresFavoritos.setOnClickListener {
             val activityDoctoresFavoritos =
                 Intent(requireContext(), activity_doctoresfavoritos::class.java)
@@ -255,11 +252,6 @@ class fragment_usuario : Fragment() {
         }
         imgvMisReseñas.setOnClickListener {
             //No estan las reseñas
-        }
-
-        imgvSeguro.setOnClickListener {
-            //No sé hacia donde lleva
-
         }
 
         return root

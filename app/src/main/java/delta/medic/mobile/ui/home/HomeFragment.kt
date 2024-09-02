@@ -231,22 +231,22 @@ class HomeFragment : Fragment() {
 
             // Preparar la consulta
             val statement = conexion?.prepareStatement(
-                "SELECT " +
-                        "    u.ID_Usuario, " +
-                        "    u.nombreUsuario, " +
-                        "    u.imgUsuario, " +
-                        "    d.ID_Doctor, " +
-                        "    s.ID_Sucursal, " +
-                        "    s.imgSucursal, " +
-                        "    ts.nombreTipoSucursal " +
-                        "FROM " +
-                        "    tbRecientes f " +
-                        "    INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor " +
-                        "    INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal " +
-                        "    INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario " + // El usuario es el doctor
-                        "    INNER JOIN tbTipoSucursales ts ON ts.ID_TipoSucursal = s.ID_TipoSucursal " +
-                        "WHERE " +
-                        "    f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?)"
+                "SELECT\n" +
+                        "u.ID_Usuario,\n" +
+                        "u.nombreUsuario,\n" +
+                        "u.imgUsuario,\n" +
+                        "d.ID_Doctor,\n" +
+                        "s.ID_Sucursal,\n" +
+                        "s.imgSucursal,\n" +
+                        "e.nombreEspecialidad\n" +
+                        "FROM\n" +
+                        "tbRecientes f\n" +
+                        "INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor\n" +
+                        "INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal\n" +
+                        "INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario\n" +
+                        "INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad\n" +
+                        "WHERE\n" +
+                        "f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?)"
             )
 
             // Establecer el parámetro
@@ -263,7 +263,7 @@ class HomeFragment : Fragment() {
                 val nombreUsuario = resultado.getString("nombreUsuario")
                 val imgUsuario = resultado.getString("imgUsuario") ?: "no hay"
                 val imgSucursal = resultado.getString("imgSucursal") ?: "no hay"
-                val nombreTipoSucursal = resultado.getString("nombreTipoSucursal")
+                val nombreTipoSucursal = resultado.getString("nombreEspecialidad")
 
                 // Crear un objeto dataClassFavoritos
                 val favorito = dataClassFavoritos(idUsuario, idDoctor, idSucursal, nombreUsuario, imgUsuario, imgSucursal, nombreTipoSucursal)

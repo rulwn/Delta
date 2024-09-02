@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -22,6 +23,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.bumptech.glide.Glide
 import com.google.firebase.Firebase
 import com.google.firebase.storage.storage
 import kotlinx.coroutines.CoroutineScope
@@ -38,12 +40,6 @@ class activity_editarperfil : AppCompatActivity() {
     val codigo_opcion_tomar_foto = 103
     val CAMERA_REQUEST_CODE = 0
     val STORAGE_REQUEST_CODE = 1
-
-    lateinit var imgvFotoEP: ImageView
-    lateinit var myPath: String
-
-    val uuid = UUID.randomUUID().toString()
-
 
     //Para los que pregunten, estas son las validaciones
     fun validarNombre(nombre: String): String? {
@@ -230,6 +226,21 @@ class activity_editarperfil : AppCompatActivity() {
             txtDirección.setText(intent.getStringExtra("dirección"))
             txtTeléfono.setText(intent.getStringExtra("teléfono"))
 
+            val fotoUsuario = intent.getStringExtra("imgUsuario1")
+            Log.e("ImgUsuario en editPerf", "$fotoUsuario")
+
+            if (fotoUsuario!!.isNotEmpty()) {
+                Glide.with(imgvFoto)
+                    .load(fotoUsuario)
+                    .into(imgvFoto)
+            } else {
+                Toast.makeText(
+                    this,
+                    "Hubo un error al intentar cargar la foto de perfil",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
             txtnombre.setHint(txtnombre.text.toString())
             txtApellido.setHint(txtApellido.text.toString())
             txtCorreo.setHint(txtCorreo.text.toString())
@@ -304,11 +315,11 @@ class activity_editarperfil : AppCompatActivity() {
         val txtTeléfonoEP = findViewById<EditText>(R.id.txtTeléfonoEP)
 
         //ImageView
-        imgvFotoEP = findViewById(R.id.imgvFotoEP)
+        val imgvFoto = findViewById<ImageView>(R.id.imgvFotoEP)
         val btnCancelarEP = findViewById<ImageView>(R.id.imgvCancelarEP)
         val btnActualizarUserEP = findViewById<ImageView>(R.id.imgvActualizarUserEP)
 
-        CargarDatosUsuario(txtNombreEP, txtApellidoEP, txtCorreoEP, txtDirecciónEP, txtTeléfonoEP, imgvFotoEP)
+        CargarDatosUsuario(txtNombreEP, txtApellidoEP, txtCorreoEP, txtDirecciónEP, txtTeléfonoEP, imgvFoto)
 
         // Asignar los cosos para ver si el usuario cambia el texto
         setTextChangedNombre(txtNombreEP)
