@@ -128,6 +128,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                             telefonoSucur = resultSet.getString("telefonoSucur"),
                             direccionSucur = resultSet.getString("direccionSucur"),
                             ID_Doctor = ID_Doctor
+
                         )
                         withContext(Dispatchers.Main) {
                             nombreSucursal.text = doctorInfo.nombreSucursal
@@ -254,7 +255,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
         var idSucursal = 0
 
         var ID_Doctor = intent.getIntExtra("ID_Doctor", 0)
-        var DoctorExist : Boolean = true;
+        var DoctorExist : Boolean = true
         Log.e("ID_Doctor", ID_Doctor.toString())
 
         button_reservar.setOnClickListener {
@@ -432,12 +433,13 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                     "F"
                 }
 
-                println("Estado inicial toggleButton.isChecked: $isFav")
+                //println("Estado inicial toggleButton.isChecked: $isFav")
+                println("ID_Sucursal: $ID_Sucursal")
 
                 conexion?.prepareCall("{CALL PROC_ADMIN_FAVORITOS(?,?,?,?)}").use { callable ->
                     callable?.setString(1, userEmail)
                     callable?.setInt(2, ID_Doctor)
-                    callable?.setInt(3, doctorInfo!!.ID_Sucursal)
+                    callable?.setInt(3, ID_Sucursal)
                     callable?.setString(4, favStatus)  // Usar STRING en lugar de BOOLEAN
                     callable?.executeUpdate()
                 }

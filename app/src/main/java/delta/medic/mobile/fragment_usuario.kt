@@ -208,6 +208,7 @@ class fragment_usuario : Fragment() {
             activityEditarPerfil.putExtra("emailUsuario", dataUser.emailUsuario)
             activityEditarPerfil.putExtra("dirección", dataUser.dirección)
             activityEditarPerfil.putExtra("teléfono", dataUser.teléfonoUsuario)
+            activityEditarPerfil.putExtra("imgUsuario", dataUser.imgUsuario)
             startActivity(ActivitySettings(activityEditarPerfil))
         }
         lbPersonalizar.setOnClickListener {
@@ -218,6 +219,7 @@ class fragment_usuario : Fragment() {
             activityEditarPerfil.putExtra("emailUsuario", dataUser.emailUsuario)
             activityEditarPerfil.putExtra("dirección", dataUser.dirección)
             activityEditarPerfil.putExtra("teléfono", dataUser.teléfonoUsuario)
+            activityEditarPerfil.putExtra("imgUsuario", dataUser.imgUsuario)
 
             startActivity(ActivitySettings(activityEditarPerfil))
         }
