@@ -566,7 +566,7 @@ CREATE TABLE tbEspecialidades (
 CREATE TABLE tbEstablecimientos (
     ID_Establecimiento INT PRIMARY KEY,
     nombreClinica VARCHAR2(50) NOT NULL UNIQUE,
-    imgPrincipal VARCHAR2(256) NOT NULL UNIQUE
+    imgPrincipal VARCHAR2(256) NOT NULL 
 );
 
 CREATE TABLE tbAseguradoras (
@@ -640,7 +640,7 @@ CREATE TABLE tbSucursales (
     latiSucur NUMBER(15,10) NOT NULL,
     longSucur NUMBER(15,10) NOT NULL,
     whatsapp VARCHAR2(12),
-    imgSucursal VARCHAR2(250) NOT NULL UNIQUE,
+    imgSucursal VARCHAR2(250) NOT NULL,
     ID_Establecimiento INT NOT NULL,
     ID_TipoSucursal INT NOT NULL,
 
