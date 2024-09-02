@@ -704,6 +704,7 @@ CREATE TABLE tbRecientes (
     ID_Reciente INT PRIMARY KEY,
     ID_Sucursal INT NOT NULL,
     ID_Usuario INT NOT NULL,
+    ID_Doctor INT NOT NULL,
 
     --CONSTRAINTS------------------
     CONSTRAINT FK_SucursalRec FOREIGN KEY (ID_Sucursal)
@@ -712,7 +713,14 @@ CREATE TABLE tbRecientes (
 
     CONSTRAINT FK_UsuarioRec FOREIGN KEY (ID_Usuario)
     REFERENCES tbUsuarios(ID_Usuario)
-    ON DELETE CASCADE
+    ON DELETE CASCADE,
+    
+    CONSTRAINT FK_DoctorRec FOREIGN KEY (ID_Doctor)
+    REFERENCES tbDoctores(ID_Doctor)
+    ON DELETE CASCADE,
+
+
+    CONSTRAINT Unique_Rec UNIQUE (ID_Usuario, ID_Doctor, ID_Sucursal)
 );
 
 CREATE TABLE tbCentrosMedicos (
@@ -1388,14 +1396,6 @@ BEGIN
     COMMIT WORK;
 END PROC_ADMIN_FAVORITOS;
 /
-
-
-
-EXECUTE PROC_ADMIN_FAVORITOS('fran@gmail.com',2,1,'T');
-
-Select * from tbFavoritos where ID_Sucursal = 1;
-
-
 
 /*************************************************************************************************
 

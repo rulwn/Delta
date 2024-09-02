@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="124dp"
     android:layout_height="124dp"
-    android:padding="16dp"
+    android:layout_marginEnd="10dp"
     app:background="@drawable/estilobordesitems"
 
     app:cardCornerRadius="20dp"
@@ -22,7 +22,7 @@
         <ImageView
             android:id="@+id/imgSucursal"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:alpha="0.85"
             android:scaleType="centerCrop"

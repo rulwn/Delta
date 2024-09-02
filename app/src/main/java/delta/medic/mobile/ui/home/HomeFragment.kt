@@ -3,6 +3,7 @@ package delta.medic.mobile.ui.home
 import Modelo.ClaseConexion
 import Modelo.dataClassCitas
 import Modelo.dataClassFavoritos
+import RecycleViewHelper.AdaptadorCentrosRecientes
 import RecycleViewHelper.AdaptadorCitas
 import RecycleViewHelper.AdaptadorFavoritos
 import RecycleViewHelper.AdaptadorTratamientosChiquito
@@ -25,6 +26,8 @@ import delta.medic.mobile.fragment_control_tratamientos
 import delta.medic.mobile.fragment_usuario
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -92,30 +95,23 @@ class HomeFragment : Fragment() {
         }
         val emailUsuario = userEmail
         CoroutineScope(Dispatchers.Main).launch {
-            val listaFavoritos = obtenerFavoritos(emailUsuario)
-            val adapter = AdaptadorFavoritos(listaFavoritos)
-            adapter.emailUsuario = emailUsuario
-            rcvCentros.adapter = adapter
-        }
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val favoritosprueba = activity_doctoresfavoritos()
-                val recientesDB = favoritosprueba.obtenerFavoritos(userEmail)
+            while (isActive) { // Este ciclo se repetirá mientras la coroutine esté activa
+                val listaRecientes = obtenerRecientes(emailUsuario)
                 withContext(Dispatchers.Main) {
-                    if (recientesDB.isEmpty()) {
+                    if (listaRecientes.isEmpty()) {
                         txtAunotienescentros.visibility = View.VISIBLE
                     } else {
                         txtAunotienescentros.visibility = View.GONE
-                        val miAdaptador = AdaptadorFavoritos(recientesDB)
-                        rcvTratamientos.adapter = miAdaptador
+                        val adapter = AdaptadorCentrosRecientes(listaRecientes)
+                        adapter.emailUsuario = emailUsuario
+                        rcvCentros.adapter = adapter
+                        adapter.notifyDataSetChanged()
                     }
                 }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    println("Error al obtener los centros: ${e.message}")
-                }
+                delay(5000)
             }
         }
+
         btnDolorCabeza.setOnClickListener {
             val intent = Intent(context, activity_busqueda::class.java).apply {
                 putExtra("query", "Neurólogo")
@@ -226,7 +222,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    suspend fun obtenerFavoritos(EmailUsuario: String): List<dataClassFavoritos> {
+    suspend fun obtenerRecientes(EmailUsuario: String): MutableList<dataClassFavoritos> {
         val listaFavoritos = mutableListOf<dataClassFavoritos>()
 
         withContext(Dispatchers.IO) {
@@ -235,22 +231,22 @@ class HomeFragment : Fragment() {
 
             // Preparar la consulta
             val statement = conexion?.prepareStatement(
-                "SELECT \n" +
-                        "    u.ID_Usuario,\n" +
-                        "    u.nombreUsuario, \n" +
-                        "    u.imgUsuario,\n" +
-                        "    d.ID_Doctor,\n" +
-                        "    s.ID_Sucursal,\n" +
-                        "    s.imgSucursal, \n" +
-                        "    ts.nombreTipoSucursal\n" +
-                        "FROM \n" +
-                        "    tbRecientes f\n" +
-                        "    INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor\n" +
-                        "    INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal\n" +
-                        "    INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario -- El usuario es el doctor\n" +
-                        "    INNER JOIN tbTipoSucursales ts ON ts.ID_TipoSucursal = s.ID_TipoSucursal\n" +
-                        "WHERE \n" +
-                        "    f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?);"
+                "SELECT " +
+                        "    u.ID_Usuario, " +
+                        "    u.nombreUsuario, " +
+                        "    u.imgUsuario, " +
+                        "    d.ID_Doctor, " +
+                        "    s.ID_Sucursal, " +
+                        "    s.imgSucursal, " +
+                        "    ts.nombreTipoSucursal " +
+                        "FROM " +
+                        "    tbRecientes f " +
+                        "    INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor " +
+                        "    INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal " +
+                        "    INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario " + // El usuario es el doctor
+                        "    INNER JOIN tbTipoSucursales ts ON ts.ID_TipoSucursal = s.ID_TipoSucursal " +
+                        "WHERE " +
+                        "    f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?)"
             )
 
             // Establecer el parámetro
