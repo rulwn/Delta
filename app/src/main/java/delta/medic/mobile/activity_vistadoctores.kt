@@ -140,7 +140,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                         }
 
                         isFav = getFavStatus(userEmail, ID_Doctor, doctorInfo.ID_Sucursal)
-                        validarRecientes(doctorInfo.ID_Sucursal)
+                        validarRecientes(doctorInfo.ID_Sucursal, ID_Doctor)
                         withContext(Dispatchers.Main) {
                             println("${doctorInfo.ID_Sucursal} ${doctorInfo.ID_Usuario} $ID_Doctor $isFav")
                             updateToggleButton(toggleButton, isFav)
@@ -191,13 +191,14 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    suspend fun validarRecientes(idSucursal: Int){
+    suspend fun validarRecientes(ID_Doctor: Int, ID_Sucursal: Int){
         try {
             val objConexion = ClaseConexion().cadenaConexion()
-            objConexion?.prepareCall("{CALL PROC_STATE_VALIDATION_RECIENTES(?,?)}")
+            objConexion?.prepareCall("{CALL PROC_STATE_VALIDATION_RECIENTES(?,?,?)}")
                 ?.use { validation ->
                     validation.setString(1, userEmail)
-                    validation.setInt(2, idSucursal)
+                    validation.setInt(2, ID_Sucursal)
+                    validation.setInt(3, ID_Doctor)
                     validation.execute()
                 }
         } catch (e: Exception) {
@@ -379,9 +380,8 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
-
         CoroutineScope(Dispatchers.IO).launch {
-            doctorInfo = getData(
+            val doctorInfo = getData(
                 ID_Doctor,
                 userEmail,
                 nombreSucursal,
