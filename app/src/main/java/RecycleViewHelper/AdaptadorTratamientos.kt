@@ -24,30 +24,13 @@ class AdaptadorTratamientos(private var Datos: List<dataClassIndicaciones>): Rec
         val tratamiento = Datos[position]
         holder.txtNombreMedicina.text = "${tratamiento.medicina} - ${tratamiento.dosisMedi}"
         holder.txtDetallesIndicaciones.text = tratamiento.detalleIndi
-        holder.txtTiempo.text = tratamiento.id_tiempo.toString()
+        holder.txtTiempo.text = tratamiento.hora // Mostrar la hora específica en txtTiempo
         holder.imgOpciones.setOnClickListener {
-
+            // Tu lógica de click aquí
         }
-
-
-        /*val item = Datos[position]
-        holder.imgborrar.setOnClickListener {
-            val context = holder.itemView.context
-            val builder = AlertDialog.Builder(context)
-
-            builder.setTitle("Seguro?")
-            builder.setMessage("Deseas eliminar el registro?")
-            builder.setPositiveButton("Si") { dialog, which ->
-                Eliminarlista(item.nombreProductos, position)
-            }
-            builder.setNegativeButton("No") { dialog, which ->
-
-            }
-            val alertDialog = builder.create()
-            alert*Dialog.show()*/
     }
 
-    private fun Actualizarlista(nuevalista: List<dataClassIndicaciones>){
+    fun Actualizarlista(nuevalista: List<dataClassIndicaciones>){
         Datos = nuevalista
         notifyDataSetChanged()
     }

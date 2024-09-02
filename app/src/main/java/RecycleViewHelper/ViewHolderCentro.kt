@@ -13,7 +13,6 @@ class ViewHolderCentro(view: View) : RecyclerView.ViewHolder(view) {
     val txtNombreDoctor: TextView = view.findViewById(R.id.txtNombreDoctor)
     val txtEspecialidad: TextView = view.findViewById(R.id.txtEspecialidad)
     val txtDireccion: TextView = view.findViewById(R.id.txtDireccionSucur)
-    val txtCosto: TextView = view.findViewById(R.id.txtCosto)
     val imgUsuario: ImageView = view.findViewById(R.id.imgFotoAgregada)
     val imgSucursal: ImageView = view.findViewById(R.id.imgSucursal)
 

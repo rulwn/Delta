@@ -10,12 +10,12 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:padding="4dp">
 
         <ImageView
-            android:id="@+id/imgProfile"
+            android:id="@+id/imgProfileReview"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_gravity="center_vertical"
@@ -25,45 +25,47 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txtUserName"
-                android:maxLines="1"
+                android:id="@+id/txtUserReview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
                 android:text="Raul Ochoa"
-                android:textSize="16sp"
                 android:textColor="@android:color/black"
-                android:textStyle="bold"/>
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <RatingBar
                 android:id="@+id/ratingBar"
                 android:layout_width="wrap_content"
-                android:layout_height="47dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:isIndicator="false"
+                android:layout_height="45dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:isIndicator="true"
+                android:max="5"
                 android:numStars="5"
-                android:rating="0"
-                android:stepSize="1.0"
-                android:theme="@style/Widget.AppCompat.RatingBar" />
+                android:progressTint="#F3C02A"
+                android:rating="5"
+                android:stepSize="1.0" />
 
             <TextView
                 android:id="@+id/txtReview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Reseña"
                 android:background="@android:drawable/editbox_background"
-                android:padding="20dp"
-                android:textSize="13sp"
-                android:textColor="@color/GrisHumo"
+                android:ellipsize="end"
                 android:fontFamily="@font/poppins_medium"
-                android:maxLength="150"
-                android:ellipsize="end"/>
+                android:hint="Reseña"
+                android:maxLength="120"
+                android:padding="10dp"
+                android:textAlignment="viewStart"
+                android:textColor="@color/GrisHumo"
+                android:textSize="13sp" />
         </LinearLayout>
 
         <ImageButton
@@ -74,6 +76,6 @@
             android:layout_marginStart="15dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Borrar"
-            android:src="@drawable/ic_masopciones" />
+            android:src="@drawable/ic_masopciones"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

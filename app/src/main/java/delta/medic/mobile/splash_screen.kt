@@ -9,12 +9,14 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.airbnb.lottie.LottieAnimationView
 import delta.medic.mobile.activity_login.UserData.userEmail
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class splash_screen : AppCompatActivity() {
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -27,7 +29,7 @@ class splash_screen : AppCompatActivity() {
 
         GlobalScope.launch(Dispatchers.Main) {
             val lottieView = findViewById<LottieAnimationView>(R.id.lottie_view)
-            lottieView.setImageAssetsFolder("images/")
+            lottieView.imageAssetsFolder = "images/"
 
             val userPreferences = getSharedPreferences("userPreferences", MODE_PRIVATE)
             val isLogedIn = userPreferences.getBoolean("IsLogedIn", false)

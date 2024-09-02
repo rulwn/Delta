@@ -16,6 +16,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.sql.Connection
+import java.sql.PreparedStatement
+import java.sql.ResultSet
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import delta.medic.mobile.activity_login.UserData.userEmail as sentEmail
@@ -57,7 +60,7 @@ class fragment_controlCitas : Fragment() {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val citasDB = obtenerDatos()
+                val citasDB = obtenerDatosCitas()
                 withContext(Dispatchers.Main) {
                     if (citasDB.isEmpty()) {
                         txtAunNotienescitas.visibility = View.VISIBLE
@@ -85,13 +88,10 @@ class fragment_controlCitas : Fragment() {
                 CoroutineScope(Dispatchers.IO).launch {
                     val citasDelDia = obtenerDiaCita(fechaFormateada)
                     withContext(Dispatchers.Main) {
-                        if (citasDelDia.isEmpty()) {
-                            txtAunNotienescitas.visibility = View.VISIBLE
-                        } else {
                             txtAunNotienescitas.visibility = View.GONE
                             val miAdaptador = AdaptadorCitas(citasDelDia)
                             rcvRecordatoriosCitas.adapter = miAdaptador
-                        }
+
                     }
                 }
             } catch (e: Exception) {
@@ -104,106 +104,110 @@ class fragment_controlCitas : Fragment() {
     private suspend fun obtenerDiaCita(Fecha: java.sql.Date): List<dataClassCitas> {
         return withContext(Dispatchers.IO) {
             val DiaCita = mutableListOf<dataClassCitas>()
+            var objConexion: Connection? = null
+            var statement: PreparedStatement? = null
+            var resultset: ResultSet? = null
+
             try {
-                val objConexion = ClaseConexion().cadenaConexion()
+                objConexion = ClaseConexion().cadenaConexion()
                 if (objConexion != null) {
-                    val statement = objConexion.prepareStatement(
-                        "SELECT \n" + "    citas.ID_Cita,\n" + "    citas.diacita,\n" + "    citas.horacita,\n" + "    citas.motivo,\n" + "    citas.estadoCita,\n" + "    citas.id_centro,\n" + "    citas.id_paciente,\n" + "    pacs.nombrepaciente,\n" + "    pacs.parentesco,\n" + "    usua.id_usuario,\n" + "    USUA.nombreUsuario,\n" + "    USUA.apellidoUsuario,\n" + "    esp.nombreespecialidad\n" + "FROM tbcitasmedicas CITAS \n" + "    INNER JOIN tbcentrosmedicos CENTROS ON CITAS.id_centro=CENTROS.id_centro\n" + "    INNER JOIN tbdoctores DOCS ON CENTROS.id_doctor=DOCS.id_doctor\n" + "    INNER JOIN tbEspecialidades ESP ON docs.id_especialidad = esp.id_especialidad\n" + "    INNER JOIN tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario\n" + "    INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente\n" + "        \n" + "    WHERE usua.emailUsuario = ? AND citas.diacita = ?"
-                    )!!
+                    statement = objConexion.prepareStatement(
+                        "SELECT citas.ID_Cita, citas.diacita, citas.horacita, citas.motivo, citas.estadoCita, citas.id_centro, citas.id_paciente, pacs.nombrepaciente, pacs.parentesco, usua.id_usuario, USUA.nombreUsuario, USUA.apellidoUsuario, esp.nombreespecialidad " +
+                                "FROM tbcitasmedicas CITAS " +
+                                "INNER JOIN tbcentrosmedicos CENTROS ON CITAS.id_centro=CENTROS.id_centro " +
+                                "INNER JOIN tbdoctores DOCS ON CENTROS.id_doctor=DOCS.id_doctor " +
+                                "INNER JOIN tbEspecialidades ESP ON docs.id_especialidad = esp.id_especialidad " +
+                                "INNER JOIN tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario " +
+                                "INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente " +
+                                "WHERE usua.emailUsuario = ? AND citas.diacita = ?"
+                    )
                     statement.setString(1, sentEmail)
                     statement.setDate(2, Fecha)
-                    val resultset = statement.executeQuery()
+                    resultset = statement.executeQuery()
+
                     while (resultset.next()) {
-                        val ID_Cita = resultset.getInt("ID_Cita")
-                        val diaCita = resultset.getDate("diaCita")
-                        val horaCita = resultset.getTimestamp("horaCita")
-                        val motivo = resultset.getString("motivo")
-                        val EstadoCita = resultset.getString("EstadoCita")
-                        val ID_Centro = resultset.getInt("ID_Centro")
-                        val ID_Paciente = resultset.getInt("ID_Paciente")
-                        val nombrePaciente = resultset.getString("nombrePaciente")
-                        val parentesco = resultset.getString("parentesco")
-                        val ID_Usuario = resultset.getInt("ID_Usuario")
-                        val nombreDoctor = resultset.getString("nombreUsuario")
-                        val apellidoDoctor = resultset.getString("apellidoUsuario")
-                        val especialidad = resultset.getString("nombreespecialidad")
                         val cita = dataClassCitas(
-                            ID_Cita,
-                            diaCita,
-                            horaCita,
-                            motivo,
-                            EstadoCita,
-                            ID_Centro,
-                            ID_Paciente,
-                            nombrePaciente,
-                            parentesco,
-                            ID_Usuario,
-                            nombreDoctor,
-                            apellidoDoctor,
-                            especialidad
+                            resultset.getInt("ID_Cita"),
+                            resultset.getDate("diaCita"),
+                            resultset.getTimestamp("horaCita"),
+                            resultset.getString("motivo"),
+                            resultset.getString("EstadoCita"),
+                            resultset.getInt("ID_Centro"),
+                            resultset.getInt("ID_Paciente"),
+                            resultset.getString("nombrePaciente"),
+                            resultset.getString("parentesco"),
+                            resultset.getInt("ID_Usuario"),
+                            resultset.getString("nombreUsuario"),
+                            resultset.getString("apellidoUsuario"),
+                            resultset.getString("nombreespecialidad")
                         )
                         DiaCita.add(cita)
-
                     }
                 } else {
                     println("No se pudo establecer conexión con la base de datos.")
                 }
             } catch (e: Exception) {
-                println("Este es el error ${e.message}")
+                println("Este es el error: ${e.message}")
+            } finally {
+                resultset?.close()
+                statement?.close()
+                objConexion?.close()
             }
             DiaCita
         }
     }
 
 
-    suspend fun obtenerDatos(): List<dataClassCitas> {
+    suspend fun obtenerDatosCitas(): List<dataClassCitas> {
         return withContext(Dispatchers.IO) {
             val citas = mutableListOf<dataClassCitas>()
+            var objConexion: Connection? = null
+            var statement: PreparedStatement? = null
+            var resultset: ResultSet? = null
+
             try {
-                val objConexion = ClaseConexion().cadenaConexion()
+                objConexion = ClaseConexion().cadenaConexion()
                 if (objConexion != null) {
-                    val statement = objConexion.prepareStatement(
-                        "SELECT \n" + "    citas.ID_Cita,\n" + "    citas.diacita,\n" + "    citas.horacita,\n" + "    citas.motivo,\n" + "    citas.estadoCita,\n" + "    citas.id_centro,\n" + "    citas.id_paciente,\n" + "    pacs.nombrepaciente,\n" + "    pacs.parentesco,\n" + "    usua.id_usuario,\n" + "    USUA.nombreUsuario,\n" + "    USUA.apellidoUsuario,\n" + "    esp.nombreespecialidad\n" + "FROM tbcitasmedicas CITAS \n" + "    INNER JOIN tbcentrosmedicos CENTROS ON CITAS.id_centro=CENTROS.id_centro\n" + "    INNER JOIN tbdoctores DOCS ON CENTROS.id_doctor=DOCS.id_doctor\n" + "    INNER JOIN tbEspecialidades ESP ON docs.id_especialidad = esp.id_especialidad\n" + "    INNER JOIN tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario\n" + "    INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente\n" + "        \n" + "    WHERE usua.emailUsuario = ? AND citas.estadoCita = 'A'"
-                    )!!
+                    statement = objConexion.prepareStatement(
+                        "SELECT citas.ID_Cita, citas.diacita, citas.horacita, citas.motivo, citas.estadoCita, citas.id_centro, citas.id_paciente, pacs.nombrepaciente, pacs.parentesco, usua.id_usuario, USUA.nombreUsuario, USUA.apellidoUsuario, esp.nombreespecialidad " +
+                                "FROM tbcitasmedicas CITAS " +
+                                "INNER JOIN tbcentrosmedicos CENTROS ON CITAS.id_centro=CENTROS.id_centro " +
+                                "INNER JOIN tbdoctores DOCS ON CENTROS.id_doctor=DOCS.id_doctor " +
+                                "INNER JOIN tbEspecialidades ESP ON docs.id_especialidad = esp.id_especialidad " +
+                                "INNER JOIN tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario " +
+                                "INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente " +
+                                "WHERE usua.emailUsuario = ? AND citas.estadoCita = 'A'"
+                    )
                     statement.setString(1, sentEmail)
-                    val resultset = statement.executeQuery()
+                    resultset = statement.executeQuery()
+
                     while (resultset.next()) {
-                        val ID_Cita = resultset.getInt("ID_Cita")
-                        val diaCita = resultset.getDate("diaCita")
-                        val horaCita = resultset.getTimestamp("horaCita")
-                        val motivo = resultset.getString("motivo")
-                        val EstadoCita = resultset.getString("EstadoCita")
-                        val ID_Centro = resultset.getInt("ID_Centro")
-                        val ID_Paciente = resultset.getInt("ID_Paciente")
-                        val nombrePaciente = resultset.getString("nombrePaciente")
-                        val parentesco = resultset.getString("parentesco")
-                        val ID_Usuario = resultset.getInt("ID_Usuario")
-                        val nombreDoctor = resultset.getString("nombreUsuario")
-                        val apellidoDoctor = resultset.getString("apellidoUsuario")
-                        val especialidad = resultset.getString("nombreespecialidad")
                         val cita = dataClassCitas(
-                            ID_Cita,
-                            diaCita,
-                            horaCita,
-                            motivo,
-                            EstadoCita,
-                            ID_Centro,
-                            ID_Paciente,
-                            nombrePaciente,
-                            parentesco,
-                            ID_Usuario,
-                            nombreDoctor,
-                            apellidoDoctor,
-                            especialidad
+                            resultset.getInt("ID_Cita"),
+                            resultset.getDate("diaCita"),
+                            resultset.getTimestamp("horaCita"),
+                            resultset.getString("motivo"),
+                            resultset.getString("EstadoCita"),
+                            resultset.getInt("ID_Centro"),
+                            resultset.getInt("ID_Paciente"),
+                            resultset.getString("nombrePaciente"),
+                            resultset.getString("parentesco"),
+                            resultset.getInt("ID_Usuario"),
+                            resultset.getString("nombreUsuario"),
+                            resultset.getString("apellidoUsuario"),
+                            resultset.getString("nombreespecialidad")
                         )
                         citas.add(cita)
-                        println("DiaCita: $diaCita")
                     }
                 } else {
                     println("No se pudo establecer una conexión con la base de datos.")
                 }
             } catch (e: Exception) {
-                println("Este es el error ${e.message}")
+                println("Este es el error: ${e.message}")
+            } finally {
+                resultset?.close()
+                statement?.close()
+                objConexion?.close()
             }
             citas
         }

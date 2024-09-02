@@ -23,7 +23,7 @@ class activity_doctoresfavoritos : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_doctoresfavoritos)
-        requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -36,7 +36,8 @@ class activity_doctoresfavoritos : AppCompatActivity() {
         val rcvDoctoresFav = findViewById<RecyclerView>(R.id.rcvDoctoresFav)
         val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
 
-        rcvDoctoresFav.layoutManager = GridLayoutManager(this,2, LinearLayoutManager.VERTICAL, false)
+        rcvDoctoresFav.layoutManager =
+            GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false)
         CoroutineScope(Dispatchers.Main).launch {
             val listaFavoritos = obtenerFavoritos(emailUsuario)
             val adapter = AdaptadorFavoritos(listaFavoritos)
@@ -58,22 +59,22 @@ class activity_doctoresfavoritos : AppCompatActivity() {
 
             // Preparar la consulta
             val statement = conexion?.prepareStatement(
-                "SELECT \n" +
-                        "    u.ID_Usuario,\n" +
-                        "    u.nombreUsuario, \n" +
-                        "    u.imgUsuario,\n" +
-                        "    d.ID_Doctor,\n" +
-                        "    s.ID_Sucursal,\n" +
-                        "    s.imgSucursal, \n" +
-                        "    ts.nombreTipoSucursal\n" +
-                        "FROM \n" +
-                        "    tbFavoritos f\n" +
-                        "    INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor\n" +
-                        "    INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal\n" +
-                        "    INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario -- El usuario es el doctor\n" +
-                        "    INNER JOIN tbTipoSucursales ts ON ts.ID_TipoSucursal = s.ID_TipoSucursal\n" +
-                        "WHERE \n" +
-                        "    f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?)"
+                """SELECT
+                    u.ID_Usuario,
+                    u.nombreUsuario,
+                    u.imgUsuario,
+                    d.ID_Doctor,
+                    s.ID_Sucursal,
+                    s.imgSucursal,
+                    e.nombreEspecialidad
+                    FROM
+                    tbFavoritos f
+                    INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor
+                    INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal
+                    INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario
+                    INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+                    WHERE
+                    f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?)"""
             )
 
             // Establecer el parámetro
@@ -83,17 +84,25 @@ class activity_doctoresfavoritos : AppCompatActivity() {
             val resultado = statement?.executeQuery()
 
             // Procesar los resultados
-            while (resultado?.next()==true) {
+            while (resultado?.next() == true) {
                 val idUsuario = resultado.getInt("ID_Usuario")
                 val idDoctor = resultado.getInt("ID_Doctor")
                 val idSucursal = resultado.getInt("ID_Sucursal")
                 val nombreUsuario = resultado.getString("nombreUsuario")
                 val imgUsuario = resultado.getString("imgUsuario") ?: "no hay"
                 val imgSucursal = resultado.getString("imgSucursal") ?: "no hay"
-                val nombreTipoSucursal = resultado.getString("nombreTipoSucursal")
+                val nombreEspecialidad = resultado.getString("nombreEspecialidad")
 
                 // Crear un objeto dataClassFavoritos
-                val favorito = dataClassFavoritos(idUsuario, idDoctor, idSucursal, nombreUsuario, imgUsuario, imgSucursal, nombreTipoSucursal)
+                val favorito = dataClassFavoritos(
+                    idUsuario,
+                    idDoctor,
+                    idSucursal,
+                    nombreUsuario,
+                    imgUsuario,
+                    imgSucursal,
+                    nombreEspecialidad
+                )
 
                 // Agregar el objeto a la lista
                 listaFavoritos.add(favorito)

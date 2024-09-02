@@ -19,6 +19,7 @@ import kotlinx.coroutines.withContext
 import android.util.Log
 import android.widget.EditText
 import android.widget.TextView
+import delta.medic.mobile.activity_login.UserData.userEmail
 
 class fragment_Resultados : Fragment() {
 
@@ -67,18 +68,18 @@ class fragment_Resultados : Fragment() {
                 val busqueda = objConexion.prepareStatement("""
     SELECT 
         d.ID_Doctor,
+        (SELECT ID_Usuario From tbUsuarios WHERE emailUsuario = ?) AS ID_Usuario,
         u.nombreUsuario, 
         u.apellidoUsuario, 
         u.imgUsuario, 
         e.nombreEspecialidad,
+        s.ID_Sucursal,
         s.nombreSucursal,
         s.telefonoSucur, 
         s.direccionSucur, 
         s.longSucur,
         s.latiSucur,
-        s.imgSucursal,
-        srv.nombreServicio, 
-        srv.costo
+        s.imgSucursal
     FROM 
         tbCentrosMedicos cm
     INNER JOIN 
@@ -89,8 +90,6 @@ class fragment_Resultados : Fragment() {
         tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
     INNER JOIN
         tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
-    INNER JOIN 
-        tbServicios srv ON cm.ID_Centro = srv.ID_Centro
     WHERE        
         (LOWER(u.nombreUsuario) LIKE LOWER(?)
     OR
@@ -100,9 +99,10 @@ class fragment_Resultados : Fragment() {
     AND
         u.ID_TipoUsuario = 2
 """)
-                busqueda.setString(1, "%${nombreUsuario}%")
-                busqueda.setString(2, "%${apellidoUsuario}%")
-                busqueda.setString(3, "%${nombreEspecialidad}%")
+                busqueda.setString(1, userEmail)
+                busqueda.setString(2, "%${nombreUsuario}%")
+                busqueda.setString(3, "%${apellidoUsuario}%")
+                busqueda.setString(4, "%${nombreEspecialidad}%")
 
                 val resultSet = busqueda.executeQuery()
                 while (resultSet.next()) {
@@ -117,13 +117,13 @@ class fragment_Resultados : Fragment() {
                     val longSucur = resultSet.getDouble("longSucur")
                     val latiSucur = resultSet.getDouble("latiSucur")
                     val imgSucursal = resultSet.getString("imgSucursal")
-                    val nombreServicio = resultSet.getString("nombreServicio")
-                    val costo = resultSet.getFloat("costo")
+                    val ID_Usuario = resultSet.getInt("ID_Usuario")
+                    val ID_Sucursal = resultSet.getInt("ID_Sucursal")
 
                     val valoresJuntos = dataClassCentro(
-                        ID_Doctor, nombreUsuario, apellidoUsuario, imgUsuario,
+                        ID_Doctor, ID_Usuario, ID_Sucursal, nombreUsuario, apellidoUsuario, imgUsuario,
                         nombreEspecialidad, nombreSucursal, telefonoSucur, direccionSucur,
-                        longSucur, latiSucur, imgSucursal, nombreServicio, costo
+                        longSucur, latiSucur, imgSucursal
                     )
 
                     centroMedico.add(valoresJuntos)
@@ -134,7 +134,6 @@ class fragment_Resultados : Fragment() {
         } else {
             Log.e("obtenerDatos", "No se pudo establecer una conexión con la base de datos.")
         }
-
         return centroMedico
     }
 }

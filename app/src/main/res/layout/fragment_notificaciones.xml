@@ -8,24 +8,24 @@
     tools:context=".fragment_notificaciones">
 
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvNotis"
-        android:layout_width="413dp"
-        android:layout_height="399dp"
+        android:layout_width="410dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbNotis"
         app:layout_constraintVertical_bias="1.0" />
-
 
     <TextView
         android:id="@+id/lbNotis"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/poppins_semibold"
         android:text="Notificaciones"
         android:textColor="@color/Azul1"

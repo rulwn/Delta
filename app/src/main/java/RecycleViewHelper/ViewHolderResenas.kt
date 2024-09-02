@@ -11,13 +11,15 @@ import delta.medic.mobile.R
 
 class ViewHolderResenas(view: View) : RecyclerView.ViewHolder(view) {
 
-    val imgProfile : ImageView = view.findViewById(R.id.imgProfile)
-    val txtUserName : TextView = view.findViewById(R.id.txtUserName)
+    val imgProfile : ImageView = view.findViewById(R.id.imgProfileReview)
+    val txtUserName : TextView = view.findViewById(R.id.txtUserReview)
     val ratingBar : RatingBar = view.findViewById(R.id.ratingBar)
     val txtReview : TextView = view.findViewById(R.id.txtReview)
     val btnBorrar : ImageView = view.findViewById(R.id.btnBorrar)
 
     fun render(Datos: dataClassResena){
-        Glide.with(imgProfile.context).load(Datos.imgUsuario).into(imgProfile)
+        Glide.with(imgProfile.context).
+        load(Datos.imgUsuario).
+        into(imgProfile)
     }
 }
