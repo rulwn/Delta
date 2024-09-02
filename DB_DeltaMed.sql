@@ -1403,43 +1403,53 @@ Select * from tbFavoritos where ID_Sucursal = 1;
 
 *************************************************************************************************/
 
-CREATE OR REPLACE PROCEDURE PROC_STATE_VALIDATION_RECIENTES (arg_email IN tbUsuarios.emailUsuario%TYPE, arg_ID_Sucursal IN INT) AS
+CREATE OR REPLACE PROCEDURE PROC_STATE_VALIDATION_RECIENTES (
+    arg_email IN tbUsuarios.emailUsuario%TYPE, 
+    arg_ID_Sucursal IN INT, 
+    arg_ID_Doctor IN INT
+) AS
     var_Cant_Recientes INT;
     var_ID_Usuario tbUsuarios.ID_Usuario%TYPE;
 BEGIN
 
+    -- Obtener el ID del usuario basado en el correo electrónico
     SELECT ID_Usuario
         INTO var_ID_Usuario
     FROM tbUsuarios
         WHERE emailUsuario = arg_email;
 
+    -- Eliminar la fila de tbRecientes si ya existe una con los mismos IDs de usuario, sucursal y doctor
     DELETE FROM tbRecientes
     WHERE ID_Usuario = var_ID_Usuario
-    AND ID_Sucursal = arg_ID_Sucursal;
+    AND ID_Sucursal = arg_ID_Sucursal
+    AND ID_Doctor = arg_ID_Doctor;
 
+    -- Contar cuántas entradas recientes tiene el usuario
     SELECT COUNT(*)
     INTO var_Cant_Recientes
     FROM tbRecientes
     WHERE ID_Usuario = var_ID_Usuario;
 
-    IF var_Cant_Recientes > 19 THEN
+    -- Si hay más de 19 entradas, eliminar las más antiguas hasta que queden solo 19
+    IF var_Cant_Recientes >= 19 THEN
         DELETE FROM tbRecientes
-        WHERE ID_Usuario = var_ID_Usuario
-        AND ID_Sucursal IN (
-            SELECT ID_Sucursal
+        WHERE ID_Reciente IN (
+            SELECT ID_Reciente
             FROM (
-                SELECT ID_Sucursal
+                SELECT ID_Reciente
                 FROM tbRecientes
                 WHERE ID_Usuario = var_ID_Usuario
-                ORDER BY ROWNUM
-                )
-                WHERE ROWNUM = 1
-            );
-END IF;
+                ORDER BY ID_Reciente ASC
+            )
+            WHERE ROWNUM <= (var_Cant_Recientes - 18) -- Mantener solo las 19 más recientes
+        );
+    END IF;
 
-INSERT INTO tbRecientes (ID_Usuario, ID_Sucursal)
-    VALUES (var_ID_Usuario, arg_ID_Sucursal);
-COMMIT WORK;
+    -- Insertar una nueva entrada reciente con el ID de usuario, sucursal y doctor
+    INSERT INTO tbRecientes (ID_Usuario, ID_Sucursal, ID_Doctor)
+    VALUES (var_ID_Usuario, arg_ID_Sucursal, arg_ID_Doctor);
+
+    COMMIT WORK;
 END;
 /
 
