@@ -230,7 +230,7 @@ class activity_editarperfil : AppCompatActivity() {
             txtCorreo.setText(intent.getStringExtra("emailUsuario"))
             txtDirección.setText(intent.getStringExtra("dirección"))
             txtTeléfono.setText(intent.getStringExtra("teléfono"))
-            Glide.with(imgvFoto)
+            Glide.with(this)
                 .load(intent.getStringExtra("imgUsuario"))
                 .into(imgvFoto)
 
