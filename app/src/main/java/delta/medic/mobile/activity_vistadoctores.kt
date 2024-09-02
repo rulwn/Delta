@@ -140,7 +140,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                         }
 
                         isFav = getFavStatus(userEmail, ID_Doctor, doctorInfo.ID_Sucursal)
-                        validarRecientes(doctorInfo.ID_Sucursal, ID_Doctor)
+                        validarRecientes(userEmail, doctorInfo.ID_Sucursal, doctorInfo.ID_Doctor)
                         withContext(Dispatchers.Main) {
                             println("${doctorInfo.ID_Sucursal} ${doctorInfo.ID_Usuario} $ID_Doctor $isFav")
                             updateToggleButton(toggleButton, isFav)
@@ -191,12 +191,12 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    suspend fun validarRecientes(ID_Doctor: Int, ID_Sucursal: Int){
+    suspend fun validarRecientes(email: String, ID_Sucursal: Int, ID_Doctor: Int){
         try {
             val objConexion = ClaseConexion().cadenaConexion()
             objConexion?.prepareCall("{CALL PROC_STATE_VALIDATION_RECIENTES(?,?,?)}")
                 ?.use { validation ->
-                    validation.setString(1, userEmail)
+                    validation.setString(1, email)
                     validation.setInt(2, ID_Sucursal)
                     validation.setInt(3, ID_Doctor)
                     validation.execute()
@@ -392,20 +392,6 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                 imgDoctor,
                 toggleButton
             )
-        }
-
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val objConexion = ClaseConexion().cadenaConexion()
-                objConexion?.prepareCall("{CALL PROC_STATE_VALIDATION_RECIENTES(?,?)}")
-                    ?.use { validation ->
-                        validation.setString(1, userEmail)
-                        validation.setInt(2, ID_Sucursal)
-                        validation.execute()
-                    }
-            } catch (e: Exception) {
-                println("Error: $e")
-            }
         }
 
         mapView = findViewById(R.id.mapUbicacion)
@@ -659,12 +645,12 @@ WHERE
     override fun onLowMemory() {
         super.onLowMemory()
         mapView.onLowMemory()
-        }
-
-        override fun onSaveInstanceState(outState: Bundle) {
-            super.onSaveInstanceState(outState)
-            val mapViewBundle = Bundle()
-            mapView.onSaveInstanceState(mapViewBundle)
-            outState.putBundle(MAP_VIEW_BUNDLE_KEY, mapViewBundle)
-        }
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val mapViewBundle = Bundle()
+        mapView.onSaveInstanceState(mapViewBundle)
+        outState.putBundle(MAP_VIEW_BUNDLE_KEY, mapViewBundle)
+    }
+}
