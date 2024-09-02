@@ -1743,6 +1743,15 @@ INSERT ALL
         VALUES (1,2,2)
 SELECT DUMMY FROM DUAL;
 
+
+--UNICA INSERCION CON EL USUARIO DE FRANCISCO--
+INSERT INTO tbNotis 
+(fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
+VALUES 
+(TO_DATE('2024-07-15', 'YYYY-MM-DD'), 'R', 'Recordatorio: Consulta general programada', 'S', 
+(SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = 'fran@gmail.com'), 2);
+
+
 INSERT ALL
     INTO tbReviews(promEstrellas, comentario, ID_Centro, ID_Usuario)
         VALUES(5, 'Excelente Servicio!', 3, 5)
