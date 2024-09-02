@@ -3,6 +3,7 @@ package delta.medic.mobile
 import DiasAdapter
 import Modelo.ClaseConexion
 import Modelo.Dia
+import RecycleViewHelper.AdaptadorHorarios
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -24,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -45,6 +47,11 @@ class activity_agendar : AppCompatActivity() {
     var direccionSucur : String = "";
     var imgSucursal : String = "";
     var nombreEspecialidad : String = "";
+    val horarios = arrayOf(
+        "05:00 AM", "05:30 AM", "06:00 AM", "06:30 AM", "07:00 AM", "07:30 AM", "08:00 AM", "08:30 AM", "09:00 AM", "09:30 AM",
+        "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "01:00 PM", "01:30 PM", "02:00 PM", "02:30 PM",
+        "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM", "05:00 PM", "05:30 PM", "06:00 PM", "06:30 PM", "07:00 PM", "07:30 PM",
+        "08:00 PM", "08:30 PM", "09:00 PM")
 
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
@@ -75,11 +82,14 @@ class activity_agendar : AppCompatActivity() {
         rcvDisponibilidad.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         rcvDisponibilidad.adapter = DiasAdapter(diasDelAno) { diaSeleccionado ->
             actualizarHorarios(diaSeleccionado)
-            }
+        }
 
 
         rcvPaciente.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-
+        val layoutManager = GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false)
+        rcvPaciente.layoutManager = layoutManager
+        //val adapter = AdaptadorHorarios()
+        //recyclerView.adapter = adapter
 
         CoroutineScope(Dispatchers.IO).launch {
             val objConexion = ClaseConexion().cadenaConexion()
@@ -185,9 +195,6 @@ WHERE
         return DoctorExist
     }
 
-    private fun infoDoctor(){
-
-    }
 
     private fun showCustomDialog() {
         val dialog = Dialog(this, R.style.CustomDialog)
@@ -214,6 +221,7 @@ WHERE
         }
         dialog.show()
     }
+
 
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
