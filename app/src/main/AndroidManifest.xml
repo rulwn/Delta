@@ -43,10 +43,12 @@
             android:exported="false" />
         <activity
             android:name=".activity_seguro_paciente"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"/>
         <activity
             android:name=".activity_pacientes"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"/>
         <activity
             android:name=".activity_busqueda_rapida_hombre"
             android:exported="false"
@@ -78,10 +80,6 @@
         <activity
             android:name=".activity_item_busqueda_reciente"
             android:exported="false" />
-        <activity
-            android:name=".activity_cambiarcontra"
-            android:exported="false"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_cuenta_confi"
             android:exported="false"
