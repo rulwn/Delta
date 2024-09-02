@@ -241,7 +241,7 @@ class activity_editarperfil : AppCompatActivity() {
         }
     }
 
-    fun actualizarDatosUsuario(nombre: String, apellido: String, correo: String,Dirección: String, teléfono: String, imageUri: String){
+    fun actualizarDatosUsuario(nombre: String, apellido: String, correo: String,Dirección: String, teléfono: String){
 
         try{
             val id = intent.getIntExtra("idUsuario", 0)
@@ -250,14 +250,13 @@ class activity_editarperfil : AppCompatActivity() {
                 val objConnection = ClaseConexion().cadenaConexion()
 
                 val updateUserData = objConnection?.prepareStatement("UPDATE tbUsuarios SET nombreUsuario = ?, " +
-                        "apellidoUsuario = ?, emailUsuario = ?, direccion = ?, telefonousuario = ?, imgUsuario = ? where ID_Usuario =?")!!
+                        "apellidoUsuario = ?, emailUsuario = ?, direccion = ?, telefonousuario = ? where ID_Usuario =?")!!
                 updateUserData.setString(1,nombre)
                 updateUserData.setString(2,apellido)
                 updateUserData.setString(3,correo)
                 updateUserData.setString(4,Dirección)
                 updateUserData.setString(5,teléfono)
-                updateUserData.setString(6,imageUri)
-                updateUserData.setInt(7,id)
+                updateUserData.setInt(6,id)
                 updateUserData.executeUpdate()
 
                 val commit = objConnection.prepareStatement("commit")!!
@@ -272,88 +271,6 @@ class activity_editarperfil : AppCompatActivity() {
 
     }
 
-    private fun pedirPermisoAlmacenamiento(){
-        if(ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)){
-        }
-        else{
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), STORAGE_REQUEST_CODE)
-        }
-    }
-
-    private fun checkStoragePermission(){
-        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            pedirPermisoAlmacenamiento()
-        }
-        else{
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            startActivityForResult(intent, codigo_opcion_galeria)
-        }
-    }
-    /*
-    override fun onRequestPermissionResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ){
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when(requestCode){
-            STORAGE_REQUEST_CODE -> {
-                if((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)){
-                    val intent = Intent(Intent.ACTION_PICK)
-                    intent.type = "image/*"
-                    startActivityForResult(intent, codigo_opcion_galeria)
-                }
-                else{
-                    Toast.makeText(this, "Permiso denegado", Toast.LENGTH_SHORT).show()
-
-                }
-            }
-
-            else ->{
-
-            }
-        }
-    }
-
-     */
-     */
-    private fun subirimagenFirebase(bitmap: Bitmap, onSuccess: (String) -> Unit){
-        val storageRef = Firebase.storage.reference
-        val imageRef = storageRef.child("images/${uuid}.jpg")
-        val baos= ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-        val data = baos.toByteArray()
-        val uploadTask = imageRef.putBytes(data)
-
-        uploadTask.addOnFailureListener{taskSnapshot ->
-            Toast.makeText(this@activity_editarperfil, "Error al tratar de subir la imagen",Toast.LENGTH_SHORT).show()
-        }.addOnSuccessListener { taskSnapshot ->
-            imageRef.downloadUrl.addOnSuccessListener { uri ->
-                onSuccess(uri.toString())
-        }
-
-    }
-/*
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == Activity.RESULT_OK){
-         when(requestCode){
-             codigo_opcion_galeria -> {
-                 val imageUri: Uri? = data?.data
-                 imageUri?.let {
-                     val imageBitmap = MediaStore.Images.Media.getBitmap(contentResolver, it)
-                     subirimagenFirebase(imageBitmap) { url ->
-                         myPath = url
-                         imgvFotoEP.setImageURI(it)
-                     }
-                 }
-             }
-         }
-        }
-    }
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -366,7 +283,7 @@ class activity_editarperfil : AppCompatActivity() {
             insets
         }
 
- */
+
 
         /*TODO Llamar a todos los elementos en pantalla para trabajar con ellos.*/
 
@@ -399,10 +316,8 @@ class activity_editarperfil : AppCompatActivity() {
         setTextChangedCorreo(txtCorreoEP)
         setTextChangedTelefono(txtTeléfonoEP)
 
-        lbEditarPerfil.setOnClickListener{
-            checkStoragePermission();
-        }
-/*
+
+
         btnActualizarUserEP.setOnClickListener{
 
             val nombreError = validarNombre(txtNombreEP.text.toString())
@@ -460,7 +375,6 @@ class activity_editarperfil : AppCompatActivity() {
     }
 
         
- */
 
-}
+
 }

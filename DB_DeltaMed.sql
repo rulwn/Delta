@@ -1389,14 +1389,6 @@ BEGIN
 END PROC_ADMIN_FAVORITOS;
 /
 
-
-
-EXECUTE PROC_ADMIN_FAVORITOS('fran@gmail.com',2,1,'T');
-
-Select * from tbFavoritos where ID_Sucursal = 1;
-
-
-
 /*************************************************************************************************
 
 ~ PROCEDURE PARA RECIENTES ~

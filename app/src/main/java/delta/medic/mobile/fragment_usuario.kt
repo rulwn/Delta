@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import delta.medic.mobile.activity_login.UserData.userEmail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -35,10 +36,6 @@ private const val ARG_PARAM2 = "param2"
 @Suppress("DEPRECATION")
 class fragment_usuario : Fragment() {
 
-    val cod_opt_gal = 102
-    val cod_opt_take_pic = 103
-    val cam_req_code = 0
-    val stor_req_code = 1
     lateinit var dataUser: dataClassUsuario
 
     suspend fun GetUserParameters(email: String): List<dataClassUsuario> {
@@ -63,12 +60,7 @@ class fragment_usuario : Fragment() {
                         val teléfono = resultSet.getString("telefonoUsuario")
                         val sexo = resultSet.getString("sexo").toString()
                         val fechaNacimiento = resultSet.getString("fechaNacimiento")
-                        var imgUsuario = ""
-                        if (resultSet.getString("imgUsuario") != null) {
-                            imgUsuario = resultSet.getString("imgUsuario").toString()
-                        } else {
-                            imgUsuario = ""
-                        }
+                        val imgUsuario = resultSet.getString("imgUsuario")
                         val idTipoUsuario = resultSet.getInt("ID_TipoUsuario")
 
                         val userWithFullData = dataClassUsuario(
@@ -109,49 +101,38 @@ class fragment_usuario : Fragment() {
 
     fun loadData(lbNombre: TextView, lbCorreo: TextView, imgvFoto: ImageView) {
         viewLifecycleOwner.lifecycleScope.launch {
-            val user = GetUserParameters(sentEmail)
-            //Estos campos al estar con map pondrá  "[]" al inicio y al final
-            val nombreCompleto = user.map { it.nombreUsuario }
-            val apellidoCompleto = user.map { it.apellidoUsuario }
-            val emailUsuario = user.map { it.emailUsuario }
-            val fotoUsuario = user.map { it.imgUsuario }
+            GetUserParameters(userEmail)
 
-            lateinit var imageView: ImageView
-            lateinit var myPath: String
-            lateinit var txtCorreo: EditText
+            val nombreCompleto = dataUser.nombreUsuario
+            val apellidoCompleto = dataUser.apellidoUsuario
+            val emailUsuario = userEmail
+            val fotoUsuario = dataUser.imgUsuario
+
 
 
             withContext(Dispatchers.Main) {
-                /*Como se quiere obtener solo el primer nombre sin importar que el usuario haya metido 827 nombres
-                * Lo primero que se hace es que nombreCompleto era un map, asi que tenía [], por lo que para quitarselos ponemos replace "["
-                * y replace "]" y de esta manera que los quite de la cadena, y luego, como no nos interesan el resto de nombres,
-                * los dividimos con un .split(" ") entre las comillas pusimos un espacio, pq cada nombre va separado con un espacio en blanco
-                * y luego .firstOrNull() ?:"" para obtener el primer elemento, y en caso de que sea nulo que no se explote el celular y se
-                * petatee la app, y asi ya nos furrula.*/
                 val primerNombre =
-                    (nombreCompleto.toString().replace("[", "").replace("]", "")).split(" ")
-                        .firstOrNull() ?: ""
+                    (nombreCompleto).split(" ").firstOrNull() ?: ""
                 //Hacemos lo mismo de arriba para el apellido
                 val primerApellido =
-                    (apellidoCompleto.toString().replace("[", "").replace("]", "")).split(" ")
-                        .firstOrNull() ?: ""
-
+                    (apellidoCompleto).split(" ").firstOrNull() ?: ""
 
                 //Ahora solo ponemos que el lbNombre sea el nombre y apellido.
                 lbNombre.setText("$primerNombre $primerApellido")
-                lbCorreo.setText(emailUsuario.toString().replace("[", "").replace("]", ""))
+                lbCorreo.setText(emailUsuario)
 
-                /*
+
                 if (fotoUsuario.isNotEmpty()) {
-                    val bitmap = BitmapFactory.decodeByteArray(fotoUsuario.toString().toByteArray(), 0, fotoUsuario.size)
-                    imgvFoto.setImageBitmap(bitmap)
+                    Glide.with(imgvFoto)
+                        .load(fotoUsuario)
+                        .into(imgvFoto)
                 } else {
                     Toast.makeText(
                         requireContext(),
                         "Hubo un error al intentar cargar la foto de perfil",
                         Toast.LENGTH_SHORT
                     ).show()
-                }*/
+                }
             }
         }
     }
@@ -172,12 +153,7 @@ class fragment_usuario : Fragment() {
             val teléfono = dataUser.teléfonoUsuario
             val sexo = dataUser.sexo
             val fechaNacimiento = dataUser.fechaNacimiento
-            var imgUsuario = ""
-            if (dataUser.imgUsuario != null) {
-                imgUsuario = dataUser.imgUsuario
-            } else {
-                imgUsuario = ""
-            }
+            val imgUsuario = dataUser.idUsuario
             val idTipoUsuario = dataUser.idTipoUsuario
 
 
@@ -226,12 +202,22 @@ class fragment_usuario : Fragment() {
          ******************************************************************************************/
         imgvPersonalizar.setOnClickListener {
             val activityEditarPerfil = Intent(requireContext(), activity_editarperfil::class.java)
-
+            activityEditarPerfil.putExtra("idUsuario", dataUser.idUsuario)
+            activityEditarPerfil.putExtra("nombreUsuario", dataUser.nombreUsuario)
+            activityEditarPerfil.putExtra("apellidoUsuario", dataUser.apellidoUsuario)
+            activityEditarPerfil.putExtra("emailUsuario", dataUser.emailUsuario)
+            activityEditarPerfil.putExtra("dirección", dataUser.dirección)
+            activityEditarPerfil.putExtra("teléfono", dataUser.teléfonoUsuario)
             startActivity(ActivitySettings(activityEditarPerfil))
         }
         lbPersonalizar.setOnClickListener {
             val activityEditarPerfil = Intent(requireContext(), activity_editarperfil::class.java)
-
+            activityEditarPerfil.putExtra("idUsuario", dataUser.idUsuario)
+            activityEditarPerfil.putExtra("nombreUsuario", dataUser.nombreUsuario)
+            activityEditarPerfil.putExtra("apellidoUsuario", dataUser.apellidoUsuario)
+            activityEditarPerfil.putExtra("emailUsuario", dataUser.emailUsuario)
+            activityEditarPerfil.putExtra("dirección", dataUser.dirección)
+            activityEditarPerfil.putExtra("teléfono", dataUser.teléfonoUsuario)
 
             startActivity(ActivitySettings(activityEditarPerfil))
         }
