@@ -10,7 +10,7 @@ import delta.medic.mobile.R
 import delta.medic.mobile.activity_login.UserData.userEmail
 import delta.medic.mobile.activity_vistadoctores
 
-class AdaptadorCentrosRecientes(private var Datos: List<dataClassFavoritos>): RecyclerView.Adapter<ViewHolderCentroMini>()  {
+class AdaptadorCentrosRecientes(private var Datos: MutableList<dataClassFavoritos>): RecyclerView.Adapter<ViewHolderCentroMini>()  {
     var emailUsuario = userEmail
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderCentroMini {
         val vista = LayoutInflater.from(parent.context).inflate(R.layout.activity_item_centro_medico_pequeno_normal, parent, false)
@@ -39,5 +39,10 @@ class AdaptadorCentrosRecientes(private var Datos: List<dataClassFavoritos>): Re
             pantallaDetalle.putExtra("Fav", true)
             context.startActivity(pantallaDetalle)
         }
+    }
+
+    fun updateListaRecientes(nuevaLista: List<dataClassFavoritos>) {
+        Datos.clear()
+        Datos.addAll(nuevaLista)
     }
 }

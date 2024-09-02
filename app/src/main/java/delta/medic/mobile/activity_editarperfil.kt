@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -27,6 +28,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.firebase.Firebase
 import com.google.firebase.storage.storage
 import kotlinx.coroutines.CoroutineScope
@@ -97,6 +99,16 @@ val codigo_opcion_tomar_foto = 103
 val CAMERA_REQUEST_CODE = 0
 val STORAGE_REQUEST_CODE = 1
 
+    //Para los que pregunten, estas son las validaciones
+    fun validarNombre(nombre: String): String? {
+        val regex = "^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]*(?: [A-ZÁÉÍÓÚÑ][a-záéíóúñ]*)*$".toRegex()
+        return when {
+            nombre.isBlank() -> "El nombre no puede estar vacío."
+            nombre.contains("  ") -> "No se permiten dobles espacios."
+            !nombre.matches(regex) -> "El nombre debe comenzar con mayúscula y no contener caracteres especiales."
+            else -> null
+        }
+    }
 val lbEditarPerfil = findViewById<TextView>(R.id.lbEditarPerfil)
 val lbEditarFoto = findViewById<TextView>(R.id.lbEditarFoto)
 val txtNombreEP = findViewById<EditText>(R.id.txtNombreEP)
@@ -315,8 +327,34 @@ catch (e: Exception){
     println(e.message)
 }
 }
+            val fotoUsuario = intent.getStringExtra("imgUsuario1")
+            Log.e("ImgUsuario en editPerf", "$fotoUsuario")
+
+            if (fotoUsuario!!.isNotEmpty()) {
+                Glide.with(imgvFoto)
+                    .load(fotoUsuario)
+                    .into(imgvFoto)
+            } else {
+                Toast.makeText(
+                    this,
+                    "Hubo un error al intentar cargar la foto de perfil",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            txtnombre.setHint(txtnombre.text.toString())
+            txtApellido.setHint(txtApellido.text.toString())
+            txtCorreo.setHint(txtCorreo.text.toString())
+            txtDirección.setHint(txtDirección.text.toString())
+            txtTeléfono.setHint(txtTeléfono.text.toString())
+        }
+        catch (e: Exception){
+            println(e.message)
+        }
+    }
 
 fun actualizarDatosUsuario(nombre: String, apellido: String, correo: String,Dirección: String, teléfono: String, imageUri: String){
+    fun actualizarDatosUsuario(nombre: String, apellido: String, correo: String,Dirección: String, teléfono: String){
 
 try{
     val id = intent.getIntExtra("idUsuario", 0)
@@ -334,6 +372,15 @@ try{
         updateUserData.setString(6,imageUri)
         updateUserData.setInt(7,id)
         updateUserData.executeUpdate()
+                val updateUserData = objConnection?.prepareStatement("UPDATE tbUsuarios SET nombreUsuario = ?, " +
+                        "apellidoUsuario = ?, emailUsuario = ?, direccion = ?, telefonousuario = ? where ID_Usuario =?")!!
+                updateUserData.setString(1,nombre)
+                updateUserData.setString(2,apellido)
+                updateUserData.setString(3,correo)
+                updateUserData.setString(4,Dirección)
+                updateUserData.setString(5,teléfono)
+                updateUserData.setInt(6,id)
+                updateUserData.executeUpdate()
 
         val commit = objConnection.prepareStatement("commit")!!
         commit.executeUpdate()
@@ -434,6 +481,11 @@ super.onCreate(savedInstanceState)
 enableEdgeToEdge()
 setContentView(R.layout.activity_editarperfil)
 requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_editarperfil)
+        requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
 ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
     val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -442,6 +494,7 @@ ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets -
 }
 
 */
+
 
 /*TODO Llamar a todos los elementos en pantalla para trabajar con ellos.*/
 
@@ -465,8 +518,13 @@ val txtTeléfonoEP = findViewById<EditText>(R.id.txtTeléfonoEP)
 imgvFotoEP = findViewById(R.id.imgvFotoEP)
 val btnCancelarEP = findViewById<ImageView>(R.id.imgvCancelarEP)
 val btnActualizarUserEP = findViewById<ImageView>(R.id.imgvActualizarUserEP)
+        //ImageView
+        val imgvFoto = findViewById<ImageView>(R.id.imgvFotoEP)
+        val btnCancelarEP = findViewById<ImageView>(R.id.imgvCancelarEP)
+        val btnActualizarUserEP = findViewById<ImageView>(R.id.imgvActualizarUserEP)
 
 CargarDatosUsuario(txtNombreEP, txtApellidoEP, txtCorreoEP, txtDirecciónEP, txtTeléfonoEP, imgvFotoEP)
+        CargarDatosUsuario(txtNombreEP, txtApellidoEP, txtCorreoEP, txtDirecciónEP, txtTeléfonoEP, imgvFoto)
 
 // Asignar los cosos para ver si el usuario cambia el texto
 setTextChangedNombre(txtNombreEP)
@@ -479,6 +537,9 @@ lbEditarPerfil.setOnClickListener{
 }
 /*
 btnActualizarUserEP.setOnClickListener{
+
+
+        btnActualizarUserEP.setOnClickListener{
 
     val nombreError = validarNombre(txtNombreEP.text.toString())
     val apellidoError = validarApellido(txtApellidoEP.text.toString())
@@ -537,5 +598,6 @@ btnCancelarEP.setOnClickListener{
 
 */
 
-}
+
+
 }

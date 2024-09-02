@@ -46,18 +46,20 @@ import java.sql.SQLException
 
 class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
 
-    var latitud: Double = 0.0;
-    var longitud: Double = 0.0;
-    var ID_User: Int = 0;
-    var nombreUser: String = "";
-    var apellidoUser: String = "";
-    var imgUser: String = "";
-    var ID_Sucursal : Int = 0;
+    var latitud: Double = 0.0
+    var longitud: Double = 0.0
+    var ID_User: Int = 0
+    var nombreUser: String = ""
+    var apellidoUser: String = ""
+    var imgUser: String = ""
+    var ID_Sucursal : Int = 0
+    var isFav: Boolean = false
 
     private lateinit var adaptadorResenas: AdaptadorResenas
     private lateinit var mapView: MapView
     private lateinit var googleMap: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var doctorInfo: dataClassCentro? = null
 
     companion object {
         private const val MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey"
@@ -126,6 +128,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                             telefonoSucur = resultSet.getString("telefonoSucur"),
                             direccionSucur = resultSet.getString("direccionSucur"),
                             ID_Doctor = ID_Doctor
+
                         )
                         withContext(Dispatchers.Main) {
                             nombreSucursal.text = doctorInfo.nombreSucursal
@@ -137,9 +140,10 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                             Especialidad.text = doctorInfo.nombreEspecialidad
                         }
 
-                        val isFav = getFavStatus(userEmail, ID_Doctor, doctorInfo.ID_Sucursal)
-                        validarRecientes(doctorInfo.ID_Sucursal)
+                        isFav = getFavStatus(userEmail, ID_Doctor, doctorInfo.ID_Sucursal)
+                        validarRecientes(userEmail, doctorInfo.ID_Sucursal, doctorInfo.ID_Doctor)
                         withContext(Dispatchers.Main) {
+                            println("${doctorInfo.ID_Sucursal} ${doctorInfo.ID_Usuario} $ID_Doctor $isFav")
                             updateToggleButton(toggleButton, isFav)
                         }
                     }
@@ -149,7 +153,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
         } catch (e: SQLException) {
             e.printStackTrace()
             withContext(Dispatchers.Main) {
-                // Podrías mostrar un mensaje de error al usuario aquí
+                Log.e("Err get data doctor", e.message.toString())
             }
             null
         } finally {
@@ -158,41 +162,44 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
     }
 
 
-    suspend fun getFavStatus(email: String, ID_Doctor: Int, ID_Sucursal: Int): Boolean {
-        val objConexion = ClaseConexion().cadenaConexion()
-        return try {
-            val statement = objConexion?.prepareStatement(
-                """
-            SELECT * FROM TBFAVORITOS 
-            WHERE ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?) 
-              AND ID_Doctor = ? 
-              AND ID_Sucursal = ?
-            """
-            )
-            statement?.setString(1, email)
-            statement?.setInt(2, ID_Doctor)
-            statement?.setInt(3, ID_Sucursal)
-            val resultSet = statement?.executeQuery()
-            val isFav = resultSet!!.next()
-            resultSet.close()
-            statement.close()
-            isFav
+    suspend fun getFavStatus(userEmail: String, ID_Doctor: Int, ID_Sucursal: Int): Boolean {
+        // Lógica para obtener el estado del favorito
+        val conexion = ClaseConexion().cadenaConexion()
+        var isFav = false
+
+        try {
+            conexion?.prepareStatement(
+                "SELECT COUNT(*) FROM tbFavoritos WHERE ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?) AND ID_Doctor = ? AND ID_Sucursal = ?"
+            )?.use { statement ->
+                statement.setString(1, userEmail)
+                statement.setInt(2, ID_Doctor)
+                statement.setInt(3, ID_Sucursal)
+
+                statement.executeQuery().use { resultSet ->
+                    if (resultSet.next()) {
+                        isFav = resultSet.getInt(1) > 0
+                    }
+                }
+            }
         } catch (e: SQLException) {
             e.printStackTrace()
-            false
         } finally {
-            objConexion?.close()
+            conexion?.close()
         }
+
+        println("getFavStatus result: $isFav")
+        return isFav
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    suspend fun validarRecientes(idSucursal: Int){
+    suspend fun validarRecientes(email: String, ID_Sucursal: Int, ID_Doctor: Int){
         try {
             val objConexion = ClaseConexion().cadenaConexion()
-            objConexion?.prepareCall("{CALL PROC_STATE_VALIDATION_RECIENTES(?,?)}")
+            objConexion?.prepareCall("{CALL PROC_STATE_VALIDATION_RECIENTES(?,?,?)}")
                 ?.use { validation ->
-                    validation.setString(1, userEmail)
-                    validation.setInt(2, idSucursal)
+                    validation.setString(1, email)
+                    validation.setInt(2, ID_Sucursal)
+                    validation.setInt(3, ID_Doctor)
                     validation.execute()
                 }
         } catch (e: Exception) {
@@ -248,7 +255,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
         var idSucursal = 0
 
         var ID_Doctor = intent.getIntExtra("ID_Doctor", 0)
-        var DoctorExist : Boolean = true;
+        var DoctorExist : Boolean = true
         Log.e("ID_Doctor", ID_Doctor.toString())
 
         button_reservar.setOnClickListener {
@@ -388,20 +395,6 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
             )
         }
 
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val objConexion = ClaseConexion().cadenaConexion()
-                objConexion?.prepareCall("{CALL PROC_STATE_VALIDATION_RECIENTES(?,?)}")
-                    ?.use { validation ->
-                        validation.setString(1, userEmail)
-                        validation.setInt(2, ID_Sucursal)
-                        validation.execute()
-                    }
-            } catch (e: Exception) {
-                println("Error: $e")
-            }
-        }
-
         mapView = findViewById(R.id.mapUbicacion)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -420,29 +413,36 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
         toggleButton.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 val conexion = ClaseConexion().cadenaConexion()
-                val favStatus = toggleButton.isChecked
+                val favStatus = if (this@activity_vistadoctores.isFav) {
+                    "T"
+                } else {
+                    "F"
+                }
 
-                conexion?.prepareCall("{CALL PROC_MANAGE_FAVORITOS(?,?,?,?)}").use { callable ->
+                //println("Estado inicial toggleButton.isChecked: $isFav")
+                println("ID_Sucursal: $ID_Sucursal")
+
+                conexion?.prepareCall("{CALL PROC_ADMIN_FAVORITOS(?,?,?,?)}").use { callable ->
                     callable?.setString(1, userEmail)
                     callable?.setInt(2, ID_Doctor)
-                    callable?.setInt(3, idSucursal!!)
-                    callable?.setBoolean(4, favStatus)
+                    callable?.setInt(3, ID_Sucursal)
+                    callable?.setString(4, favStatus)  // Usar STRING en lugar de BOOLEAN
                     callable?.executeUpdate()
                 }
 
                 withContext(Dispatchers.Main) {
-                    if (toggleButton.isChecked) {
-                        toggleButton.isChecked = false
-                        toggleButton.background =
-                            getDrawable(R.drawable.corazon_vacio)
+                    if (isFav) {
+                        isFav = false
+                        toggleButton.background = getDrawable(R.drawable.corazon_vacio) // Cambia a icono de no favorito
                     } else {
-                        toggleButton.isChecked = true
-                        toggleButton.background =
-                            getDrawable(R.drawable.corazon_favoritos)
+                        isFav = true
+                        toggleButton.background = getDrawable(R.drawable.corazon_favoritos) // Cambia a icono de favorito
                     }
                 }
             }
         }
+
+
 
         adaptadorResenas = AdaptadorResenas(mutableListOf())
         fun insertResenas(resena: dataClassResena, lista: MutableList<dataClassResena>) {
@@ -647,12 +647,12 @@ WHERE
     override fun onLowMemory() {
         super.onLowMemory()
         mapView.onLowMemory()
-        }
-
-        override fun onSaveInstanceState(outState: Bundle) {
-            super.onSaveInstanceState(outState)
-            val mapViewBundle = Bundle()
-            mapView.onSaveInstanceState(mapViewBundle)
-            outState.putBundle(MAP_VIEW_BUNDLE_KEY, mapViewBundle)
-        }
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val mapViewBundle = Bundle()
+        mapView.onSaveInstanceState(mapViewBundle)
+        outState.putBundle(MAP_VIEW_BUNDLE_KEY, mapViewBundle)
+    }
+}

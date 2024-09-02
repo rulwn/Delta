@@ -23,7 +23,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class activity_doctoresfavoritos : AppCompatActivity() {
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -65,11 +64,19 @@ CoroutineScope(Dispatchers.Main).launch {
     adapter.emailUsuario = emailUsuario
     rcvDoctoresFav.adapter = adapter
 }
+        rcvDoctoresFav.layoutManager =
+            GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false)
+        CoroutineScope(Dispatchers.Main).launch {
+            val listaFavoritos = obtenerFavoritos(emailUsuario)
+            val adapter = AdaptadorFavoritos(listaFavoritos)
+            adapter.emailUsuario = emailUsuario
+            rcvDoctoresFav.adapter = adapter
+        }
 
-btnRegresar.setOnClickListener {
-    finish()
-}
-}
+        btnRegresar.setOnClickListener {
+            finish()
+        }
+    }
 
 suspend fun obtenerFavoritos(EmailUsuario: String): List<dataClassFavoritos> {
 val listaFavoritos = mutableListOf<dataClassFavoritos>()
@@ -78,25 +85,25 @@ withContext(Dispatchers.IO) {
     // Crear una conexión a la base de datos
     val conexion = ClaseConexion().cadenaConexion()
 
-    // Preparar la consulta
-    val statement = conexion?.prepareStatement(
-        "SELECT \n" +
-                "    u.ID_Usuario,\n" +
-                "    u.nombreUsuario, \n" +
-                "    u.imgUsuario,\n" +
-                "    d.ID_Doctor,\n" +
-                "    s.ID_Sucursal,\n" +
-                "    s.imgSucursal, \n" +
-                "    ts.nombreTipoSucursal\n" +
-                "FROM \n" +
-                "    tbFavoritos f\n" +
-                "    INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor\n" +
-                "    INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal\n" +
-                "    INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario -- El usuario es el doctor\n" +
-                "    INNER JOIN tbTipoSucursales ts ON ts.ID_TipoSucursal = s.ID_TipoSucursal\n" +
-                "WHERE \n" +
-                "    f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?)"
-    )
+            // Preparar la consulta
+            val statement = conexion?.prepareStatement(
+                """SELECT
+                    u.ID_Usuario,
+                    u.nombreUsuario,
+                    u.imgUsuario,
+                    d.ID_Doctor,
+                    s.ID_Sucursal,
+                    s.imgSucursal,
+                    e.nombreEspecialidad
+                    FROM
+                    tbFavoritos f
+                    INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor
+                    INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal
+                    INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario
+                    INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+                    WHERE
+                    f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?)"""
+            )
 
     // Establecer el parámetro
     statement?.setString(1, EmailUsuario)
@@ -104,29 +111,37 @@ withContext(Dispatchers.IO) {
     // Ejecutar la consulta y obtener los resultados
     val resultado = statement?.executeQuery()
 
-    // Procesar los resultados
-    while (resultado?.next()==true) {
-        val idUsuario = resultado.getInt("ID_Usuario")
-        val idDoctor = resultado.getInt("ID_Doctor")
-        val idSucursal = resultado.getInt("ID_Sucursal")
-        val nombreUsuario = resultado.getString("nombreUsuario")
-        val imgUsuario = resultado.getString("imgUsuario") ?: "no hay"
-        val imgSucursal = resultado.getString("imgSucursal") ?: "no hay"
-        val nombreTipoSucursal = resultado.getString("nombreTipoSucursal")
+            // Procesar los resultados
+            while (resultado?.next() == true) {
+                val idUsuario = resultado.getInt("ID_Usuario")
+                val idDoctor = resultado.getInt("ID_Doctor")
+                val idSucursal = resultado.getInt("ID_Sucursal")
+                val nombreUsuario = resultado.getString("nombreUsuario")
+                val imgUsuario = resultado.getString("imgUsuario") ?: "no hay"
+                val imgSucursal = resultado.getString("imgSucursal") ?: "no hay"
+                val nombreEspecialidad = resultado.getString("nombreEspecialidad")
 
-        // Crear un objeto dataClassFavoritos
-        val favorito = dataClassFavoritos(idUsuario, idDoctor, idSucursal, nombreUsuario, imgUsuario, imgSucursal, nombreTipoSucursal)
+                // Crear un objeto dataClassFavoritos
+                val favorito = dataClassFavoritos(
+                    idUsuario,
+                    idDoctor,
+                    idSucursal,
+                    nombreUsuario,
+                    imgUsuario,
+                    imgSucursal,
+                    nombreEspecialidad
+                )
 
         // Agregar el objeto a la lista
         listaFavoritos.add(favorito)
     }
 
-    // Cerrar la conexión
-    resultado?.close()
-    statement?.close()
-    conexion?.close()
-}
+            // Cerrar la conexión
+            resultado?.close()
+            statement?.close()
+            conexion?.close()
+        }
 
-return listaFavoritos
-}
+        return listaFavoritos
+    }
 }
