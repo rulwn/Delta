@@ -3,10 +3,12 @@ package delta.medic.mobile
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import kotlinx.coroutines.CoroutineScope
@@ -33,7 +35,31 @@ class activity_register2 : AppCompatActivity() {
         val btnSiguiente = findViewById<Button>(R.id.btnSiguiente2)
         val txtTienesUnaCuenta = findViewById<TextView>(R.id.txtTienesUnaCuenta2)
         val txtFechaNacimientoPaciente = findViewById<EditText>(R.id.txtFechadeNacimiento)
+        val textoGrande = findViewById<TextView>(R.id.txtTextoGrande)
+        val frase = findViewById<TextView>(R.id.frase)
 
+        /*
+        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        when (currentNightMode) {
+            Configuration.UI_MODE_NIGHT_NO -> {
+                txtTelefono.setHintTextColor(ContextCompat.getColor(this, R.color.black))
+                btnSiguiente.setBackgroundColor(ContextCompat.getColor(this, R.color.Azul1))
+                txtTienesUnaCuenta.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtFechaNacimientoPaciente.setHintTextColor(ContextCompat.getColor(this, R.color.black))
+                textoGrande.setTextColor(ContextCompat.getColor(this, R.color.black))
+                frase.setTextColor(ContextCompat.getColor(this, R.color.black))
+            } // Night mode is not active, we're using the light theme.
+            Configuration.UI_MODE_NIGHT_YES -> {
+                txtTelefono.setHintTextColor(ContextCompat.getColor(this, R.color.black))
+                btnSiguiente.setBackgroundColor(ContextCompat.getColor(this, R.color.Azul1))
+                txtTienesUnaCuenta.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtFechaNacimientoPaciente.setHintTextColor(ContextCompat.getColor(this, R.color.white))
+                textoGrande.setTextColor(ContextCompat.getColor(this, R.color.white))
+                frase.setTextColor(ContextCompat.getColor(this, R.color.white))
+
+            } // Night mode is active, we're using dark theme.
+        }
+         */
 
 
         txtTienesUnaCuenta.setOnClickListener {

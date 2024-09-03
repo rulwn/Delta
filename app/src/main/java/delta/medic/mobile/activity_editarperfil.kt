@@ -213,7 +213,7 @@ class activity_editarperfil : AppCompatActivity() {
     }
 
     fun CargarDatosUsuario(txtnombre: EditText, txtApellido: EditText, txtCorreo:EditText,
-    txtDirección: EditText, txtTeléfono: EditText, imgvFoto: ImageView){
+                           txtDirección: EditText, txtTeléfono: EditText, imgvFoto: ImageView){
         try {
             txtnombre.setText(intent.getStringExtra("nombreUsuario"))
             txtApellido.setText(intent.getStringExtra("apellidoUsuario"))
@@ -361,7 +361,7 @@ class activity_editarperfil : AppCompatActivity() {
                         txtDirecciónEP.text.toString(),
                         txtTeléfonoEP.text.toString(),
 
-                    )
+                        )
                     Toast.makeText(this, "Datos actualizados correctamente", Toast.LENGTH_SHORT).show()
                     activity_login.userEmail = txtCorreoEP.text.toString()
 
@@ -380,7 +380,7 @@ class activity_editarperfil : AppCompatActivity() {
 
     }
 
-        
+
 
 
 }

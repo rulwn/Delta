@@ -5,15 +5,18 @@ import Modelo.Encrypter
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
@@ -34,6 +37,36 @@ class activity_register4 : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        val btnFlechaAtras = findViewById<ImageView>(R.id.imgFlechaAtrasRegistro3)
+        val txt38 = findViewById<TextView>(R.id.textView38)
+        val frase = findViewById<TextView>(R.id.frase)
+        val imagen = findViewById<ImageView>(R.id.imageView27)
+        val btnRegistrarse = findViewById<Button>(R.id.btnRegistrarse)
+
+        /*
+        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        when (currentNightMode) {
+            Configuration.UI_MODE_NIGHT_NO -> {
+                btnFlechaAtras.setColorFilter(ContextCompat.getColor(this, R.color.black))
+                txt38.setTextColor(ContextCompat.getColor(this, R.color.black))
+                frase.setTextColor(ContextCompat.getColor(this, R.color.black))
+                btnRegistrarse.setBackgroundColor(ContextCompat.getColor(this, R.color.Azul1))
+                } // Night mode is not active, we're using the light theme.
+            Configuration.UI_MODE_NIGHT_YES -> {
+                btnFlechaAtras.setColorFilter(ContextCompat.getColor(this, R.color.white))
+                txt38.setTextColor(ContextCompat.getColor(this, R.color.white))
+                frase.setTextColor(ContextCompat.getColor(this, R.color.white))
+                imagen.setColorFilter(ContextCompat.getColor(this, R.color.GrisPlano))
+                btnRegistrarse.setBackgroundColor(ContextCompat.getColor(this, R.color.Turquesa2))
+            } // Night mode is active, we're using dark theme.
+        }
+
+         */
+        btnFlechaAtras.setOnClickListener {
+            val intent = Intent(this, activity_register3::class.java)
+            startActivity(intent)
         }
 
         val num1edit = findViewById<EditText>(R.id.num1edit)

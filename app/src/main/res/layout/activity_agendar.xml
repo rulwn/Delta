@@ -280,18 +280,6 @@
             android:textColor="@color/black"
             android:textSize="16sp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:orientation="horizontal">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcvPaciente"
-                android:layout_width="match_parent"
-                android:layout_height="123dp" />
-        </LinearLayout>
-
         <Button
             android:id="@+id/btnContinuar"
             style="@style/Widget.Material3.Button.ElevatedButton"

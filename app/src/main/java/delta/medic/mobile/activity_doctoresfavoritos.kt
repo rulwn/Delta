@@ -3,11 +3,15 @@ package delta.medic.mobile
 import Modelo.ClaseConexion
 import Modelo.dataClassFavoritos
 import RecycleViewHelper.AdaptadorFavoritos
+import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
@@ -23,7 +27,7 @@ class activity_doctoresfavoritos : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_doctoresfavoritos)
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        requestedOrientation= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -33,9 +37,33 @@ class activity_doctoresfavoritos : AppCompatActivity() {
 
 
         val emailUsuario = activity_login.userEmail
+        val txtFav = findViewById<TextView>(R.id.txtFav)
         val rcvDoctoresFav = findViewById<RecyclerView>(R.id.rcvDoctoresFav)
         val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
 
+/*
+val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+when (currentNightMode) {
+    Configuration.UI_MODE_NIGHT_NO -> {
+        btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.black))
+        txtFav.setTextColor(ContextCompat.getColor(this, R.color.black))
+        rcvDoctoresFav.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+    } // Night mode is not active, we're using the light theme.
+    Configuration.UI_MODE_NIGHT_YES -> {
+        btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.white))
+        txtFav.setTextColor(ContextCompat.getColor(this, R.color.white))
+        rcvDoctoresFav.setBackgroundColor(ContextCompat.getColor(this, R.color.black))
+    } // Night mode is active, we're using dark theme.
+}
+
+ */
+rcvDoctoresFav.layoutManager = GridLayoutManager(this,2, LinearLayoutManager.VERTICAL, false)
+CoroutineScope(Dispatchers.Main).launch {
+    val listaFavoritos = obtenerFavoritos(emailUsuario)
+    val adapter = AdaptadorFavoritos(listaFavoritos)
+    adapter.emailUsuario = emailUsuario
+    rcvDoctoresFav.adapter = adapter
+}
         rcvDoctoresFav.layoutManager =
             GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false)
         CoroutineScope(Dispatchers.Main).launch {
@@ -50,12 +78,12 @@ class activity_doctoresfavoritos : AppCompatActivity() {
         }
     }
 
-    suspend fun obtenerFavoritos(EmailUsuario: String): List<dataClassFavoritos> {
-        val listaFavoritos = mutableListOf<dataClassFavoritos>()
+suspend fun obtenerFavoritos(EmailUsuario: String): List<dataClassFavoritos> {
+val listaFavoritos = mutableListOf<dataClassFavoritos>()
 
-        withContext(Dispatchers.IO) {
-            // Crear una conexión a la base de datos
-            val conexion = ClaseConexion().cadenaConexion()
+withContext(Dispatchers.IO) {
+    // Crear una conexión a la base de datos
+    val conexion = ClaseConexion().cadenaConexion()
 
             // Preparar la consulta
             val statement = conexion?.prepareStatement(
@@ -77,11 +105,11 @@ class activity_doctoresfavoritos : AppCompatActivity() {
                     f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?)"""
             )
 
-            // Establecer el parámetro
-            statement?.setString(1, EmailUsuario)
+    // Establecer el parámetro
+    statement?.setString(1, EmailUsuario)
 
-            // Ejecutar la consulta y obtener los resultados
-            val resultado = statement?.executeQuery()
+    // Ejecutar la consulta y obtener los resultados
+    val resultado = statement?.executeQuery()
 
             // Procesar los resultados
             while (resultado?.next() == true) {
@@ -104,9 +132,9 @@ class activity_doctoresfavoritos : AppCompatActivity() {
                     nombreEspecialidad
                 )
 
-                // Agregar el objeto a la lista
-                listaFavoritos.add(favorito)
-            }
+        // Agregar el objeto a la lista
+        listaFavoritos.add(favorito)
+    }
 
             // Cerrar la conexión
             resultado?.close()

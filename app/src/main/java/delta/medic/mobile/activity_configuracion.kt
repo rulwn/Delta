@@ -65,137 +65,140 @@ class activity_configuracion : AppCompatActivity() {
         val btnCerrarSesion = findViewById<ImageView>(R.id.btnCerrarSesion)
 
 
-        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        when (currentNightMode) {
-            Configuration.UI_MODE_NIGHT_NO -> {
-                txtCuenta.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtPriv.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtNoti.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtCentroAyuda.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtApariencia.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtCerrarSesion.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtConfi.setTextColor(ContextCompat.getColor(this, R.color.black))
-                btnTuCuenta.setColorFilter(ContextCompat.getColor(this, R.color.black))
-                btnPrivacidadySeguridad.setColorFilter(ContextCompat.getColor(this, R.color.black))
-                btnNotificaciones.setColorFilter(ContextCompat.getColor(this, R.color.black))
-                btnCentroAyuda.setColorFilter(ContextCompat.getColor(this, R.color.black))
-                btnApariencia.setColorFilter(ContextCompat.getColor(this, R.color.black))
-                btnCerrarSesion.setColorFilter(ContextCompat.getColor(this, R.color.black))
-                btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.black))
-                imgvFotoPerfil.setColorFilter(ContextCompat.getColor(this, R.color.black))
-                imgvPriv.setColorFilter(ContextCompat.getColor(this, R.color.black))
-                imgvNoti.setColorFilter(ContextCompat.getColor(this, R.color.black))
-                imgvAyuda.setColorFilter(ContextCompat.getColor(this, R.color.black))
-                imgvApariencia.setColorFilter(ContextCompat.getColor(this, R.color.black))
-                imgvCerrarSesion.setColorFilter(ContextCompat.getColor(this, R.color.black))
-            } // Night mode is not active, we're using the light theme.
-            Configuration.UI_MODE_NIGHT_YES -> {
-                txtCuenta.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtPriv.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtNoti.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtCentroAyuda.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtApariencia.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtConfi.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtCerrarSesion.setTextColor(ContextCompat.getColor(this, R.color.white))
-                btnTuCuenta.setColorFilter(ContextCompat.getColor(this, R.color.white))
-                btnPrivacidadySeguridad.setColorFilter(ContextCompat.getColor(this, R.color.white))
-                btnNotificaciones.setColorFilter(ContextCompat.getColor(this, R.color.white))
-                btnCentroAyuda.setColorFilter(ContextCompat.getColor(this, R.color.white))
-                btnApariencia.setColorFilter(ContextCompat.getColor(this, R.color.white))
-                btnCerrarSesion.setColorFilter(ContextCompat.getColor(this, R.color.white))
-                btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.white))
-                imgvFotoPerfil.setColorFilter(ContextCompat.getColor(this, R.color.white))
-                imgvPriv.setColorFilter(ContextCompat.getColor(this, R.color.white))
-                imgvNoti.setColorFilter(ContextCompat.getColor(this, R.color.white))
-                imgvAyuda.setColorFilter(ContextCompat.getColor(this, R.color.white))
-                imgvApariencia.setColorFilter(ContextCompat.getColor(this, R.color.white))
-                imgvCerrarSesion.setColorFilter(ContextCompat.getColor(this, R.color.white))
+/*
+val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+when (currentNightMode) {
+    Configuration.UI_MODE_NIGHT_NO -> {
+        txtCuenta.setTextColor(ContextCompat.getColor(this, R.color.black))
+        txtPriv.setTextColor(ContextCompat.getColor(this, R.color.black))
+        txtNoti.setTextColor(ContextCompat.getColor(this, R.color.black))
+        txtCentroAyuda.setTextColor(ContextCompat.getColor(this, R.color.black))
+        txtApariencia.setTextColor(ContextCompat.getColor(this, R.color.black))
+        txtCerrarSesion.setTextColor(ContextCompat.getColor(this, R.color.black))
+        txtConfi.setTextColor(ContextCompat.getColor(this, R.color.black))
+        btnTuCuenta.setColorFilter(ContextCompat.getColor(this, R.color.black))
+        btnPrivacidadySeguridad.setColorFilter(ContextCompat.getColor(this, R.color.black))
+        btnNotificaciones.setColorFilter(ContextCompat.getColor(this, R.color.black))
+        btnCentroAyuda.setColorFilter(ContextCompat.getColor(this, R.color.black))
+        btnApariencia.setColorFilter(ContextCompat.getColor(this, R.color.black))
+        btnCerrarSesion.setColorFilter(ContextCompat.getColor(this, R.color.black))
+        btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.black))
+        imgvFotoPerfil.setColorFilter(ContextCompat.getColor(this, R.color.black))
+        imgvPriv.setColorFilter(ContextCompat.getColor(this, R.color.black))
+        imgvNoti.setColorFilter(ContextCompat.getColor(this, R.color.black))
+        imgvAyuda.setColorFilter(ContextCompat.getColor(this, R.color.black))
+        imgvApariencia.setColorFilter(ContextCompat.getColor(this, R.color.black))
+        imgvCerrarSesion.setColorFilter(ContextCompat.getColor(this, R.color.black))
+    } // Night mode is not active, we're using the light theme.
+    Configuration.UI_MODE_NIGHT_YES -> {
+        txtCuenta.setTextColor(ContextCompat.getColor(this, R.color.white))
+        txtPriv.setTextColor(ContextCompat.getColor(this, R.color.white))
+        txtNoti.setTextColor(ContextCompat.getColor(this, R.color.white))
+        txtCentroAyuda.setTextColor(ContextCompat.getColor(this, R.color.white))
+        txtApariencia.setTextColor(ContextCompat.getColor(this, R.color.white))
+        txtConfi.setTextColor(ContextCompat.getColor(this, R.color.white))
+        txtCerrarSesion.setTextColor(ContextCompat.getColor(this, R.color.white))
+        btnTuCuenta.setColorFilter(ContextCompat.getColor(this, R.color.white))
+        btnPrivacidadySeguridad.setColorFilter(ContextCompat.getColor(this, R.color.white))
+        btnNotificaciones.setColorFilter(ContextCompat.getColor(this, R.color.white))
+        btnCentroAyuda.setColorFilter(ContextCompat.getColor(this, R.color.white))
+        btnApariencia.setColorFilter(ContextCompat.getColor(this, R.color.white))
+        btnCerrarSesion.setColorFilter(ContextCompat.getColor(this, R.color.white))
+        btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.white))
+        imgvFotoPerfil.setColorFilter(ContextCompat.getColor(this, R.color.white))
+        imgvPriv.setColorFilter(ContextCompat.getColor(this, R.color.white))
+        imgvNoti.setColorFilter(ContextCompat.getColor(this, R.color.white))
+        imgvAyuda.setColorFilter(ContextCompat.getColor(this, R.color.white))
+        imgvApariencia.setColorFilter(ContextCompat.getColor(this, R.color.white))
+        imgvCerrarSesion.setColorFilter(ContextCompat.getColor(this, R.color.white))
 
-            } // Night mode is active, we're using dark theme.
-        }
-        btnRegresar.setOnClickListener {
-            finish()
-        }
+    } // Night mode is active, we're using dark theme.
+}
 
-        /*val textView10: TextView = findViewById(R.id.lbPersonalizarPerfil)
-        val text = "Configuración"
+ */
+btnRegresar.setOnClickListener {
+    finish()
+}
 
-        val spannableString = SpannableString(text)
-        spannableString.setSpan(UnderlineSpan(), 0, text.length, 0)
+/*val textView10: TextView = findViewById(R.id.lbPersonalizarPerfil)
+val text = "Configuración"
 
-        textView10.text = spannableString*/
+val spannableString = SpannableString(text)
+spannableString.setSpan(UnderlineSpan(), 0, text.length, 0)
+
+textView10.text = spannableString*/
 
 
-        linearCuenta.setOnClickListener {
-            val intent = Intent(this, activity_cuenta_confi::class.java)
-            startActivity(intent)
-        }
+linearCuenta.setOnClickListener {
+    val intent = Intent(this, activity_cuenta_confi::class.java)
+    startActivity(intent)
+}
 
-        linearPrivacidad.setOnClickListener {
-            val intent = Intent(this, activity_privacidadyseguridad::class.java)
-            startActivity(intent)
-        }
+linearPrivacidad.setOnClickListener {
+    val intent = Intent(this, activity_privacidadyseguridad::class.java)
+    startActivity(intent)
+}
 
-        linearNotificaciones.setOnClickListener {
-            val intent = Intent(this, activity_notificaciones_confi::class.java)
-            startActivity(intent)
-        }
+linearNotificaciones.setOnClickListener {
+    val intent = Intent(this, activity_notificaciones_confi::class.java)
+    startActivity(intent)
+}
 
-        linearCentroAyuda.setOnClickListener {
-            val intent = Intent(this, activity_centroadeyuda::class.java)
-            startActivity(intent)
-        }
+linearCentroAyuda.setOnClickListener {
+    val intent = Intent(this, activity_centroadeyuda::class.java)
+    startActivity(intent)
+}
 
-        linearApariencia.setOnClickListener {
-            val intent = Intent(this, activity_apariencia::class.java)
-            startActivity(intent)
-        }
-        /*linearCerrarSesion.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
-            val dialogLayout = LayoutInflater.from(this).inflate(R.layout.dialog_cerrarsesion, null)
-            builder.setView(dialogLayout)
-            val dialog = builder.create()
-            dialog.show()
-            dialog.window?.setBackgroundDrawableResource(R.drawable.textboxprueba)
-            val btnContinuar = dialogLayout.findViewById<TextView>(R.id.btnContinuar)
-            val btnCancelar = dialogLayout.findViewById<TextView>(R.id.btnCancelar)
-            btnContinuar.setOnClickListener {
-                Log.d("DEBUG", "btnContinuar clicked")
-                try {
-                    dialog.dismiss()
-                    val sharedPreferences = getSharedPreferences("userPreferences", MODE_PRIVATE)
-                    val editor = sharedPreferences.edit()
-                    editor.putString("email", null)
-                    editor.putBoolean("IsLogedIn", false)
-                    editor.apply()
-                    Log.d("DEBUG", "SharedPreferences updated")
-
-                    val intent = Intent(this, splash_screen::class.java)
-                    startActivity(intent)
-                    Log.d("DEBUG", "Started splash_screen activity")
-                    finish()
-                    Log.d("DEBUG", "Activity finished")
-                } catch (e: Exception) {
-                    Log.e("ERROR", "Exception caught: ${e.message}")
-                    dialog.dismiss()
-                }
-            }
-            btnCancelar.setOnClickListener {
-                dialog.dismiss()
-            }
-        }*/
-
-        linearCerrarSesion.setOnClickListener {
-
+linearApariencia.setOnClickListener {
+    val intent = Intent(this, activity_apariencia::class.java)
+    startActivity(intent)
+}
+/*linearCerrarSesion.setOnClickListener {
+    val builder = AlertDialog.Builder(this)
+    val dialogLayout = LayoutInflater.from(this).inflate(R.layout.dialog_cerrarsesion, null)
+    builder.setView(dialogLayout)
+    val dialog = builder.create()
+    dialog.show()
+    dialog.window?.setBackgroundDrawableResource(R.drawable.textboxprueba)
+    val btnContinuar = dialogLayout.findViewById<TextView>(R.id.btnContinuar)
+    val btnCancelar = dialogLayout.findViewById<TextView>(R.id.btnCancelar)
+    btnContinuar.setOnClickListener {
+        Log.d("DEBUG", "btnContinuar clicked")
+        try {
+            dialog.dismiss()
             val sharedPreferences = getSharedPreferences("userPreferences", MODE_PRIVATE)
             val editor = sharedPreferences.edit()
             editor.putString("email", null)
             editor.putBoolean("IsLogedIn", false)
             editor.apply()
+            Log.d("DEBUG", "SharedPreferences updated")
 
             val intent = Intent(this, splash_screen::class.java)
             startActivity(intent)
+            Log.d("DEBUG", "Started splash_screen activity")
             finish()
+            Log.d("DEBUG", "Activity finished")
+        } catch (e: Exception) {
+            Log.e("ERROR", "Exception caught: ${e.message}")
+            dialog.dismiss()
         }
     }
+    btnCancelar.setOnClickListener {
+        dialog.dismiss()
+    }
+}*/
+
+linearCerrarSesion.setOnClickListener {
+
+    val sharedPreferences = getSharedPreferences("userPreferences", MODE_PRIVATE)
+    val editor = sharedPreferences.edit()
+    editor.putString("email", null)
+    editor.putBoolean("IsLogedIn", false)
+    editor.apply()
+
+    val intent = Intent(this, splash_screen::class.java)
+    startActivity(intent)
+    finish()
+}
+}
 }
