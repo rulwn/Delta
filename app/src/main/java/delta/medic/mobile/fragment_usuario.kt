@@ -183,13 +183,13 @@ class fragment_usuario : Fragment() {
         val imgvRecetas = root.findViewById<ImageView>(R.id.imgvRecetas)
         val imgvHistorialCitas = root.findViewById<ImageView>(R.id.imgvHistCitas)
         val imgvMisReseñas = root.findViewById<ImageView>(R.id.imgvMisReseñas)
-        val imgvPacientesPerfil = root.findViewById<ImageView>(R.id.imgvPacientesPerfil)
+        //val imgvPacientesPerfil = root.findViewById<ImageView>(R.id.imgvPacientesPerfil)
         //Labels
         val lbNombre = root.findViewById<TextView>(R.id.txtPrivacidadySeguridad)
         val lbCorreo = root.findViewById<TextView>(R.id.txtNotiiii)
         val lbPersonalizar = root.findViewById<TextView>(R.id.lbPersonalizarPerfil)
         val lbPerfil = root.findViewById<TextView>(R.id.lbPerfil)
-        val lbPacientes = root.findViewById<TextView>(R.id.lbPacientesPerfil)
+        //val lbPacientes = root.findViewById<TextView>(R.id.lbPacientesPerfil)
 
         lbPerfil.setText(Html.fromHtml(getResources().getString(R.string.lbPerfilSub)))
 
@@ -223,14 +223,14 @@ class fragment_usuario : Fragment() {
 
             startActivity(ActivitySettings(activityEditarPerfil))
         }
-        imgvPacientesPerfil.setOnClickListener {
+        /*imgvPacientesPerfil.setOnClickListener {
             val activityPacientes = Intent(requireContext(), activity_pacientes::class.java)
             startActivity(activityPacientes)
         }
         lbPacientes.setOnClickListener {
             val activityPacientes = Intent(requireContext(), activity_pacientes::class.java)
             startActivity(activityPacientes)
-        }
+        }*/
         /*imgvSeguro.setOnClickListener {
             val activitySeguroPaciente =
                 Intent(requireContext(), activity_seguro_paciente::class.java)
