@@ -2105,3 +2105,5 @@ f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = 'fran@gma
 SELECT * FROM tbRecientes;
 SELECT * FROM tbDoctores WHERE ID_Doctor = 1;
 SELECT * FROM tbUsuarios WHERE ID_Usuario = 1;
+
+SELECT * FROM tbPacientes;
