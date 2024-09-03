@@ -1279,6 +1279,30 @@ BEGIN
 END Trigger_CitaMedica;
 /
 
+--TRIGGER PARA CANCELACION DE CITA TBNOTIS--
+CREATE OR REPLACE TRIGGER Trigger_Cancelacion_Cita
+AFTER UPDATE ON tbCitasMedicas
+FOR EACH ROW
+WHEN (NEW.estadoCita = 'C')
+BEGIN
+    DECLARE
+        mensaje VARCHAR2(200);
+        doctorNombre VARCHAR2(100);
+    BEGIN
+        SELECT u.nombreUsuario INTO doctorNombre
+        FROM tbCentrosMedicos cm
+        JOIN tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+        JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
+        WHERE cm.ID_Centro = :NEW.ID_Centro;
+
+        mensaje := 'Cita cancelada con ' || doctorNombre || ' el ' || TO_CHAR(:NEW.horaCita, 'DD-MM-YYYY HH24:MI');
+
+        INSERT INTO tbNotis (ID_Notificacion, fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti)
+        VALUES (notis.NEXTVAL, SYSDATE, 'A', mensaje, 'S', :NEW.ID_Paciente, 1);
+    END;
+END Trigger_Cancelacion_Cita;
+/
+
 -- TRIGGER_INDICACIÓN --
 CREATE OR REPLACE TRIGGER Trigger_Indicacion
 BEFORE INSERT ON tbIndicaciones
@@ -1540,7 +1564,13 @@ INSERT ALL
         VALUES ('Dennis', 'Alexander', 'darv@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'Villa Olimpica', '6294-0283', 'M', '20/02/2000', NULL, 2)
     INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
         VALUES ('Hector', 'Gallardo', 'hector@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'La Paz', '8723-1293', 'M', '25/08/2000', NULL, 1)
-            INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
+    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
+        VALUES ('Jorge', 'Orantes', 'orantes@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'Los Encinos', '4131-1293', 'M', '28/05/2000', NULL, 2)
+    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
+        VALUES ('Mirnix', 'Espinoza', 'mirnix@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'Ricaldone', '3423-4241', 'F', '21/08/2000', NULL, 2)
+    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
+        VALUES ('Bryan', 'Miranda', 'exequiel.miranda@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'Ricaldone', '5453-7672', 'M', '06/02/2000', NULL, 2)
+    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
         VALUES ('Raul', 'Ochoa', 'eduardito.ochoa@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'San Salvador', '3241-7534', 'M', '25/08/2000', NULL, 1)
 SELECT DUMMY FROM DUAL;
 
@@ -1549,7 +1579,10 @@ UPDATE tbUsuarios SET imgUsuario = 'https://st3.depositphotos.com/12985790/15794
 UPDATE tbUsuarios SET imgUsuario = 'https://us.123rf.com/450wm/antoniodiaz/antoniodiaz1510/antoniodiaz151000120/47228952-apuesto-joven-m%C3%A9dico-con-una-bata-de-laboratorio-y-un-estetoscopio-con-un-tablet-pc-para-comprobar.jpg' WHERE ID_Usuario = 3;
 UPDATE tbUsuarios SET imgUsuario = 'https://img.freepik.com/fotos-premium/medico-sexo-masculino-bata-laboratorio-estetoscopio-brazos-cruzados-pie-pasillo-hospital_752325-3492.jpg' WHERE ID_Usuario = 4;
 UPDATE tbUsuarios SET imgUsuario = 'https://cdn.agenciasinc.es/var/ezwebin_site/storage/images/_aliases/img_1col/en-exclusiva/embargos/el-hombre-de-flores-desaparecio-antes-de-lo-que-se-pensaba/5663917-2-esl-MX/El-Hombre-de-Flores-desaparecio-antes-de-lo-que-se-pensaba.jpg' WHERE ID_Usuario = 5;
-
+UPDATE tbUsuarios SET imgUsuario = 'https://static.vecteezy.com/system/resources/thumbnails/028/287/555/small_2x/an-indian-young-female-doctor-isolated-on-green-ai-generated-photo.jpg' WHERE ID_Usuario = 7;
+UPDATE tbUsuarios SET imgUsuario = 'https://superdoc.mx/wp-content/uploads/2023/05/doctora-1.png' WHERE ID_Usuario = 6;
+UPDATE tbUsuarios SET imgUsuario = 'https://png.pngtree.com/png-clipart/20230918/ourmid/pngtree-photo-men-doctor-physician-chest-smiling-png-image_10132895.png' WHERE ID_Usuario = 8;
+UPDATE tbUsuarios SET imgUsuario = 'https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg' WHERE ID_Usuario = 9;
 INSERT ALL
     INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('TOEWQ12', 'PRIMER2', 1, 1)
     INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('ABCD1234', 'POLIZA1', 2, 2)
@@ -1575,7 +1608,7 @@ UPDATE tbSucursales SET imgSucursal = 'https://centroginecologico.com.sv/wp-cont
 UPDATE tbSucursales SET imgSucursal = 'https://upload.wikimedia.org/wikipedia/commons/b/b3/Hospital_Nacional_de_Ni%C3%B1os_Benjamin_Bloom.jpg' WHERE ID_Sucursal = 2;
 UPDATE tbSucursales SET imgSucursal = 'https://www.hospitaldiagnostico.com/images/sucursal/Escalon.png' WHERE ID_Sucursal = 3;
 UPDATE tbSucursales SET imgSucursal = 'https://static.elmundo.sv/wp-content/uploads/2020/10/Centro-Me%CC%81dico-Escalo%CC%81n.jpg' WHERE ID_Sucursal = 4;
-UPDATE tbSucursales SET imgSucursal = 'https://www.ecured.cu/images/e/e3/Hospita_Divina_Providencia_1.jpg' WHERE ID_Sucursal = 5;
+UPDATE tbSucursales SET imgSucursal = 'https://www.healthathomes.com/wp-content/uploads/2024/02/DOCTOR-AT-HOME-1.png' WHERE ID_Sucursal = 5;
 
 INSERT ALL
     INTO tbIndicaciones (inicioMedi, finalMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
@@ -1591,16 +1624,16 @@ INSERT ALL
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
-    INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario,ID_Sucursal)
-         VALUES ('JVPM12345', 1, 1,1)
-    INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario, ID_Sucursal)
-         VALUES ('JVPM67890', 2, 2,1)
     INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario, ID_Sucursal)
          VALUES ('JVPM23456', 3, 3,2)
     INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario, ID_Sucursal)
          VALUES ('JVPM78901', 4, 4,3)
     INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario, ID_Sucursal)
-         VALUES ('JVPM34567', 5, 5,4)
+         VALUES ('JVPM34567', 5, 6,4)
+    INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario,ID_Sucursal)
+         VALUES ('JVPM12345', 1, 7,5)
+    INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario, ID_Sucursal)
+         VALUES ('JVPM67890', 2, 8,1)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL

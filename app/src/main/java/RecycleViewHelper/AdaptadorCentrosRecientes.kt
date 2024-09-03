@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import delta.medic.mobile.R
 import delta.medic.mobile.activity_login.UserData.userEmail
 import delta.medic.mobile.activity_vistadoctores
@@ -24,6 +25,18 @@ class AdaptadorCentrosRecientes(private var Datos: MutableList<dataClassFavorito
         holder.imgClinicaFondo.setImageResource(R.drawable.fotoclinica1)
         holder.imgFotoDoctor.setImageResource(R.drawable.circulo_foto_bienvenida)
         holder.imgFondoTexto.setImageResource(R.drawable.fondoitemcentroxml)
+
+        holder.render(reciente)
+        Glide.with(holder.itemView)
+            .load(reciente.imgSucusal)
+            .centerCrop()
+            .into(holder.imgClinicaFondo)
+
+        holder.render(reciente)
+        Glide.with(holder.itemView)
+            .load(reciente.imgUsuario)
+            .circleCrop()
+            .into(holder.imgFotoDoctor)
 
         holder.txtNombreDoctor.text = reciente.nombreUsuario
         holder.txtEspecialidad.text = reciente.nombreTipoSucursal
