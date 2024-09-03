@@ -19,10 +19,11 @@ import kotlinx.coroutines.withContext
 import oracle.ons.Connection
 import java.sql.DriverManager
 import java.sql.ResultSet
-
-
-
-
+import java.sql.Timestamp
+import java.time.ZoneId
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class fragment_notificaciones : Fragment() {
     override fun onCreateView(
@@ -32,6 +33,7 @@ class fragment_notificaciones : Fragment() {
         val root = inflater.inflate(R.layout.fragment_notificaciones, container, false)
         val recyclerView = root.findViewById<RecyclerView>(R.id.rcvNotis)
         val lbNotis = root.findViewById<TextView>(R.id.lbNotis)
+        val noNotificacionesView = root.findViewById<TextView>(R.id.noNotificacionesView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -41,15 +43,18 @@ class fragment_notificaciones : Fragment() {
                 withContext(Dispatchers.Main) {
                     if (notificaciones.isNotEmpty()) {
                         lbNotis.visibility = View.VISIBLE
+                        noNotificacionesView.visibility = View.GONE
                         val adapter = AdaptadorNotis(notificaciones)
                         recyclerView.adapter = adapter
                     } else {
-                        lbNotis.visibility = View.GONE
+                        noNotificacionesView.visibility = View.VISIBLE
+                        recyclerView.visibility = View.GONE
                     }
                 }
             } else {
                 withContext(Dispatchers.Main) {
-                    lbNotis.visibility = View.GONE
+                    noNotificacionesView.visibility = View.VISIBLE
+                    recyclerView.visibility = View.GONE
                 }
                 println("No se pudo obtener el ID del usuario.")
             }
@@ -125,4 +130,81 @@ class fragment_notificaciones : Fragment() {
         }
     }
 
+    private suspend fun cancelarCita(idCita: Int, userId: Int) {
+        try {
+            val objConexion = ClaseConexion().cadenaConexion()
+
+
+            objConexion?.prepareStatement("UPDATE tbCitasMedicas SET estadoCita = 'C' WHERE ID_Cita = ?")?.apply {
+                setInt(1, idCita)
+                executeUpdate()
+            }
+
+
+            val citaDetailsStmt = objConexion?.prepareStatement("""
+                SELECT c.horaCita, d.nombreUsuario AS doctorNombre 
+                FROM tbCitasMedicas c
+                JOIN tbCentrosMedicos cm ON c.ID_Centro = cm.ID_Centro
+                JOIN tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+                WHERE c.ID_Cita = ?
+            """.trimIndent())
+            citaDetailsStmt?.setInt(1, idCita)
+            val resultSet = citaDetailsStmt?.executeQuery()
+
+            var mensaje = ""
+            if (resultSet != null && resultSet.next()) {
+                val horaCita = resultSet.getTimestamp("horaCita")
+                val doctorNombre = resultSet.getString("doctorNombre")
+
+
+                val calendar = Calendar.getInstance()
+                calendar.time = horaCita
+
+
+                val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+                val formattedDateTime = sdf.format(calendar.time)
+
+                mensaje = "Cita cancelada con $doctorNombre el $formattedDateTime"
+            }
+
+
+            objConexion?.prepareStatement("""
+                INSERT INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti)
+                VALUES (SYSDATE, 'A', ?, 'S', ?, 1) 
+            """.trimIndent())?.apply {
+                setString(1, mensaje)
+                setInt(2, userId)
+                executeUpdate()
+            }
+
+            objConexion?.commit()
+            println("Cita cancelada y notificación insertada con éxito.")
+        } catch (e: Exception) {
+            println("Error al cancelar cita: ${e.message}")
+        }
+    }
+
+    private suspend fun insertarRecordatorioMedicacion(userId: Int, nombreMedicina: String, hora: String) {
+        try {
+            val objConexion = ClaseConexion().cadenaConexion()
+
+
+            val mensaje = "Recuerda tomar tu medicina $nombreMedicina a las $hora."
+
+
+            objConexion?.prepareStatement("""
+                INSERT INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti)
+                VALUES (SYSDATE, 'R', ?, 'S', ?, 2) 
+            """.trimIndent())?.apply {
+                setString(1, mensaje)
+                setInt(2, userId)
+                executeUpdate()
+            }
+
+            objConexion?.commit()
+            println("Notificación de medicación insertada con éxito.")
+        } catch (e: Exception) {
+            println("Error al insertar recordatorio de medicación: ${e.message}")
+        }
+    }
 }

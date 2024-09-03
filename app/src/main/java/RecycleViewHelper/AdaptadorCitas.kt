@@ -43,7 +43,6 @@ class AdaptadorCitas(private var Datos: List<dataClassCitas>) :
         val horaCitaString = timeFormat.format(citas.horaCita)
 
         val diaYMes = "$diaCitaString/$mesCitaString"
-
         val TiempoYDia = "${diaYMes} ${horaCitaString}"
         val MotivoYPaciente = "${citas.motivo}, ${citas.nombrePaciente}"
         val DoctorEspecialidad =
@@ -51,93 +50,123 @@ class AdaptadorCitas(private var Datos: List<dataClassCitas>) :
         holder.txtTiempoCitas.text = TiempoYDia
         holder.txtMotivo_paciente.text = MotivoYPaciente
         holder.txtDoctor_especialidad.text = DoctorEspecialidad
+
         holder.imgOpciones.setOnClickListener {
             val popupMenu = PopupMenu(holder.itemView.context, holder.imgOpciones)
             popupMenu.inflate(R.menu.menu_citas)
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.menu_cancelar -> {
-                        val layout = LinearLayout(holder.itemView.context).apply {
-                            orientation = LinearLayout.VERTICAL
-                            setPadding(50, 40, 50, 40)
-                        }
-                        val icon = ImageView(holder.itemView.context).apply {
-                            setImageResource(R.drawable.ic_cancelarcita)
-                            layoutParams = LinearLayout.LayoutParams(
-                                300, 300
-                            ).apply {
-                                gravity = android.view.Gravity.CENTER_HORIZONTAL
-                            }
-                            setPadding(0, 0, 0, 40)
-                        }
-
-                        val message = TextView(holder.itemView.context).apply {
-                            text = "¿Estás seguro que quieres cancelar la cita?"
-                            setTextColor(Color.parseColor("#E33E3E"))
-                            textSize = 26f
-                            gravity = android.view.Gravity.CENTER
-                        }
-
-                        layout.addView(icon)
-                        layout.addView(message)
-
-                        val builder = AlertDialog.Builder(holder.itemView.context)
-                        builder.setView(layout)
-                        builder.setPositiveButton("Sí", null)
-                        builder.setNegativeButton("No", null)
-
-                        val dialog = builder.create()
-                        dialog.show()
-
-                        val positiveButton: Button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                        positiveButton.setTextColor(Color.parseColor("#E33E3E"))
-                        positiveButton.setOnClickListener {
-                                CoroutineScope(Dispatchers.Main).launch {
-                                    val idCita = citas.ID_Cita
-                                    cancelarCita(idCita)
-                                }
-                            dialog.dismiss()
-                        }
-
-                        val negativeButton: Button = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-                        negativeButton.setTextColor(Color.parseColor("#E33E3E"))
-                        negativeButton.setOnClickListener {
-                            dialog.dismiss()
-                        }
+                        mostrarDialogoCancelacion(holder, citas)
                         true
                     }
-
                     else -> false
                 }
             }
-            // Mostrar el menú
             popupMenu.show()
         }
     }
-    suspend fun cancelarCita(idCita: Int) {
+
+    private fun mostrarDialogoCancelacion(holder: viewHolderCitas, citas: dataClassCitas) {
+        val layout = LinearLayout(holder.itemView.context).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(50, 40, 50, 40)
+        }
+        val icon = ImageView(holder.itemView.context).apply {
+            setImageResource(R.drawable.ic_cancelarcita)
+            layoutParams = LinearLayout.LayoutParams(
+                300, 300
+            ).apply {
+                gravity = android.view.Gravity.CENTER_HORIZONTAL
+            }
+            setPadding(0, 0, 0, 40)
+        }
+
+        val message = TextView(holder.itemView.context).apply {
+            text = "¿Estás seguro que quieres cancelar la cita?"
+            setTextColor(Color.parseColor("#E33E3E"))
+            textSize = 26f
+            gravity = android.view.Gravity.CENTER
+        }
+
+        layout.addView(icon)
+        layout.addView(message)
+
+        val builder = AlertDialog.Builder(holder.itemView.context)
+        builder.setView(layout)
+        builder.setPositiveButton("Sí", null)
+        builder.setNegativeButton("No", null)
+
+        val dialog = builder.create()
+        dialog.show()
+
+        val positiveButton: Button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+        positiveButton.setTextColor(Color.parseColor("#E33E3E"))
+        positiveButton.setOnClickListener {
+            CoroutineScope(Dispatchers.Main).launch {
+                cancelarCita(citas.ID_Cita, citas.ID_Usuario, "${citas.nombreDoctor} ${citas.apellidoDoctor}")
+            }
+            dialog.dismiss()
+        }
+
+        val negativeButton: Button = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+        negativeButton.setTextColor(Color.parseColor("#E33E3E"))
+        negativeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+    }
+
+    private suspend fun cancelarCita(idCita: Int, idUsuario: Int, nombreDoctor: String) {
         withContext(Dispatchers.IO) {
             try {
                 val objConexion = ClaseConexion().cadenaConexion()
                 if (objConexion != null) {
                     val statement = objConexion.prepareStatement(
                         """
-                                UPDATE tbcitasmedicas
-                                SET estadoCita = 'C'
-                                WHERE ID_Cita = ?
-                                """
-                    )!!
-                    statement.setInt(1, idCita)
-                    val rowsAffected = statement.executeUpdate()
-                    if (rowsAffected > 0) {
+                        UPDATE tbcitasmedicas
+                        SET estadoCita = 'C'
+                        WHERE ID_Cita = ?
+                    """
+                    )
+                    statement?.setInt(1, idCita)
+                    val rowsAffected = statement?.executeUpdate()
+                    if (rowsAffected != null && rowsAffected > 0) {
                         println("Cita con ID $idCita ha sido cancelada.")
+                        insertarNotificacionCancelacion(idUsuario, nombreDoctor)
                     } else {
                         println("No se encontró ninguna cita con ID $idCita.")
                     }
+                    statement?.close()
+                    objConexion.close()
                 } else {
                     println("No se pudo establecer una conexión con la base de datos.")
                 }
             } catch (e: Exception) {
-                println("Este es el error ${e.message}")
+                println("Error al cancelar cita: ${e.message}")
+            }
+        }
+    }
+
+    private suspend fun insertarNotificacionCancelacion(idUsuario: Int, nombreDoctor: String) {
+        withContext(Dispatchers.IO) {
+            try {
+                val objConexion = ClaseConexion().cadenaConexion()
+                if (objConexion != null) {
+                    val statement = objConexion.prepareStatement(
+                        """
+                        INSERT INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti)
+                        VALUES (SYSDATE, 'A', 'Cita cancelada con el doctor $nombreDoctor', 'S', ?, 1)
+                    """
+                    )
+                    statement?.setInt(1, idUsuario)
+                    statement?.executeUpdate()
+                    statement?.close()
+                    objConexion.close()
+                } else {
+                    println("No se pudo establecer una conexión con la base de datos.")
+                }
+            } catch (e: Exception) {
+                println("Error al insertar notificación: ${e.message}")
             }
         }
     }
