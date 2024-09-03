@@ -1,6 +1,6 @@
 package delta.medic.mobile
 
-import DiasAdapter
+import RecycleViewHelper.DiasAdapter
 import Modelo.ClaseConexion
 import Modelo.Dia
 import RecycleViewHelper.AdaptadorHorarios
@@ -39,7 +39,7 @@ import java.sql.Date
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.SQLException
-import java.sql.Time
+import java.sql.Timestamp
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -48,13 +48,14 @@ import java.time.format.DateTimeFormatter
 
 class activity_agendar : AppCompatActivity() {
 
-    var ID_User: Int = 0;
-    var nombreDoctor : String = "";
-    var apellidoDoctor : String = "";
-    var imgDoctor : String = "";
-    var direccionSucur : String = "";
-    var imgSucursal : String = "";
-    var nombreEspecialidad : String = "";
+    var ID_Centro: Int = 0
+    var ID_User: Int = 0
+    var nombreDoctor : String = ""
+    var apellidoDoctor : String = ""
+    var imgDoctor : String = ""
+    var direccionSucur : String = ""
+    var imgSucursal : String = ""
+    var nombreEspecialidad : String = ""
     val horarioMatutino = arrayOf(
         "08:00 AM", "08:30 AM", "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM",
         "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "01:00 PM", "01:30 PM", "02:00 PM")
@@ -62,7 +63,6 @@ class activity_agendar : AppCompatActivity() {
     val horarioVespertino = arrayOf(
         "02:00 PM", "02:30 PM", "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM",
         "05:00 PM", "05:30 PM", "06:00 PM", "06:30 PM", "07:00 PM", "07:30 PM", "08:00 PM")
-
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,13 +74,12 @@ class activity_agendar : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
-
         }
+
         val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
         val btnContinuar = findViewById<Button>(R.id.btnContinuar)
         val btnSelecSucursal = findViewById<ImageButton>(R.id.btnSelecSucursal)
         val txtFecha = findViewById<TextView>(R.id.txtFecha)
-        val rcvPaciente = findViewById<RecyclerView>(R.id.rcvPaciente)
         val rcvDisponibilidad = findViewById<RecyclerView>(R.id.rcvDisponibilidad)
         var imgFotoSucursal = findViewById<ImageView>(R.id.imgSucursal)
         val imgFotoDoctor = findViewById<ImageView>(R.id.imgFotoDoctor)
@@ -88,80 +87,54 @@ class activity_agendar : AppCompatActivity() {
         val txtEspecialidad = findViewById<TextView>(R.id.txtEspecialidad)
         val txtDireccionSucur = findViewById<TextView>(R.id.txtDireccionSucur)
         val rcvEspacios = findViewById<RecyclerView>(R.id.rcvEspacios)
+        val ID_Doctor = intent.getIntExtra("ID_Doctor", 0)
 
-        val diasDelAno = obtenerDiasDelAno(Year.now().value)
-        rcvDisponibilidad.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        rcvDisponibilidad.adapter = DiasAdapter(diasDelAno, { diaSeleccionado ->
-            actualizarHorarios(diaSeleccionado)
-        }, txtFecha)
-
-        fun generarTimestamp(fechaSeleccionada: LocalDate, hora: String): String {
-            val formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-            val formatoHora = DateTimeFormatter.ofPattern("hh:mm a")
-            val fechaFormateada = fechaSeleccionada.format(formatoFecha)
-            val horaFormateada = LocalDateTime.parse("${fechaFormateada} ${hora}", DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a"))
-            return horaFormateada.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-        }
-
-        val diaSeleccionado = LocalDate.now()
-        val horarioMatutino = arrayOf(
-            "08:00 AM", "08:30 AM", "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM",
-            "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "01:00 PM", "01:30 PM", "02:00 PM"
-        )
-
-        for (hora in horarioMatutino) {
-            val timestamp = generarTimestamp(diaSeleccionado, hora)
-            println(timestamp)
-        }
-
-
-        rcvPaciente.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         CoroutineScope(Dispatchers.IO).launch {
             val objConexion = ClaseConexion().cadenaConexion()
-            val statement =
-                objConexion?.prepareStatement("SELECT * FROM tbUsuarios WHERE emailUsuario = ?")!!
+            val statement = objConexion?.prepareStatement("SELECT * FROM tbUsuarios WHERE emailUsuario = ?")!!
             statement.setString(1, userEmail)
-            val resultSet = statement?.executeQuery()
+            val resultSet = statement.executeQuery()
             withContext(Dispatchers.Main) {
-                if (resultSet!!.next()) {
+                if (resultSet.next()) {
                     ID_User = resultSet.getInt("ID_Usuario")
                 }
             }
         }
-        val ID_Doctor = intent.getIntExtra("ID_Doctor", 0)
 
         CoroutineScope(Dispatchers.IO).launch {
             val objConexion = ClaseConexion().cadenaConexion()
             val statement = objConexion?.prepareStatement(
                 """
-SELECT
-    u.nombreUsuario, 
-    u.apellidoUsuario, 
-    u.imgUsuario, 
-    e.nombreEspecialidad,
-    s.ID_Sucursal,
-    s.nombreSucursal, 
-    s.telefonoSucur, 
-    s.direccionSucur, 
-    s.longSucur, 
-    s.latiSucur,
-    s.imgSucursal,
-    se.nombreServicio,
-    se.costo
-FROM 
-    tbDoctores d
-    INNER JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
-    INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-    INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
-    INNER JOIN tbCentrosMedicos cm ON d.ID_Doctor = cm.ID_Doctor
-    INNER JOIN tbServicios se ON cm.ID_Centro = se.ID_Centro
-WHERE 
-    d.ID_Doctor = ?
-            """)
+                SELECT
+                    cm.ID_Centro,
+                    u.nombreUsuario, 
+                    u.apellidoUsuario, 
+                    u.imgUsuario, 
+                    e.nombreEspecialidad,
+                    s.ID_Sucursal,
+                    s.nombreSucursal, 
+                    s.telefonoSucur, 
+                    s.direccionSucur, 
+                    s.longSucur, 
+                    s.latiSucur,
+                    s.imgSucursal,
+                    se.nombreServicio,
+                    se.costo
+                FROM 
+                    tbDoctores d
+                    INNER JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
+                    INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+                    INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
+                    INNER JOIN tbCentrosMedicos cm ON d.ID_Doctor = cm.ID_Doctor
+                    INNER JOIN tbServicios se ON cm.ID_Centro = se.ID_Centro
+                WHERE 
+                    d.ID_Doctor = ?
+                """)!!
             statement?.setInt(1, ID_Doctor)
-            val resultSet = statement?.executeQuery()
+            val resultSet = statement.executeQuery()
             withContext(Dispatchers.Main) {
-                if (resultSet!!.next()) {
+                if (resultSet.next()) {
+                    ID_Centro = resultSet.getInt("ID_Centro")
                     nombreDoctor = resultSet.getString("nombreUsuario")
                     apellidoDoctor = resultSet.getString("apellidoUsuario")
                     val nombreDoctor = "Dr. ${nombreDoctor ?: ""} ${apellidoDoctor ?: ""}".trim()
@@ -180,7 +153,36 @@ WHERE
                     nombreEspecialidad = resultSet.getString("nombreEspecialidad")
                     txtEspecialidad.text = nombreEspecialidad
                 }
-                else{
+            }
+        }
+
+        val diasDelAno = obtenerDiasDelAno(Year.now().value)
+        rcvDisponibilidad.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        rcvDisponibilidad.adapter = DiasAdapter(diasDelAno, { diaSeleccionado ->
+            actualizarHorarios(diaSeleccionado)
+        }, txtFecha)
+
+        val diaSeleccionado = LocalDate.now()
+        val horariosDisponibles = mutableListOf<Timestamp>()
+
+        for (hora in horarioMatutino) {
+            val timestampStringM = generarTimestamp(diaSeleccionado, hora)
+            horariosDisponibles.add(Timestamp.valueOf(timestampStringM))
+        }
+
+        for (hora in horarioVespertino) {
+            val timestampStringV = generarTimestamp(diaSeleccionado, hora)
+            horariosDisponibles.add(Timestamp.valueOf(timestampStringV))
+        }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val horasOcupadas = obtenerHorasOcupadas(diaSeleccionado.toString(), ID_Centro)
+
+            withContext(Dispatchers.Main) {
+                rcvEspacios.layoutManager = GridLayoutManager(this@activity_agendar, 3)
+                rcvEspacios.adapter = AdaptadorHorarios(horariosDisponibles, horasOcupadas) { horaSeleccionada ->
+                    Log.d("Seleccionar Hora", "Hora seleccionada: $horaSeleccionada")
+                    // Manejar la selección de hora
                 }
             }
         }
@@ -221,7 +223,7 @@ WHERE
     private fun actualizarHorarios(dia: Dia) {
         Log.e("Info","Actualizando horarios para el día: ${dia.fecha}")
     }
-///////Custom Dialog/////////
+
     private fun showCustomDialog() {
         val dialog = Dialog(this, R.style.CustomDialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -247,7 +249,6 @@ WHERE
         }
         dialog.show()
     }
-/////////////////
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     fun obtenerDiasDelAno(ano: Int): List<Dia> {
@@ -256,6 +257,61 @@ WHERE
         return hoy.datesUntil(ultimoDia.plusDays(1)).map { Dia(it) }.toList()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun generarTimestamp(fechaSeleccionada: LocalDate, hora: String): String {
+        val formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val formatoHora = DateTimeFormatter.ofPattern("hh:mm a")
 
+        // Parsear la fecha y hora y luego formatearla en el formato adecuado
+        val fechaFormateada = fechaSeleccionada.format(formatoFecha)
+        val horaFormateada = LocalTime.parse(hora, formatoHora).format(DateTimeFormatter.ofPattern("HH:mm:ss"))
 
+        return "$fechaFormateada $horaFormateada"
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    suspend fun obtenerHorasOcupadas(diaSeleccionadoString: String, idCentro: Int): List<String> {
+        val horasOcupadas = mutableListOf<String>()
+        var objConexion: Connection? = null
+        var statement: PreparedStatement? = null
+        var resultSet: ResultSet? = null
+
+        try {
+            // Convertir String a LocalDate
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            val diaSeleccionado = LocalDate.parse(diaSeleccionadoString, formatter)
+
+            objConexion = ClaseConexion().cadenaConexion()
+            statement = objConexion?.prepareStatement("""
+                SELECT 
+                    horaCita
+                FROM 
+                    tbCitasMedicas
+                WHERE 
+                    diaCita = ? 
+                    AND ID_Centro = ?
+            """)!!
+
+            statement.setDate(1, Date.valueOf(diaSeleccionado.toString()))
+            statement.setInt(2, idCentro)
+            resultSet = statement.executeQuery()
+
+            while (resultSet.next()) {
+                val horaCita = resultSet.getTime("horaCita")
+                val horaLocalTime = horaCita.toInstant()
+                    .atZone(java.time.ZoneId.systemDefault())
+                    .toLocalTime()
+
+                horasOcupadas.add(horaLocalTime.toString())
+            }
+        } catch (e: SQLException) {
+            Log.e("SQL Error", "Error al ejecutar la consulta", e)
+        } finally {
+            resultSet?.close()
+            statement?.close()
+            objConexion?.close()
+        }
+
+        return horasOcupadas
+    }
 }
