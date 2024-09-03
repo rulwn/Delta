@@ -126,6 +126,7 @@ class fragment_usuario : Fragment() {
                 if (fotoUsuario.isNotEmpty()) {
                     Glide.with(imgvFoto)
                         .load(fotoUsuario)
+                        .circleCrop()
                         .into(imgvFoto)
                 } else {
                     Toast.makeText(

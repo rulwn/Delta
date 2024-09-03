@@ -221,7 +221,7 @@ WHERE
     private fun actualizarHorarios(dia: Dia) {
         Log.e("Info","Actualizando horarios para el día: ${dia.fecha}")
     }
-///////Custom Dialog/////////
+    ///////Custom Dialog/////////
     private fun showCustomDialog() {
         val dialog = Dialog(this, R.style.CustomDialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -255,7 +255,4 @@ WHERE
         val ultimoDia = LocalDate.of(ano, 12, 31)
         return hoy.datesUntil(ultimoDia.plusDays(1)).map { Dia(it) }.toList()
     }
-
-
-
 }
