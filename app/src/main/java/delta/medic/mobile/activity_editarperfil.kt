@@ -36,11 +36,6 @@ import java.util.UUID
 
 class activity_editarperfil : AppCompatActivity() {
 
-    val codigo_opcion_galeria = 102
-    val codigo_opcion_tomar_foto = 103
-    val CAMERA_REQUEST_CODE = 0
-    val STORAGE_REQUEST_CODE = 1
-
     //Para los que pregunten, estas son las validaciones
     fun validarNombre(nombre: String): String? {
         val regex = "^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]*(?: [A-ZÁÉÍÓÚÑ][a-záéíóúñ]*)*$".toRegex()

@@ -857,6 +857,8 @@ CREATE TABLE tbCitasMedicas (
     ON DELETE CASCADE
 );
 
+Insert into tbIndicaciones (InicioMedi, FinalMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo) VALUES (SYSDATE, SYSDATE,'tome agua','mariguanol','detalle detallado', 6,1);
+
 CREATE TABLE tbIndicaciones (
     ID_Indicacion INT PRIMARY KEY,
     InicioMedi DATE NOT NULL,
@@ -878,6 +880,8 @@ CREATE TABLE tbIndicaciones (
 );
 --SELECT ID_Tiempo FROM tbTiempos WHERE ID_Tiempo IN (1, 2, 3, 4, 5);
 --SELECT ID_Receta FROM tbRecetas WHERE ID_Receta IN (1, 2, 3, 4, 5);
+
+
 
 CREATE TABLE tbFichasMedicas (
     ID_Ficha INT PRIMARY KEY,
@@ -2101,9 +2105,3 @@ INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario
 INNER JOIN tbTipoSucursales ts ON ts.ID_TipoSucursal = s.ID_TipoSucursal
 WHERE
 f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = 'fran@gmail.com');
-
-SELECT * FROM tbRecientes;
-SELECT * FROM tbDoctores WHERE ID_Doctor = 1;
-SELECT * FROM tbUsuarios WHERE ID_Usuario = 1;
-
-SELECT * FROM tbPacientes;
