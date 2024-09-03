@@ -1279,6 +1279,30 @@ BEGIN
 END Trigger_CitaMedica;
 /
 
+--TRIGGER PARA CANCELACION DE CITA TBNOTIS--
+CREATE OR REPLACE TRIGGER Trigger_Cancelacion_Cita
+AFTER UPDATE ON tbCitasMedicas
+FOR EACH ROW
+WHEN (NEW.estadoCita = 'C')
+BEGIN
+    DECLARE
+        mensaje VARCHAR2(200);
+        doctorNombre VARCHAR2(100);
+    BEGIN
+        SELECT u.nombreUsuario INTO doctorNombre
+        FROM tbCentrosMedicos cm
+        JOIN tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+        JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
+        WHERE cm.ID_Centro = :NEW.ID_Centro;
+
+        mensaje := 'Cita cancelada con ' || doctorNombre || ' el ' || TO_CHAR(:NEW.horaCita, 'DD-MM-YYYY HH24:MI');
+
+        INSERT INTO tbNotis (ID_Notificacion, fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti)
+        VALUES (notis.NEXTVAL, SYSDATE, 'A', mensaje, 'S', :NEW.ID_Paciente, 1);
+    END;
+END Trigger_Cancelacion_Cita;
+/
+
 -- TRIGGER_INDICACIÓN --
 CREATE OR REPLACE TRIGGER Trigger_Indicacion
 BEFORE INSERT ON tbIndicaciones
