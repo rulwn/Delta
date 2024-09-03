@@ -1,20 +1,25 @@
 package delta.medic.mobile
 
-import android.annotation.SuppressLint
-import android.content.res.Configuration
+import Modelo.ClaseConexion
+import Modelo.dataClassPacientes
+import Modelo.dataClassUsuario
+import RecycleViewHelper.AdaptadorPacientes
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class activity_pacientes : AppCompatActivity() {
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -25,35 +30,63 @@ class activity_pacientes : AppCompatActivity() {
             insets
         }
 
+        //Values
         val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
-        val txtPacientes = findViewById<TextView>(R.id.txtPacientes)
         val rcvPacientes = findViewById<RecyclerView>(R.id.rcvPacientes)
         val fabCrearPacientes = findViewById<ExtendedFloatingActionButton>(R.id.fabCrearPacientes)
-        val txtFrase = findViewById<TextView>(R.id.txtFrase)
+        val txtPacientes = findViewById<TextView>(R.id.txtPacientes)
 
-/*
-val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-when (currentNightMode) {
-    Configuration.UI_MODE_NIGHT_NO -> {
-        btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.black))
-        txtPacientes.setTextColor(ContextCompat.getColor(this, R.color.black))
-        fabCrearPacientes.setBackgroundColor(ContextCompat.getColor(this, R.color.Azul1))
-        txtFrase.setTextColor(ContextCompat.getColor(this, R.color.GrisHumo))
-        rcvPacientes.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
-    } // Night mode is not active, we're using the light theme.
-    Configuration.UI_MODE_NIGHT_YES -> {
-        txtPacientes.setTextColor(ContextCompat.getColor(this, R.color.white))
-        btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.white))
-        txtPacientes.setTextColor(ContextCompat.getColor(this, R.color.white))
-        fabCrearPacientes.setBackgroundColor(ContextCompat.getColor(this, R.color.Turquesa2))
-        rcvPacientes.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
-    } // Night mode is active, we're using dark theme.
-}
+        //Adapter
+        rcvPacientes.layoutManager= LinearLayoutManager(this)
+        CoroutineScope(Dispatchers.Main).launch {
+            val listaPacientes = obtenerPacientes(activity_login.userEmail)
+            val adapter = AdaptadorPacientes(listaPacientes)
+            rcvPacientes.adapter = adapter
+        }
 
- */
+        //Listener
+        btnRegresar.setOnClickListener {
+            finish()
+        }
 
-btnRegresar.setOnClickListener {
-    finish()
-}
-}
+
+    }
+
+    suspend fun obtenerPacientes(emailUsuario: String): List<dataClassPacientes> {
+        val listaPacientes = mutableListOf<dataClassPacientes>()
+
+        withContext(Dispatchers.IO) {
+            val conexion = ClaseConexion().cadenaConexion()
+
+            if (conexion != null) {
+                val statement = conexion.prepareStatement(
+                    "SELECT * FROM tbPacientes WHERE ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?)"
+                )
+
+                statement?.setString(1, emailUsuario)
+
+                val resultado = statement?.executeQuery()
+
+                while (resultado?.next() == true) {
+                    val idPaciente = resultado.getInt("ID_Paciente")
+                    val nombrePaciente = resultado.getString("nombrePaciente")
+                    val apellidoPaciente = resultado.getString("apellidoPaciente")
+                    val imgPaciente = resultado.getString("imgPaciente") ?: "no hay"
+                    val parentesco = resultado.getString("parentesco")
+                    val idUsuario = resultado.getInt("ID_Usuario")
+
+                    val paciente = dataClassPacientes(idPaciente, nombrePaciente, apellidoPaciente, imgPaciente, parentesco, idUsuario)
+                    listaPacientes.add(paciente)
+                }
+                resultado?.close()
+                statement?.close()
+                conexion.close()
+            } else {
+                // Manejar error de conexión
+                println("Error al conectar con la base de datos.")
+            }
+        }
+        return listaPacientes
+    }
+
 }

@@ -566,7 +566,7 @@ CREATE TABLE tbEspecialidades (
 CREATE TABLE tbEstablecimientos (
     ID_Establecimiento INT PRIMARY KEY,
     nombreClinica VARCHAR2(50) NOT NULL UNIQUE,
-    imgPrincipal VARCHAR2(256) NOT NULL 
+    imgPrincipal VARCHAR2(256) NOT NULL
 );
 
 CREATE TABLE tbAseguradoras (
@@ -739,13 +739,7 @@ CREATE TABLE tbCentrosMedicos (
 
 CREATE TABLE tbHorarios (
     ID_Horario INT PRIMARY KEY,
-    horaInicio TIMESTAMP NOT NULL UNIQUE,
-    horaSalida TIMESTAMP NOT NULL UNIQUE,
-    dias DATE NOT NULL,
-    exclusiones DATE NOT NULL,
-    almuerzo TIMESTAMP NOT NULL,
-    descansos DATE NOT NULL,
-    lapsosCita NUMBER(2) NOT NULL,
+    horarioTurno VARCHAR2(1) CHECK(horarioTurno IN ('M', 'V')) NOT NULL,
     ID_Centro INT NOT NULL,
 
     --CONSTRAINTS------------------
@@ -787,24 +781,6 @@ CREATE TABLE tbReviews (
     REFERENCES tbUsuarios(ID_Usuario)
     ON DELETE CASCADE
 );
-
-SELECT
-    rv.promEstrellas,
-    rv.comentario,
-    u.nombreUsuario,
-    u.apellidoUsuario,
-    u.imgUsuario,
-    d.ID_Doctor
-FROM 
-    tbReviews rv
-INNER JOIN 
-    tbUsuarios u ON rv.ID_Usuario = u.ID_Usuario
-INNER JOIN
-    tbCentrosMedicos cm ON rv.ID_Centro = cm.ID_Centro
-INNER JOIN
-    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-WHERE 
-    d.ID_Doctor = 1;
 
 CREATE TABLE tbNotis (
     ID_Notificacion INT PRIMARY KEY,
@@ -1303,6 +1279,30 @@ BEGIN
 END Trigger_CitaMedica;
 /
 
+--TRIGGER PARA CANCELACION DE CITA TBNOTIS--
+CREATE OR REPLACE TRIGGER Trigger_Cancelacion_Cita
+AFTER UPDATE ON tbCitasMedicas
+FOR EACH ROW
+WHEN (NEW.estadoCita = 'C')
+BEGIN
+    DECLARE
+        mensaje VARCHAR2(200);
+        doctorNombre VARCHAR2(100);
+    BEGIN
+        SELECT u.nombreUsuario INTO doctorNombre
+        FROM tbCentrosMedicos cm
+        JOIN tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+        JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
+        WHERE cm.ID_Centro = :NEW.ID_Centro;
+
+        mensaje := 'Cita cancelada con ' || doctorNombre || ' el ' || TO_CHAR(:NEW.horaCita, 'DD-MM-YYYY HH24:MI');
+
+        INSERT INTO tbNotis (ID_Notificacion, fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti)
+        VALUES (notis.NEXTVAL, SYSDATE, 'A', mensaje, 'S', :NEW.ID_Paciente, 1);
+    END;
+END Trigger_Cancelacion_Cita;
+/
+
 -- TRIGGER_INDICACIÓN --
 CREATE OR REPLACE TRIGGER Trigger_Indicacion
 BEFORE INSERT ON tbIndicaciones
@@ -1564,7 +1564,13 @@ INSERT ALL
         VALUES ('Dennis', 'Alexander', 'darv@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'Villa Olimpica', '6294-0283', 'M', '20/02/2000', NULL, 2)
     INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
         VALUES ('Hector', 'Gallardo', 'hector@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'La Paz', '8723-1293', 'M', '25/08/2000', NULL, 1)
-            INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
+    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
+        VALUES ('Jorge', 'Orantes', 'orantes@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'Los Encinos', '4131-1293', 'M', '28/05/2000', NULL, 2)
+    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
+        VALUES ('Mirnix', 'Espinoza', 'mirnix@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'Ricaldone', '3423-4241', 'F', '21/08/2000', NULL, 2)
+    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
+        VALUES ('Bryan', 'Miranda', 'exequiel.miranda@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'Ricaldone', '5453-7672', 'M', '06/02/2000', NULL, 2)
+    INTO tbUsuarios (nombreUsuario, apellidoUsuario, emailUsuario, contrasena, direccion, telefonoUsuario, sexo, fechaNacimiento, imgUsuario, ID_TipoUsuario)
         VALUES ('Raul', 'Ochoa', 'eduardito.ochoa@gmail.com', 'c9e4963ef907d66ee56fb928a06021a02520c3e969abef4e222150788c7016aa', 'San Salvador', '3241-7534', 'M', '25/08/2000', NULL, 1)
 SELECT DUMMY FROM DUAL;
 
@@ -1573,7 +1579,10 @@ UPDATE tbUsuarios SET imgUsuario = 'https://st3.depositphotos.com/12985790/15794
 UPDATE tbUsuarios SET imgUsuario = 'https://us.123rf.com/450wm/antoniodiaz/antoniodiaz1510/antoniodiaz151000120/47228952-apuesto-joven-m%C3%A9dico-con-una-bata-de-laboratorio-y-un-estetoscopio-con-un-tablet-pc-para-comprobar.jpg' WHERE ID_Usuario = 3;
 UPDATE tbUsuarios SET imgUsuario = 'https://img.freepik.com/fotos-premium/medico-sexo-masculino-bata-laboratorio-estetoscopio-brazos-cruzados-pie-pasillo-hospital_752325-3492.jpg' WHERE ID_Usuario = 4;
 UPDATE tbUsuarios SET imgUsuario = 'https://cdn.agenciasinc.es/var/ezwebin_site/storage/images/_aliases/img_1col/en-exclusiva/embargos/el-hombre-de-flores-desaparecio-antes-de-lo-que-se-pensaba/5663917-2-esl-MX/El-Hombre-de-Flores-desaparecio-antes-de-lo-que-se-pensaba.jpg' WHERE ID_Usuario = 5;
-
+UPDATE tbUsuarios SET imgUsuario = 'https://static.vecteezy.com/system/resources/thumbnails/028/287/555/small_2x/an-indian-young-female-doctor-isolated-on-green-ai-generated-photo.jpg' WHERE ID_Usuario = 7;
+UPDATE tbUsuarios SET imgUsuario = 'https://superdoc.mx/wp-content/uploads/2023/05/doctora-1.png' WHERE ID_Usuario = 6;
+UPDATE tbUsuarios SET imgUsuario = 'https://png.pngtree.com/png-clipart/20230918/ourmid/pngtree-photo-men-doctor-physician-chest-smiling-png-image_10132895.png' WHERE ID_Usuario = 8;
+UPDATE tbUsuarios SET imgUsuario = 'https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg' WHERE ID_Usuario = 9;
 INSERT ALL
     INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('TOEWQ12', 'PRIMER2', 1, 1)
     INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('ABCD1234', 'POLIZA1', 2, 2)
@@ -1599,7 +1608,7 @@ UPDATE tbSucursales SET imgSucursal = 'https://centroginecologico.com.sv/wp-cont
 UPDATE tbSucursales SET imgSucursal = 'https://upload.wikimedia.org/wikipedia/commons/b/b3/Hospital_Nacional_de_Ni%C3%B1os_Benjamin_Bloom.jpg' WHERE ID_Sucursal = 2;
 UPDATE tbSucursales SET imgSucursal = 'https://www.hospitaldiagnostico.com/images/sucursal/Escalon.png' WHERE ID_Sucursal = 3;
 UPDATE tbSucursales SET imgSucursal = 'https://static.elmundo.sv/wp-content/uploads/2020/10/Centro-Me%CC%81dico-Escalo%CC%81n.jpg' WHERE ID_Sucursal = 4;
-UPDATE tbSucursales SET imgSucursal = 'https://www.ecured.cu/images/e/e3/Hospita_Divina_Providencia_1.jpg' WHERE ID_Sucursal = 5;
+UPDATE tbSucursales SET imgSucursal = 'https://www.healthathomes.com/wp-content/uploads/2024/02/DOCTOR-AT-HOME-1.png' WHERE ID_Sucursal = 5;
 
 INSERT ALL
     INTO tbIndicaciones (inicioMedi, finalMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo)
@@ -1615,16 +1624,16 @@ INSERT ALL
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
-    INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario,ID_Sucursal)
-         VALUES ('JVPM12345', 1, 1,1)
-    INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario, ID_Sucursal)
-         VALUES ('JVPM67890', 2, 2,1)
     INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario, ID_Sucursal)
          VALUES ('JVPM23456', 3, 3,2)
     INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario, ID_Sucursal)
          VALUES ('JVPM78901', 4, 4,3)
     INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario, ID_Sucursal)
-         VALUES ('JVPM34567', 5, 5,4)
+         VALUES ('JVPM34567', 5, 6,4)
+    INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario,ID_Sucursal)
+         VALUES ('JVPM12345', 1, 7,5)
+    INTO tbDoctores (codProfesional, ID_Especialidad, ID_Usuario, ID_Sucursal)
+         VALUES ('JVPM67890', 2, 8,1)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -1641,16 +1650,16 @@ INSERT ALL
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
-    INTO tbHorarios (horaInicio, horaSalida, dias, exclusiones, almuerzo, descansos, lapsosCita, ID_Centro)
-         VALUES (TIMESTAMP '2024-06-18 07:00:00.000000', TIMESTAMP '2024-06-18 19:00:00.000000', TO_DATE('2024-06-18', 'YYYY-MM-DD'), TO_DATE('2024-06-17', 'YYYY-MM-DD'), TIMESTAMP '2024-06-18 12:00:00.000000', TO_DATE('2024-06-16', 'YYYY-MM-DD'), 1, 5)
-    INTO tbHorarios (horaInicio, horaSalida, dias, exclusiones, almuerzo, descansos, lapsosCita, ID_Centro)
-         VALUES (TIMESTAMP '2024-06-19 07:00:00.000000', TIMESTAMP '2024-06-19 19:00:00.000000', TO_DATE('2024-06-19', 'YYYY-MM-DD'), TO_DATE('2024-06-10', 'YYYY-MM-DD'), TIMESTAMP '2024-06-19 12:00:00.000000', TO_DATE('2024-06-10', 'YYYY-MM-DD'), 2, 4)
-    INTO tbHorarios (horaInicio, horaSalida, dias, exclusiones, almuerzo, descansos, lapsosCita, ID_Centro)
-         VALUES (TIMESTAMP '2024-06-20 07:00:00.000000', TIMESTAMP '2024-06-20 19:00:00.000000', TO_DATE('2024-06-20', 'YYYY-MM-DD'), TO_DATE('2024-06-14', 'YYYY-MM-DD'), TIMESTAMP '2024-06-20 12:00:00.000000', TO_DATE('2024-06-14', 'YYYY-MM-DD'), 3, 3)
-    INTO tbHorarios (horaInicio, horaSalida, dias, exclusiones, almuerzo, descansos, lapsosCita, ID_Centro)
-         VALUES (TIMESTAMP '2024-06-21 07:00:00.000000', TIMESTAMP '2024-06-21 19:00:00.000000', TO_DATE('2024-06-21', 'YYYY-MM-DD'), TO_DATE('2024-06-11', 'YYYY-MM-DD'), TIMESTAMP '2024-06-21 12:00:00.000000', TO_DATE('2024-06-11', 'YYYY-MM-DD'), 4, 2)
-    INTO tbHorarios (horaInicio, horaSalida, dias, exclusiones, almuerzo, descansos, lapsosCita, ID_Centro)
-         VALUES (TIMESTAMP '2024-06-22 07:00:00.000000', TIMESTAMP '2024-06-22 19:00:00.000000', TO_DATE('2024-06-22', 'YYYY-MM-DD'), TO_DATE('2024-06-15', 'YYYY-MM-DD'), TIMESTAMP '2024-06-22 12:00:00.000000', TO_DATE('2024-06-15', 'YYYY-MM-DD'), 5, 1)
+    INTO tbHorarios (horarioTurno, ID_Centro)
+         VALUES ('V', 2)
+    INTO tbHorarios (horarioTurno, ID_Centro)
+         VALUES ('V', 1)
+    INTO tbHorarios (horarioTurno, ID_Centro)
+         VALUES ('M', 3)
+    INTO tbHorarios (horarioTurno, ID_Centro)
+         VALUES ('V', 4)
+    INTO tbHorarios (horarioTurno, ID_Centro)
+         VALUES ('V', 5)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -1745,10 +1754,10 @@ SELECT DUMMY FROM DUAL;
 
 
 --UNICA INSERCION CON EL USUARIO DE FRANCISCO--
-INSERT INTO tbNotis 
-(fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
-VALUES 
-(TO_DATE('2024-07-15', 'YYYY-MM-DD'), 'R', 'Recordatorio: Consulta general programada', 'S', 
+INSERT INTO tbNotis
+(fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti)
+VALUES
+(TO_DATE('2024-07-15', 'YYYY-MM-DD'), 'R', 'Recordatorio: Consulta general programada', 'S',
 (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = 'fran@gmail.com'), 2);
 
 
@@ -2066,12 +2075,16 @@ SELECT se.* FROM tbServicios se
 INNER JOIN tbCentrosMedicos cm ON se.ID_Centro = cm.ID_Centro
 WHERE cm.ID_Doctor = 5;
 
-*/
-select * from tbAuditorias;
-select * from tbDoctores;
-select * from tbUsuarios;
-select * from tbFavoritos;
-select * from tbRecientes;
+SELECT
+    h.horarioTurno
+    FROM
+        tbHorarios h
+    INNER JOIN
+        tbCentrosMedicos cm ON h.ID_Centro = cm.ID_Centro
+    INNER JOIN
+        tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+    WHERE
+                d.ID_Doctor = 5;
 
 SELECT
 
@@ -2097,7 +2110,14 @@ SELECT
             INNER JOIN tbServicios se ON cm.ID_Centro = se.ID_Centro
             WHERE
                 d.ID_Doctor = 5;
-                
+*/
+
+select * from tbAuditorias;
+select * from tbDoctores;
+select * from tbUsuarios;
+select * from tbFavoritos;
+select * from tbRecientes;
+
 SELECT
 u.ID_Usuario,
 u.nombreUsuario,
@@ -2117,4 +2137,6 @@ f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = 'fran@gma
 
 SELECT * FROM tbRecientes;
 SELECT * FROM tbDoctores WHERE ID_Doctor = 1;
-SELECT * FROM tbUsuarios WHERE ID_Usuario =1;
+SELECT * FROM tbUsuarios WHERE ID_Usuario = 1;
+
+SELECT * FROM tbPacientes;

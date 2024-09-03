@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import delta.medic.mobile.R
 
 import delta.medic.mobile.activity_login.UserData.userEmail
@@ -76,6 +77,17 @@ class AdaptadorFavoritos(private var Datos: List<dataClassFavoritos>):RecyclerVi
         holder.imgClinicaFondo.setImageResource(R.drawable.fotoclinica1)
         holder.imgFotoDoctor.setImageResource(R.drawable.circulo_foto_bienvenida)
         holder.imgFondoTexto.setImageResource(R.drawable.fondoitemcentroxml)
+        holder.render(favorito)
+        Glide.with(holder.itemView)
+            .load(favorito.imgSucusal)
+            .centerCrop()
+            .into(holder.imgClinicaFondo)
+
+        holder.render(favorito)
+        Glide.with(holder.itemView)
+            .load(favorito.imgUsuario)
+            .circleCrop()
+            .into(holder.imgFotoDoctor)
 
         holder.txtNombreDoctor.text = favorito.nombreUsuario
         holder.txtEspecialidad.text = favorito.nombreTipoSucursal

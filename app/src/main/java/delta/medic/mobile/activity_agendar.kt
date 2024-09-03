@@ -3,10 +3,10 @@ package delta.medic.mobile
 import DiasAdapter
 import Modelo.ClaseConexion
 import Modelo.Dia
+import RecycleViewHelper.AdaptadorHorarios
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
@@ -23,9 +23,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -34,8 +34,17 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.sql.Connection
+import java.sql.Date
+import java.sql.PreparedStatement
+import java.sql.ResultSet
+import java.sql.SQLException
+import java.sql.Time
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.Year
+import java.time.format.DateTimeFormatter
 
 class activity_agendar : AppCompatActivity() {
 
@@ -43,10 +52,16 @@ class activity_agendar : AppCompatActivity() {
     var nombreDoctor : String = "";
     var apellidoDoctor : String = "";
     var imgDoctor : String = "";
-    var nombreSucursal : String = "";
     var direccionSucur : String = "";
     var imgSucursal : String = "";
     var nombreEspecialidad : String = "";
+    val horarioMatutino = arrayOf(
+        "08:00 AM", "08:30 AM", "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM",
+        "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "01:00 PM", "01:30 PM", "02:00 PM")
+
+    val horarioVespertino = arrayOf(
+        "02:00 PM", "02:30 PM", "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM",
+        "05:00 PM", "05:30 PM", "06:00 PM", "06:30 PM", "07:00 PM", "07:30 PM", "08:00 PM")
 
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
@@ -72,69 +87,35 @@ class activity_agendar : AppCompatActivity() {
         val txtNombreDoctor = findViewById<TextView>(R.id.txtNombreDoctor)
         val txtEspecialidad = findViewById<TextView>(R.id.txtEspecialidad)
         val txtDireccionSucur = findViewById<TextView>(R.id.txtDireccionSucur)
-        val txtEsTar = findViewById<TextView>(R.id.txtEsTar)
-        val txtEsMañ = findViewById<TextView>(R.id.txtEsMañ)
-        val txtMot = findViewById<TextView>(R.id.txtMot)
-        val txtPaciente = findViewById<TextView>(R.id.txtPaciente)
-        val rcvEspaciosT = findViewById<RecyclerView>(R.id.rcvEspaciosT)
-        val rcvEspaciosM = findViewById<RecyclerView>(R.id.rcvEspaciosM)
-
-
-        /*
-        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        when (currentNightMode) {
-            Configuration.UI_MODE_NIGHT_NO -> {
-                btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.black))
-                btnContinuar.setBackgroundColor(ContextCompat.getColor(this, R.color.black))
-                btnSelecSucursal.setColorFilter(ContextCompat.getColor(this, R.color.black))
-                txtFecha.setTextColor(ContextCompat.getColor(this, R.color.black))
-                rcvPaciente.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
-                rcvDisponibilidad.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
-                imgFotoSucursal.setColorFilter(ContextCompat.getColor(this, R.color.black))
-                imgFotoDoctor.setColorFilter(ContextCompat.getColor(this, R.color.black))
-                txtNombreDoctor.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtEspecialidad.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtDireccionSucur.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtEsTar.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtEsMañ.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtMot.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtPaciente.setTextColor(ContextCompat.getColor(this, R.color.black))
-                rcvEspaciosT.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
-                rcvEspaciosM.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
-            } // Night mode is not active, we're using the light theme.
-            Configuration.UI_MODE_NIGHT_YES -> {
-                btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.white))
-                btnContinuar.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
-                btnSelecSucursal.setColorFilter(ContextCompat.getColor(this, R.color.white))
-                txtFecha.setTextColor(ContextCompat.getColor(this, R.color.white))
-                rcvPaciente.setBackgroundColor(ContextCompat.getColor(this, R.color.black))
-                rcvDisponibilidad.setBackgroundColor(ContextCompat.getColor(this, R.color.black))
-                imgFotoSucursal.setColorFilter(ContextCompat.getColor(this, R.color.white))
-                imgFotoDoctor.setColorFilter(ContextCompat.getColor(this, R.color.white))
-                txtNombreDoctor.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtEspecialidad.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtDireccionSucur.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtEsTar.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtEsMañ.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtMot.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtPaciente.setTextColor(ContextCompat.getColor(this, R.color.white))
-                rcvEspaciosT.setBackgroundColor(ContextCompat.getColor(this, R.color.black))
-                rcvEspaciosM.setBackgroundColor(ContextCompat.getColor(this, R.color.black))
-
-            } // Night mode is active, we're using dark theme.
-        }
-         */
+        val rcvEspacios = findViewById<RecyclerView>(R.id.rcvEspacios)
 
         val diasDelAno = obtenerDiasDelAno(Year.now().value)
         rcvDisponibilidad.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        rcvDisponibilidad.adapter = DiasAdapter(diasDelAno) { diaSeleccionado ->
+        rcvDisponibilidad.adapter = DiasAdapter(diasDelAno, { diaSeleccionado ->
             actualizarHorarios(diaSeleccionado)
-            }
+        }, txtFecha)
+
+        fun generarTimestamp(fechaSeleccionada: LocalDate, hora: String): String {
+            val formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            val formatoHora = DateTimeFormatter.ofPattern("hh:mm a")
+            val fechaFormateada = fechaSeleccionada.format(formatoFecha)
+            val horaFormateada = LocalDateTime.parse("${fechaFormateada} ${hora}", DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a"))
+            return horaFormateada.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        }
+
+        val diaSeleccionado = LocalDate.now()
+        val horarioMatutino = arrayOf(
+            "08:00 AM", "08:30 AM", "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM",
+            "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "01:00 PM", "01:30 PM", "02:00 PM"
+        )
+
+        for (hora in horarioMatutino) {
+            val timestamp = generarTimestamp(diaSeleccionado, hora)
+            println(timestamp)
+        }
 
 
         rcvPaciente.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-
-
         CoroutineScope(Dispatchers.IO).launch {
             val objConexion = ClaseConexion().cadenaConexion()
             val statement =
@@ -147,8 +128,8 @@ class activity_agendar : AppCompatActivity() {
                 }
             }
         }
-
         val ID_Doctor = intent.getIntExtra("ID_Doctor", 0)
+
         CoroutineScope(Dispatchers.IO).launch {
             val objConexion = ClaseConexion().cadenaConexion()
             val statement = objConexion?.prepareStatement(
@@ -163,9 +144,9 @@ SELECT
     s.telefonoSucur, 
     s.direccionSucur, 
     s.longSucur, 
-    s.latiSucur, 
-    s.imgSucursal, 
-    se.nombreServicio, 
+    s.latiSucur,
+    s.imgSucursal,
+    se.nombreServicio,
     se.costo
 FROM 
     tbDoctores d
@@ -200,15 +181,8 @@ WHERE
                     txtEspecialidad.text = nombreEspecialidad
                 }
                 else{
-
                 }
-
             }
-        }
-
-        btnSelecSucursal.setOnClickListener {
-            val intent = Intent(this, activity_busqueda::class.java)
-            startActivity(intent)
         }
 
         val lbAgendarCita = findViewById<TextView>(R.id.lbAgendarCita)
@@ -232,6 +206,11 @@ WHERE
         btnContinuar.setOnClickListener {
             showCustomDialog()
         }
+
+        btnSelecSucursal.setOnClickListener {
+            val intent = Intent(this, activity_busqueda::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun checkIfDoctorExists(): Boolean {
@@ -239,10 +218,10 @@ WHERE
         return DoctorExist
     }
 
-    private fun infoDoctor(){
-
+    private fun actualizarHorarios(dia: Dia) {
+        Log.e("Info","Actualizando horarios para el día: ${dia.fecha}")
     }
-
+///////Custom Dialog/////////
     private fun showCustomDialog() {
         val dialog = Dialog(this, R.style.CustomDialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -268,16 +247,15 @@ WHERE
         }
         dialog.show()
     }
-
+/////////////////
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     fun obtenerDiasDelAno(ano: Int): List<Dia> {
-        val primerDia = LocalDate.of(ano, 1, 1)
+        val hoy = LocalDate.now()
         val ultimoDia = LocalDate.of(ano, 12, 31)
-        return primerDia.datesUntil(ultimoDia.plusDays(1)).map { Dia(it) }.toList()
+        return hoy.datesUntil(ultimoDia.plusDays(1)).map { Dia(it) }.toList()
     }
 
-    private fun actualizarHorarios(dia: Dia) {
-        Log.e("Info","Actualizando horarios para el día: ${dia.fecha}")
-    }
+
+
 }
