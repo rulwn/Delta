@@ -857,8 +857,6 @@ CREATE TABLE tbCitasMedicas (
     ON DELETE CASCADE
 );
 
-Insert into tbIndicaciones (InicioMedi, FinalMedi, dosisMedi, medicina, detalleIndi, ID_Receta, ID_Tiempo) VALUES (SYSDATE, SYSDATE,'tome agua','mariguanol','detalle detallado', 6,1);
-
 CREATE TABLE tbIndicaciones (
     ID_Indicacion INT PRIMARY KEY,
     InicioMedi DATE NOT NULL,
