@@ -9,12 +9,11 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import delta.medic.mobile.R
 import java.sql.Timestamp
-import java.time.LocalDateTime
 import java.time.ZoneId
 
 class AdaptadorHorarios(
     private val horarios: List<Timestamp>,
-    private val horasOcupadas: List<String>,
+    private val horasOcupadas: Array<String>,
     private val onHoraSelected: (Timestamp) -> Unit
 ) : RecyclerView.Adapter<AdaptadorHorarios.HorarioViewHolder>() {
 
