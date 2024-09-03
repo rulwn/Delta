@@ -566,7 +566,7 @@ CREATE TABLE tbEspecialidades (
 CREATE TABLE tbEstablecimientos (
     ID_Establecimiento INT PRIMARY KEY,
     nombreClinica VARCHAR2(50) NOT NULL UNIQUE,
-    imgPrincipal VARCHAR2(256) NOT NULL 
+    imgPrincipal VARCHAR2(256) NOT NULL
 );
 
 CREATE TABLE tbAseguradoras (
@@ -739,13 +739,7 @@ CREATE TABLE tbCentrosMedicos (
 
 CREATE TABLE tbHorarios (
     ID_Horario INT PRIMARY KEY,
-    horaInicio TIMESTAMP NOT NULL UNIQUE,
-    horaSalida TIMESTAMP NOT NULL UNIQUE,
-    dias DATE NOT NULL,
-    exclusiones DATE NOT NULL,
-    almuerzo TIMESTAMP NOT NULL,
-    descansos DATE NOT NULL,
-    lapsosCita NUMBER(2) NOT NULL,
+    horarioTurno VARCHAR2(1) CHECK(horarioTurno IN ('M', 'V')) NOT NULL,
     ID_Centro INT NOT NULL,
 
     --CONSTRAINTS------------------
@@ -787,24 +781,6 @@ CREATE TABLE tbReviews (
     REFERENCES tbUsuarios(ID_Usuario)
     ON DELETE CASCADE
 );
-
-SELECT
-    rv.promEstrellas,
-    rv.comentario,
-    u.nombreUsuario,
-    u.apellidoUsuario,
-    u.imgUsuario,
-    d.ID_Doctor
-FROM 
-    tbReviews rv
-INNER JOIN 
-    tbUsuarios u ON rv.ID_Usuario = u.ID_Usuario
-INNER JOIN
-    tbCentrosMedicos cm ON rv.ID_Centro = cm.ID_Centro
-INNER JOIN
-    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-WHERE 
-    d.ID_Doctor = 1;
 
 CREATE TABLE tbNotis (
     ID_Notificacion INT PRIMARY KEY,
@@ -1641,16 +1617,16 @@ INSERT ALL
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
-    INTO tbHorarios (horaInicio, horaSalida, dias, exclusiones, almuerzo, descansos, lapsosCita, ID_Centro)
-         VALUES (TIMESTAMP '2024-06-18 07:00:00.000000', TIMESTAMP '2024-06-18 19:00:00.000000', TO_DATE('2024-06-18', 'YYYY-MM-DD'), TO_DATE('2024-06-17', 'YYYY-MM-DD'), TIMESTAMP '2024-06-18 12:00:00.000000', TO_DATE('2024-06-16', 'YYYY-MM-DD'), 1, 5)
-    INTO tbHorarios (horaInicio, horaSalida, dias, exclusiones, almuerzo, descansos, lapsosCita, ID_Centro)
-         VALUES (TIMESTAMP '2024-06-19 07:00:00.000000', TIMESTAMP '2024-06-19 19:00:00.000000', TO_DATE('2024-06-19', 'YYYY-MM-DD'), TO_DATE('2024-06-10', 'YYYY-MM-DD'), TIMESTAMP '2024-06-19 12:00:00.000000', TO_DATE('2024-06-10', 'YYYY-MM-DD'), 2, 4)
-    INTO tbHorarios (horaInicio, horaSalida, dias, exclusiones, almuerzo, descansos, lapsosCita, ID_Centro)
-         VALUES (TIMESTAMP '2024-06-20 07:00:00.000000', TIMESTAMP '2024-06-20 19:00:00.000000', TO_DATE('2024-06-20', 'YYYY-MM-DD'), TO_DATE('2024-06-14', 'YYYY-MM-DD'), TIMESTAMP '2024-06-20 12:00:00.000000', TO_DATE('2024-06-14', 'YYYY-MM-DD'), 3, 3)
-    INTO tbHorarios (horaInicio, horaSalida, dias, exclusiones, almuerzo, descansos, lapsosCita, ID_Centro)
-         VALUES (TIMESTAMP '2024-06-21 07:00:00.000000', TIMESTAMP '2024-06-21 19:00:00.000000', TO_DATE('2024-06-21', 'YYYY-MM-DD'), TO_DATE('2024-06-11', 'YYYY-MM-DD'), TIMESTAMP '2024-06-21 12:00:00.000000', TO_DATE('2024-06-11', 'YYYY-MM-DD'), 4, 2)
-    INTO tbHorarios (horaInicio, horaSalida, dias, exclusiones, almuerzo, descansos, lapsosCita, ID_Centro)
-         VALUES (TIMESTAMP '2024-06-22 07:00:00.000000', TIMESTAMP '2024-06-22 19:00:00.000000', TO_DATE('2024-06-22', 'YYYY-MM-DD'), TO_DATE('2024-06-15', 'YYYY-MM-DD'), TIMESTAMP '2024-06-22 12:00:00.000000', TO_DATE('2024-06-15', 'YYYY-MM-DD'), 5, 1)
+    INTO tbHorarios (horarioTurno, ID_Centro)
+         VALUES ('V', 2)
+    INTO tbHorarios (horarioTurno, ID_Centro)
+         VALUES ('V', 1)
+    INTO tbHorarios (horarioTurno, ID_Centro)
+         VALUES ('M', 3)
+    INTO tbHorarios (horarioTurno, ID_Centro)
+         VALUES ('V', 4)
+    INTO tbHorarios (horarioTurno, ID_Centro)
+         VALUES ('V', 5)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -1745,10 +1721,10 @@ SELECT DUMMY FROM DUAL;
 
 
 --UNICA INSERCION CON EL USUARIO DE FRANCISCO--
-INSERT INTO tbNotis 
-(fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
-VALUES 
-(TO_DATE('2024-07-15', 'YYYY-MM-DD'), 'R', 'Recordatorio: Consulta general programada', 'S', 
+INSERT INTO tbNotis
+(fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti)
+VALUES
+(TO_DATE('2024-07-15', 'YYYY-MM-DD'), 'R', 'Recordatorio: Consulta general programada', 'S',
 (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = 'fran@gmail.com'), 2);
 
 
@@ -2066,12 +2042,16 @@ SELECT se.* FROM tbServicios se
 INNER JOIN tbCentrosMedicos cm ON se.ID_Centro = cm.ID_Centro
 WHERE cm.ID_Doctor = 5;
 
-*/
-select * from tbAuditorias;
-select * from tbDoctores;
-select * from tbUsuarios;
-select * from tbFavoritos;
-select * from tbRecientes;
+SELECT
+    h.horarioTurno
+    FROM
+        tbHorarios h
+    INNER JOIN
+        tbCentrosMedicos cm ON h.ID_Centro = cm.ID_Centro
+    INNER JOIN
+        tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+    WHERE
+                d.ID_Doctor = 5;
 
 SELECT
 
@@ -2097,7 +2077,14 @@ SELECT
             INNER JOIN tbServicios se ON cm.ID_Centro = se.ID_Centro
             WHERE
                 d.ID_Doctor = 5;
-                
+*/
+
+select * from tbAuditorias;
+select * from tbDoctores;
+select * from tbUsuarios;
+select * from tbFavoritos;
+select * from tbRecientes;
+
 SELECT
 u.ID_Usuario,
 u.nombreUsuario,
@@ -2117,4 +2104,4 @@ f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = 'fran@gma
 
 SELECT * FROM tbRecientes;
 SELECT * FROM tbDoctores WHERE ID_Doctor = 1;
-SELECT * FROM tbUsuarios WHERE ID_Usuario =1;
+SELECT * FROM tbUsuarios WHERE ID_Usuario = 1;

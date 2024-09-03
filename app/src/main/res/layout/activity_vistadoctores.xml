@@ -38,12 +38,11 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_arrow_back" />
 
-    <!-- ScrollView containing the second ConstraintLayout with background fondovistadoctores -->
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="670dp"
         android:background="@drawable/fondovistadoctores"
+        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -415,14 +414,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/CardComment" />
 
-            <Space
-                android:id="@+id/space2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="461dp" />
-
             <Button
                 android:id="@+id/btnSubir"
                 style="@style/Widget.Material3.Button.ElevatedButton"
@@ -438,6 +429,7 @@
                 app:cornerRadius="@dimen/activity_horizontal_margin"
                 app:layout_constraintBottom_toTopOf="@+id/CardComment"
                 app:layout_constraintStart_toEndOf="@+id/Comentarios" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
