@@ -58,7 +58,8 @@ class activity_editarperfil : AppCompatActivity() {
     }
 
     fun validarCorreo(correo: String): String? {
-        val regex = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+".toRegex()
+        val regex = "[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})?".toRegex()
+
         return when {
             correo.isBlank() -> "El correo no puede estar vacío."
             !correo.matches(regex) -> "El correo ingresado no es válido."
