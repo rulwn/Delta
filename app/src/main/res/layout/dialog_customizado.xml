@@ -19,7 +19,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/poppins_semibold"
-        android:text="¡Gracias!"
+        android:text="Confirma la cita"
         android:textColor="@color/black"
         android:textSize="38sp"
         android:textStyle="bold" />
@@ -30,8 +30,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:text="Su cita fue exitosa"
         android:fontFamily="@font/poppins_medium"
+        android:text="Ya casi estamos.."
         android:textColor="#677294"
         android:textSize="20sp" />
 
@@ -42,7 +42,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/poppins_medium"
-        android:text="Reservo una cita"
+        android:text="Dale listo para continuar"
         android:textAlignment="center"
         android:textSize="16sp" />
 
@@ -52,6 +52,7 @@
         android:layout_gravity="center"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:textColor="@color/white"
         android:fontFamily="@font/poppins_bold"
         android:backgroundTint="@color/Turquesa2"
         android:text="Listo" />
