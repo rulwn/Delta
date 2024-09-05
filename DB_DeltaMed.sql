@@ -1666,7 +1666,7 @@ SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES ('Juan', 'Peréz', NULL, 'Padre', 1)
+         VALUES ('Yo', 'Mismo', NULL, 'Usuario', 1)
     INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
          VALUES ('Maria', 'García', NULL, 'Madre', 2)
     INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
@@ -2119,6 +2119,7 @@ select * from tbDoctores;
 select * from tbUsuarios;
 select * from tbFavoritos;
 select * from tbRecientes;
+select * from tbCitasMedicas;
 
 SELECT
 u.ID_Usuario,
@@ -2136,3 +2137,4 @@ INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario
 INNER JOIN tbTipoSucursales ts ON ts.ID_TipoSucursal = s.ID_TipoSucursal
 WHERE
 f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = 'fran@gmail.com');
+

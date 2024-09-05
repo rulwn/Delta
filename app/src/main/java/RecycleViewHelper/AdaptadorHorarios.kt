@@ -17,26 +17,31 @@ class AdaptadorHorarios(
     private val onHoraSelected: (Timestamp) -> Unit
 ) : RecyclerView.Adapter<AdaptadorHorarios.HorarioViewHolder>() {
 
+    private var horaSeleccionada: Timestamp? = null // Variable para rastrear la hora seleccionada
+
     inner class HorarioViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textViewHora: TextView = view.findViewById(R.id.textViewTime)
 
         @RequiresApi(Build.VERSION_CODES.O)
-        fun bind(hora: Timestamp, isOcupada: Boolean) {
+        fun bind(hora: Timestamp, isSelected: Boolean) {
             val localDateTime = hora.toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDateTime()
 
             textViewHora.text = localDateTime.toLocalTime().toString()
 
-            if (isOcupada) {
-                itemView.setBackgroundResource(R.drawable.fondo_card_ocupado)
-                itemView.isEnabled = false
+            // Aquí se diferencia entre los ítems seleccionados y no seleccionados
+            if (isSelected) {
+                itemView.setBackgroundResource(R.drawable.degradado_card) // Fondo para el ítem seleccionado
             } else {
-                itemView.setBackgroundResource(R.drawable.fondo_card)
-                itemView.isEnabled = true
-                itemView.setOnClickListener {
-                    onHoraSelected(hora)
-                }
+                itemView.setBackgroundResource(R.drawable.fondo_card) // Fondo para ítems no seleccionados
+            }
+
+            // Aquí actualizas la selección y notificas al adaptador
+            itemView.setOnClickListener {
+                horaSeleccionada = hora // Actualiza la hora seleccionada
+                notifyDataSetChanged()  // Notifica al adaptador que debe redibujar
+                onHoraSelected(hora)    // Ejecuta el callback para la hora seleccionada
             }
         }
     }
@@ -56,7 +61,11 @@ class AdaptadorHorarios(
 
         val horaString = localDateTime.toLocalTime().toString()
         val isOcupada = horasOcupadas.contains(horaString)
-        holder.bind(hora, isOcupada)
+
+        // Verificar si la hora es la seleccionada
+        val isSelected = hora == horaSeleccionada
+
+        holder.bind(hora, isSelected) // Pasar la selección al bind
     }
 
     override fun getItemCount(): Int {

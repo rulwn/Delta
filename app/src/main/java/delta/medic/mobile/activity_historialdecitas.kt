@@ -116,8 +116,9 @@ return withContext(Dispatchers.IO) {
                         "    INNER JOIN tbEspecialidades esp ON docs.id_especialidad = esp.id_especialidad\n" +
                         "    INNER JOIN tbUsuarios usua ON docs.id_usuario = usua.id_usuario\n" +
                         "    INNER JOIN tbpacientes pacs ON citas.id_paciente = pacs.id_paciente\n" +
+                        "    INNER JOIN tbUsuarios us ON pacs.id_usuario = us.id_usuario\n" +
                         "WHERE \n" +
-                        "    usua.emailUsuario = ?\n" +
+                        "    us.emailUsuario = ?\n" +
                         "ORDER BY \n" +
                         "    citas.diacita DESC, \n" +
                         "    citas.horacita DESC\n"

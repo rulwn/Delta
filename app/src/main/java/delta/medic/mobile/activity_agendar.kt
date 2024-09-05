@@ -19,6 +19,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -38,6 +39,7 @@ import java.sql.Timestamp
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.Year
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 class activity_agendar : AppCompatActivity() {
@@ -49,6 +51,11 @@ class activity_agendar : AppCompatActivity() {
     var direccionSucur : String = "";
     var imgSucursal : String = "";
     var nombreEspecialidad : String = "";
+    var ID_Doctor : Int = 0;
+    var ID_Centro : Int = 0;
+    var horaSeleccionada : Timestamp? = null
+    var diaSeleccionado : LocalDate? = null
+    private lateinit var txtMotivo: TextView
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,12 +79,15 @@ class activity_agendar : AppCompatActivity() {
         val txtNombreDoctor = findViewById<TextView>(R.id.txtNombreDoctor)
         val txtEspecialidad = findViewById<TextView>(R.id.txtEspecialidad)
         val txtDireccionSucur = findViewById<TextView>(R.id.txtDireccionSucur)
+        txtMotivo = findViewById(R.id.txtMotivo)
 
         val diasDelAno = obtenerDiasDelAno(Year.now().value)
         rcvDisponibilidad.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        rcvDisponibilidad.adapter = DiasAdapter(diasDelAno, { diaSeleccionado ->
+        rcvDisponibilidad.adapter = DiasAdapter(diasDelAno, { dia ->
+            diaSeleccionado = dia.fecha // Asignar el día seleccionado
             actualizarHorarios(diaSeleccionado)
+
         }, txtFecha)
 
         fun generarTimestamp(fechaSeleccionada: LocalDate, hora: String): String {
@@ -99,7 +109,8 @@ class activity_agendar : AppCompatActivity() {
 
         val horarioVespertino = arrayOf(
             "02:00 PM", "02:30 PM", "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM",
-            "05:00 PM", "05:30 PM", "06:00 PM", "06:30 PM", "07:00 PM", "07:30 PM", "08:00 PM")
+            "05:00 PM", "05:30 PM", "06:00 PM", "06:30 PM", "07:00 PM", "07:30 PM", "08:00 PM"
+        )
 
         for (hora in horarioMatutino) {
             val timestampM = generarTimestamp(diaSeleccionado, hora)
@@ -124,18 +135,18 @@ class activity_agendar : AppCompatActivity() {
             }
         }
 
-        val ID_Doctor = intent.getIntExtra("ID_Doctor", 0)
+        ID_Doctor = intent.getIntExtra("ID_Doctor", 0)
 
         CoroutineScope(Dispatchers.IO).launch {
             val objConexion = ClaseConexion().cadenaConexion()
             val statement = objConexion?.prepareStatement(
                 """
-            SELECT h.horarioTurno
-            FROM tbHorarios h
-            INNER JOIN tbCentrosMedicos cm ON h.ID_Centro = cm.ID_Centro
-            INNER JOIN tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-            WHERE d.ID_Doctor = ?
-            """
+        SELECT h.horarioTurno
+        FROM tbHorarios h
+        INNER JOIN tbCentrosMedicos cm ON h.ID_Centro = cm.ID_Centro
+        INNER JOIN tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+        WHERE d.ID_Doctor = ?
+        """
             )
             statement?.setInt(1, ID_Doctor)
             val resultSet = statement?.executeQuery()
@@ -153,23 +164,31 @@ class activity_agendar : AppCompatActivity() {
                 for (hora in horarioMatutino) {
                     val timestampString = generarTimestamp(diaSeleccionado, hora)
                     horariosDisponibles.add(Timestamp.valueOf(timestampString))
+                }
 
+                // Cambiamos al hilo principal para interactuar con el RecyclerView
+                withContext(Dispatchers.Main) {
                     val rcvEspacios = findViewById<RecyclerView>(R.id.rcvEspacios)
                     rcvEspacios.layoutManager = GridLayoutManager(this@activity_agendar, 3)
-                    rcvEspacios.adapter = AdaptadorHorarios(horariosDisponibles, horarioMatutino) { horaSeleccionada ->
-                        Log.d("Seleccionar Hora", "Hora seleccionada: $horaSeleccionada")
+                    rcvEspacios.adapter = AdaptadorHorarios(horariosDisponibles, horarioMatutino) { hora ->
+                        Log.d("Seleccionar Hora", "Hora seleccionada: $hora")
+                        horaSeleccionada = hora
                     }
                 }
             } else if (horaTurno == "V") {
                 for (hora in horarioVespertino) {
                     val timestampString = generarTimestamp(diaSeleccionado, hora)
                     horariosDisponibles.add(Timestamp.valueOf(timestampString))
+                }
 
+                // Cambiamos al hilo principal para interactuar con el RecyclerView
+                withContext(Dispatchers.Main) {
                     val rcvEspacios = findViewById<RecyclerView>(R.id.rcvEspacios)
                     rcvEspacios.layoutManager = GridLayoutManager(this@activity_agendar, 3)
-                    rcvEspacios.adapter = AdaptadorHorarios(horariosDisponibles, horarioMatutino) { horaSeleccionada ->
-                        Log.d("Seleccionar Hora", "Hora seleccionada: $horaSeleccionada")
-                    }
+                    rcvEspacios.adapter = AdaptadorHorarios(horariosDisponibles, horarioMatutino) { hora ->
+                        Log.d("Seleccionar Hora", "Hora seleccionada: $hora")
+                    horaSeleccionada = hora
+                }
                 }
             }
         }
@@ -191,7 +210,8 @@ SELECT
     s.latiSucur,
     s.imgSucursal,
     se.nombreServicio,
-    se.costo
+    se.costo,
+    cm.ID_Centro
 FROM 
     tbDoctores d
     INNER JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
@@ -201,7 +221,7 @@ FROM
     INNER JOIN tbServicios se ON cm.ID_Centro = se.ID_Centro
 WHERE 
     d.ID_Doctor = ?
-            """
+        """
             )
             statement?.setInt(1, ID_Doctor)
             val resultSet = statement?.executeQuery()
@@ -224,45 +244,12 @@ WHERE
                     txtDireccionSucur.text = direccionSucur
                     nombreEspecialidad = resultSet.getString("nombreEspecialidad")
                     txtEspecialidad.text = nombreEspecialidad
+                    ID_Centro = resultSet.getInt("ID_Centro")
                 } else {
-                }
-            }
-            CoroutineScope(Dispatchers.IO).launch {
-                val objConexion = ClaseConexion().cadenaConexion()
-                val statement = objConexion?.prepareStatement(
-                    """
-            SELECT h.horarioTurno
-            FROM tbHorarios h
-            INNER JOIN tbCentrosMedicos cm ON h.ID_Centro = cm.ID_Centro
-            INNER JOIN tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-            WHERE d.ID_Doctor = ?
-            """
-                )
-                statement?.setInt(1, ID_Doctor)
-                val resultSet = statement?.executeQuery()
-
-                var horaTurno: String? = null
-                if (resultSet?.next() == true) {
-                    horaTurno = resultSet.getString("horarioTurno")
-                }
-
-                val diaSeleccionado = LocalDate.now()
-                val horariosDisponibles = mutableListOf<Timestamp>()
-
-                if (horaTurno == "M") {
-                    for (hora in horarioMatutino) {
-                        val timestampString = generarTimestamp(diaSeleccionado, hora)
-                        horariosDisponibles.add(Timestamp.valueOf(timestampString))
-                    }
-                } else if (horaTurno == "V") {
-                    for (hora in horarioVespertino) {
-                        val timestampString = generarTimestamp(diaSeleccionado, hora)
-                        horariosDisponibles.add(Timestamp.valueOf(timestampString))
-                    }
-                }
+                Log.e("Info", "No se encontraron resultados para el ID_Doctor: $ID_Doctor")                }
             }
         }
-
+            val txtMotivo = findViewById<TextView>(R.id.txtMotivo) // Asegúrate de que el ID es correcto
             val lbAgendarCita = findViewById<TextView>(R.id.lbAgendarCita)
             lbAgendarCita.setText(Html.fromHtml(getResources().getString(R.string.subrayado)))
             val cardDoctor = findViewById<CardView>(R.id.linearCard)
@@ -296,36 +283,113 @@ WHERE
             return DoctorExist
         }
 
-        private fun actualizarHorarios(dia: Dia) {
-            Log.e("Info", "Actualizando horarios para el día: ${dia.fecha}")
+        private fun actualizarHorarios(dia: LocalDate?) {
+            Log.e("Info", "Actualizando horarios para el día: ${dia}")
         }
 
-        ///////Custom Dialog/////////
-        private fun showCustomDialog() {
-            val dialog = Dialog(this, R.style.CustomDialog)
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog.setContentView(R.layout.dialog_customizado)
 
-            val window = dialog.window
-            if (window != null) {
-                val layoutParams = WindowManager.LayoutParams()
-                layoutParams.copyFrom(window.attributes)
-                layoutParams.width = (resources.displayMetrics.widthPixels * 0.9).toInt()
-                layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT
-                window.attributes = layoutParams
-            }
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun insertarCitaEnBaseDeDatos(horaSeleccionada: Timestamp, diaSeleccionado: LocalDate, motivo: String, ID_Centro: Int, ID_Paciente: Int) {
+        try {
+            // Convertir el Timestamp a LocalTime
+            val localTime = horaSeleccionada.toInstant().atZone(ZoneId.systemDefault()).toLocalTime()
+            Log.d("Debug", "Hora convertida a LocalTime: $localTime")
 
-            val closeButton = dialog.findViewById<Button>(R.id.closeButton)
-            closeButton.setOnClickListener {
-                finish()
-            }
+            // Combinar la fecha (LocalDate) y la hora (LocalTime) en LocalDateTime
+            val localDateTime = LocalDateTime.of(diaSeleccionado, localTime)
+            Log.d("Debug", "Fecha y hora combinadas en LocalDateTime: $localDateTime")
 
-            val editButton = dialog.findViewById<TextView>(R.id.editButton)
-            editButton.setOnClickListener {
-                dialog.dismiss()
+            // Convertir LocalDateTime a Timestamp con el formato correcto
+            val timestampFinal = Timestamp.valueOf(localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+            Log.d("Debug", "Timestamp final: $timestampFinal")
+
+            // Generar el estado de la cita ('A' para agendada por defecto)
+            val estadoCita = 'A'
+
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    // Establecer la conexión a la base de datos
+                    val objConexion = ClaseConexion().cadenaConexion()
+                    val insertStatement = objConexion?.prepareStatement(
+                        """
+                    INSERT INTO tbCitasMedicas 
+                    (diaCita, estadoCita, horaCita, motivo, ID_Centro, ID_Paciente)
+                    VALUES (?, ?, ?, ?, ?, 1)
+                    """
+                    )
+                    insertStatement?.setDate(1, java.sql.Date.valueOf(diaSeleccionado.toString())) // diaCita
+                    insertStatement?.setString(2, estadoCita.toString()) // estadoCita (Por defecto 'A')
+                    insertStatement?.setTimestamp(3, timestampFinal) // horaCita en el formato correcto
+                    insertStatement?.setString(4, motivo) // motivo de la cita
+                    insertStatement?.setInt(5, ID_Centro) // ID_Centro
+
+                    // Ejecutar el INSERT
+                    insertStatement?.executeUpdate()
+
+                    // Notificación de éxito en el hilo principal
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@activity_agendar, "Cita registrada exitosamente.", Toast.LENGTH_SHORT).show()
+                    }
+
+                } catch (e: Exception) {
+                    // Manejo de excepciones y notificación de error
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@activity_agendar, "Error al registrar la cita.", Toast.LENGTH_SHORT).show()
+                    }
+                    e.printStackTrace()
+                }
             }
-            dialog.show()
+        } catch (e: Exception) {
+            // Capturar errores si la conversión falla
+            e.printStackTrace()
+            Toast.makeText(this, "Error al convertir la fecha y hora.", Toast.LENGTH_SHORT).show()
         }
+    }
+    ///////Custom Dialog/////////
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun showCustomDialog() {
+        if (isFinishing || isDestroyed) {
+            return // No mostrar el diálogo si la actividad se está cerrando
+        }
+
+        val dialog = Dialog(this, R.style.CustomDialog)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_customizado)
+
+        val window = dialog.window
+        if (window != null) {
+            val layoutParams = WindowManager.LayoutParams()
+            layoutParams.copyFrom(window.attributes)
+            layoutParams.width = (resources.displayMetrics.widthPixels * 0.9).toInt()
+            layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT
+            window.attributes = layoutParams
+        }
+
+        val closeButton = dialog.findViewById<Button>(R.id.closeButton)
+        closeButton.setOnClickListener {
+            // Actualizar el valor del motivo cada vez que se hace clic en el botón
+            val motivo = txtMotivo.text.toString()
+            Log.e("Info", "$motivo , $horaSeleccionada, $diaSeleccionado, $ID_Centro")
+
+            if (motivo.isNotEmpty() && horaSeleccionada != null && diaSeleccionado != null) {
+                insertarCitaEnBaseDeDatos(horaSeleccionada!!, diaSeleccionado!!, motivo, ID_Centro, 1)
+                Toast.makeText(this, "Cita registrada exitosamente.", Toast.LENGTH_SHORT).show()
+                val Intent = Intent(this, MainActivity::class.java)
+                startActivity(Intent)
+            } else {
+                Toast.makeText(this, "Por favor, selecciona una hora, un día y escribe un motivo.", Toast.LENGTH_SHORT).show()
+            }
+
+            dialog.dismiss() // Cerrar el diálogo
+        }
+
+        val editButton = dialog.findViewById<TextView>(R.id.editButton)
+        editButton.setOnClickListener {
+            dialog.dismiss() // Cerrar el diálogo
+        }
+
+        dialog.show()
+    }
 /////////////////
 
         @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
