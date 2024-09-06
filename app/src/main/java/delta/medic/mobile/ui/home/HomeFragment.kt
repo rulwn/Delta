@@ -5,7 +5,6 @@ import Modelo.dataClassCitas
 import Modelo.dataClassFavoritos
 import RecycleViewHelper.AdaptadorCentrosRecientes
 import RecycleViewHelper.AdaptadorCitas
-import RecycleViewHelper.AdaptadorFavoritos
 import RecycleViewHelper.AdaptadorTratamientosChiquito
 import android.content.Context
 import android.content.Intent
@@ -20,7 +19,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import delta.medic.mobile.R
 import delta.medic.mobile.activity_busqueda
-import delta.medic.mobile.activity_doctoresfavoritos
 import delta.medic.mobile.activity_login.UserData.userEmail
 import delta.medic.mobile.fragment_control_tratamientos
 import delta.medic.mobile.fragment_usuario
@@ -63,7 +61,7 @@ class HomeFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val tratamientosDB = fragmentControlTratamientos.obtenerDatosTratamientos()
+                val tratamientosDB = fragmentControlTratamientos.obtenerDatosTratamientosPeriodo()
                 withContext(Dispatchers.Main) {
                     if (tratamientosDB.isEmpty()) {
                         txtaunnotienestratamientos.visibility = View.VISIBLE

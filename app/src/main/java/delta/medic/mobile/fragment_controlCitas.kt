@@ -222,7 +222,8 @@ class fragment_controlCitas : Fragment() {
                                 "    tbUsuarios us ON pacs.id_usuario = us.id_usuario\n" +
                                 "WHERE \n" +
                                 "    us.emailUsuario = ?\n" +
-                                "    AND citas.estadoCita = 'A'"
+                                "    AND citas.estadoCita = 'A'\n" +
+                                "    AND citas.diacita >= CURRENT_DATE"
                     )
                     statement.setString(1, sentEmail)
                     resultset = statement.executeQuery()

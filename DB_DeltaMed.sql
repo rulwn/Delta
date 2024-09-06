@@ -17,7 +17,7 @@ SET SERVEROUTPUT ON;
 
 /*******************************************************************************
 
-    ~ ELIMINACIÃ“N DE TABLAS EXISTENTES ~
+    ~ ELIMINACIÓN DE TABLAS EXISTENTES ~
 
 *******************************************************************************/
 --Este procedimiento PL/SQL ejecuta el comando DROP TABLE, pero si ocurre un error
