@@ -1458,6 +1458,48 @@ END;
 
 /*************************************************************************************************
 
+~ PROCEDURE PARA PROMEDIO REVIEW ~
+
+*************************************************************************************************/
+
+CREATE OR REPLACE PROCEDURE calcular_valo_final_sucursal (
+    p_ID_Sucursal IN tbSucursales.ID_Sucursal%TYPE
+)
+IS
+    v_promedioEstrellas NUMBER(5,2);
+BEGIN
+    -- Obtener el promedio de estrellas para la sucursal especificada
+    SELECT AVG(r.promEstrellas)
+    INTO v_promedioEstrellas
+    FROM tbReviews r
+    JOIN tbCentrosMedicos cm ON r.ID_Centro = cm.ID_Centro
+    WHERE cm.ID_Sucursal = p_ID_Sucursal;
+
+    -- Si no hay reviews, entonces el valor promedio será 0.
+    IF v_promedioEstrellas IS NULL THEN
+        v_promedioEstrellas := 0;
+    END IF;
+
+    -- Actualizar el valoFinal de la sucursal
+    UPDATE tbSucursales
+    SET valoFinal = v_promedioEstrellas
+    WHERE ID_Sucursal = p_ID_Sucursal;
+
+    -- Confirmar los cambios
+    COMMIT;
+    
+    DBMS_OUTPUT.PUT_LINE('ValoFinal actualizado a: ' || v_promedioEstrellas || ' para la sucursal con ID: ' || p_ID_Sucursal);
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('No se encontraron reviews para la sucursal con ID: ' || p_ID_Sucursal);
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+        ROLLBACK;
+END;
+/
+
+/*************************************************************************************************
+
 ~ INSERTS A CADA TABLA ~
 
 *************************************************************************************************/
