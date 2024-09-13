@@ -345,6 +345,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                     imgUsuario = resultSet.getString("imgUsuario")
                     Glide.with(imgDoctor)
                         .load(imgUsuario)
+                        .circleCrop()
                         .into(imgDoctor)
                     Glide.with(img_clinic)
                         .load(imgSucursal)

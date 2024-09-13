@@ -5,7 +5,6 @@ import Modelo.dataClassCitas
 import Modelo.dataClassFavoritos
 import RecycleViewHelper.AdaptadorCentrosRecientes
 import RecycleViewHelper.AdaptadorCitas
-import RecycleViewHelper.AdaptadorFavoritos
 import RecycleViewHelper.AdaptadorTratamientosChiquito
 import android.content.Context
 import android.content.Intent
@@ -20,7 +19,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import delta.medic.mobile.R
 import delta.medic.mobile.activity_busqueda
-import delta.medic.mobile.activity_doctoresfavoritos
 import delta.medic.mobile.activity_login.UserData.userEmail
 import delta.medic.mobile.fragment_control_tratamientos
 import delta.medic.mobile.fragment_usuario
@@ -63,7 +61,7 @@ class HomeFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val tratamientosDB = fragmentControlTratamientos.obtenerDatosTratamientos()
+                val tratamientosDB = fragmentControlTratamientos.obtenerDatosTratamientosPeriodo()
                 withContext(Dispatchers.Main) {
                     if (tratamientosDB.isEmpty()) {
                         txtaunnotienestratamientos.visibility = View.VISIBLE
@@ -150,32 +148,44 @@ class HomeFragment : Fragment() {
                     val statement = objConexion.prepareStatement(
                         """
     SELECT * FROM (
-        SELECT 
-            citas.ID_Cita,
-            citas.diacita,
-            citas.horacita,
-            citas.motivo,
-            citas.estadoCita,
-            citas.id_centro,
-            citas.id_paciente,
-            pacs.nombrepaciente,
-            pacs.parentesco,
-            usua.id_usuario,
-            usua.nombreUsuario,
-            usua.apellidoUsuario,
-            esp.nombreespecialidad
-        FROM tbcitasmedicas CITAS 
-        INNER JOIN tbcentrosmedicos CENTROS ON CITAS.id_centro=CENTROS.id_centro
-        INNER JOIN tbdoctores DOCS ON CENTROS.id_doctor=DOCS.id_doctor
-        INNER JOIN tbEspecialidades ESP ON DOCS.id_especialidad = ESP.id_especialidad
-        INNER JOIN tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario
-        INNER JOIN tbpacientes PACS ON CITAS.id_paciente = PACS.id_paciente
-        WHERE USUA.emailUsuario = ?
-        AND CITAS.diacita >= CURRENT_DATE
-        AND CITAS.estadoCita = 'A'
-        ORDER BY CITAS.diacita ASC, CITAS.horacita ASC
-    )
-    WHERE ROWNUM = 1
+    SELECT 
+        citas.ID_Cita,
+        citas.diacita,
+        citas.horacita,
+        citas.motivo,
+        citas.estadoCita,
+        citas.id_centro,
+        citas.id_paciente,
+        pacs.nombrepaciente,
+        pacs.parentesco,
+        usua.id_usuario,
+        usua.nombreUsuario,
+        usua.apellidoUsuario,
+        esp.nombreespecialidad
+    FROM 
+        tbcitasmedicas citas
+    INNER JOIN 
+        tbcentrosmedicos centros ON citas.id_centro = centros.id_centro
+    INNER JOIN 
+        tbdoctores docs ON centros.id_doctor = docs.id_doctor
+    INNER JOIN 
+        tbEspecialidades esp ON docs.id_especialidad = esp.id_especialidad
+    INNER JOIN 
+        tbUsuarios usua ON docs.id_usuario = usua.id_usuario
+    INNER JOIN 
+        tbpacientes pacs ON citas.id_paciente = pacs.id_paciente
+    INNER JOIN
+        tbUsuarios us ON pacs.id_usuario = us.id_usuario
+    WHERE 
+        us.emailUsuario = ?
+        AND citas.diacita >= CURRENT_DATE
+        AND citas.estadoCita = 'A'
+    ORDER BY 
+        citas.diacita ASC, 
+        citas.horacita ASC
+)
+WHERE 
+    ROWNUM = 1
     """
                     )!!
 

@@ -68,7 +68,6 @@ class activity_editarperfil : AppCompatActivity() {
         }
     }
 
-
     fun validarTelefono(telefono: String): String? {
         val regex = "^\\d{4}-\\d{4}$".toRegex()
         return when {
@@ -77,7 +76,7 @@ class activity_editarperfil : AppCompatActivity() {
             else -> null
         }
     }
-    
+
 
     //Estos son los Listeners por si cambia el texto en los EditText
 

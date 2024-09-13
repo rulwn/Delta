@@ -127,6 +127,44 @@ class activity_register3 : AppCompatActivity() {
 
     }
 
+    private fun checkStoragePermission(){
+        if(ContextCompat.checkSelfPermission(this,android.Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED){
+            pedirPermisoAlmacenamiento()
+        } else {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent,codigo_opcion_galeria)
+        }
+    }
+
+    private fun pedirPermisoAlmacenamiento(){
+        if(ActivityCompat.shouldShowRequestPermissionRationale(this,android.Manifest.permission.READ_MEDIA_IMAGES)){
+            // Aquí podrías mostrar una explicación al usuario
+            Toast.makeText(this, "Necesitamos acceso a la galería para seleccionar una imagen", Toast.LENGTH_SHORT).show()
+        } else {
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_MEDIA_IMAGES),STORAGE_REQUEST_CODE)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when(requestCode){
+            STORAGE_REQUEST_CODE -> {
+                if((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)){
+                    val intent = Intent(Intent.ACTION_PICK)
+                    intent.type = "image/*"
+                    startActivityForResult(intent,codigo_opcion_galeria)
+                } else {
+                    Toast.makeText(this , "No se pudo acceder a la galería", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
@@ -149,6 +187,7 @@ class activity_register3 : AppCompatActivity() {
             }
         }
     }
+
     private fun subirImagenFirebase(bitmap: Bitmap, onSucces: (String) -> Unit){
         val storageRef = Firebase.storage.reference
         val imageRef = storageRef.child("images/${uuid}.jpg")
@@ -163,43 +202,6 @@ class activity_register3 : AppCompatActivity() {
             imageRef.downloadUrl.addOnSuccessListener { uri ->
                 onSucces(uri.toString())
             }
-        }
-    }
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when(requestCode){
-            STORAGE_REQUEST_CODE -> {
-                if((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)){
-                    val intent = Intent(Intent.ACTION_PICK)
-                    intent.type = "image/*"
-                    startActivityForResult(intent,codigo_opcion_galeria)
-                } else {
-                    Toast.makeText(this , "No se pudo acceder a la galería", Toast.LENGTH_SHORT)
-                        .show()
-                }
-            } else -> {
-
-            }
-        }
-    }
-    private fun checkStoragePermission(){
-        if(ContextCompat.checkSelfPermission(this,android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            pedirPermisoAlmacenamiento()
-        } else {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            startActivityForResult(intent,codigo_opcion_galeria)
-        }
-    }
-    private fun pedirPermisoAlmacenamiento(){
-        if(ActivityCompat.shouldShowRequestPermissionRationale(this,android.Manifest.permission.READ_EXTERNAL_STORAGE)){
-
-        }else {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),STORAGE_REQUEST_CODE)
         }
     }
 }

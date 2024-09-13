@@ -10,6 +10,7 @@
     tools:context=".activity_misrecetas">
 
     <LinearLayout
+        android:id="@+id/linearLayout11"
         android:layout_width="match_parent"
         android:layout_height="34dp"
         android:orientation="horizontal"
@@ -44,11 +45,13 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvMisRecetas"
-        android:layout_width="408dp"
-        android:layout_height="657dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="52dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.517"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout11" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

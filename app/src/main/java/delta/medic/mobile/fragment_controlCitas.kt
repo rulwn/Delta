@@ -112,14 +112,37 @@ class fragment_controlCitas : Fragment() {
                 objConexion = ClaseConexion().cadenaConexion()
                 if (objConexion != null) {
                     statement = objConexion.prepareStatement(
-                        "SELECT citas.ID_Cita, citas.diacita, citas.horacita, citas.motivo, citas.estadoCita, citas.id_centro, citas.id_paciente, pacs.nombrepaciente, pacs.parentesco, usua.id_usuario, USUA.nombreUsuario, USUA.apellidoUsuario, esp.nombreespecialidad " +
-                                "FROM tbcitasmedicas CITAS " +
-                                "INNER JOIN tbcentrosmedicos CENTROS ON CITAS.id_centro=CENTROS.id_centro " +
-                                "INNER JOIN tbdoctores DOCS ON CENTROS.id_doctor=DOCS.id_doctor " +
-                                "INNER JOIN tbEspecialidades ESP ON docs.id_especialidad = esp.id_especialidad " +
-                                "INNER JOIN tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario " +
-                                "INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente " +
-                                "WHERE usua.emailUsuario = ? AND citas.diacita = ?"
+                        "SELECT \n" +
+                                "    citas.ID_Cita, \n" +
+                                "    citas.diacita, \n" +
+                                "    citas.horacita, \n" +
+                                "    citas.motivo, \n" +
+                                "    citas.estadoCita, \n" +
+                                "    citas.id_centro, \n" +
+                                "    citas.id_paciente, \n" +
+                                "    pacs.nombrepaciente, \n" +
+                                "    pacs.parentesco, \n" +
+                                "    usua.id_usuario, \n" +
+                                "    usua.nombreUsuario, \n" +
+                                "    usua.apellidoUsuario, \n" +
+                                "    esp.nombreespecialidad\n" +
+                                "FROM \n" +
+                                "    tbcitasmedicas citas\n" +
+                                "INNER JOIN \n" +
+                                "    tbcentrosmedicos centros ON citas.id_centro = centros.id_centro\n" +
+                                "INNER JOIN \n" +
+                                "    tbdoctores docs ON centros.id_doctor = docs.id_doctor\n" +
+                                "INNER JOIN \n" +
+                                "    tbEspecialidades esp ON docs.id_especialidad = esp.id_especialidad\n" +
+                                "INNER JOIN \n" +
+                                "    tbUsuarios usua ON docs.id_usuario = usua.id_usuario\n" +
+                                "INNER JOIN \n" +
+                                "    tbpacientes pacs ON citas.id_paciente = pacs.id_paciente\n" +
+                                "INNER JOIN \n" +
+                                "    tbUsuarios us ON pacs.id_usuario = us.id_usuario\n" +
+                                "WHERE \n" +
+                                "    us.emailUsuario = ? \n" +
+                                "    AND citas.diacita = ?"
                     )
                     statement.setString(1, sentEmail)
                     statement.setDate(2, Fecha)
@@ -169,14 +192,38 @@ class fragment_controlCitas : Fragment() {
                 objConexion = ClaseConexion().cadenaConexion()
                 if (objConexion != null) {
                     statement = objConexion.prepareStatement(
-                        "SELECT citas.ID_Cita, citas.diacita, citas.horacita, citas.motivo, citas.estadoCita, citas.id_centro, citas.id_paciente, pacs.nombrepaciente, pacs.parentesco, usua.id_usuario, USUA.nombreUsuario, USUA.apellidoUsuario, esp.nombreespecialidad " +
-                                "FROM tbcitasmedicas CITAS " +
-                                "INNER JOIN tbcentrosmedicos CENTROS ON CITAS.id_centro=CENTROS.id_centro " +
-                                "INNER JOIN tbdoctores DOCS ON CENTROS.id_doctor=DOCS.id_doctor " +
-                                "INNER JOIN tbEspecialidades ESP ON docs.id_especialidad = esp.id_especialidad " +
-                                "INNER JOIN tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario " +
-                                "INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente " +
-                                "WHERE usua.emailUsuario = ? AND citas.estadoCita = 'A'"
+                        "SELECT \n" +
+                                "    citas.ID_Cita, \n" +
+                                "    citas.diacita, \n" +
+                                "    citas.horacita, \n" +
+                                "    citas.motivo, \n" +
+                                "    citas.estadoCita, \n" +
+                                "    citas.id_centro, \n" +
+                                "    citas.id_paciente, \n" +
+                                "    pacs.nombrepaciente, \n" +
+                                "    pacs.parentesco, \n" +
+                                "    usua.id_usuario, \n" +
+                                "    usua.nombreUsuario, \n" +
+                                "    usua.apellidoUsuario, \n" +
+                                "    esp.nombreespecialidad\n" +
+                                "FROM \n" +
+                                "    tbcitasmedicas citas\n" +
+                                "INNER JOIN \n" +
+                                "    tbcentrosmedicos centros ON citas.id_centro = centros.id_centro\n" +
+                                "INNER JOIN \n" +
+                                "    tbdoctores docs ON centros.id_doctor = docs.id_doctor\n" +
+                                "INNER JOIN \n" +
+                                "    tbEspecialidades esp ON docs.id_especialidad = esp.id_especialidad\n" +
+                                "INNER JOIN \n" +
+                                "    tbUsuarios usua ON docs.id_usuario = usua.id_usuario\n" +
+                                "INNER JOIN \n" +
+                                "    tbpacientes pacs ON citas.id_paciente = pacs.id_paciente\n" +
+                                "INNER JOIN \n" +
+                                "    tbUsuarios us ON pacs.id_usuario = us.id_usuario\n" +
+                                "WHERE \n" +
+                                "    us.emailUsuario = ?\n" +
+                                "    AND citas.estadoCita = 'A'\n" +
+                                "    AND citas.diacita >= CURRENT_DATE"
                     )
                     statement.setString(1, sentEmail)
                     resultset = statement.executeQuery()
