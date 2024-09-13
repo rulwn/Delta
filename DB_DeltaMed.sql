@@ -2136,3 +2136,4 @@ INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario
 INNER JOIN tbTipoSucursales ts ON ts.ID_TipoSucursal = s.ID_TipoSucursal
 WHERE
 f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = 'fran@gmail.com');
+COMMIT;

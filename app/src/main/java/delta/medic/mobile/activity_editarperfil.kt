@@ -58,13 +58,16 @@ class activity_editarperfil : AppCompatActivity() {
     }
 
     fun validarCorreo(correo: String): String? {
-        val regex = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+".toRegex()
+        // Expresión regular para aceptar correos más complejos con dominios de segundo nivel
+        val regex = "[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})?".toRegex()
+
         return when {
             correo.isBlank() -> "El correo no puede estar vacío."
             !correo.matches(regex) -> "El correo ingresado no es válido."
             else -> null
         }
     }
+
 
     fun validarTelefono(telefono: String): String? {
         val regex = "^\\d{4}-\\d{4}$".toRegex()
@@ -74,16 +77,7 @@ class activity_editarperfil : AppCompatActivity() {
             else -> null
         }
     }
-
-
-    //Este coso lo que hace es si el usuario ha ingresado 4 numeros, le agrega un guión
-    fun formatTelefono(telefono: String): String {
-        return if (telefono.length == 4) {
-            "$telefono-"
-        } else {
-            telefono
-        }
-    }
+    
 
     //Estos son los Listeners por si cambia el texto en los EditText
 
@@ -181,8 +175,11 @@ class activity_editarperfil : AppCompatActivity() {
     fun setTextChangedTelefono(editText: EditText) {
         editText.addTextChangedListener(object : TextWatcher {
             private var isUpdating = false
+            private var oldText = ""
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                oldText = s.toString() // Guardamos el estado anterior del texto
+            }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
@@ -190,17 +187,24 @@ class activity_editarperfil : AppCompatActivity() {
                 if (isUpdating) return
                 isUpdating = true
 
-                var input = s.toString()
-                input = input.replace("[^\\d-]".toRegex(), "")  // Solo permite dígitos y guiones
-                input = input.replace("(\\d{4})(?!-)".toRegex(), "$1-")  // Añade un guión después de 4 dígitos
+                var input = s.toString().replace("-", "") // Eliminamos cualquier guión para procesar el número limpio
 
-                // Verificar si hay cambios
-                if (s.toString() != input) {
-                    editText.setText(input)
-                    editText.setSelection(input.length)
+                // Si estamos eliminando caracteres, permitimos borrar normalmente
+                if (oldText.length > input.length) {
+                    isUpdating = false
+                    return
                 }
 
-                // Validar formato
+                // Si el input tiene más de 4 caracteres, añadimos el guión después del cuarto carácter
+                if (input.length > 4) {
+                    input = input.substring(0, 4) + "-" + input.substring(4)
+                }
+
+                // Actualizamos el texto en el campo de entrada
+                editText.setText(input)
+                editText.setSelection(input.length) // Colocamos el cursor al final
+
+                // Validar el formato del número
                 val errorMessage = validarTelefono(input)
                 if (errorMessage != null) {
                     editText.error = errorMessage
