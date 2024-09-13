@@ -590,7 +590,7 @@ CREATE TABLE tbAuditorias (
 
 /*************************************************************************************************
 
-    ~ CREACIÃ“N DE TABLAS DEPENDIENTES ~
+    ~ CREACIÓN DE TABLAS DEPENDIENTES ~
 
 *************************************************************************************************/
 
@@ -641,7 +641,7 @@ CREATE TABLE tbSucursales (
     longSucur NUMBER(15,10) NOT NULL,
     whatsapp VARCHAR2(12),
     imgSucursal VARCHAR2(250) NOT NULL,
-    valoFinal NUMBER(2,5) NOT NULL,
+    valoFinal NUMBER(3,2) DEFAULT 0.0 NOT NULL,
     ID_Establecimiento INT NOT NULL,
     ID_TipoSucursal INT NOT NULL,
 
@@ -768,7 +768,7 @@ CREATE TABLE tbServicios (
 
 CREATE TABLE tbReviews (
     ID_Review INT PRIMARY KEY,
-    promEstrellas NUMBER(5,2) NOT NULL,
+    promEstrellas NUMBER(3,2) NOT NULL,
     comentario VARCHAR2(200),
     ID_Centro INT NOT NULL,
     ID_Usuario INT NOT NULL,
@@ -1462,42 +1462,65 @@ END;
 
 *************************************************************************************************/
 
-CREATE OR REPLACE PROCEDURE calcular_valo_final_sucursal (
-    p_ID_Sucursal IN tbSucursales.ID_Sucursal%TYPE
-)
-IS
+CREATE OR REPLACE TRIGGER trg_update_valoFinal
+AFTER INSERT ON tbReviews
+DECLARE
     v_promedioEstrellas NUMBER(5,2);
 BEGIN
-    -- Obtener el promedio de estrellas para la sucursal especificada
-    SELECT AVG(r.promEstrellas)
-    INTO v_promedioEstrellas
-    FROM tbReviews r
-    JOIN tbCentrosMedicos cm ON r.ID_Centro = cm.ID_Centro
-    WHERE cm.ID_Sucursal = p_ID_Sucursal;
+    -- Recalcular el promedio para todas las sucursales afectadas
+    FOR rec IN (
+        SELECT cm.ID_Sucursal
+        FROM tbCentrosMedicos cm
+        JOIN tbReviews r ON cm.ID_Centro = r.ID_Centro
+        GROUP BY cm.ID_Sucursal
+    ) LOOP
+        -- Calcular el promedio de estrellas para cada sucursal
+        SELECT AVG(r.promEstrellas)
+        INTO v_promedioEstrellas
+        FROM tbReviews r
+        JOIN tbCentrosMedicos cm ON r.ID_Centro = cm.ID_Centro
+        WHERE cm.ID_Sucursal = rec.ID_Sucursal;
 
-    -- Si no hay reviews, entonces el valor promedio será 0.
-    IF v_promedioEstrellas IS NULL THEN
-        v_promedioEstrellas := 0;
-    END IF;
-
-    -- Actualizar el valoFinal de la sucursal
-    UPDATE tbSucursales
-    SET valoFinal = v_promedioEstrellas
-    WHERE ID_Sucursal = p_ID_Sucursal;
-
-    -- Confirmar los cambios
-    COMMIT;
-    
-    DBMS_OUTPUT.PUT_LINE('ValoFinal actualizado a: ' || v_promedioEstrellas || ' para la sucursal con ID: ' || p_ID_Sucursal);
-EXCEPTION
-    WHEN NO_DATA_FOUND THEN
-        DBMS_OUTPUT.PUT_LINE('No se encontraron reviews para la sucursal con ID: ' || p_ID_Sucursal);
-    WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
-        ROLLBACK;
+        -- Actualizar el valoFinal de la sucursal
+        UPDATE tbSucursales
+        SET valoFinal = v_promedioEstrellas
+        WHERE ID_Sucursal = rec.ID_Sucursal;
+    END LOOP;
 END;
 /
 
+/*************************************************************************************************
+
+~ TRIGGER PARA PROMEDIO REVIEW ~
+
+*************************************************************************************************/
+
+CREATE OR REPLACE TRIGGER trg_update_valoFinal
+AFTER INSERT ON tbReviews
+DECLARE
+    v_promedioEstrellas NUMBER(5,2);
+BEGIN
+    -- Recalcular el promedio de estrellas para todas las sucursales afectadas
+    FOR rec IN (
+        SELECT cm.ID_Sucursal
+        FROM tbCentrosMedicos cm
+        JOIN tbReviews r ON cm.ID_Centro = r.ID_Centro
+        GROUP BY cm.ID_Sucursal
+    ) LOOP
+        -- Calcular el promedio de estrellas para la sucursal
+        SELECT AVG(r.promEstrellas)
+        INTO v_promedioEstrellas
+        FROM tbReviews r
+        JOIN tbCentrosMedicos cm ON r.ID_Centro = cm.ID_Centro
+        WHERE cm.ID_Sucursal = rec.ID_Sucursal;
+
+        -- Actualizar el valoFinal de la sucursal
+        UPDATE tbSucursales
+        SET valoFinal = v_promedioEstrellas
+        WHERE ID_Sucursal = rec.ID_Sucursal;
+    END LOOP;
+END;
+/
 /*************************************************************************************************
 
 ~ INSERTS A CADA TABLA ~
@@ -1808,15 +1831,15 @@ VALUES
 
 INSERT ALL
     INTO tbReviews(promEstrellas, comentario, ID_Centro, ID_Usuario)
-        VALUES(5, 'Excelente Servicio!', 3, 5)
+        VALUES(5.0, 'Excelente Servicio!', 3, 5)
 INTO tbReviews(promEstrellas, comentario, ID_Centro, ID_Usuario)
-        VALUES(1, 'El doctor no se presento a mi cita', 3, 1)
+        VALUES(1.0, 'El doctor no se presento a mi cita', 3, 1)
 INTO tbReviews(promEstrellas, comentario, ID_Centro, ID_Usuario)
         VALUES(4.5, 'Muy buen ambiente en esa clinica', 4, 2)
 INTO tbReviews(promEstrellas, comentario, ID_Centro, ID_Usuario)
-        VALUES(3, 'Bueno pero pudo ser mejor con el tiempo', 3, 4)
+        VALUES(3.5, 'Bueno pero pudo ser mejor con el tiempo', 3, 4)
 INTO tbReviews(promEstrellas, comentario, ID_Centro, ID_Usuario)
-        VALUES(4, 'Excelente música', 3, 2)
+        VALUES(4.0, 'Excelente música', 3, 2)
 SELECT DUMMY FROM DUAL;
 
 COMMIT;
@@ -1975,6 +1998,7 @@ INNER JOIN
 WHERE
     d.ID_Doctor = 3;
 
+SELECT * FROM tbReviews;
 /*************************************************************************************************
 
     ~ Consultas Inner Extras~
@@ -2155,15 +2179,7 @@ SELECT
             INNER JOIN tbServicios se ON cm.ID_Centro = se.ID_Centro
             WHERE
                 d.ID_Doctor = 5;
-*/
-
-select * from tbAuditorias;
-select * from tbDoctores;
-select * from tbUsuarios;
-select * from tbFavoritos;
-select * from tbRecientes;
-select * from tbCitasMedicas;
-
+                
 SELECT
 u.ID_Usuario,
 u.nombreUsuario,
@@ -2180,4 +2196,18 @@ INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario
 INNER JOIN tbTipoSucursales ts ON ts.ID_TipoSucursal = s.ID_TipoSucursal
 WHERE
 f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = 'fran@gmail.com');
+*/
+
+select * from tbAuditorias;
+select * from tbDoctores;
+select * from tbUsuarios;
+select * from tbFavoritos;
+select * from tbRecientes;
+select * from tbCitasMedicas;
+SELECT * FROM tbSucursales;
+
+
+
+
+
 
