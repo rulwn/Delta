@@ -1838,3 +1838,36 @@ SELECT * FROM (
 )
 WHERE 
     ROWNUM = 1;
+    
+    
+SELECT 
+    indi.ID_Indicacion, 
+    indi.inicioMedi, 
+    indi.finalMedi, 
+    indi.dosisMedi, 
+    indi.medicina, 
+    indi.detalleindi, 
+    tiem.lapsostiempo, 
+    tiem.frecuenciamedi 
+FROM 
+    tbIndicaciones indi 
+INNER JOIN 
+    tbTiempos tiem ON indi.id_tiempo = tiem.id_tiempo 
+INNER JOIN 
+    tbRecetas rec ON indi.id_receta = rec.id_receta 
+INNER JOIN 
+    tbFichasMedicas fichi ON rec.id_receta = fichi.id_receta 
+INNER JOIN 
+    tbcitasmedicas citas ON fichi.id_cita = citas.id_cita
+INNER JOIN 
+    tbUsuarios USUA ON citas.id_usuario = USUA.id_usuario 
+WHERE 
+    USUA.emailusuario = 'mirnix@gmail.com' 
+    AND indi.inicioMedi <= CURRENT_DATE 
+    AND indi.finalMedi >= CURRENT_DATE;
+    
+select * from tbusuarios;
+select * from tbIndicaciones;
+    
+/*drop table tbpacientes;
+drop table tbcentrosmedicos;*/

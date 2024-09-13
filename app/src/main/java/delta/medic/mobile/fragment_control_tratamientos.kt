@@ -50,11 +50,12 @@ class fragment_control_tratamientos : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         val root = inflater.inflate(R.layout.fragment_control_tratamientos, container, false)
         val calendarView = root.findViewById<CalendarView>(R.id.calendarTratamientos)
-        val txtRecordatorioTratamientos = root.findViewById<TextView>(R.id.txtRecordatorioTratamientos)
+        val txtRecordatorioTratamientos =
+            root.findViewById<TextView>(R.id.txtRecordatorioTratamientos)
         val txtAunNotienescitas = root.findViewById<TextView>(R.id.txtAunNotienescitas)
         val rcvTratamientos = root.findViewById<RecyclerView>(R.id.rcvRecordatoriosTratamientos)
         rcvTratamientos.layoutManager = LinearLayoutManager(requireContext())
@@ -84,7 +85,8 @@ class fragment_control_tratamientos : Fragment() {
                 set(Calendar.SECOND, 0)
                 set(Calendar.MILLISECOND, 0)
             }.time
-            val fechaSeleccionada = selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+            val fechaSeleccionada =
+                selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
             println("Fecha seleccionada: $fechaSeleccionada")
             txtRecordatorioTratamientos.text = "Recordatorio de tratamientos del día ${
                 SimpleDateFormat("dd/MM/yy", Locale.getDefault()).format(selectedDate)
@@ -93,11 +95,16 @@ class fragment_control_tratamientos : Fragment() {
                 val tratamientosCalendar = obtenerDatosTratamientos()
                 val tratamientosFiltrados = tratamientosCalendar.filter { tratamiento ->
                     tratamiento.inicioMedi?.let { inicio ->
-                        val inicioTratamiento = inicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
-                        val finalTratamiento = tratamiento.finalMedi?.toInstant()?.atZone(ZoneId.systemDefault())?.toLocalDate()
-                        fechaSeleccionada.isEqual(inicioTratamiento) ||
-                                (fechaSeleccionada.isAfter(inicioTratamiento) && fechaSeleccionada.isBefore(finalTratamiento)) ||
-                                fechaSeleccionada.isEqual(finalTratamiento)
+                        val inicioTratamiento =
+                            inicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                        val finalTratamiento =
+                            tratamiento.finalMedi?.toInstant()?.atZone(ZoneId.systemDefault())
+                                ?.toLocalDate()
+                        fechaSeleccionada.isEqual(inicioTratamiento) || (fechaSeleccionada.isAfter(
+                            inicioTratamiento
+                        ) && fechaSeleccionada.isBefore(
+                            finalTratamiento
+                        )) || fechaSeleccionada.isEqual(finalTratamiento)
                     } == true
                 }
                 withContext(Dispatchers.Main) {
@@ -117,24 +124,31 @@ class fragment_control_tratamientos : Fragment() {
                 val objConexion = ClaseConexion().cadenaConexion()
                 if (objConexion != null) {
                     val statement = objConexion.prepareStatement(
-                        "SELECT indi.ID_Indicacion, " +
-                                "indi.inicioMedi, " +
-                                "indi.finalMedi, " +
-                                "indi.dosisMedi, " +
-                                "indi.medicina, " +
-                                "indi.detalleindi, " +
-                                "tiem.lapsostiempo, " +
-                                "tiem.frecuenciamedi " +
-                                "FROM tbIndicaciones indi " +
-                                "INNER JOIN tbTiempos tiem ON indi.id_tiempo = tiem.id_tiempo " +
-                                "INNER JOIN tbRecetas rec ON indi.id_receta = rec.id_receta " +
-                                "INNER JOIN tbFichasMedicas fichi ON rec.id_receta = fichi.id_receta " +
-                                "INNER JOIN tbcitasmedicas citas ON fichi.id_cita = citas.id_cita " +
-                                "INNER JOIN tbpacientes PACS ON citas.id_paciente = PACS.id_paciente " +
-                                "INNER JOIN tbUsuarios USUA ON PACS.id_usuario = USUA.id_usuario " +
-                                "WHERE USUA.emailusuario = ? " +
-                                "AND indi.inicioMedi <= CURRENT_DATE " +
-                                "AND indi.finalMedi >= CURRENT_DATE"
+                        """SELECT 
+    indi.ID_Indicacion, 
+    indi.inicioMedi, 
+    indi.finalMedi, 
+    indi.dosisMedi, 
+    indi.medicina, 
+    indi.detalleindi, 
+    tiem.lapsostiempo, 
+    tiem.frecuenciamedi 
+FROM 
+    tbIndicaciones indi 
+INNER JOIN 
+    tbTiempos tiem ON indi.id_tiempo = tiem.id_tiempo 
+INNER JOIN 
+    tbRecetas rec ON indi.id_receta = rec.id_receta 
+INNER JOIN 
+    tbFichasMedicas fichi ON rec.id_receta = fichi.id_receta 
+INNER JOIN 
+    tbcitasmedicas citas ON fichi.id_cita = citas.id_cita
+INNER JOIN 
+    tbUsuarios USUA ON citas.id_usuario = USUA.id_usuario 
+WHERE 
+    USUA.emailusuario = ?
+    AND indi.inicioMedi <= CURRENT_DATE 
+    AND indi.finalMedi >= CURRENT_DATE""".trimIndent()
                     )
                     statement.setString(1, userEmail)
                     val resultSet = statement.executeQuery()
@@ -194,22 +208,29 @@ class fragment_control_tratamientos : Fragment() {
                 val objConexion = ClaseConexion().cadenaConexion()
                 if (objConexion != null) {
                     val statement = objConexion.prepareStatement(
-                        "SELECT indi.ID_Indicacion, " +
-                                "indi.inicioMedi, " +
-                                "indi.finalMedi, " +
-                                "indi.dosisMedi, " +
-                                "indi.medicina, " +
-                                "indi.detalleindi, " +
-                                "tiem.lapsostiempo, " +
-                                "tiem.frecuenciamedi " +
-                                "FROM tbIndicaciones indi " +
-                                "INNER JOIN tbTiempos tiem ON indi.id_tiempo = tiem.id_tiempo " +
-                                "INNER JOIN tbRecetas rec ON indi.id_receta = rec.id_receta " +
-                                "INNER JOIN tbFichasMedicas fichi ON rec.id_receta = fichi.id_receta " +
-                                "INNER JOIN tbcitasmedicas citas ON fichi.id_cita = citas.id_cita " +
-                                "INNER JOIN tbpacientes PACS ON citas.id_paciente = PACS.id_paciente " +
-                                "INNER JOIN tbUsuarios USUA ON PACS.id_usuario = USUA.id_usuario " +
-                                "WHERE USUA.emailusuario = ?"
+                        """SELECT 
+    indi.ID_Indicacion, 
+    indi.inicioMedi, 
+    indi.finalMedi, 
+    indi.dosisMedi, 
+    indi.medicina, 
+    indi.detalleindi, 
+    tiem.lapsostiempo, 
+    tiem.frecuenciamedi 
+    FROM 
+    tbIndicaciones indi 
+    INNER JOIN 
+    tbTiempos tiem ON indi.id_tiempo = tiem.id_tiempo 
+    INNER JOIN 
+    tbRecetas rec ON indi.id_receta = rec.id_receta 
+INNER JOIN 
+    tbFichasMedicas fichi ON rec.id_receta = fichi.id_receta 
+INNER JOIN 
+    tbcitasmedicas citas ON fichi.id_cita = citas.id_cita 
+INNER JOIN 
+    tbUsuarios USUA ON citas.id_usuario = USUA.id_usuario 
+WHERE 
+    USUA.emailusuario = ?"""
                     )
                     statement.setString(1, userEmail)
                     val resultSet = statement.executeQuery()
@@ -261,6 +282,7 @@ class fragment_control_tratamientos : Fragment() {
             indicaciones
         }
     }
+
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -272,12 +294,11 @@ class fragment_control_tratamientos : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            fragment_control_tratamientos().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+        fun newInstance(param1: String, param2: String) = fragment_control_tratamientos().apply {
+            arguments = Bundle().apply {
+                putString(ARG_PARAM1, param1)
+                putString(ARG_PARAM2, param2)
             }
+        }
     }
 }

@@ -48,7 +48,7 @@ class fragment_controlCitas : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View? {
         val root = inflater.inflate(R.layout.fragment_control_citas, container, false)
         val calendarView = root.findViewById<CalendarView>(R.id.calendarCitas)
@@ -88,9 +88,9 @@ class fragment_controlCitas : Fragment() {
                 CoroutineScope(Dispatchers.IO).launch {
                     val citasDelDia = obtenerDiaCita(fechaFormateada)
                     withContext(Dispatchers.Main) {
-                            txtAunNotienescitas.visibility = View.GONE
-                            val miAdaptador = AdaptadorCitas(citasDelDia)
-                            rcvRecordatoriosCitas.adapter = miAdaptador
+                        txtAunNotienescitas.visibility = View.GONE
+                        val miAdaptador = AdaptadorCitas(citasDelDia)
+                        rcvRecordatoriosCitas.adapter = miAdaptador
 
                     }
                 }
@@ -112,37 +112,29 @@ class fragment_controlCitas : Fragment() {
                 objConexion = ClaseConexion().cadenaConexion()
                 if (objConexion != null) {
                     statement = objConexion.prepareStatement(
-                        "SELECT \n" +
-                                "    citas.ID_Cita, \n" +
-                                "    citas.diacita, \n" +
-                                "    citas.horacita, \n" +
-                                "    citas.motivo, \n" +
-                                "    citas.estadoCita, \n" +
-                                "    citas.id_centro, \n" +
-                                "    citas.id_paciente, \n" +
-                                "    pacs.nombrepaciente, \n" +
-                                "    pacs.parentesco, \n" +
-                                "    usua.id_usuario, \n" +
-                                "    usua.nombreUsuario, \n" +
-                                "    usua.apellidoUsuario, \n" +
-                                "    esp.nombreespecialidad\n" +
-                                "FROM \n" +
-                                "    tbcitasmedicas citas\n" +
-                                "INNER JOIN \n" +
-                                "    tbcentrosmedicos centros ON citas.id_centro = centros.id_centro\n" +
-                                "INNER JOIN \n" +
-                                "    tbdoctores docs ON centros.id_doctor = docs.id_doctor\n" +
-                                "INNER JOIN \n" +
-                                "    tbEspecialidades esp ON docs.id_especialidad = esp.id_especialidad\n" +
-                                "INNER JOIN \n" +
-                                "    tbUsuarios usua ON docs.id_usuario = usua.id_usuario\n" +
-                                "INNER JOIN \n" +
-                                "    tbpacientes pacs ON citas.id_paciente = pacs.id_paciente\n" +
-                                "INNER JOIN \n" +
-                                "    tbUsuarios us ON pacs.id_usuario = us.id_usuario\n" +
-                                "WHERE \n" +
-                                "    us.emailUsuario = ? \n" +
-                                "    AND citas.diacita = ?"
+                        """SELECT 
+    citas.ID_Cita, 
+    citas.diacita, 
+    citas.horacita, 
+    citas.motivo, 
+    citas.estadoCita, 
+    citas.id_usuario, 
+    usua.nombreUsuario, 
+    usua.apellidoUsuario, 
+    esp.nombreespecialidad
+FROM 
+    tbcitasmedicas citas
+INNER JOIN 
+    tbdoctores docs ON citas.id_doctor = docs.id_doctor
+INNER JOIN 
+    tbEspecialidades esp ON docs.id_especialidad = esp.id_especialidad
+INNER JOIN 
+    tbUsuarios usua ON docs.id_usuario = usua.id_usuario
+INNER JOIN 
+    tbUsuarios us ON citas.id_usuario = us.id_usuario
+WHERE 
+    us.emailUsuario = ? 
+    AND citas.diacita = ?"""
                     )
                     statement.setString(1, sentEmail)
                     statement.setDate(2, Fecha)
@@ -188,38 +180,30 @@ class fragment_controlCitas : Fragment() {
                 objConexion = ClaseConexion().cadenaConexion()
                 if (objConexion != null) {
                     statement = objConexion.prepareStatement(
-                        "SELECT \n" +
-                                "    citas.ID_Cita, \n" +
-                                "    citas.diacita, \n" +
-                                "    citas.horacita, \n" +
-                                "    citas.motivo, \n" +
-                                "    citas.estadoCita, \n" +
-                                "    citas.id_centro, \n" +
-                                "    citas.id_paciente, \n" +
-                                "    pacs.nombrepaciente, \n" +
-                                "    pacs.parentesco, \n" +
-                                "    usua.id_usuario, \n" +
-                                "    usua.nombreUsuario, \n" +
-                                "    usua.apellidoUsuario, \n" +
-                                "    esp.nombreespecialidad\n" +
-                                "FROM \n" +
-                                "    tbcitasmedicas citas\n" +
-                                "INNER JOIN \n" +
-                                "    tbcentrosmedicos centros ON citas.id_centro = centros.id_centro\n" +
-                                "INNER JOIN \n" +
-                                "    tbdoctores docs ON centros.id_doctor = docs.id_doctor\n" +
-                                "INNER JOIN \n" +
-                                "    tbEspecialidades esp ON docs.id_especialidad = esp.id_especialidad\n" +
-                                "INNER JOIN \n" +
-                                "    tbUsuarios usua ON docs.id_usuario = usua.id_usuario\n" +
-                                "INNER JOIN \n" +
-                                "    tbpacientes pacs ON citas.id_paciente = pacs.id_paciente\n" +
-                                "INNER JOIN \n" +
-                                "    tbUsuarios us ON pacs.id_usuario = us.id_usuario\n" +
-                                "WHERE \n" +
-                                "    us.emailUsuario = ?\n" +
-                                "    AND citas.estadoCita = 'A'\n" +
-                                "    AND citas.diacita >= CURRENT_DATE"
+                        """SELECT 
+    citas.ID_Cita, 
+    citas.diacita, 
+    citas.horacita, 
+    citas.motivo, 
+    citas.estadoCita, 
+    citas.id_usuario, 
+    usua.nombreUsuario, 
+    usua.apellidoUsuario, 
+    esp.nombreespecialidad
+FROM 
+    tbcitasmedicas citas
+INNER JOIN 
+    tbdoctores docs ON citas.id_doctor = docs.id_doctor
+INNER JOIN 
+    tbEspecialidades esp ON docs.id_especialidad = esp.id_especialidad
+INNER JOIN 
+    tbUsuarios usua ON docs.id_usuario = usua.id_usuario
+INNER JOIN 
+    tbUsuarios us ON citas.id_usuario = us.id_usuario
+WHERE 
+    us.emailUsuario = ?
+    AND citas.estadoCita = 'A'
+    AND citas.diacita >= CURRENT_DATE"""
                     )
                     statement.setString(1, sentEmail)
                     resultset = statement.executeQuery()
