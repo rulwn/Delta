@@ -1355,46 +1355,11 @@ BEGIN
     COMMIT WORK;
 END;
 /
-
-/*************************************************************************************************
-
-~ PROCEDURE PARA PROMEDIO REVIEW ~
-
-*************************************************************************************************/
-
-CREATE OR REPLACE TRIGGER trg_update_valoFinal
-AFTER INSERT ON tbReviews
-DECLARE
-    v_promedioEstrellas NUMBER(5,2);
-BEGIN
-    -- Recalcular el promedio para todas las sucursales afectadas
-    FOR rec IN (
-        SELECT cm.ID_Sucursal
-        FROM tbCentrosMedicos cm
-        JOIN tbReviews r ON cm.ID_Centro = r.ID_Centro
-        GROUP BY cm.ID_Sucursal
-    ) LOOP
-        -- Calcular el promedio de estrellas para cada sucursal
-        SELECT AVG(r.promEstrellas)
-        INTO v_promedioEstrellas
-        FROM tbReviews r
-        JOIN tbCentrosMedicos cm ON r.ID_Centro = cm.ID_Centro
-        WHERE cm.ID_Sucursal = rec.ID_Sucursal;
-
-        -- Actualizar el valoFinal de la sucursal
-        UPDATE tbSucursales
-        SET valoFinal = v_promedioEstrellas
-        WHERE ID_Sucursal = rec.ID_Sucursal;
-    END LOOP;
-END;
-/
-
 /*************************************************************************************************
 
 ~ TRIGGER PARA PROMEDIO REVIEW ~
 
 *************************************************************************************************/
-
 CREATE OR REPLACE TRIGGER trg_update_valoFinal
 AFTER INSERT ON tbReviews
 DECLARE
@@ -1402,17 +1367,17 @@ DECLARE
 BEGIN
     -- Recalcular el promedio de estrellas para todas las sucursales afectadas
     FOR rec IN (
-        SELECT cm.ID_Sucursal
-        FROM tbCentrosMedicos cm
-        JOIN tbReviews r ON cm.ID_Centro = r.ID_Centro
-        GROUP BY cm.ID_Sucursal
+        SELECT d.ID_Sucursal
+        FROM tbDoctores d
+        JOIN tbReviews r ON d.ID_Doctor = r.ID_Doctor
+        GROUP BY d.ID_Sucursal
     ) LOOP
         -- Calcular el promedio de estrellas para la sucursal
         SELECT AVG(r.promEstrellas)
         INTO v_promedioEstrellas
         FROM tbReviews r
-        JOIN tbCentrosMedicos cm ON r.ID_Centro = cm.ID_Centro
-        WHERE cm.ID_Sucursal = rec.ID_Sucursal;
+        JOIN tbDoctores d ON r.ID_Doctor = d.ID_Doctor
+        WHERE d.ID_Sucursal = rec.ID_Sucursal;
 
         -- Actualizar el valoFinal de la sucursal
         UPDATE tbSucursales
@@ -1982,24 +1947,6 @@ INNER JOIN tbUsuarios u_doctor ON u_doctor.ID_Usuario = d.ID_Usuario
 WHERE
     u.emailUsuario = 'fran@gmail.com';
 
-
-
-SELECT * FROM tbCentrosMedicos WHERE ID_Doctor = 5;
-SELECT se.* FROM tbServicios se
-INNER JOIN tbCentrosMedicos cm ON se.ID_Centro = cm.ID_Centro
-WHERE cm.ID_Doctor = 5;
-
-SELECT
-    h.horarioTurno
-    FROM
-        tbHorarios h
-    INNER JOIN
-        tbCentrosMedicos cm ON h.ID_Centro = cm.ID_Centro
-    INNER JOIN
-        tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-    WHERE
-                d.ID_Doctor = 5;
-
 SELECT
 
                 u.nombreUsuario,
@@ -2032,6 +1979,7 @@ select * from tbFavoritos;
 select * from tbRecientes;
 select * from tbCitasMedicas;
 
+////////////////////////////////
 SELECT
 u.ID_Usuario,
 u.nombreUsuario,
@@ -2049,6 +1997,7 @@ INNER JOIN tbTipoSucursales ts ON ts.ID_TipoSucursal = s.ID_TipoSucursal
 WHERE
 f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = 'fran@gmail.com');
 
+////////////////////////////////
 SELECT * FROM (
     SELECT
         citas.ID_Cita,
@@ -2081,3 +2030,4 @@ SELECT * FROM (
 WHERE
     ROWNUM = 1;
 */
+SELECT * FROM tbSucursales;

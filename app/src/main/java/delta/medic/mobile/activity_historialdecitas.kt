@@ -95,34 +95,30 @@ return withContext(Dispatchers.IO) {
         val objConexion = ClaseConexion().cadenaConexion()
         if (objConexion != null) {
             val statement = objConexion.prepareStatement(
-                "SELECT \n" +
-                        "    citas.ID_Cita,\n" +
-                        "    citas.diacita,\n" +
-                        "    citas.horacita,\n" +
-                        "    citas.motivo,\n" +
-                        "    citas.estadoCita,\n" +
-                        "    citas.id_centro,\n" +
-                        "    citas.id_paciente,\n" +
-                        "    pacs.nombrepaciente,\n" +
-                        "    pacs.parentesco,\n" +
-                        "    usua.id_usuario,\n" +
-                        "    usua.nombreUsuario,\n" +
-                        "    usua.apellidoUsuario,\n" +
-                        "    esp.nombreespecialidad\n" +
-                        "FROM \n" +
-                        "    tbcitasmedicas citas\n" +
-                        "    INNER JOIN tbcentrosmedicos centros ON citas.id_centro = centros.id_centro\n" +
-                        "    INNER JOIN tbdoctores docs ON centros.id_doctor = docs.id_doctor\n" +
-                        "    INNER JOIN tbEspecialidades esp ON docs.id_especialidad = esp.id_especialidad\n" +
-                        "    INNER JOIN tbUsuarios usua ON docs.id_usuario = usua.id_usuario\n" +
-                        "    INNER JOIN tbpacientes pacs ON citas.id_paciente = pacs.id_paciente\n" +
-                        "    INNER JOIN tbUsuarios us ON pacs.id_usuario = us.id_usuario\n" +
-                        "WHERE \n" +
-                        "    us.emailUsuario = ?\n" +
-                        "ORDER BY \n" +
-                        "    citas.diacita DESC, \n" +
-                        "    citas.horacita DESC\n"
-
+                """
+SELECT 
+    citas.ID_Cita,
+    citas.diacita,
+    citas.horacita,
+    citas.motivo,
+    citas.estadoCita,
+    citas.ID_Doctor,
+    usua.ID_Usuario,
+    usua.nombreUsuario,
+    usua.apellidoUsuario,
+    usua.imgUsuario,
+    esp.nombreEspecialidad
+FROM 
+    tbCitasMedicas citas
+INNER JOIN tbDoctores docs ON citas.ID_Doctor = docs.ID_Doctor
+INNER JOIN tbEspecialidades esp ON docs.ID_Especialidad = esp.ID_Especialidad
+INNER JOIN tbUsuarios usua ON docs.ID_Usuario = usua.ID_Usuario
+WHERE 
+    usua.emailUsuario = ?
+ORDER BY 
+    citas.diacita DESC, 
+    citas.horacita DESC
+                """.trimIndent()
             )!!
             statement.setString(1, userEmail)
             val resultset = statement.executeQuery()
@@ -132,7 +128,6 @@ return withContext(Dispatchers.IO) {
                 val horaCita = resultset.getTimestamp("horaCita")
                 val motivo = resultset.getString("motivo")
                 val EstadoCita = resultset.getString("EstadoCita")
-                val ID_Centro = resultset.getInt("ID_Centro")
                 val ID_Paciente = resultset.getInt("ID_Paciente")
                 val nombrePaciente = resultset.getString("nombrePaciente")
                 val parentesco = resultset.getString("parentesco")
@@ -163,5 +158,4 @@ return withContext(Dispatchers.IO) {
     citas
 }
 }
-
 }

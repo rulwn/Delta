@@ -147,39 +147,32 @@ class HomeFragment : Fragment() {
                 if (objConexion != null) {
                     val statement = objConexion.prepareStatement(
                         """
-                    SELECT * FROM (
-                        SELECT 
-                            citas.ID_Cita,
-                            citas.diacita,
-                            citas.horacita,
-                            citas.motivo,
-                            citas.estadoCita,
-                            citas.id_usuario,
-                            usua.nombreUsuario,
-                            usua.apellidoUsuario,
-                            esp.nombreespecialidad
-                        FROM 
-                            tbcitasmedicas citas
-                        INNER JOIN 
-                            tbdoctores docs ON citas.id_doctor = docs.id_doctor
-                        INNER JOIN 
-                            tbEspecialidades esp ON docs.id_especialidad = esp.id_especialidad
-                        INNER JOIN 
-                            tbUsuarios usua ON docs.id_usuario = usua.id_usuario
-                        INNER JOIN 
-                            tbUsuarios us ON citas.id_usuario = us.id_usuario
-                        WHERE 
-                            us.emailUsuario = ?
-                            AND citas.diacita >= CURRENT_DATE
-                            AND citas.estadoCita = 'A'
-                        ORDER BY 
-                            citas.diacita ASC, 
-                            citas.horacita ASC
-                    )
-                    WHERE 
-                        ROWNUM = 1
-                    """
-                    )!!
+SELECT 
+    indi.ID_Indicacion, 
+    indi.inicioMedi, 
+    indi.finalMedi, 
+    indi.dosisMedi, 
+    indi.medicina, 
+    indi.detalleIndi, 
+    tiem.lapsosTiempo, 
+    tiem.frecuenciaMedi
+FROM 
+    tbIndicaciones indi
+INNER JOIN 
+    tbTiempos tiem ON indi.ID_Tiempo = tiem.ID_Tiempo
+INNER JOIN 
+    tbRecetas rec ON indi.ID_Receta = rec.ID_Receta
+INNER JOIN 
+    tbFichasMedicas fichi ON rec.ID_Receta = fichi.ID_Receta
+INNER JOIN 
+    tbCitasMedicas citas ON fichi.ID_Cita = citas.ID_Cita
+INNER JOIN 
+    tbUsuarios usua ON citas.ID_Usuario = usua.ID_Usuario
+WHERE 
+    usua.emailUsuario = ?
+    AND indi.inicioMedi <= CURRENT_DATE
+    AND indi.finalMedi >= CURRENT_DATE
+                 """)!!
 
                     statement.setString(1, userEmail)  // Se cambia el correo por el parámetro `userEmail`
                     val resultset = statement.executeQuery()
@@ -226,22 +219,25 @@ class HomeFragment : Fragment() {
 
             // Preparar la consulta
             val statement = conexion?.prepareStatement(
-                "SELECT\n" +
-                        "u.ID_Usuario,\n" +
-                        "u.nombreUsuario,\n" +
-                        "u.imgUsuario,\n" +
-                        "d.ID_Doctor,\n" +
-                        "s.ID_Sucursal,\n" +
-                        "s.imgSucursal,\n" +
-                        "e.nombreEspecialidad\n" +
-                        "FROM\n" +
-                        "tbRecientes f\n" +
-                        "INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor\n" +
-                        "INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal\n" +
-                        "INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario\n" +
-                        "INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad\n" +
-                        "WHERE\n" +
-                        "f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?)"
+                """
+                     SELECT
+                        u.ID_Usuario,
+                        u.nombreUsuario,
+                        u.imgUsuario,
+                        d.ID_Doctor,
+                        s.ID_Sucursal,
+                        s.imgSucursal,
+                        e.nombreEspecialidad
+                        FROM
+                        tbRecientes f
+                        INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor
+                        INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal
+                        INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario
+                        INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+                        WHERE
+                        f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?)
+                """.trimIndent()
+
             )
 
             // Establecer el parámetro
