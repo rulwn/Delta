@@ -63,16 +63,6 @@ END;
 /
 
 BEGIN
-    EXECUTE IMMEDIATE 'DROP TABLE tbPacientes CASCADE CONSTRAINTS';
-EXCEPTION
-    WHEN OTHERS THEN
-        IF SQLCODE != -942 THEN
-            RAISE;
-        END IF;
-END;
-/
-
-BEGIN
     EXECUTE IMMEDIATE 'DROP TABLE tbNotis CASCADE CONSTRAINTS';
 EXCEPTION
     WHEN OTHERS THEN
@@ -134,16 +124,6 @@ END;
 
 BEGIN
     EXECUTE IMMEDIATE 'DROP TABLE tbHorarios CASCADE CONSTRAINTS';
-EXCEPTION
-    WHEN OTHERS THEN
-        IF SQLCODE != -942 THEN
-            RAISE;
-        END IF;
-END;
-/
-
-BEGIN
-    EXECUTE IMMEDIATE 'DROP TABLE tbCentrosMedicos CASCADE CONSTRAINTS';
 EXCEPTION
     WHEN OTHERS THEN
         IF SQLCODE != -942 THEN
@@ -380,16 +360,6 @@ END;
 /
 
 BEGIN
-    EXECUTE IMMEDIATE 'DROP SEQUENCE centros';
-EXCEPTION
-    WHEN OTHERS THEN
-        IF SQLCODE != -2289 THEN
-            RAISE;
-        END IF;
-END;
-/
-
-BEGIN
     EXECUTE IMMEDIATE 'DROP SEQUENCE horarios';
 EXCEPTION
     WHEN OTHERS THEN
@@ -471,16 +441,6 @@ END;
 
 BEGIN
     EXECUTE IMMEDIATE 'DROP SEQUENCE notis';
-EXCEPTION
-    WHEN OTHERS THEN
-        IF SQLCODE != -2289 THEN
-            RAISE;
-        END IF;
-END;
-/
-
-BEGIN
-    EXECUTE IMMEDIATE 'DROP SEQUENCE paciente';
 EXCEPTION
     WHEN OTHERS THEN
         IF SQLCODE != -2289 THEN
@@ -724,28 +684,15 @@ CREATE TABLE tbRecientes (
     CONSTRAINT Unique_Rec UNIQUE (ID_Usuario, ID_Doctor, ID_Sucursal)
 );
 
-CREATE TABLE tbCentrosMedicos (
-    ID_Centro INT PRIMARY KEY,
-    ID_Doctor INT NOT NULL UNIQUE,
-    ID_Sucursal INT NOT NULL,
-
-    --CONSTRAINTS------------------
-    CONSTRAINT FK_Doctor FOREIGN KEY (ID_Doctor)
-    REFERENCES tbDoctores(ID_Doctor)
-    ON DELETE CASCADE,
-
-    CONSTRAINT FK_Sucursal FOREIGN KEY (ID_Sucursal) REFERENCES tbSucursales(ID_Sucursal)
-    ON DELETE CASCADE
-);
 
 CREATE TABLE tbHorarios (
     ID_Horario INT PRIMARY KEY,
     horarioTurno VARCHAR2(1) CHECK(horarioTurno IN ('M', 'V')) NOT NULL,
-    ID_Centro INT NOT NULL,
+    ID_Doctor INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Centro_Horario FOREIGN KEY (ID_Centro)
-    REFERENCES tbCentrosMedicos(ID_Centro)
+    CONSTRAINT FK_Doc_Horario FOREIGN KEY (ID_Doctor)
+    REFERENCES tbDoctores(ID_Doctor)
     ON DELETE CASCADE
 );
 
@@ -754,15 +701,15 @@ CREATE TABLE tbServicios (
     nombreServicio VARCHAR2(60) NOT NULL UNIQUE,
     costo DECIMAL(10,2) NOT NULL,
     ID_Aseguradora INT NOT NULL,
-    ID_Centro INT NOT NULL,
+    ID_Doctor INT NOT NULL,
 
     --CONSTRAINTS------------------
     CONSTRAINT FK_Aseguradora_Servicio FOREIGN KEY (ID_Aseguradora)
     REFERENCES tbAseguradoras(ID_Aseguradora)
     ON DELETE CASCADE,
 
-    CONSTRAINT FK_Centro_Servicio FOREIGN KEY (ID_Centro)
-    REFERENCES tbCentrosMedicos(ID_Centro)
+    CONSTRAINT FK_Doc_Servicio FOREIGN KEY (ID_Doctor)
+    REFERENCES tbDoctores(ID_Doctor)
     ON DELETE CASCADE
 );
 
@@ -770,12 +717,12 @@ CREATE TABLE tbReviews (
     ID_Review INT PRIMARY KEY,
     promEstrellas NUMBER(5,2) NOT NULL,
     comentario VARCHAR2(200),
-    ID_Centro INT NOT NULL,
+    ID_Doctor INT NOT NULL,
     ID_Usuario INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Centro_Review FOREIGN KEY (ID_Centro)
-    REFERENCES tbCentrosMedicos(ID_Centro)
+    CONSTRAINT FK_Doc_Review FOREIGN KEY (ID_Doctor)
+    REFERENCES tbDoctores(ID_Doctor)
     ON DELETE CASCADE,
     
     CONSTRAINT FK_Usuario_Review FOREIGN KEY (ID_Usuario)
@@ -802,20 +749,6 @@ CREATE TABLE tbNotis (
     ON DELETE CASCADE
 );
 
-CREATE TABLE tbPacientes (
-    ID_Paciente INT PRIMARY KEY,
-    nombrePaciente VARCHAR2(50) NOT NULL,
-    apellidoPaciente VARCHAR2(50) NOT NULL,
-    imgPaciente VARCHAR2(250),
-    parentesco VARCHAR2(30),
-    ID_Usuario INT NOT NULL,
-
-    --CONSTRAINTS------------------
-    CONSTRAINT FK_Usuario_Paciente FOREIGN KEY (ID_Usuario)
-    REFERENCES tbUsuarios(ID_Usuario)
-    ON DELETE CASCADE
-);
-
 CREATE TABLE tbExpedientes (
     ID_Expediente INT PRIMARY KEY,
     antecedentes VARCHAR2(200) NOT NULL,
@@ -831,11 +764,11 @@ CREATE TABLE tbExpedientes (
     historial VARCHAR2(200) NOT NULL,
     tipoSangre VARCHAR2(10) NOT NULL,
     fechaConsultas DATE NOT NULL,
-    ID_Paciente INT NOT NULL,
+    ID_Usuario INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Paciente_Expe FOREIGN KEY (ID_Paciente)
-    REFERENCES tbPacientes(ID_Paciente)
+    CONSTRAINT FK_Usuario_Expe FOREIGN KEY (ID_Usuario)
+    REFERENCES tbUsuarios(ID_Usuario)
     ON DELETE CASCADE
 );
 
@@ -845,16 +778,16 @@ CREATE TABLE tbCitasMedicas (
     estadoCita CHAR(1) CHECK (estadoCita in ('C', 'A')) NOT NULL,
     horaCita TIMESTAMP NOT NULL,
     motivo VARCHAR2(150) NOT NULL,
-    ID_Centro INT NOT NULL,
-    ID_Paciente INT NOT NULL,
+    ID_Doctor INT NOT NULL,
+    ID_Usuario INT NOT NULL,
 
     --CONSTRAINTS------------------
-    CONSTRAINT FK_Centro_Cita FOREIGN KEY (ID_Centro)
-    REFERENCES tbCentrosMedicos(ID_Centro)
+    CONSTRAINT FK_Doc_Cita FOREIGN KEY (ID_Doctor)
+    REFERENCES tbDoctores(ID_Doctor)
     ON DELETE CASCADE,
 
-    CONSTRAINT FK_Paciente_Cita FOREIGN KEY (ID_Paciente)
-    REFERENCES tbPacientes(ID_Paciente)
+    CONSTRAINT FK_Us_Cita FOREIGN KEY (ID_Usuario)
+    REFERENCES tbUsuarios(ID_Usuario)
     ON DELETE CASCADE
 );
 
@@ -957,11 +890,6 @@ CREATE SEQUENCE sucursales
 START WITH 1
 INCREMENT BY 1;
 
--- SECUENCIA_CENTROS --
-CREATE SEQUENCE centros
-START WITH 1
-INCREMENT BY 1;
-
 -- SECUENCIA_HORARIOS --
 CREATE SEQUENCE horarios
 START WITH 1
@@ -1004,11 +932,6 @@ INCREMENT BY 1;
 
 -- SECUENCIA_NOTIS --
 CREATE SEQUENCE notis
-START WITH 1
-INCREMENT BY 1;
-
--- SECUENCIA_PACIENTES --
-CREATE SEQUENCE paciente
 START WITH 1
 INCREMENT BY 1;
 
@@ -1150,17 +1073,6 @@ BEGIN
 END Trigger_Sucursal;
 /
 
--- TRIGGER_CENTRO_MEDICO --
-CREATE OR REPLACE TRIGGER Trigger_CentroMedico
-BEFORE INSERT ON tbCentrosMedicos
-FOR EACH ROW
-BEGIN
-    SELECT centros.NEXTVAL
-    INTO: NEW.ID_Centro
-    FROM DUAL;
-END Trigger_CentroMedico;
-/
-
 -- TRIGGER_HORARIO --
 CREATE OR REPLACE TRIGGER Trigger_Horario
 BEFORE INSERT ON tbHorarios
@@ -1249,17 +1161,6 @@ BEGIN
 END Trigger_Noti;
 /
 
--- TRIGGER_PACIENTE --
-CREATE OR REPLACE TRIGGER Trigger_Paciente
-BEFORE INSERT ON tbPacientes
-FOR EACH ROW
-BEGIN
-    SELECT paciente.NEXTVAL
-    INTO: NEW.ID_Paciente
-    FROM DUAL;
-END Trigger_Paciente;
-/
-
 -- TRIGGER_EXPEDIENTE --
 CREATE OR REPLACE TRIGGER Trigger_Expediente
 BEFORE INSERT ON tbExpedientes
@@ -1293,15 +1194,14 @@ BEGIN
         doctorNombre VARCHAR2(100);
     BEGIN
         SELECT u.nombreUsuario INTO doctorNombre
-        FROM tbCentrosMedicos cm
-        JOIN tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+        FROM tbDoctores d INNER
         JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
-        WHERE cm.ID_Centro = :NEW.ID_Centro;
+        WHERE d.ID_Doctor = :OLD.ID_Doctor;
 
         mensaje := 'Cita cancelada con ' || doctorNombre || ' el ' || TO_CHAR(:NEW.horaCita, 'DD-MM-YYYY HH24:MI');
 
         INSERT INTO tbNotis (ID_Notificacion, fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti)
-        VALUES (notis.NEXTVAL, SYSDATE, 'A', mensaje, 'S', :NEW.ID_Paciente, 1);
+        VALUES (notis.NEXTVAL, SYSDATE, 'A', mensaje, 'S', :NEW.ID_Usuario, 1);
     END;
 END Trigger_Cancelacion_Cita;
 /
@@ -1640,54 +1540,28 @@ INSERT ALL
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
-    INTO tbCentrosMedicos (ID_Doctor, ID_Sucursal)
-         VALUES (5, 1)
-    INTO tbCentrosMedicos (ID_Doctor, ID_Sucursal)
-         VALUES (4, 2)
-    INTO tbCentrosMedicos (ID_Doctor, ID_Sucursal)
-         VALUES (3, 3)
-    INTO tbCentrosMedicos (ID_Doctor, ID_Sucursal)
-         VALUES (2, 4)
-    INTO tbCentrosMedicos (ID_Doctor, ID_Sucursal)
-         VALUES (1, 5)
-SELECT DUMMY FROM DUAL;
-
-INSERT ALL
-    INTO tbHorarios (horarioTurno, ID_Centro)
+    INTO tbHorarios (horarioTurno, ID_Doctor)
          VALUES ('V', 2)
-    INTO tbHorarios (horarioTurno, ID_Centro)
+    INTO tbHorarios (horarioTurno, ID_Doctor)
          VALUES ('V', 1)
-    INTO tbHorarios (horarioTurno, ID_Centro)
+    INTO tbHorarios (horarioTurno, ID_Doctor)
          VALUES ('M', 3)
-    INTO tbHorarios (horarioTurno, ID_Centro)
+    INTO tbHorarios (horarioTurno, ID_Doctor)
          VALUES ('V', 4)
-    INTO tbHorarios (horarioTurno, ID_Centro)
+    INTO tbHorarios (horarioTurno, ID_Doctor)
          VALUES ('V', 5)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
-    INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES ('Yo', 'Mismo', NULL, 'Usuario', 1)
-    INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES ('Maria', 'García', NULL, 'Madre', 2)
-    INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES ('Carlos', 'López', NULL, 'Hijo', 3)
-    INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES ('Ana', 'Martínez', NULL, 'Hija', 4)
-    INTO tbPacientes (nombrePaciente, apellidoPaciente, imgPaciente, parentesco, ID_Usuario)
-         VALUES ('Luis', 'Sánchez', NULL, 'Hermano', 5)
-SELECT DUMMY FROM DUAL;
-
-INSERT ALL
-    INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Centro, ID_Paciente)
+    INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Doctor, ID_Usuario)
          VALUES (TO_DATE('2024-10-01', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general','A', 5, 1)
-    INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Centro, ID_Paciente)
+    INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Doctor, ID_Usuario)
          VALUES (TO_DATE('2024-10-02', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-02 11:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'RevisiÃ³n anual','A', 4, 2)
-    INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Centro, ID_Paciente)
+    INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Doctor, ID_Usuario)
          VALUES (TO_DATE('2024-10-03', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-03 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta de seguimiento','A', 3, 3)
-    INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Centro, ID_Paciente)
+    INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Doctor, ID_Usuario)
          VALUES (TO_DATE('2024-10-04', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-04 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general','A', 2, 4)
-    INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Centro, ID_Paciente)
+    INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Doctor, ID_Usuario)
          VALUES (TO_DATE('2024-10-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-05 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada','A', 1, 5)
 SELECT DUMMY FROM DUAL;
 
@@ -1720,25 +1594,25 @@ SELECT * FROM dual;
 
 
 INSERT ALL
-    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Doctor)
         VALUES ('Limpieza Bucal', 40.00, 1, 4)
-    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Doctor)
         VALUES ('Chequeo General', 30.00, 2, 4)
-    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Doctor)
         VALUES ('Examen Visual', 45.00, 3, 3)
-    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Doctor)
         VALUES ('Blanqueamiento Dental', 60.00, 4, 4)
-    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Doctor)
         VALUES ('Terapia Cognitiva', 55.00, 5, 3)
-    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Doctor)
         VALUES ('Ayuda Personal', 25.00, 1, 3)
-    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Doctor)
         VALUES ('Chequeo Lumbar', 35.00, 2, 3)
-    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Doctor)
         VALUES ('Consulta General', 50.00, 1, 2)
-    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Doctor)
         VALUES ('Consulta Especializada', 25.00, 2, 5)
-    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Centro)
+    INTO tbServicios (nombreServicio, costo, ID_Aseguradora, ID_Doctor)
         VALUES ('Anestesia General', 75.00, 1, 1)
 SELECT DUMMY FROM DUAL;
     
@@ -1765,15 +1639,15 @@ VALUES
 
 
 INSERT ALL
-    INTO tbReviews(promEstrellas, comentario, ID_Centro, ID_Usuario)
+    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(5, 'Excelente Servicio!', 3, 5)
-INTO tbReviews(promEstrellas, comentario, ID_Centro, ID_Usuario)
+INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(1, 'El doctor no se presento a mi cita', 3, 1)
-INTO tbReviews(promEstrellas, comentario, ID_Centro, ID_Usuario)
+INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(4.5, 'Muy buen ambiente en esa clinica', 4, 2)
-INTO tbReviews(promEstrellas, comentario, ID_Centro, ID_Usuario)
+INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(3, 'Bueno pero pudo ser mejor con el tiempo', 3, 4)
-INTO tbReviews(promEstrellas, comentario, ID_Centro, ID_Usuario)
+INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(4, 'Excelente música', 3, 2)
 SELECT DUMMY FROM DUAL;
 
@@ -1816,16 +1690,14 @@ SELECT DUMMY FROM DUAL;
         s.longSucur,
         s.latiSucur,
         s.imgSucursal
-    FROM 
-        tbCentrosMedicos cm
-    INNER JOIN 
-        tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+    FROM   
+        tbDoctores d
     INNER JOIN 
         tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
     INNER JOIN
         tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
     INNER JOIN
-        tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
+        tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
     WHERE        
         (LOWER(u.nombreUsuario) LIKE LOWER('%X%')
     OR
@@ -1843,33 +1715,9 @@ FROM
 INNER JOIN 
     tbAseguradoras a ON srv.ID_Aseguradora = a.ID_Aseguradora
 INNER JOIN
-    tbCentrosMedicos cm ON srv.ID_Centro = cm.ID_Centro
-INNER JOIN
-    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+    tbDoctores d ON srv.ID_Doctor = d.ID_Doctor
 WHERE 
     d.ID_Doctor = 1;
-
---INNER JOIN CITASMEDICAS--
-SELECT
-    citas.diacita,
-    citas.horacita,
-    citas.motivo,
-    pacs.nombrepaciente,
-    pacs.parentesco,
-    USUA.nombreUsuario,
-    USUA.apellidoUsuario,
-    esp.nombreespecialidad
-FROM  tbcitasmedicas CITAS
-    INNER JOIN
-        tbcentrosmedicos CENTROS ON CITAS.id_centro=CENTROS.id_centro
-    INNER JOIN
-        tbdoctores DOCS ON CENTROS.id_doctor=DOCS.id_doctor
-    INNER JOIN
-        tbEspecialidades ESP ON docs.id_especialidad = esp.id_especialidad
-    INNER JOIN
-        tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario
-    INNER JOIN
-        tbpacientes PACS ON citas.id_paciente = pacs.id_paciente WHERE pacs.id_usuario = 1 ;
 
 --INNER JOIN FAVORITOS--
 
@@ -1907,8 +1755,7 @@ FROM
     INNER JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
     INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
     INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
-    INNER JOIN tbCentrosMedicos cm ON d.ID_Doctor = cm.ID_Doctor
-    INNER JOIN tbServicios se ON cm.ID_Centro = se.ID_Centro
+    INNER JOIN tbServicios se ON se.ID_Doctor = d.ID_Doctor
 WHERE 
     d.ID_Doctor = 5;
 
@@ -1927,9 +1774,7 @@ FROM
 INNER JOIN
     tbUsuarios u ON rv.ID_Usuario = u.ID_Usuario
 INNER JOIN
-    tbCentrosMedicos cm ON rv.ID_Centro = cm.ID_Centro
-INNER JOIN
-    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+    tbDoctores d ON rv.ID_Doctor = d.ID_Doctor
 WHERE
     d.ID_Doctor = 3;
 
@@ -1938,183 +1783,6 @@ WHERE
     ~ Consultas Inner Extras~
 
 *************************************************************************************************/
-/*
-
-SELECT
-    u.nombreUsuario,
-    u.apellidoUsuario,
-    u.imgUsuario,
-	e.nombreEspecialidad,
-    s.nombreSucursal,
-    s.telefonoSucur,
-    s.direccionSucur,
-    s.ubicacionSucur,
-    srv.nombreServicio,
-    srv.costo,
-    cm.favorito
-FROM
-    tbCentrosMedicos cm
-INNER JOIN
-    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-INNER JOIN
-    tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
-INNER JOIN
-	tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-INNER JOIN
-    tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
-INNER JOIN
-    tbServicios srv ON cm.ID_Centro = srv.ID_Centro
-WHERE
-    u.ID_Usuario IS NOT NULL;
-
-SELECT citas.ID_Cita,
-    citas.diacita,
-    citas.horacita,
-    citas.motivo,
-    citas.id_centro,
-    citas.id_paciente,
-    pacs.nombrepaciente,
-    pacs.parentesco,
-    usua.id_usuario,
-    USUA.nombreUsuario,
-    USUA.apellidoUsuario,
-    esp.nombreespecialidad
-FROM  tbcitasmedicas CITAS
-    INNER JOIN tbcentrosmedicos CENTROS ON CITAS.id_centro=CENTROS.id_centro
-    INNER JOIN tbdoctores DOCS ON CENTROS.id_doctor=DOCS.id_doctor
-    INNER JOIN tbEspecialidades ESP ON docs.id_especialidad = esp.id_especialidad
-    INNER JOIN tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario
-    INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente
-        WHERE pacs.id_usuario = 1
-
-
-SELECT indi.ID_Indicacion,
-       indi.inicioMedi,
-       indi.finalMedi,
-       indi.dosisMedi,
-       indi.medicina,
-       indi.detalleindi,
-       tiem.lapsostiempo,
-       tiem.frecuenciamedi
-FROM tbIndicaciones indi
-INNER JOIN tbTiempos tiem ON indi.id_tiempo = tiem.id_tiempo
-INNER JOIN tbRecetas rec ON indi.id_receta = rec.id_receta
-INNER JOIN tbFichasMedicas fichi ON rec.id_receta = fichi.id_receta
-INNER JOIN tbcitasmedicas citas ON fichi.id_cita = citas.id_cita
-INNER JOIN tbpacientes PACS ON citas.id_paciente = PACS.id_paciente
-INNER JOIN tbUsuarios USUA ON PACS.id_usuario = USUA.id_usuario
-WHERE USUA.emailusuario = 'venosin@gmail.com';
-
-    SELECT
-        u.nombreUsuario,
-        u.apellidoUsuario,
-        u.imgUsuario,
-        e.nombreEspecialidad,
-        s.nombreSucursal,
-        s.telefonoSucur,
-        s.direccionSucur,
-        s.longSucur,
-        s.latiSucur,
-        s.imgSucursal,
-        srv.nombreServicio,
-        srv.costo
-    FROM
-        tbCentrosMedicos cm
-    INNER JOIN
-        tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-    INNER JOIN
-        tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
-    INNER JOIN
-        tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-    INNER JOIN
-        tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
-    INNER JOIN
-        tbServicios srv ON cm.ID_Centro = srv.ID_Centro
-    WHERE
-        (LOWER(u.nombreUsuario) LIKE LOWER('x%'))
-    AND
-        u.ID_TipoUsuario = 2;
-
-
-SELECT
-    rv.comentario,
-    rv.promEstrellas,
-    u.nombreUsuario,
-    u.apellidoUsuario,
-    u.imgUsuario,
-    d.ID_Doctor
-FROM
-    tbReviews rv
-INNER JOIN
-    tbUsuarios u ON rv.ID_Usuario = u.ID_Usuario
-INNER JOIN
-    tbCentrosMedicos cm ON rv.ID_Centro = cm.ID_Centro
-INNER JOIN
-    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-WHERE
-    d.ID_Doctor = 3;
-
-   --seleccion de ids del favorito
-SELECT
-    s.ID_Sucursal AS SucursalID,
-    s.nombreSucursal AS SucursalNombre,
-    u.ID_Usuario AS UsuarioID,
-    u.nombreUsuario AS UsuarioNombre,
-    d.ID_Doctor AS DoctorID,
-    u_doctor.nombreUsuario AS DoctorNombre
-FROM
-    tbFavoritos f
-INNER JOIN tbUsuarios u ON u.ID_Usuario = f.ID_Usuario
-INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal
-INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor
-INNER JOIN tbUsuarios u_doctor ON u_doctor.ID_Usuario = d.ID_Usuario
-WHERE
-    u.emailUsuario = 'fran@gmail.com';
-
-
-
-SELECT * FROM tbCentrosMedicos WHERE ID_Doctor = 5;
-SELECT se.* FROM tbServicios se
-INNER JOIN tbCentrosMedicos cm ON se.ID_Centro = cm.ID_Centro
-WHERE cm.ID_Doctor = 5;
-
-SELECT
-    h.horarioTurno
-    FROM
-        tbHorarios h
-    INNER JOIN
-        tbCentrosMedicos cm ON h.ID_Centro = cm.ID_Centro
-    INNER JOIN
-        tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-    WHERE
-                d.ID_Doctor = 5;
-
-SELECT
-
-                u.nombreUsuario,
-                u.apellidoUsuario,
-                u.imgUsuario,
-                e.nombreEspecialidad,
-                s.ID_Sucursal,
-                s.nombreSucursal,
-                s.telefonoSucur,
-                s.direccionSucur,
-                s.longSucur,
-                s.latiSucur,
-                s.imgSucursal,
-                se.nombreServicio,
-                se.costo
-            FROM
-                tbDoctores d
-            INNER JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
-            INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-            INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
-            INNER JOIN tbCentrosMedicos cm ON d.ID_Doctor = cm.ID_Doctor
-            INNER JOIN tbServicios se ON cm.ID_Centro = se.ID_Centro
-            WHERE
-                d.ID_Doctor = 5;
-*/
-
 select * from tbAuditorias;
 select * from tbDoctores;
 select * from tbUsuarios;
@@ -2139,3 +1807,34 @@ INNER JOIN tbTipoSucursales ts ON ts.ID_TipoSucursal = s.ID_TipoSucursal
 WHERE
 f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = 'fran@gmail.com');
 
+SELECT * FROM (
+    SELECT 
+        citas.ID_Cita,
+        citas.diacita,
+        citas.horacita,
+        citas.motivo,
+        citas.estadoCita,
+        citas.id_usuario,
+        usua.nombreUsuario,
+        usua.apellidoUsuario,
+        esp.nombreespecialidad
+    FROM 
+        tbcitasmedicas citas
+    INNER JOIN 
+        tbdoctores docs ON citas.id_doctor = docs.id_doctor
+    INNER JOIN 
+        tbEspecialidades esp ON docs.id_especialidad = esp.id_especialidad
+    INNER JOIN 
+        tbUsuarios usua ON docs.id_usuario = usua.id_usuario
+    INNER JOIN 
+        tbUsuarios us ON citas.id_usuario = us.id_usuario
+    WHERE 
+        us.emailUsuario = 'fran@gmail.com'
+        AND citas.diacita >= CURRENT_DATE
+        AND citas.estadoCita = 'A'
+    ORDER BY 
+        citas.diacita ASC, 
+        citas.horacita ASC
+)
+WHERE 
+    ROWNUM = 1;
