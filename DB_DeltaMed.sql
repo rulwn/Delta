@@ -550,7 +550,7 @@ CREATE TABLE tbAuditorias (
 
 /*************************************************************************************************
 
-    ~ CREACIÓN DE TABLAS DEPENDIENTES ~
+    ~ CREACIÃ“N DE TABLAS DEPENDIENTES ~
 
 *************************************************************************************************/
 
@@ -601,7 +601,7 @@ CREATE TABLE tbSucursales (
     longSucur NUMBER(15,10) NOT NULL,
     whatsapp VARCHAR2(12),
     imgSucursal VARCHAR2(250) NOT NULL,
-    valoFinal NUMBER(3,2) DEFAULT 0.0 NOT NULL,
+    valoFinal NUMBER(2,5) NOT NULL,
     ID_Establecimiento INT NOT NULL,
     ID_TipoSucursal INT NOT NULL,
 
@@ -715,7 +715,7 @@ CREATE TABLE tbServicios (
 
 CREATE TABLE tbReviews (
     ID_Review INT PRIMARY KEY,
-    promEstrellas NUMBER(3,2) NOT NULL,
+    promEstrellas NUMBER(5,2) NOT NULL,
     comentario VARCHAR2(200),
     ID_Doctor INT NOT NULL,
     ID_Usuario INT NOT NULL,
@@ -1355,37 +1355,7 @@ BEGIN
     COMMIT WORK;
 END;
 /
-/*************************************************************************************************
 
-~ TRIGGER PARA PROMEDIO REVIEW ~
-
-*************************************************************************************************/
-CREATE OR REPLACE TRIGGER trg_update_valoFinal
-AFTER INSERT ON tbReviews
-DECLARE
-    v_promedioEstrellas NUMBER(5,2);
-BEGIN
-    -- Recalcular el promedio de estrellas para todas las sucursales afectadas
-    FOR rec IN (
-        SELECT d.ID_Sucursal
-        FROM tbDoctores d
-        JOIN tbReviews r ON d.ID_Doctor = r.ID_Doctor
-        GROUP BY d.ID_Sucursal
-    ) LOOP
-        -- Calcular el promedio de estrellas para la sucursal
-        SELECT AVG(r.promEstrellas)
-        INTO v_promedioEstrellas
-        FROM tbReviews r
-        JOIN tbDoctores d ON r.ID_Doctor = d.ID_Doctor
-        WHERE d.ID_Sucursal = rec.ID_Sucursal;
-
-        -- Actualizar el valoFinal de la sucursal
-        UPDATE tbSucursales
-        SET valoFinal = v_promedioEstrellas
-        WHERE ID_Sucursal = rec.ID_Sucursal;
-    END LOOP;
-END;
-/
 /*************************************************************************************************
 
 ~ INSERTS A CADA TABLA ~
@@ -1670,15 +1640,15 @@ VALUES
 
 INSERT ALL
     INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
-        VALUES(5.0, 'Excelente Servicio!', 3, 5)
+        VALUES(5, 'Excelente Servicio!', 3, 5)
 INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
-        VALUES(1.0, 'El doctor no se presento a mi cita', 3, 1)
+        VALUES(1, 'El doctor no se presento a mi cita', 3, 1)
 INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(4.5, 'Muy buen ambiente en esa clinica', 4, 2)
 INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
-        VALUES(3.5, 'Bueno pero pudo ser mejor con el tiempo', 3, 4)
+        VALUES(3, 'Bueno pero pudo ser mejor con el tiempo', 3, 4)
 INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
-        VALUES(4.0, 'Excelente música', 3, 2)
+        VALUES(4, 'Excelente música', 3, 2)
 SELECT DUMMY FROM DUAL;
 
 COMMIT;
@@ -1720,7 +1690,7 @@ SELECT DUMMY FROM DUAL;
         s.longSucur,
         s.latiSucur,
         s.imgSucursal
-    FROM
+    FROM   
         tbDoctores d
     INNER JOIN 
         tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
@@ -1808,170 +1778,11 @@ INNER JOIN
 WHERE
     d.ID_Doctor = 3;
 
-SELECT * FROM tbReviews;
 /*************************************************************************************************
 
     ~ Consultas Inner Extras~
 
 *************************************************************************************************/
-/*
-
-SELECT
-    u.nombreUsuario,
-    u.apellidoUsuario,
-    u.imgUsuario,
-	e.nombreEspecialidad,
-    s.nombreSucursal,
-    s.telefonoSucur,
-    s.direccionSucur,
-    s.ubicacionSucur,
-    srv.nombreServicio,
-    srv.costo,
-    cm.favorito
-FROM
-    tbCentrosMedicos cm
-INNER JOIN
-    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-INNER JOIN
-    tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
-INNER JOIN
-	tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-INNER JOIN
-    tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
-INNER JOIN
-    tbServicios srv ON cm.ID_Centro = srv.ID_Centro
-WHERE
-    u.ID_Usuario IS NOT NULL;
-
-SELECT citas.ID_Cita,
-    citas.diacita,
-    citas.horacita,
-    citas.motivo,
-    citas.id_centro,
-    citas.id_paciente,
-    pacs.nombrepaciente,
-    pacs.parentesco,
-    usua.id_usuario,
-    USUA.nombreUsuario,
-    USUA.apellidoUsuario,
-    esp.nombreespecialidad
-FROM  tbcitasmedicas CITAS
-    INNER JOIN tbcentrosmedicos CENTROS ON CITAS.id_centro=CENTROS.id_centro
-    INNER JOIN tbdoctores DOCS ON CENTROS.id_doctor=DOCS.id_doctor
-    INNER JOIN tbEspecialidades ESP ON docs.id_especialidad = esp.id_especialidad
-    INNER JOIN tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario
-    INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente
-        WHERE pacs.id_usuario = 1
-
-
-SELECT indi.ID_Indicacion,
-       indi.inicioMedi,
-       indi.finalMedi,
-       indi.dosisMedi,
-       indi.medicina,
-       indi.detalleindi,
-       tiem.lapsostiempo,
-       tiem.frecuenciamedi
-FROM tbIndicaciones indi
-INNER JOIN tbTiempos tiem ON indi.id_tiempo = tiem.id_tiempo
-INNER JOIN tbRecetas rec ON indi.id_receta = rec.id_receta
-INNER JOIN tbFichasMedicas fichi ON rec.id_receta = fichi.id_receta
-INNER JOIN tbcitasmedicas citas ON fichi.id_cita = citas.id_cita
-INNER JOIN tbpacientes PACS ON citas.id_paciente = PACS.id_paciente
-INNER JOIN tbUsuarios USUA ON PACS.id_usuario = USUA.id_usuario
-WHERE USUA.emailusuario = 'venosin@gmail.com';
-
-    SELECT
-        u.nombreUsuario,
-        u.apellidoUsuario,
-        u.imgUsuario,
-        e.nombreEspecialidad,
-        s.nombreSucursal,
-        s.telefonoSucur,
-        s.direccionSucur,
-        s.longSucur,
-        s.latiSucur,
-        s.imgSucursal,
-        srv.nombreServicio,
-        srv.costo
-    FROM
-        tbCentrosMedicos cm
-    INNER JOIN
-        tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-    INNER JOIN
-        tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
-    INNER JOIN
-        tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-    INNER JOIN
-        tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
-    INNER JOIN
-        tbServicios srv ON cm.ID_Centro = srv.ID_Centro
-    WHERE
-        (LOWER(u.nombreUsuario) LIKE LOWER('x%'))
-    AND
-        u.ID_TipoUsuario = 2;
-
-
-SELECT
-    rv.comentario,
-    rv.promEstrellas,
-    u.nombreUsuario,
-    u.apellidoUsuario,
-    u.imgUsuario,
-    d.ID_Doctor
-FROM
-    tbReviews rv
-INNER JOIN
-    tbUsuarios u ON rv.ID_Usuario = u.ID_Usuario
-INNER JOIN
-    tbCentrosMedicos cm ON rv.ID_Centro = cm.ID_Centro
-INNER JOIN
-    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-WHERE
-    d.ID_Doctor = 3;
-
-   --seleccion de ids del favorito
-SELECT
-    s.ID_Sucursal AS SucursalID,
-    s.nombreSucursal AS SucursalNombre,
-    u.ID_Usuario AS UsuarioID,
-    u.nombreUsuario AS UsuarioNombre,
-    d.ID_Doctor AS DoctorID,
-    u_doctor.nombreUsuario AS DoctorNombre
-FROM
-    tbFavoritos f
-INNER JOIN tbUsuarios u ON u.ID_Usuario = f.ID_Usuario
-INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal
-INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor
-INNER JOIN tbUsuarios u_doctor ON u_doctor.ID_Usuario = d.ID_Usuario
-WHERE
-    u.emailUsuario = 'fran@gmail.com';
-
-SELECT
-
-                u.nombreUsuario,
-                u.apellidoUsuario,
-                u.imgUsuario,
-                e.nombreEspecialidad,
-                s.ID_Sucursal,
-                s.nombreSucursal,
-                s.telefonoSucur,
-                s.direccionSucur,
-                s.longSucur,
-                s.latiSucur,
-                s.imgSucursal,
-                se.nombreServicio,
-                se.costo
-            FROM
-                tbDoctores d
-            INNER JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
-            INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-            INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
-            INNER JOIN tbCentrosMedicos cm ON d.ID_Doctor = cm.ID_Doctor
-            INNER JOIN tbServicios se ON cm.ID_Centro = se.ID_Centro
-            WHERE
-                d.ID_Doctor = 5;
-
 select * from tbAuditorias;
 select * from tbDoctores;
 select * from tbUsuarios;
@@ -1979,7 +1790,6 @@ select * from tbFavoritos;
 select * from tbRecientes;
 select * from tbCitasMedicas;
 
-////////////////////////////////
 SELECT
 u.ID_Usuario,
 u.nombreUsuario,
@@ -1997,9 +1807,8 @@ INNER JOIN tbTipoSucursales ts ON ts.ID_TipoSucursal = s.ID_TipoSucursal
 WHERE
 f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = 'fran@gmail.com');
 
-////////////////////////////////
 SELECT * FROM (
-    SELECT
+    SELECT 
         citas.ID_Cita,
         citas.diacita,
         citas.horacita,
@@ -2009,25 +1818,56 @@ SELECT * FROM (
         usua.nombreUsuario,
         usua.apellidoUsuario,
         esp.nombreespecialidad
-    FROM
+    FROM 
         tbcitasmedicas citas
-    INNER JOIN
+    INNER JOIN 
         tbdoctores docs ON citas.id_doctor = docs.id_doctor
-    INNER JOIN
+    INNER JOIN 
         tbEspecialidades esp ON docs.id_especialidad = esp.id_especialidad
-    INNER JOIN
+    INNER JOIN 
         tbUsuarios usua ON docs.id_usuario = usua.id_usuario
-    INNER JOIN
+    INNER JOIN 
         tbUsuarios us ON citas.id_usuario = us.id_usuario
-    WHERE
+    WHERE 
         us.emailUsuario = 'fran@gmail.com'
         AND citas.diacita >= CURRENT_DATE
         AND citas.estadoCita = 'A'
-    ORDER BY
-        citas.diacita ASC,
+    ORDER BY 
+        citas.diacita ASC, 
         citas.horacita ASC
 )
-WHERE
+WHERE 
     ROWNUM = 1;
-*/
-SELECT * FROM tbSucursales;
+    
+    
+SELECT 
+    indi.ID_Indicacion, 
+    indi.inicioMedi, 
+    indi.finalMedi, 
+    indi.dosisMedi, 
+    indi.medicina, 
+    indi.detalleindi, 
+    tiem.lapsostiempo, 
+    tiem.frecuenciamedi 
+FROM 
+    tbIndicaciones indi 
+INNER JOIN 
+    tbTiempos tiem ON indi.id_tiempo = tiem.id_tiempo 
+INNER JOIN 
+    tbRecetas rec ON indi.id_receta = rec.id_receta 
+INNER JOIN 
+    tbFichasMedicas fichi ON rec.id_receta = fichi.id_receta 
+INNER JOIN 
+    tbcitasmedicas citas ON fichi.id_cita = citas.id_cita
+INNER JOIN 
+    tbUsuarios USUA ON citas.id_usuario = USUA.id_usuario 
+WHERE 
+    USUA.emailusuario = 'mirnix@gmail.com' 
+    AND indi.inicioMedi <= CURRENT_DATE 
+    AND indi.finalMedi >= CURRENT_DATE;
+    
+select * from tbusuarios;
+select * from tbIndicaciones;
+    
+/*drop table tbpacientes;
+drop table tbcentrosmedicos;*/
