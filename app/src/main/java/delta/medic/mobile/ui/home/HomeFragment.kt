@@ -147,74 +147,59 @@ class HomeFragment : Fragment() {
                 if (objConexion != null) {
                     val statement = objConexion.prepareStatement(
                         """
-    SELECT * FROM (
-    SELECT 
-        citas.ID_Cita,
-        citas.diacita,
-        citas.horacita,
-        citas.motivo,
-        citas.estadoCita,
-        citas.id_centro,
-        citas.id_paciente,
-        pacs.nombrepaciente,
-        pacs.parentesco,
-        usua.id_usuario,
-        usua.nombreUsuario,
-        usua.apellidoUsuario,
-        esp.nombreespecialidad
-    FROM 
-        tbcitasmedicas citas
-    INNER JOIN 
-        tbcentrosmedicos centros ON citas.id_centro = centros.id_centro
-    INNER JOIN 
-        tbdoctores docs ON centros.id_doctor = docs.id_doctor
-    INNER JOIN 
-        tbEspecialidades esp ON docs.id_especialidad = esp.id_especialidad
-    INNER JOIN 
-        tbUsuarios usua ON docs.id_usuario = usua.id_usuario
-    INNER JOIN 
-        tbpacientes pacs ON citas.id_paciente = pacs.id_paciente
-    INNER JOIN
-        tbUsuarios us ON pacs.id_usuario = us.id_usuario
-    WHERE 
-        us.emailUsuario = ?
-        AND citas.diacita >= CURRENT_DATE
-        AND citas.estadoCita = 'A'
-    ORDER BY 
-        citas.diacita ASC, 
-        citas.horacita ASC
-)
-WHERE 
-    ROWNUM = 1
-    """
+                    SELECT * FROM (
+                        SELECT 
+                            citas.ID_Cita,
+                            citas.diacita,
+                            citas.horacita,
+                            citas.motivo,
+                            citas.estadoCita,
+                            citas.id_usuario,
+                            usua.nombreUsuario,
+                            usua.apellidoUsuario,
+                            esp.nombreespecialidad
+                        FROM 
+                            tbcitasmedicas citas
+                        INNER JOIN 
+                            tbdoctores docs ON citas.id_doctor = docs.id_doctor
+                        INNER JOIN 
+                            tbEspecialidades esp ON docs.id_especialidad = esp.id_especialidad
+                        INNER JOIN 
+                            tbUsuarios usua ON docs.id_usuario = usua.id_usuario
+                        INNER JOIN 
+                            tbUsuarios us ON citas.id_usuario = us.id_usuario
+                        WHERE 
+                            us.emailUsuario = ?
+                            AND citas.diacita >= CURRENT_DATE
+                            AND citas.estadoCita = 'A'
+                        ORDER BY 
+                            citas.diacita ASC, 
+                            citas.horacita ASC
+                    )
+                    WHERE 
+                        ROWNUM = 1
+                    """
                     )!!
 
-                    statement.setString(1, userEmail)
+                    statement.setString(1, userEmail)  // Se cambia el correo por el parámetro `userEmail`
                     val resultset = statement.executeQuery()
                     while (resultset.next()) {
                         val ID_Cita = resultset.getInt("ID_Cita")
-                        val diaCita = resultset.getDate("diaCita")
-                        val horaCita = resultset.getTimestamp("horaCita")
+                        val diaCita = resultset.getDate("diacita")
+                        val horaCita = resultset.getTimestamp("horacita")
                         val motivo = resultset.getString("motivo")
                         val estadoCita = resultset.getString("estadoCita")
-                        val ID_Centro = resultset.getInt("ID_Centro")
-                        val ID_Paciente = resultset.getInt("ID_Paciente")
-                        val nombrePaciente = resultset.getString("nombrePaciente")
-                        val parentesco = resultset.getString("parentesco")
-                        val ID_Usuario = resultset.getInt("ID_Usuario")
+                        val ID_Usuario = resultset.getInt("id_usuario")
                         val nombreDoctor = resultset.getString("nombreUsuario")
                         val apellidoDoctor = resultset.getString("apellidoUsuario")
                         val especialidad = resultset.getString("nombreespecialidad")
+
                         val cita = dataClassCitas(
                             ID_Cita,
                             diaCita,
                             horaCita,
                             motivo,
                             estadoCita,
-                            ID_Centro,
-                            ID_Paciente,
-                            nombrePaciente,
-                            parentesco,
                             ID_Usuario,
                             nombreDoctor,
                             apellidoDoctor,
@@ -266,7 +251,7 @@ WHERE
             val resultado = statement?.executeQuery()
 
             // Procesar los resultados
-            while (resultado?.next()==true) {
+            while (resultado?.next() == true) {
                 val idUsuario = resultado.getInt("ID_Usuario")
                 val idDoctor = resultado.getInt("ID_Doctor")
                 val idSucursal = resultado.getInt("ID_Sucursal")
@@ -276,7 +261,15 @@ WHERE
                 val nombreTipoSucursal = resultado.getString("nombreEspecialidad")
 
                 // Crear un objeto dataClassFavoritos
-                val favorito = dataClassFavoritos(idUsuario, idDoctor, idSucursal, nombreUsuario, imgUsuario, imgSucursal, nombreTipoSucursal)
+                val favorito = dataClassFavoritos(
+                    idUsuario,
+                    idDoctor,
+                    idSucursal,
+                    nombreUsuario,
+                    imgUsuario,
+                    imgSucursal,
+                    nombreTipoSucursal
+                )
 
                 // Agregar el objeto a la lista
                 listaFavoritos.add(favorito)
