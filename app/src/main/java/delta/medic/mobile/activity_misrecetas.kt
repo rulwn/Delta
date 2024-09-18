@@ -57,35 +57,31 @@ class activity_misrecetas : AppCompatActivity() {
 
             if (conexion != null) {
                 val statement = conexion.prepareStatement(
-                    """SELECT 
-                                rec.fechaReceta,
-                                rec.ubicacionPdf,
-                                docUsuarios.nombreUsuario AS nombreDoctor,
-                                docUsuarios.apellidoUsuario AS apellidoDoctor
-                            FROM 
-                                tbIndicaciones indi
-                            INNER JOIN 
-                                tbTiempos tiem ON indi.id_tiempo = tiem.id_tiempo
-                            INNER JOIN 
-                                tbRecetas rec ON indi.id_receta = rec.id_receta
-                            INNER JOIN 
-                                tbFichasMedicas fichi ON rec.id_receta = fichi.id_receta
-                            INNER JOIN 
-                                tbCitasMedicas citas ON fichi.id_cita = citas.id_cita
-                            INNER JOIN 
-                                tbCentrosMedicos cm ON cm.ID_Centro = citas.ID_Centro
-                            INNER JOIN 
-                                tbDoctores d ON d.ID_Doctor = cm.ID_Doctor
-                            INNER JOIN 
-                                tbUsuarios docUsuarios ON d.ID_Usuario = docUsuarios.ID_Usuario
-                            INNER JOIN 
-                                tbPacientes pacs ON citas.id_paciente = pacs.id_paciente
-                            INNER JOIN 
-                                tbUsuarios usua ON pacs.id_usuario = usua.id_usuario
-                            WHERE 
-                                usua.emailusuario = ?"""
-                )
-
+                    """
+                       SELECT 
+    rec.fechaReceta,
+    rec.ubicacionPdf,
+    docUsuarios.nombreUsuario AS nombreDoctor,
+    docUsuarios.apellidoUsuario AS apellidoDoctor
+FROM 
+    tbIndicaciones indi
+INNER JOIN 
+    tbTiempos tiem ON indi.ID_Tiempo = tiem.ID_Tiempo
+INNER JOIN 
+    tbRecetas rec ON indi.ID_Receta = rec.ID_Receta
+INNER JOIN 
+    tbFichasMedicas fichi ON rec.ID_Receta = fichi.ID_Receta
+INNER JOIN 
+    tbCitasMedicas citas ON fichi.ID_Cita = citas.ID_Cita
+INNER JOIN 
+    tbDoctores d ON citas.ID_Doctor = d.ID_Doctor
+INNER JOIN 
+    tbUsuarios docUsuarios ON d.ID_Usuario = docUsuarios.ID_Usuario
+INNER JOIN 
+    tbUsuarios usua ON citas.ID_Usuario = usua.ID_Usuario
+WHERE 
+    usua.emailUsuario = ?
+    """)
                 statement?.setString(1, emailUsuario)
 
                 val resultado = statement?.executeQuery()

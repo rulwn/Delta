@@ -67,37 +67,35 @@ class fragment_Resultados : Fragment() {
             try {
                 val busqueda = objConexion.prepareStatement("""
     SELECT 
-        d.ID_Doctor,
-        (SELECT ID_Usuario From tbUsuarios WHERE emailUsuario = ?) AS ID_Usuario,
-        u.nombreUsuario, 
-        u.apellidoUsuario, 
-        u.imgUsuario, 
-        e.nombreEspecialidad,
-        s.ID_Sucursal,
-        s.nombreSucursal,
-        s.telefonoSucur, 
-        s.direccionSucur, 
-        s.longSucur,
-        s.latiSucur,
-        s.imgSucursal
-    FROM 
-        tbCentrosMedicos cm
-    INNER JOIN 
-        tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-    INNER JOIN 
-        tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
-    INNER JOIN
-        tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-    INNER JOIN
-        tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
-    WHERE        
-        (LOWER(u.nombreUsuario) LIKE LOWER(?)
+    d.ID_Doctor,
+    (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?) AS ID_Usuario,
+    u.nombreUsuario, 
+    u.apellidoUsuario, 
+    u.imgUsuario, 
+    e.nombreEspecialidad,
+    s.ID_Sucursal,
+    s.nombreSucursal,
+    s.telefonoSucur, 
+    s.direccionSucur, 
+    s.longSucur,
+    s.latiSucur,
+    s.imgSucursal
+FROM 
+    tbDoctores d
+INNER JOIN 
+    tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
+INNER JOIN 
+    tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+INNER JOIN 
+    tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
+WHERE
+    (LOWER(u.nombreUsuario) LIKE LOWER(?)
     OR
-        LOWER(u.apellidoUsuario) LIKE LOWER(?)
+    LOWER(u.apellidoUsuario) LIKE LOWER(?)
     OR
-        LOWER(e.nombreEspecialidad) LIKE LOWER(?))
-    AND
-        u.ID_TipoUsuario = 2
+    LOWER(e.nombreEspecialidad) LIKE LOWER(?))
+AND
+    u.ID_TipoUsuario = 2
 """)
                 busqueda.setString(1, userEmail)
                 busqueda.setString(2, "%${nombreUsuario}%")
