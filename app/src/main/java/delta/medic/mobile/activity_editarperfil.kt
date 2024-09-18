@@ -36,11 +36,6 @@ import java.util.UUID
 
 class activity_editarperfil : AppCompatActivity() {
 
-    val codigo_opcion_galeria = 102
-    val codigo_opcion_tomar_foto = 103
-    val CAMERA_REQUEST_CODE = 0
-    val STORAGE_REQUEST_CODE = 1
-
     //Para los que pregunten, estas son las validaciones
     fun validarNombre(nombre: String): String? {
         val regex = "^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]*(?: [A-ZÁÉÍÓÚÑ][a-záéíóúñ]*)*$".toRegex()
@@ -63,7 +58,8 @@ class activity_editarperfil : AppCompatActivity() {
     }
 
     fun validarCorreo(correo: String): String? {
-        val regex = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+".toRegex()
+        val regex = "[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})?".toRegex()
+
         return when {
             correo.isBlank() -> "El correo no puede estar vacío."
             !correo.matches(regex) -> "El correo ingresado no es válido."
@@ -186,8 +182,11 @@ class activity_editarperfil : AppCompatActivity() {
     fun setTextChangedTelefono(editText: EditText) {
         editText.addTextChangedListener(object : TextWatcher {
             private var isUpdating = false
+            private var oldText = ""
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                oldText = s.toString() // Guardamos el estado anterior del texto
+            }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
@@ -195,17 +194,24 @@ class activity_editarperfil : AppCompatActivity() {
                 if (isUpdating) return
                 isUpdating = true
 
-                var input = s.toString()
-                input = input.replace("[^\\d-]".toRegex(), "")  // Solo permite dígitos y guiones
-                input = input.replace("(\\d{4})(?!-)".toRegex(), "$1-")  // Añade un guión después de 4 dígitos
+                var input = s.toString().replace("-", "") // Eliminamos cualquier guión para procesar el número limpio
 
-                // Verificar si hay cambios
-                if (s.toString() != input) {
-                    editText.setText(input)
-                    editText.setSelection(input.length)
+                // Si estamos eliminando caracteres, permitimos borrar normalmente
+                if (oldText.length > input.length) {
+                    isUpdating = false
+                    return
                 }
 
-                // Validar formato
+                // Si el input tiene más de 4 caracteres, añadimos el guión después del cuarto carácter
+                if (input.length > 4) {
+                    input = input.substring(0, 4) + "-" + input.substring(4)
+                }
+
+                // Actualizamos el texto en el campo de entrada
+                editText.setText(input)
+                editText.setSelection(input.length) // Colocamos el cursor al final
+
+                // Validar el formato del número
                 val errorMessage = validarTelefono(input)
                 if (errorMessage != null) {
                     editText.error = errorMessage
@@ -218,7 +224,7 @@ class activity_editarperfil : AppCompatActivity() {
     }
 
     fun CargarDatosUsuario(txtnombre: EditText, txtApellido: EditText, txtCorreo:EditText,
-    txtDirección: EditText, txtTeléfono: EditText, imgvFoto: ImageView){
+                           txtDirección: EditText, txtTeléfono: EditText, imgvFoto: ImageView){
         try {
             txtnombre.setText(intent.getStringExtra("nombreUsuario"))
             txtApellido.setText(intent.getStringExtra("apellidoUsuario"))
@@ -366,7 +372,7 @@ class activity_editarperfil : AppCompatActivity() {
                         txtDirecciónEP.text.toString(),
                         txtTeléfonoEP.text.toString(),
 
-                    )
+                        )
                     Toast.makeText(this, "Datos actualizados correctamente", Toast.LENGTH_SHORT).show()
                     activity_login.userEmail = txtCorreoEP.text.toString()
 
@@ -385,7 +391,7 @@ class activity_editarperfil : AppCompatActivity() {
 
     }
 
-        
+
 
 
 }

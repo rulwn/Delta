@@ -1,3 +1,5 @@
+package RecycleViewHelper
+
 import Modelo.Dia
 import android.os.Build
 import android.util.Log

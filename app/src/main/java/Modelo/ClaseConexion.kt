@@ -10,6 +10,7 @@ class ClaseConexion {
         return withContext(Dispatchers.IO) {
             try {
 
+
                 val url = "jdbc:oracle:thin:@192.168.1.12:1521:xe"
                 val usuario = "DeltaMed" //DeltaMed
                 val clave = "deltaTeam1" //deltaTeam1

@@ -112,14 +112,30 @@ class fragment_controlCitas : Fragment() {
                 objConexion = ClaseConexion().cadenaConexion()
                 if (objConexion != null) {
                     statement = objConexion.prepareStatement(
-                        "SELECT citas.ID_Cita, citas.diacita, citas.horacita, citas.motivo, citas.estadoCita, citas.id_centro, citas.id_paciente, pacs.nombrepaciente, pacs.parentesco, usua.id_usuario, USUA.nombreUsuario, USUA.apellidoUsuario, esp.nombreespecialidad " +
-                                "FROM tbcitasmedicas CITAS " +
-                                "INNER JOIN tbcentrosmedicos CENTROS ON CITAS.id_centro=CENTROS.id_centro " +
-                                "INNER JOIN tbdoctores DOCS ON CENTROS.id_doctor=DOCS.id_doctor " +
-                                "INNER JOIN tbEspecialidades ESP ON docs.id_especialidad = esp.id_especialidad " +
-                                "INNER JOIN tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario " +
-                                "INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente " +
-                                "WHERE usua.emailUsuario = ? AND citas.diacita = ?"
+                        """
+SELECT 
+    citas.ID_Cita, 
+    citas.diacita, 
+    citas.horacita, 
+    citas.motivo, 
+    citas.estadoCita, 
+    citas.ID_Doctor, 
+    usua.ID_Usuario, 
+    usua.nombreUsuario, 
+    usua.apellidoUsuario, 
+    esp.nombreEspecialidad
+FROM 
+    tbCitasMedicas citas
+INNER JOIN 
+    tbDoctores docs ON citas.ID_Doctor = docs.ID_Doctor
+INNER JOIN 
+    tbEspecialidades esp ON docs.ID_Especialidad = esp.ID_Especialidad
+INNER JOIN 
+    tbUsuarios usua ON docs.ID_Usuario = usua.ID_Usuario
+WHERE 
+    usua.emailUsuario = ?
+    AND citas.diacita = ?
+                        """.trimIndent()
                     )
                     statement.setString(1, sentEmail)
                     statement.setDate(2, Fecha)
@@ -132,10 +148,6 @@ class fragment_controlCitas : Fragment() {
                             resultset.getTimestamp("horaCita"),
                             resultset.getString("motivo"),
                             resultset.getString("EstadoCita"),
-                            resultset.getInt("ID_Centro"),
-                            resultset.getInt("ID_Paciente"),
-                            resultset.getString("nombrePaciente"),
-                            resultset.getString("parentesco"),
                             resultset.getInt("ID_Usuario"),
                             resultset.getString("nombreUsuario"),
                             resultset.getString("apellidoUsuario"),
@@ -169,15 +181,31 @@ class fragment_controlCitas : Fragment() {
                 objConexion = ClaseConexion().cadenaConexion()
                 if (objConexion != null) {
                     statement = objConexion.prepareStatement(
-                        "SELECT citas.ID_Cita, citas.diacita, citas.horacita, citas.motivo, citas.estadoCita, citas.id_centro, citas.id_paciente, pacs.nombrepaciente, pacs.parentesco, usua.id_usuario, USUA.nombreUsuario, USUA.apellidoUsuario, esp.nombreespecialidad " +
-                                "FROM tbcitasmedicas CITAS " +
-                                "INNER JOIN tbcentrosmedicos CENTROS ON CITAS.id_centro=CENTROS.id_centro " +
-                                "INNER JOIN tbdoctores DOCS ON CENTROS.id_doctor=DOCS.id_doctor " +
-                                "INNER JOIN tbEspecialidades ESP ON docs.id_especialidad = esp.id_especialidad " +
-                                "INNER JOIN tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario " +
-                                "INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente " +
-                                "WHERE usua.emailUsuario = ? AND citas.estadoCita = 'A'"
-                    )
+                        """
+SELECT 
+    citas.ID_Cita, 
+    citas.diacita, 
+    citas.horacita, 
+    citas.motivo, 
+    citas.estadoCita, 
+    citas.ID_Doctor, 
+    usua.ID_Usuario, 
+    usua.nombreUsuario, 
+    usua.apellidoUsuario, 
+    esp.nombreEspecialidad
+FROM 
+    tbCitasMedicas citas
+INNER JOIN 
+    tbDoctores docs ON citas.ID_Doctor = docs.ID_Doctor
+INNER JOIN 
+    tbEspecialidades esp ON docs.ID_Especialidad = esp.ID_Especialidad
+INNER JOIN 
+    tbUsuarios usua ON docs.ID_Usuario = usua.ID_Usuario
+WHERE 
+    usua.emailUsuario = ?
+    AND citas.estadoCita = 'A'
+    AND citas.diacita >= CURRENT_DATE
+    """)
                     statement.setString(1, sentEmail)
                     resultset = statement.executeQuery()
 
@@ -188,10 +216,6 @@ class fragment_controlCitas : Fragment() {
                             resultset.getTimestamp("horaCita"),
                             resultset.getString("motivo"),
                             resultset.getString("EstadoCita"),
-                            resultset.getInt("ID_Centro"),
-                            resultset.getInt("ID_Paciente"),
-                            resultset.getString("nombrePaciente"),
-                            resultset.getString("parentesco"),
                             resultset.getInt("ID_Usuario"),
                             resultset.getString("nombreUsuario"),
                             resultset.getString("apellidoUsuario"),

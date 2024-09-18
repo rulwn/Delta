@@ -32,6 +32,7 @@ class activity_apariencia : AppCompatActivity() {
         val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
         val txtApariencia = findViewById<TextView>(R.id.txtApariencia)
 
+        /*
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         when (currentNightMode) {
             Configuration.UI_MODE_NIGHT_NO -> {
@@ -43,9 +44,12 @@ class activity_apariencia : AppCompatActivity() {
                 btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.white))
             } // Night mode is active, we're using dark theme.
         }
+
+         */
         btnRegresar.setOnClickListener {
             finish()
         }
+
 
         themeRadioGroup = findViewById(R.id.themeRadioGroup)
 

@@ -1,72 +1,74 @@
 package RecycleViewHelper
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import delta.medic.mobile.R
+import java.sql.Timestamp
+import java.time.ZoneId
 
 class AdaptadorHorarios(
-    private val items: Array<String>, // Horarios disponibles
-    private val horasOcupadas: List<String>, // Horas que ya están ocupadas
-    private val onHoraSelected: (String) -> Unit // Callback para cuando se selecciona una hora
-) : RecyclerView.Adapter<AdaptadorHorarios.ViewHolderHorario>() {
+    private val horarios: List<Timestamp>,
+    private val horasOcupadas: Array<String>,
+    private val onHoraSelected: (Timestamp) -> Unit
+) : RecyclerView.Adapter<AdaptadorHorarios.HorarioViewHolder>() {
 
-    private var selectedPosition: Int = RecyclerView.NO_POSITION
+    private var horaSeleccionada: Timestamp? = null // Variable para rastrear la hora seleccionada
 
-    inner class ViewHolderHorario(view: View) : RecyclerView.ViewHolder(view) {
-        val textViewTime: TextView = view.findViewById(R.id.textViewTime)
-        val cardView: CardView = view.findViewById(R.id.cardViewHorario)
+    inner class HorarioViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val textViewHora: TextView = view.findViewById(R.id.textViewTime)
 
-        fun bind(hora: String, isOcupada: Boolean, isSelected: Boolean) {
-            textViewTime.text = hora
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun bind(hora: Timestamp, isSelected: Boolean) {
+            val localDateTime = hora.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime()
 
-            when {
-                isOcupada -> {
-                    // Si la hora está ocupada, usa el drawable de fondo rojo y deshabilita el ítem
-                    cardView.setBackgroundResource(R.drawable.fondo_card_ocupado)
-                    textViewTime.setTextColor(ContextCompat.getColor(itemView.context, android.R.color.white))
-                    itemView.isClickable = false
-                }
-                isSelected -> {
-                    // Si la hora está seleccionada, usa el drawable de fondo seleccionado
-                    cardView.setBackgroundResource(R.drawable.degradado_card)
-                    textViewTime.setTextColor(ContextCompat.getColor(itemView.context, android.R.color.black))
-                }
-                else -> {
-                    // Si la hora está disponible pero no seleccionada, usa el drawable estándar
-                    cardView.setBackgroundResource(R.drawable.fondo_card)
-                    textViewTime.setTextColor(ContextCompat.getColor(itemView.context, android.R.color.black))
-                    itemView.isClickable = true
+            textViewHora.text = localDateTime.toLocalTime().toString()
 
-                    itemView.setOnClickListener {
-                        onHoraSelected(hora)
-                        val previousPosition = selectedPosition
-                        selectedPosition = adapterPosition
-                        notifyItemChanged(previousPosition)
-                        notifyItemChanged(selectedPosition)
-                    }
-                }
+            // Aquí se diferencia entre los ítems seleccionados y no seleccionados
+            if (isSelected) {
+                itemView.setBackgroundResource(R.drawable.degradado_card) // Fondo para el ítem seleccionado
+            } else {
+                itemView.setBackgroundResource(R.drawable.fondo_card) // Fondo para ítems no seleccionados
+            }
+
+            // Aquí actualizas la selección y notificas al adaptador
+            itemView.setOnClickListener {
+                horaSeleccionada = hora // Actualiza la hora seleccionada
+                notifyDataSetChanged()  // Notifica al adaptador que debe redibujar
+                onHoraSelected(hora)    // Ejecuta el callback para la hora seleccionada
             }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderHorario {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HorarioViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.activity_item_horario, parent, false)
-        return ViewHolderHorario(view)
+        return HorarioViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolderHorario, position: Int) {
-        val hora = items[position]
-        val isOcupada = horasOcupadas.contains(hora)
-        holder.bind(hora, isOcupada, holder.adapterPosition == selectedPosition)
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onBindViewHolder(holder: HorarioViewHolder, position: Int) {
+        val hora = horarios[position]
+        val localDateTime = hora.toInstant()
+            .atZone(ZoneId.systemDefault())
+            .toLocalDateTime()
+
+        val horaString = localDateTime.toLocalTime().toString()
+        val isOcupada = horasOcupadas.contains(horaString)
+
+        // Verificar si la hora es la seleccionada
+        val isSelected = hora == horaSeleccionada
+
+        holder.bind(hora, isSelected) // Pasar la selección al bind
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return horarios.size
     }
 }

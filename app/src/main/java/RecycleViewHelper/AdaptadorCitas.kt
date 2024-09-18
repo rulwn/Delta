@@ -44,7 +44,7 @@ class AdaptadorCitas(private var Datos: List<dataClassCitas>) :
 
         val diaYMes = "$diaCitaString/$mesCitaString"
         val TiempoYDia = "${diaYMes} ${horaCitaString}"
-        val MotivoYPaciente = "${citas.motivo}, ${citas.nombrePaciente}"
+        val MotivoYPaciente = citas.motivo
         val DoctorEspecialidad =
             "${citas.nombreDoctor} ${citas.apellidoDoctor} - ${citas.especialidad}"
         holder.txtTiempoCitas.text = TiempoYDia

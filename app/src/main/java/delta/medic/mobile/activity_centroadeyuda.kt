@@ -39,61 +39,64 @@ class activity_centroadeyuda : AppCompatActivity() {
         val btnEnviarCorreo = findViewById<Button>(R.id.btnEnviarCorreo)
 
 
-        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        when (currentNightMode) {
-            Configuration.UI_MODE_NIGHT_NO -> {
-                txtCentroAyuda.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtPodemosAyudarte.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtContactanos.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtEmailCentroAyuda.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtEscribaComentario.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtPreguntasF.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtPregunta1.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtPregunta2.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtPregunta3.setTextColor(ContextCompat.getColor(this, R.color.black))
-                btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.black))
-            } // Night mode is not active, we're using the light theme.
-            Configuration.UI_MODE_NIGHT_YES -> {
-                txtCentroAyuda.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtPodemosAyudarte.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtContactanos.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtEmailCentroAyuda.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtEscribaComentario.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtPreguntasF.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtPregunta1.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtPregunta2.setTextColor(ContextCompat.getColor(this, R.color.white))
-                txtPregunta3.setTextColor(ContextCompat.getColor(this, R.color.white))
-                btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.white))
-                btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.white))
-            } // Night mode is active, we're using dark theme.
-        }
+/*
+val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+when (currentNightMode) {
+    Configuration.UI_MODE_NIGHT_NO -> {
+        txtCentroAyuda.setTextColor(ContextCompat.getColor(this, R.color.black))
+        txtPodemosAyudarte.setTextColor(ContextCompat.getColor(this, R.color.black))
+        txtContactanos.setTextColor(ContextCompat.getColor(this, R.color.black))
+        txtEmailCentroAyuda.setTextColor(ContextCompat.getColor(this, R.color.black))
+        txtEscribaComentario.setTextColor(ContextCompat.getColor(this, R.color.black))
+        txtPreguntasF.setTextColor(ContextCompat.getColor(this, R.color.black))
+        txtPregunta1.setTextColor(ContextCompat.getColor(this, R.color.black))
+        txtPregunta2.setTextColor(ContextCompat.getColor(this, R.color.black))
+        txtPregunta3.setTextColor(ContextCompat.getColor(this, R.color.black))
+        btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.black))
+        btnEnviarCorreo.setTextColor(ContextCompat.getColor(this, R.color.white))
+    } // Night mode is not active, we're using the light theme.
+    Configuration.UI_MODE_NIGHT_YES -> {
+        txtCentroAyuda.setTextColor(ContextCompat.getColor(this, R.color.white))
+        txtPodemosAyudarte.setTextColor(ContextCompat.getColor(this, R.color.white))
+        txtContactanos.setTextColor(ContextCompat.getColor(this, R.color.white))
+        txtEmailCentroAyuda.setTextColor(ContextCompat.getColor(this, R.color.GrisPlano))
+        txtEscribaComentario.setTextColor(ContextCompat.getColor(this, R.color.GrisPlano))
+        txtPreguntasF.setTextColor(ContextCompat.getColor(this, R.color.white))
+        txtPregunta1.setTextColor(ContextCompat.getColor(this, R.color.white))
+        txtPregunta2.setTextColor(ContextCompat.getColor(this, R.color.white))
+        txtPregunta3.setTextColor(ContextCompat.getColor(this, R.color.white))
+        btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.white))
+        btnEnviarCorreo.setTextColor(ContextCompat.getColor(this, R.color.white))
+        btnEnviarCorreo.setBackgroundColor(ContextCompat.getColor(this, R.color.Turquesa2))
+    } // Night mode is active, we're using dark theme.
+}
+ */
+btnRegresar.setOnClickListener {
+    finish()
+}
 
-        btnRegresar.setOnClickListener {
-            finish()
-        }
+btnEnviarCorreo.setOnClickListener {
+    val email = txtEmailCentroAyuda.text.toString()
+    val comentario = txtEscribaComentario.text.toString()
 
-        btnEnviarCorreo.setOnClickListener {
-            val email = txtEmailCentroAyuda.text.toString()
-            val comentario = txtEscribaComentario.text.toString()
-
-            if (email.isNotEmpty() && comentario.isNotEmpty()) {
-                enviarCorreo(email, comentario)
-            }
-        }
+    if (email.isNotEmpty() && comentario.isNotEmpty()) {
+        enviarCorreo(email, comentario)
     }
+}
+}
 
-    private fun enviarCorreo(email: String, comentario: String) {
-        val intent = Intent(Intent.ACTION_SEND).apply {
-            type = "message/rfc822"
-            putExtra(Intent.EXTRA_EMAIL, arrayOf("delta.medic.help@gmail.com"))
-            putExtra(Intent.EXTRA_SUBJECT, "Comentario desde la App")
-            putExtra(Intent.EXTRA_TEXT, "Correo del usuario: $email\n\nComentario:\n$comentario")
-        }
+private fun enviarCorreo(email: String, comentario: String) {
+val intent = Intent(Intent.ACTION_SEND).apply {
+    type = "message/rfc822"
+    putExtra(Intent.EXTRA_EMAIL, arrayOf("delta.medic.help@gmail.com"))
+    putExtra(Intent.EXTRA_SUBJECT, "Comentario desde la App")
+    putExtra(Intent.EXTRA_TEXT, "Correo del usuario: $email\n\nComentario:\n$comentario")
+}
 
-        try {
-            startActivity(Intent.createChooser(intent, "Enviar correo..."))
-        } catch (ex: android.content.ActivityNotFoundException) {
-            ex.printStackTrace()
-        }
-    }
+try {
+    startActivity(Intent.createChooser(intent, "Enviar correo..."))
+} catch (ex: android.content.ActivityNotFoundException) {
+    ex.printStackTrace()
+}
+}
 }

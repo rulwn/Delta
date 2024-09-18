@@ -31,6 +31,7 @@
             app:srcCompat="@drawable/ic_arrow_back" />
 
         <TextView
+            android:id="@+id/txtHistorial"
             android:layout_width="210dp"
             android:layout_height="25dp"
             android:layout_gravity="center"
@@ -44,12 +45,13 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvHistorialCitas"
-        android:layout_width="353dp"
-        android:layout_height="612dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="52dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout6" >
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -59,10 +61,10 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_regular"
         android:text="Aún no tienes citas programadas"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

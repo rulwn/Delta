@@ -65,8 +65,6 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
         private const val MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey"
     }
 
-
-
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     suspend fun getData(
         ID_Doctor: Int,
@@ -84,29 +82,28 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
             conexion.prepareStatement(
                 """
             SELECT 
-                (SELECT ID_Usuario From tbUsuarios WHERE emailUsuario = ?) AS ID_Usuario,
-                u.nombreUsuario,
-                u.apellidoUsuario,
-                u.imgUsuario,
-                e.nombreEspecialidad,
-                s.ID_Sucursal,
-                s.nombreSucursal,
-                s.telefonoSucur,
-                s.direccionSucur,
-                s.longSucur,
-                s.latiSucur,
-                s.imgSucursal,
-                se.nombreServicio,
-                se.costo
-            FROM 
-                tbDoctores d
-            INNER JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
-            INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-            INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
-            INNER JOIN tbCentrosMedicos cm ON d.ID_Doctor = cm.ID_Doctor
-            INNER JOIN tbServicios se ON cm.ID_Centro = se.ID_Centro
-            WHERE 
-                d.ID_Doctor = ?
+    (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?) AS ID_Usuario,
+    u.nombreUsuario,
+    u.apellidoUsuario,
+    u.imgUsuario,
+    e.nombreEspecialidad,
+    s.ID_Sucursal,
+    s.nombreSucursal,
+    s.telefonoSucur,
+    s.direccionSucur,
+    s.longSucur,
+    s.latiSucur,
+    s.imgSucursal,
+    se.nombreServicio,
+    se.costo
+FROM 
+    tbDoctores d
+INNER JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
+INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
+INNER JOIN tbServicios se ON d.ID_Doctor = se.ID_Doctor
+WHERE 
+    d.ID_Doctor = ?
             """
             ).use { statement ->
                 statement.setString(1, userEmail)
@@ -303,30 +300,29 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
             val conexion = ClaseConexion().cadenaConexion()
             val statement = conexion?.prepareStatement(
                 """
-            SELECT 
-                (SELECT ID_Usuario From tbUsuarios WHERE emailUsuario = ?) AS ID_Usuario,
-                u.nombreUsuario,
-                u.apellidoUsuario,
-                u.imgUsuario,
-                e.nombreEspecialidad,
-                s.ID_Sucursal,
-                s.nombreSucursal,
-                s.telefonoSucur,
-                s.direccionSucur,
-                s.longSucur,
-                s.latiSucur,
-                s.imgSucursal,
-                se.nombreServicio,
-                se.costo
-            FROM 
-                tbDoctores d
-            INNER JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
-            INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-            INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
-            INNER JOIN tbCentrosMedicos cm ON d.ID_Doctor = cm.ID_Doctor
-            INNER JOIN tbServicios se ON cm.ID_Centro = se.ID_Centro
-            WHERE 
-                d.ID_Doctor = ?
+SELECT 
+    (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?) AS ID_Usuario,
+    u.nombreUsuario,
+    u.apellidoUsuario,
+    u.imgUsuario,
+    e.nombreEspecialidad,
+    s.ID_Sucursal,
+    s.nombreSucursal,
+    s.telefonoSucur,
+    s.direccionSucur,
+    s.longSucur,
+    s.latiSucur,
+    s.imgSucursal,
+    se.nombreServicio,
+    se.costo
+FROM 
+    tbDoctores d
+INNER JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
+INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
+INNER JOIN tbServicios se ON d.ID_Doctor = se.ID_Doctor
+WHERE 
+    d.ID_Doctor = ?
             """
             )!!
             statement.setString(1, userEmail)
@@ -345,6 +341,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                     imgUsuario = resultSet.getString("imgUsuario")
                     Glide.with(imgDoctor)
                         .load(imgUsuario)
+                        .circleCrop()
                         .into(imgDoctor)
                     Glide.with(img_clinic)
                         .load(imgSucursal)
@@ -357,8 +354,6 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                         "Dr. ${nombreUsuario ?: ""} ${apellidoUsuario ?: ""}".trim()
                     nombreDoctor.text = nombreCompleto
                     Especialidad.text = resultSet.getString("nombreEspecialidad")
-                    Log.e("ID_Sucursal", idSucursal.toString())
-
                 }
             }
         }
@@ -418,7 +413,6 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                 } else {
                     "F"
                 }
-
                 //println("Estado inicial toggleButton.isChecked: $isFav")
                 println("ID_Sucursal: $ID_Sucursal")
 
@@ -453,9 +447,8 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                 try {
                     conexion = ClaseConexion().cadenaConexion()
                     statement = conexion?.prepareStatement(
-                        "INSERT INTO tbReviews (promEstrellas, comentario, ID_Centro, ID_Usuario) VALUES (?, ?, ?, ?)"
+                        "INSERT INTO tbReviews (promEstrellas, comentario, ID_Doctor, ID_Usuario) VALUES (?, ?, ?, ?)"
                     )
-
                     statement?.apply {
                         setDouble(1, resena.promEstrellas.toDouble())
                         setString(2, resena.comentario)
@@ -541,9 +534,7 @@ FROM
 INNER JOIN 
     tbUsuarios u ON rv.ID_Usuario = u.ID_Usuario
 INNER JOIN
-    tbCentrosMedicos cm ON rv.ID_Centro = cm.ID_Centro
-INNER JOIN
-    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+    tbDoctores d ON rv.ID_Doctor = d.ID_Doctor
 WHERE 
     d.ID_Doctor = ?
 """)
@@ -594,9 +585,7 @@ FROM
 INNER JOIN 
     tbAseguradoras a ON srv.ID_Aseguradora = a.ID_Aseguradora
 INNER JOIN
-    tbCentrosMedicos cm ON srv.ID_Centro = cm.ID_Centro
-INNER JOIN
-    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
+    tbDoctores d ON srv.ID_Doctor = d.ID_Doctor
 WHERE 
     d.ID_Doctor = ?
 """)

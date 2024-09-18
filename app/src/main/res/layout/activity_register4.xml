@@ -238,7 +238,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageView27"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8">
+        app:layout_constraintTop_toBottomOf="@+id/frase">
 
         <EditText
             android:id="@+id/num1edit"
@@ -339,7 +339,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/frase"
         android:layout_width="318dp"
         android:layout_height="22dp"
         android:fontFamily="@font/poppins_regular"
