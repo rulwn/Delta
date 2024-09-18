@@ -117,25 +117,33 @@ class fragment_control_tratamientos : Fragment() {
                 val objConexion = ClaseConexion().cadenaConexion()
                 if (objConexion != null) {
                     val statement = objConexion.prepareStatement(
-                        "SELECT indi.ID_Indicacion, " +
-                                "indi.inicioMedi, " +
-                                "indi.finalMedi, " +
-                                "indi.dosisMedi, " +
-                                "indi.medicina, " +
-                                "indi.detalleindi, " +
-                                "tiem.lapsostiempo, " +
-                                "tiem.frecuenciamedi " +
-                                "FROM tbIndicaciones indi " +
-                                "INNER JOIN tbTiempos tiem ON indi.id_tiempo = tiem.id_tiempo " +
-                                "INNER JOIN tbRecetas rec ON indi.id_receta = rec.id_receta " +
-                                "INNER JOIN tbFichasMedicas fichi ON rec.id_receta = fichi.id_receta " +
-                                "INNER JOIN tbcitasmedicas citas ON fichi.id_cita = citas.id_cita " +
-                                "INNER JOIN tbpacientes PACS ON citas.id_paciente = PACS.id_paciente " +
-                                "INNER JOIN tbUsuarios USUA ON PACS.id_usuario = USUA.id_usuario " +
-                                "WHERE USUA.emailusuario = ? " +
-                                "AND indi.inicioMedi <= CURRENT_DATE " +
-                                "AND indi.finalMedi >= CURRENT_DATE"
-                    )
+                        """
+                        SELECT
+                        indi.ID_Indicacion,
+                        indi.inicioMedi,
+                        indi.finalMedi,
+                        indi.dosisMedi,
+                        indi.medicina,
+                        indi.detalleindi,
+                        tiem.lapsostiempo,
+                        tiem.frecuenciamedi
+                                FROM
+                                tbIndicaciones indi
+                                INNER JOIN
+                                tbTiempos tiem ON indi.ID_Tiempo = tiem.ID_Tiempo
+                                INNER JOIN
+                                tbRecetas rec ON indi.ID_Receta = rec.ID_Receta
+                                INNER JOIN
+                                tbFichasMedicas fichi ON rec.ID_Receta = fichi.ID_Receta
+                                INNER JOIN
+                                tbCitasMedicas citas ON fichi.ID_Cita = citas.ID_Cita
+                                INNER JOIN
+                                tbUsuarios usua ON citas.ID_Usuario = usua.ID_Usuario
+                                WHERE
+                                usua.emailUsuario = ?
+                    AND indi.inicioMedi <= CURRENT_DATE
+                    AND indi.finalMedi >= CURRENT_DATE
+                    """)
                     statement.setString(1, userEmail)
                     val resultSet = statement.executeQuery()
                     var resultCount = 0
@@ -194,22 +202,31 @@ class fragment_control_tratamientos : Fragment() {
                 val objConexion = ClaseConexion().cadenaConexion()
                 if (objConexion != null) {
                     val statement = objConexion.prepareStatement(
-                        "SELECT indi.ID_Indicacion, " +
-                                "indi.inicioMedi, " +
-                                "indi.finalMedi, " +
-                                "indi.dosisMedi, " +
-                                "indi.medicina, " +
-                                "indi.detalleindi, " +
-                                "tiem.lapsostiempo, " +
-                                "tiem.frecuenciamedi " +
-                                "FROM tbIndicaciones indi " +
-                                "INNER JOIN tbTiempos tiem ON indi.id_tiempo = tiem.id_tiempo " +
-                                "INNER JOIN tbRecetas rec ON indi.id_receta = rec.id_receta " +
-                                "INNER JOIN tbFichasMedicas fichi ON rec.id_receta = fichi.id_receta " +
-                                "INNER JOIN tbcitasmedicas citas ON fichi.id_cita = citas.id_cita " +
-                                "INNER JOIN tbpacientes PACS ON citas.id_paciente = PACS.id_paciente " +
-                                "INNER JOIN tbUsuarios USUA ON PACS.id_usuario = USUA.id_usuario " +
-                                "WHERE USUA.emailusuario = ?"
+                        """
+SELECT 
+    indi.ID_Indicacion, 
+    indi.inicioMedi, 
+    indi.finalMedi, 
+    indi.dosisMedi, 
+    indi.medicina, 
+    indi.detalleIndi, 
+    tiem.lapsosTiempo, 
+    tiem.frecuenciaMedi
+FROM 
+    tbIndicaciones indi
+INNER JOIN 
+    tbTiempos tiem ON indi.ID_Tiempo = tiem.ID_Tiempo
+INNER JOIN 
+    tbRecetas rec ON indi.ID_Receta = rec.ID_Receta
+INNER JOIN 
+    tbFichasMedicas fichi ON rec.ID_Receta = fichi.ID_Receta
+INNER JOIN 
+    tbCitasMedicas citas ON fichi.ID_Cita = citas.ID_Cita
+INNER JOIN 
+    tbUsuarios usua ON citas.ID_Usuario = usua.ID_Usuario
+WHERE 
+    usua.emailUsuario = ?
+                        """.trimIndent()
                     )
                     statement.setString(1, userEmail)
                     val resultSet = statement.executeQuery()

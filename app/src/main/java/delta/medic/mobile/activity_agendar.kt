@@ -52,7 +52,6 @@ class activity_agendar : AppCompatActivity() {
     var imgSucursal : String = "";
     var nombreEspecialidad : String = "";
     var ID_Doctor : Int = 0;
-    var ID_Centro : Int = 0;
     var horaSeleccionada : Timestamp? = null
     var diaSeleccionado : LocalDate? = null
     private lateinit var txtMotivo: TextView
@@ -142,10 +141,9 @@ class activity_agendar : AppCompatActivity() {
             val statement = objConexion?.prepareStatement(
                 """
         SELECT h.horarioTurno
-        FROM tbHorarios h
-        INNER JOIN tbCentrosMedicos cm ON h.ID_Centro = cm.ID_Centro
-        INNER JOIN tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-        WHERE d.ID_Doctor = ?
+            FROM tbHorarios h
+            INNER JOIN tbDoctores d ON h.ID_Doctor = d.ID_Doctor
+            WHERE d.ID_Doctor = ?
         """
             )
             statement?.setInt(1, ID_Doctor)
@@ -210,15 +208,17 @@ SELECT
     s.latiSucur,
     s.imgSucursal,
     se.nombreServicio,
-    se.costo,
-    cm.ID_Centro
+    se.costo
 FROM 
     tbDoctores d
-    INNER JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
-    INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-    INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
-    INNER JOIN tbCentrosMedicos cm ON d.ID_Doctor = cm.ID_Doctor
-    INNER JOIN tbServicios se ON cm.ID_Centro = se.ID_Centro
+INNER JOIN 
+    tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
+INNER JOIN 
+    tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+INNER JOIN 
+    tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
+INNER JOIN 
+    tbServicios se ON d.ID_Doctor = se.ID_Doctor
 WHERE 
     d.ID_Doctor = ?
         """
@@ -244,7 +244,6 @@ WHERE
                     txtDireccionSucur.text = direccionSucur
                     nombreEspecialidad = resultSet.getString("nombreEspecialidad")
                     txtEspecialidad.text = nombreEspecialidad
-                    ID_Centro = resultSet.getInt("ID_Centro")
                 } else {
                 Log.e("Info", "No se encontraron resultados para el ID_Doctor: $ID_Doctor")                }
             }
@@ -289,7 +288,7 @@ WHERE
 
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun insertarCitaEnBaseDeDatos(horaSeleccionada: Timestamp, diaSeleccionado: LocalDate, motivo: String, ID_Centro: Int, ID_Paciente: Int) {
+    private fun insertarCitaEnBaseDeDatos(horaSeleccionada: Timestamp, diaSeleccionado: LocalDate, motivo: String, ID_Doctor: Int, ID_User: Int) {
         try {
             // Convertir el Timestamp a LocalTime
             val localTime = horaSeleccionada.toInstant().atZone(ZoneId.systemDefault()).toLocalTime()
@@ -313,7 +312,7 @@ WHERE
                     val insertStatement = objConexion?.prepareStatement(
                         """
                     INSERT INTO tbCitasMedicas 
-                    (diaCita, estadoCita, horaCita, motivo, ID_Centro, ID_Paciente)
+                    (diaCita, estadoCita, horaCita, motivo, ID_Doctor, ID_Paciente)
                     VALUES (?, ?, ?, ?, ?, 1)
                     """
                     )
@@ -321,7 +320,7 @@ WHERE
                     insertStatement?.setString(2, estadoCita.toString()) // estadoCita (Por defecto 'A')
                     insertStatement?.setTimestamp(3, timestampFinal) // horaCita en el formato correcto
                     insertStatement?.setString(4, motivo) // motivo de la cita
-                    insertStatement?.setInt(5, ID_Centro) // ID_Centro
+                    insertStatement?.setInt(5, ID_Doctor) // ID_Doctor
 
                     // Ejecutar el INSERT
                     insertStatement?.executeUpdate()
@@ -369,10 +368,9 @@ WHERE
         closeButton.setOnClickListener {
             // Actualizar el valor del motivo cada vez que se hace clic en el botón
             val motivo = txtMotivo.text.toString()
-            Log.e("Info", "$motivo , $horaSeleccionada, $diaSeleccionado, $ID_Centro")
-
+            Log.e("Info", "$motivo , $horaSeleccionada, $diaSeleccionado, $ID_Doctor")
             if (motivo.isNotEmpty() && horaSeleccionada != null && diaSeleccionado != null) {
-                insertarCitaEnBaseDeDatos(horaSeleccionada!!, diaSeleccionado!!, motivo, ID_Centro, 1)
+                insertarCitaEnBaseDeDatos(horaSeleccionada!!, diaSeleccionado!!, motivo, ID_Doctor, ID_User)
                 Toast.makeText(this, "Cita registrada exitosamente.", Toast.LENGTH_SHORT).show()
                 val Intent = Intent(this, MainActivity::class.java)
                 startActivity(Intent)

@@ -142,11 +142,15 @@ class fragment_notificaciones : Fragment() {
 
 
             val citaDetailsStmt = objConexion?.prepareStatement("""
-                SELECT c.horaCita, d.nombreUsuario AS doctorNombre 
-                FROM tbCitasMedicas c
-                JOIN tbCentrosMedicos cm ON c.ID_Centro = cm.ID_Centro
-                JOIN tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-                WHERE c.ID_Cita = ?
+SELECT 
+    c.horaCita, 
+    d.nombreUsuario AS doctorNombre
+FROM 
+    tbCitasMedicas c
+JOIN 
+    tbDoctores d ON c.ID_Doctor = d.ID_Doctor
+WHERE 
+    c.ID_Cita = ?
             """.trimIndent())
             citaDetailsStmt?.setInt(1, idCita)
             val resultSet = citaDetailsStmt?.executeQuery()
