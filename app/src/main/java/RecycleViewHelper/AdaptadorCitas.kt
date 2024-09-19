@@ -4,6 +4,9 @@ import Modelo.ClaseConexion
 import Modelo.dataClassCitas
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
@@ -12,14 +15,19 @@ import android.graphics.Color
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import delta.medic.mobile.MainActivity
 import delta.medic.mobile.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
+import android.app.NotificationManager
+
 
 class AdaptadorCitas(private var Datos: List<dataClassCitas>) :
     RecyclerView.Adapter<viewHolderCitas>() {
@@ -44,7 +52,7 @@ class AdaptadorCitas(private var Datos: List<dataClassCitas>) :
 
         val diaYMes = "$diaCitaString/$mesCitaString"
         val TiempoYDia = "${diaYMes} ${horaCitaString}"
-        val MotivoYPaciente = "${citas.motivo}, ${citas.nombrePaciente}"
+        val MotivoYPaciente = citas.motivo
         val DoctorEspecialidad =
             "${citas.nombreDoctor} ${citas.apellidoDoctor} - ${citas.especialidad}"
         holder.txtTiempoCitas.text = TiempoYDia
@@ -104,7 +112,7 @@ class AdaptadorCitas(private var Datos: List<dataClassCitas>) :
         positiveButton.setTextColor(Color.parseColor("#E33E3E"))
         positiveButton.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
-                cancelarCita(citas.ID_Cita, citas.ID_Usuario, "${citas.nombreDoctor} ${citas.apellidoDoctor}")
+                cancelarCita(citas.ID_Cita, citas.ID_Usuario, "${citas.nombreDoctor} ${citas.apellidoDoctor}", holder.itemView.context)
             }
             dialog.dismiss()
         }
@@ -116,23 +124,26 @@ class AdaptadorCitas(private var Datos: List<dataClassCitas>) :
         }
     }
 
-    private suspend fun cancelarCita(idCita: Int, idUsuario: Int, nombreDoctor: String) {
+    private suspend fun cancelarCita(idCita: Int, idUsuario: Int, nombreDoctor: String, context: Context) {
         withContext(Dispatchers.IO) {
             try {
                 val objConexion = ClaseConexion().cadenaConexion()
                 if (objConexion != null) {
                     val statement = objConexion.prepareStatement(
                         """
-                        UPDATE tbcitasmedicas
-                        SET estadoCita = 'C'
-                        WHERE ID_Cita = ?
-                    """
+                    UPDATE tbcitasmedicas
+                    SET estadoCita = 'C'
+                    WHERE ID_Cita = ?
+                """
                     )
                     statement?.setInt(1, idCita)
                     val rowsAffected = statement?.executeUpdate()
                     if (rowsAffected != null && rowsAffected > 0) {
                         println("Cita con ID $idCita ha sido cancelada.")
                         insertarNotificacionCancelacion(idUsuario, nombreDoctor)
+
+                        // Enviar la notificación local
+                        enviarNotificacion(context, "Cita Cancelada", "Cita con el doctor $nombreDoctor ha sido cancelada.")
                     } else {
                         println("No se encontró ninguna cita con ID $idCita.")
                     }
@@ -168,6 +179,26 @@ class AdaptadorCitas(private var Datos: List<dataClassCitas>) :
             } catch (e: Exception) {
                 println("Error al insertar notificación: ${e.message}")
             }
+        }
+    }
+    fun enviarNotificacion(context: Context, titulo: String, mensaje: String) {
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+
+        val builder = NotificationCompat.Builder(context, "general_notifications")
+            .setSmallIcon(R.drawable.ic_app)
+            .setContentTitle(titulo)
+            .setContentText(mensaje)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+
+        with(NotificationManagerCompat.from(context)) {
+            notify(1001, builder.build())
         }
     }
 }

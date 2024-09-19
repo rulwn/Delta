@@ -9,6 +9,7 @@ class ClaseConexion {
     suspend fun cadenaConexion(): Connection? {
         return withContext(Dispatchers.IO) {
             try {
+
                 val url = "jdbc:oracle:thin:@10.10.0.144:1521:xe"
                 val usuario = "DeltaMed" //DeltaMed
                 val clave = "deltaTeam1" //deltaTeam1
