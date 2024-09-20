@@ -33,7 +33,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import delta.medic.mobile.activity_login.UserData.userEmail
 import delta.medic.mobile.ui.dashboard.DashboardFragment
-
+import androidx.core.app.NotificationManagerCompat
+import delta.medic.mobile.MainActivity
 class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
@@ -170,4 +171,5 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
     }
+
 }
