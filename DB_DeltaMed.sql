@@ -601,7 +601,7 @@ CREATE TABLE tbSucursales (
     longSucur NUMBER(15,10) NOT NULL,
     whatsapp VARCHAR2(12),
     imgSucursal VARCHAR2(250) NOT NULL,
-    valoFinal NUMBER(2,5) NOT NULL,
+    valoFinal NUMBER(5,2) NOT NULL,
     ID_Establecimiento INT NOT NULL,
     ID_TipoSucursal INT NOT NULL,
 
@@ -1305,7 +1305,6 @@ END PROC_ADMIN_FAVORITOS;
 ~ PROCEDURE PARA RECIENTES ~
 
 *************************************************************************************************/
-
 CREATE OR REPLACE PROCEDURE PROC_STATE_VALIDATION_RECIENTES (
     arg_email IN tbUsuarios.emailUsuario%TYPE, 
     arg_ID_Sucursal IN INT, 
@@ -1353,6 +1352,53 @@ BEGIN
     VALUES (var_ID_Usuario, arg_ID_Sucursal, arg_ID_Doctor);
 
     COMMIT WORK;
+END;
+/
+
+/*************************************************************************************************
+
+~ PROCEDURE PARA REVIEWS ~
+
+*************************************************************************************************/
+CREATE OR REPLACE PROCEDURE actualizar_valoFinal_sucursal(p_id_sucursal INT) IS
+    v_promedio_estrellas NUMBER(5,2);
+BEGIN
+    -- Calcular el promedio de estrellas para la sucursal
+    SELECT AVG(r.promEstrellas)
+    INTO v_promedio_estrellas
+    FROM tbReviews r
+    INNER JOIN tbDoctores d ON r.ID_Doctor = d.ID_Doctor
+    WHERE d.ID_Sucursal = p_id_sucursal;
+
+    -- Limitar el valor promedio si excede el límite de precisión
+    IF v_promedio_estrellas > 99.999 THEN
+        v_promedio_estrellas := 99.999;
+    END IF;
+
+    -- Actualizar el valoFinal en la tabla tbSucursales
+    UPDATE tbSucursales
+    SET valoFinal = v_promedio_estrellas
+    WHERE ID_Sucursal = p_id_sucursal;
+
+    -- NO SE NECESITA COMMIT AQUÍ
+END actualizar_valoFinal_sucursal;
+/
+
+CREATE OR REPLACE TRIGGER trg_actualizar_valoFinal_sucursal
+AFTER INSERT ON tbReviews
+DECLARE
+    v_id_sucursal INT;
+BEGIN
+    -- Actualizamos todas las sucursales afectadas después de la inserción
+    FOR rec IN (
+        SELECT DISTINCT d.ID_Sucursal
+        FROM tbDoctores d
+        INNER JOIN tbReviews r ON d.ID_Doctor = r.ID_Doctor
+    )
+    LOOP
+        -- Llamamos al procedimiento para actualizar el valoFinal de cada sucursal
+        actualizar_valoFinal_sucursal(rec.ID_Sucursal);
+    END LOOP;
 END;
 /
 
@@ -1641,14 +1687,16 @@ VALUES
 INSERT ALL
     INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(5, 'Excelente Servicio!', 3, 5)
-INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
+    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(1, 'El doctor no se presento a mi cita', 3, 1)
-INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
+    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(4.5, 'Muy buen ambiente en esa clinica', 4, 2)
-INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
+    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(3, 'Bueno pero pudo ser mejor con el tiempo', 3, 4)
-INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
+    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(4, 'Excelente música', 3, 2)
+    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
+        VALUES(2, 'Mal Servicio', 1, 2)
 SELECT DUMMY FROM DUAL;
 
 COMMIT;
@@ -1868,6 +1916,7 @@ WHERE
     
 select * from tbusuarios;
 select * from tbIndicaciones;
+select * from tbSucursales;
     
 /*drop table tbpacientes;
 drop table tbcentrosmedicos;*/
