@@ -751,17 +751,17 @@ CREATE TABLE tbNotis (
 
 CREATE TABLE tbExpedientes (
     ID_Expediente INT PRIMARY KEY,
-    antecedentes VARCHAR2(200) NOT NULL,
+    antecedentes VARCHAR2(200),
     nombrePadre VARCHAR2(50),
     nombreMadre VARCHAR2(50),
     responsable VARCHAR2(50),
-    permaMedicamentos VARCHAR2(100) NOT NULL,
+    permaMedicamentos VARCHAR2(100),
     presionArterial VARCHAR2(20) NOT NULL,
-    peso DECIMAL(4,2) NOT NULL,
+    peso NUMBER(4,2) NOT NULL,
     altura NUMBER(3) NOT NULL,
     contactoEmer VARCHAR2(12) NOT NULL,
     saturacion NUMBER(3) NOT NULL,
-    historial VARCHAR2(200) NOT NULL,
+    historial VARCHAR2(200),
     tipoSangre VARCHAR2(10) NOT NULL,
     fechaConsultas DATE NOT NULL,
     ID_Usuario INT NOT NULL,
@@ -1495,6 +1495,16 @@ INSERT ALL
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
+    INTO tbExpedientes (antecedentes, nombrePadre, nombreMadre, responsable, permaMedicamentos, presionArterial, peso, altura, contactoEmer, saturacion, historial, tipoSangre, fechaConsultas, ID_Usuario)
+    VALUES ('Diabetes', 'Juan Pérez', 'María López', 'Dr. García', 'Metformina', '120/80', 75.50, 170, '5551234567', 98, 'Ningún evento crítico', 'O+', TO_DATE('2023-05-12', 'YYYY-MM-DD'), 1)
+    INTO tbExpedientes (antecedentes, nombrePadre, nombreMadre, responsable, permaMedicamentos, presionArterial, peso, altura, contactoEmer, saturacion, historial, tipoSangre, fechaConsultas, ID_Usuario)
+    VALUES ('Hipertensión', 'Carlos Gómez', 'Luisa Fernández', 'Dr. Ramírez', 'Losartán', '130/85', 80.25, 175, '5559876543', 95, 'Historial controlado', 'A-', TO_DATE('2023-06-15', 'YYYY-MM-DD'), 2)
+    INTO tbExpedientes (antecedentes, nombrePadre, nombreMadre, responsable, permaMedicamentos, presionArterial, peso, altura, contactoEmer, saturacion, historial, tipoSangre, fechaConsultas, ID_Usuario)
+    VALUES ('Asma', 'Ricardo Sánchez', 'Laura Martínez', 'Dr. Herrera', 'Salbutamol', '110/70', 68.30, 165, '5552345678', 97, 'Requiere inhalador', 'B+', TO_DATE('2023-07-20', 'YYYY-MM-DD'), 3)
+SELECT * FROM dual;
+
+
+INSERT ALL
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, valoFinal, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
          VALUES ('Clínica Ginecologica', 235656, 'clinica_ginecologica@gmail.com', '2264-7856', '25 Av. Norte, Colonia Médica, San Salvador', 13.709362, -89.202990, '7589-4365', 0.0,'Esta sucursal no posee una fotografia', 1, 2)
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, valoFinal, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
@@ -1786,9 +1796,11 @@ WHERE
 select * from tbAuditorias;
 select * from tbDoctores;
 select * from tbUsuarios;
+select * from tbTipoUsuarios;
 select * from tbFavoritos;
 select * from tbRecientes;
 select * from tbCitasMedicas;
+select * from tbSucursales;
 
 SELECT
 u.ID_Usuario,
@@ -1866,8 +1878,16 @@ WHERE
     AND indi.inicioMedi <= CURRENT_DATE 
     AND indi.finalMedi >= CURRENT_DATE;
     
-select * from tbusuarios;
+SELECT nombreusuario || ' ' || apellidousuario AS nombre_completo FROM tbusuarios;
+
 select * from tbIndicaciones;
-    
+SELECT e.ID_Expediente, e.antecedentes, e.nombrePadre, e.nombreMadre, e.responsable, 
+       e.permaMedicamentos, e.presionArterial, e.peso, e.altura, e.contactoEmer, 
+       e.saturacion, e.historial, e.tipoSangre, e.fechaConsultas, 
+       u.emailUsuario 
+FROM tbExpedientes e 
+INNER JOIN tbUsuarios u ON e.ID_Usuario = u.ID_Usuario 
+WHERE u.emailUsuario = 'fran@gmail.com';
+SELECT * FROM tbExpedientes WHERE ID_Usuario = 1;
 /*drop table tbpacientes;
 drop table tbcentrosmedicos;*/
