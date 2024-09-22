@@ -751,17 +751,17 @@ CREATE TABLE tbNotis (
 
 CREATE TABLE tbExpedientes (
     ID_Expediente INT PRIMARY KEY,
-    antecedentes VARCHAR2(200) NOT NULL,
+    antecedentes VARCHAR2(200),
     nombrePadre VARCHAR2(50),
     nombreMadre VARCHAR2(50),
     responsable VARCHAR2(50),
-    permaMedicamentos VARCHAR2(100) NOT NULL,
+    permaMedicamentos VARCHAR2(100),
     presionArterial VARCHAR2(20) NOT NULL,
-    peso DECIMAL(4,2) NOT NULL,
+    peso NUMBER NOT NULL,
     altura NUMBER(3) NOT NULL,
     contactoEmer VARCHAR2(12) NOT NULL,
     saturacion NUMBER(3) NOT NULL,
-    historial VARCHAR2(200) NOT NULL,
+    historial VARCHAR2(200),
     tipoSangre VARCHAR2(10) NOT NULL,
     fechaConsultas DATE NOT NULL,
     ID_Usuario INT NOT NULL,
@@ -1925,5 +1925,35 @@ FROM tbExpedientes e
 INNER JOIN tbUsuarios u ON e.ID_Usuario = u.ID_Usuario
 WHERE u.emailUsuario = 'fran@gmail.com';
 SELECT * FROM tbExpedientes WHERE ID_Usuario = 1;
+
+SELECT 
+    d.ID_Doctor,
+    (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = 'fran@gmail.com') AS ID_Usuario,
+    u.nombreUsuario, 
+    u.apellidoUsuario, 
+    u.imgUsuario, 
+    e.nombreEspecialidad,
+    s.ID_Sucursal,
+    s.nombreSucursal,
+    s.telefonoSucur, 
+    s.direccionSucur, 
+    s.longSucur,
+    s.latiSucur,
+    s.imgSucursal,
+    es.ID_Establecimiento
+FROM 
+    tbDoctores d
+INNER JOIN 
+    tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
+INNER JOIN 
+    tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+INNER JOIN 
+    tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
+INNER JOIN
+    tbEstablecimientos es on s.ID_Establecimiento = es.ID_Establecimiento  
+WHERE
+    es.ID_Establecimiento = 1
+AND
+    u.ID_TipoUsuario = 2
 /*drop table tbpacientes;
 drop table tbcentrosmedicos;*/
