@@ -492,7 +492,7 @@ END;
 COMMIT;
 /*******************************************************************************
 
-    ~ CREACIÃ“N DE TABLAS INDEPENDIENTES ~
+    ~ CREACIÓN DE TABLAS INDEPENDIENTES ~
 
 *******************************************************************************/
 
@@ -601,7 +601,7 @@ CREATE TABLE tbSucursales (
     longSucur NUMBER(15,10) NOT NULL,
     whatsapp VARCHAR2(12),
     imgSucursal VARCHAR2(250) NOT NULL,
-    valoFinal NUMBER(2,5) NOT NULL,
+    valoFinal NUMBER(2,1) NOT NULL,
     ID_Establecimiento INT NOT NULL,
     ID_TipoSucursal INT NOT NULL,
 
@@ -836,7 +836,7 @@ CREATE TABLE tbFichasMedicas (
 
 /*************************************************************************************************
 
-    ~ CREACIÃ“N DE SECUENCIAS ~
+    ~ CREACIÓN DE SECUENCIAS ~
 
 *************************************************************************************************/
 
@@ -1867,7 +1867,36 @@ WHERE
     AND indi.finalMedi >= CURRENT_DATE;
 
 select * from tbusuarios;
-select * from tbIndicaciones;
+select * from tbCitasMedicas;
 
 /*drop table tbpacientes;
 drop table tbcentrosmedicos;*/
+
+SELECT (nombreUsuario || ' ' || ApellidoUsuario) AS "Nombre Usuario", 
+    Motivo, 
+    HoraCita 
+FROM tbCitasMedicas C 
+INNER JOIN tbUsuarios U 
+ON U.ID_Usuario = C.ID_Usuario 
+WHERE ID_Doctor = ? 
+AND horacita > CURRENT_TIMESTAMP 
+AND ESTADOCITA = 'A';
+
+Select * from tbSucursales;
+
+SELECT s.valoFinal
+FROM tbUsuarios u
+INNER JOIN tbDoctores d ON u.ID_Usuario = d.ID_Usuario
+INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
+WHERE u.emailUsuario = 'xam@gmail.com';
+
+UPDATE tbSucursales s
+SET s.valoFinal = 3.5
+WHERE s.ID_Sucursal = (
+    SELECT d.ID_Sucursal
+    FROM tbUsuarios u
+    JOIN tbDoctores d ON u.ID_Usuario = d.ID_Usuario
+    WHERE u.emailUsuario = 'xam@gmail.com'
+);
+
+COMMIT; 
