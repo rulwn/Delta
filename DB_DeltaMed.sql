@@ -103,6 +103,16 @@ END;
 /
 
 BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbPropietarios CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
     EXECUTE IMMEDIATE 'DROP TABLE tbSeguros CASCADE CONSTRAINTS';
 EXCEPTION
     WHEN OTHERS THEN
@@ -573,6 +583,15 @@ CREATE TABLE tbUsuarios (
     ON DELETE CASCADE
 );
 
+create table tbPropietarios(
+id_usuario int,
+id_Establecimiento int
+);
+
+alter table tbPropietarios add constraint FKPrimera foreign key (id_usuario) references tbUsuarios(id_usuario);
+alter table tbPropietarios add constraint FKSegunda foreign key (id_establecimiento) references tbEstablecimientos(id_establecimiento);
+
+
 CREATE TABLE tbSeguros (
     ID_Seguro INT PRIMARY KEY,
     carnetSeguro VARCHAR2(20) NOT NULL UNIQUE,
@@ -601,7 +620,7 @@ CREATE TABLE tbSucursales (
     longSucur NUMBER(15,10) NOT NULL,
     whatsapp VARCHAR2(12),
     imgSucursal VARCHAR2(250) NOT NULL,
-    valoFinal NUMBER(2,5) NOT NULL,
+    valoFinal NUMBER(5,2) NOT NULL,
     ID_Establecimiento INT NOT NULL,
     ID_TipoSucursal INT NOT NULL,
 
@@ -751,17 +770,17 @@ CREATE TABLE tbNotis (
 
 CREATE TABLE tbExpedientes (
     ID_Expediente INT PRIMARY KEY,
-    antecedentes VARCHAR2(200) NOT NULL,
+    antecedentes VARCHAR2(200),
     nombrePadre VARCHAR2(50),
     nombreMadre VARCHAR2(50),
     responsable VARCHAR2(50),
-    permaMedicamentos VARCHAR2(100) NOT NULL,
+    permaMedicamentos VARCHAR2(100),
     presionArterial VARCHAR2(20) NOT NULL,
-    peso DECIMAL(4,2) NOT NULL,
+    peso NUMBER NOT NULL,
     altura NUMBER(3) NOT NULL,
     contactoEmer VARCHAR2(12) NOT NULL,
     saturacion NUMBER(3) NOT NULL,
-    historial VARCHAR2(200) NOT NULL,
+    historial VARCHAR2(200),
     tipoSangre VARCHAR2(10) NOT NULL,
     fechaConsultas DATE NOT NULL,
     ID_Usuario INT NOT NULL,
@@ -1305,7 +1324,6 @@ END PROC_ADMIN_FAVORITOS;
 ~ PROCEDURE PARA RECIENTES ~
 
 *************************************************************************************************/
-
 CREATE OR REPLACE PROCEDURE PROC_STATE_VALIDATION_RECIENTES (
     arg_email IN tbUsuarios.emailUsuario%TYPE, 
     arg_ID_Sucursal IN INT, 
@@ -1354,6 +1372,63 @@ BEGIN
 
     COMMIT WORK;
 END;
+/
+
+/*************************************************************************************************
+
+~ PROCEDURE PARA REVIEWS ~
+
+*************************************************************************************************/
+CREATE OR REPLACE PROCEDURE actualizar_valoFinal_sucursal(p_id_sucursal INT) IS
+    v_promedio_estrellas NUMBER(5,2);
+BEGIN
+    -- Calcular el promedio de estrellas para la sucursal
+    SELECT AVG(r.promEstrellas)
+    INTO v_promedio_estrellas
+    FROM tbReviews r
+    INNER JOIN tbDoctores d ON r.ID_Doctor = d.ID_Doctor
+    WHERE d.ID_Sucursal = p_id_sucursal;
+
+    -- Limitar el valor promedio si excede el límite de precisión
+    IF v_promedio_estrellas > 99.999 THEN
+        v_promedio_estrellas := 99.999;
+    END IF;
+
+    -- Actualizar el valoFinal en la tabla tbSucursales
+    UPDATE tbSucursales
+    SET valoFinal = v_promedio_estrellas
+    WHERE ID_Sucursal = p_id_sucursal;
+
+    -- NO SE NECESITA COMMIT AQUÍ
+END actualizar_valoFinal_sucursal;
+/
+
+CREATE OR REPLACE TRIGGER trg_actualizar_valoFinal_sucursal
+AFTER INSERT ON tbReviews
+DECLARE
+    v_id_sucursal INT;
+BEGIN
+    -- Actualizamos todas las sucursales afectadas después de la inserción
+    FOR rec IN (
+        SELECT DISTINCT d.ID_Sucursal
+        FROM tbDoctores d
+        INNER JOIN tbReviews r ON d.ID_Doctor = r.ID_Doctor
+    )
+    LOOP
+        -- Llamamos al procedimiento para actualizar el valoFinal de cada sucursal
+        actualizar_valoFinal_sucursal(rec.ID_Sucursal);
+    END LOOP;
+END;
+/
+
+create or replace procedure insertarPropietarios(
+ Usuario in tbUsuarios.id_usuario%type,
+Establecimiento in tbEstablecimientos.id_establecimiento%type
+)
+as
+begin
+insert into tbPropietarios values(Usuario, Establecimiento);
+end insertarPropietarios;
 /
 
 /*************************************************************************************************
@@ -1641,14 +1716,27 @@ VALUES
 INSERT ALL
     INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(5, 'Excelente Servicio!', 3, 5)
-INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
+    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(1, 'El doctor no se presento a mi cita', 3, 1)
-INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
+    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(4.5, 'Muy buen ambiente en esa clinica', 4, 2)
-INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
+    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(3, 'Bueno pero pudo ser mejor con el tiempo', 3, 4)
-INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
+    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(4, 'Excelente música', 3, 2)
+    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
+        VALUES(2, 'Mal Servicio', 1, 2)
+SELECT DUMMY FROM DUAL;
+
+INSERT ALL
+    INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
+        VALUES(1, 1)
+    INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
+        VALUES(3, 3)
+    INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
+        VALUES(5, 4)
+    INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
+        VALUES(9, 5)
 SELECT DUMMY FROM DUAL;
 
 COMMIT;
@@ -1788,7 +1876,9 @@ select * from tbDoctores;
 select * from tbUsuarios;
 select * from tbFavoritos;
 select * from tbRecientes;
+select * from tbPropietarios;
 select * from tbCitasMedicas;
+select * from tbEstablecimientos;
 
 SELECT
 u.ID_Usuario,
@@ -1866,8 +1956,19 @@ WHERE
     AND indi.inicioMedi <= CURRENT_DATE 
     AND indi.finalMedi >= CURRENT_DATE;
     
-select * from tbusuarios;
+SELECT nombreusuario || ' ' || apellidousuario AS nombre_completo FROM tbusuarios;
+
 select * from tbIndicaciones;
+SELECT e.ID_Expediente, e.antecedentes, e.nombrePadre, e.nombreMadre, e.responsable,
+       e.permaMedicamentos, e.presionArterial, e.peso, e.altura, e.contactoEmer,
+       e.saturacion, e.historial, e.tipoSangre, e.fechaConsultas,
+       u.emailUsuario
+FROM tbExpedientes e
+INNER JOIN tbUsuarios u ON e.ID_Usuario = u.ID_Usuario
+WHERE u.emailUsuario = 'fran@gmail.com';
+SELECT * FROM tbExpedientes WHERE ID_Usuario = 1;
+
     
+select * from tbPropietarios where id_usuario = (select id_usuario from tbUsuarios where emailusuario = 'fran@gmail.com');
 /*drop table tbpacientes;
 drop table tbcentrosmedicos;*/
