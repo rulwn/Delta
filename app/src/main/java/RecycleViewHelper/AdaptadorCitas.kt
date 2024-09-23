@@ -142,7 +142,7 @@ class AdaptadorCitas(private var Datos: List<dataClassCitas>) :
                         println("Cita con ID $idCita ha sido cancelada.")
                         insertarNotificacionCancelacion(idUsuario, nombreDoctor)
 
-                        // Enviar la notificación local
+
                         enviarNotificacion(context, "Cita Cancelada", "Cita con el doctor $nombreDoctor ha sido cancelada.")
                     } else {
                         println("No se encontró ninguna cita con ID $idCita.")
@@ -187,7 +187,8 @@ class AdaptadorCitas(private var Datos: List<dataClassCitas>) :
         }
 
 
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
 
         val builder = NotificationCompat.Builder(context, "general_notifications")
             .setSmallIcon(R.drawable.ic_app)
@@ -196,6 +197,7 @@ class AdaptadorCitas(private var Datos: List<dataClassCitas>) :
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
+
 
         with(NotificationManagerCompat.from(context)) {
             notify(1001, builder.build())

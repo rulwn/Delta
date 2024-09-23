@@ -2,21 +2,16 @@
 <project version="4">
   <component name="deploymentTargetSelector">
     <selectionStates>
-<<<<<<< HEAD
       <SelectionState runConfigName="delta">
         <option name="selectionMode" value="DROPDOWN" />
-=======
-      <SelectionState runConfigName="app">
-        <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-09-12T17:51:24.198306600Z">
+        <DropdownSelection timestamp="2024-09-23T21:01:54.858962300Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Estudiante\.android\avd\Pixel_6a_API_34.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\PC\.android\avd\estesirve.avd" />
             </handle>
           </Target>
         </DropdownSelection>
         <DialogSelection />
->>>>>>> 3c876611d42e9249b3144dde9738fb793853cd65
       </SelectionState>
     </selectionStates>
   </component>
