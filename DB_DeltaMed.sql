@@ -103,6 +103,16 @@ END;
 /
 
 BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbPropietarios CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
     EXECUTE IMMEDIATE 'DROP TABLE tbSeguros CASCADE CONSTRAINTS';
 EXCEPTION
     WHEN OTHERS THEN
@@ -572,6 +582,15 @@ CREATE TABLE tbUsuarios (
     REFERENCES tbTipoUsuarios(ID_TipoUsuario)
     ON DELETE CASCADE
 );
+
+create table tbPropietarios(
+id_usuario int,
+id_Establecimiento int
+);
+
+alter table tbPropietarios add constraint FKPrimera foreign key (id_usuario) references tbUsuarios(id_usuario);
+alter table tbPropietarios add constraint FKSegunda foreign key (id_establecimiento) references tbEstablecimientos(id_establecimiento);
+
 
 CREATE TABLE tbSeguros (
     ID_Seguro INT PRIMARY KEY,
@@ -1402,6 +1421,16 @@ BEGIN
 END;
 /
 
+create or replace procedure insertarPropietarios(
+ Usuario in tbUsuarios.id_usuario%type,
+Establecimiento in tbEstablecimientos.id_establecimiento%type
+)
+as
+begin
+insert into tbPropietarios values(Usuario, Establecimiento);
+end insertarPropietarios;
+/
+
 /*************************************************************************************************
 
 ~ INSERTS A CADA TABLA ~
@@ -1699,6 +1728,17 @@ INSERT ALL
         VALUES(2, 'Mal Servicio', 1, 2)
 SELECT DUMMY FROM DUAL;
 
+INSERT ALL
+    INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
+        VALUES(1, 1)
+    INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
+        VALUES(3, 3)
+    INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
+        VALUES(5, 4)
+    INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
+        VALUES(9, 5)
+SELECT DUMMY FROM DUAL;
+
 COMMIT;
 
 /*****************************************************************************
@@ -1836,7 +1876,9 @@ select * from tbDoctores;
 select * from tbUsuarios;
 select * from tbFavoritos;
 select * from tbRecientes;
+select * from tbPropietarios;
 select * from tbCitasMedicas;
+select * from tbEstablecimientos;
 
 SELECT
 u.ID_Usuario,
@@ -1926,34 +1968,7 @@ INNER JOIN tbUsuarios u ON e.ID_Usuario = u.ID_Usuario
 WHERE u.emailUsuario = 'fran@gmail.com';
 SELECT * FROM tbExpedientes WHERE ID_Usuario = 1;
 
-SELECT 
-    d.ID_Doctor,
-    (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = 'fran@gmail.com') AS ID_Usuario,
-    u.nombreUsuario, 
-    u.apellidoUsuario, 
-    u.imgUsuario, 
-    e.nombreEspecialidad,
-    s.ID_Sucursal,
-    s.nombreSucursal,
-    s.telefonoSucur, 
-    s.direccionSucur, 
-    s.longSucur,
-    s.latiSucur,
-    s.imgSucursal,
-    es.ID_Establecimiento
-FROM 
-    tbDoctores d
-INNER JOIN 
-    tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
-INNER JOIN 
-    tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-INNER JOIN 
-    tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
-INNER JOIN
-    tbEstablecimientos es on s.ID_Establecimiento = es.ID_Establecimiento  
-WHERE
-    es.ID_Establecimiento = 1
-AND
-    u.ID_TipoUsuario = 2
+    
+select * from tbPropietarios where id_usuario = (select id_usuario from tbUsuarios where emailusuario = 'fran@gmail.com');
 /*drop table tbpacientes;
 drop table tbcentrosmedicos;*/
