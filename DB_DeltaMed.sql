@@ -502,7 +502,7 @@ END;
 COMMIT;
 /*******************************************************************************
 
-    ~ CREACIÃ“N DE TABLAS INDEPENDIENTES ~
+    ~ CREACIÓN DE TABLAS INDEPENDIENTES ~
 
 *******************************************************************************/
 
@@ -620,7 +620,7 @@ CREATE TABLE tbSucursales (
     longSucur NUMBER(15,10) NOT NULL,
     whatsapp VARCHAR2(12),
     imgSucursal VARCHAR2(250) NOT NULL,
-    valoFinal NUMBER(5,2) NOT NULL,
+    valoFinal NUMBER(2,1) NOT NULL,
     ID_Establecimiento INT NOT NULL,
     ID_TipoSucursal INT NOT NULL,
 
@@ -855,7 +855,7 @@ CREATE TABLE tbFichasMedicas (
 
 /*************************************************************************************************
 
-    ~ CREACIÃ“N DE SECUENCIAS ~
+    ~ CREACIÓN DE SECUENCIAS ~
 
 *************************************************************************************************/
 
@@ -1778,7 +1778,7 @@ SELECT DUMMY FROM DUAL;
         s.longSucur,
         s.latiSucur,
         s.imgSucursal
-    FROM   
+    FROM
         tbDoctores d
     INNER JOIN 
         tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
@@ -1898,7 +1898,7 @@ WHERE
 f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = 'fran@gmail.com');
 
 SELECT * FROM (
-    SELECT 
+    SELECT
         citas.ID_Cita,
         citas.diacita,
         citas.horacita,
@@ -1908,52 +1908,52 @@ SELECT * FROM (
         usua.nombreUsuario,
         usua.apellidoUsuario,
         esp.nombreespecialidad
-    FROM 
+    FROM
         tbcitasmedicas citas
-    INNER JOIN 
+    INNER JOIN
         tbdoctores docs ON citas.id_doctor = docs.id_doctor
-    INNER JOIN 
+    INNER JOIN
         tbEspecialidades esp ON docs.id_especialidad = esp.id_especialidad
-    INNER JOIN 
+    INNER JOIN
         tbUsuarios usua ON docs.id_usuario = usua.id_usuario
-    INNER JOIN 
+    INNER JOIN
         tbUsuarios us ON citas.id_usuario = us.id_usuario
-    WHERE 
+    WHERE
         us.emailUsuario = 'fran@gmail.com'
         AND citas.diacita >= CURRENT_DATE
         AND citas.estadoCita = 'A'
-    ORDER BY 
-        citas.diacita ASC, 
+    ORDER BY
+        citas.diacita ASC,
         citas.horacita ASC
 )
-WHERE 
+WHERE
     ROWNUM = 1;
-    
-    
-SELECT 
-    indi.ID_Indicacion, 
-    indi.inicioMedi, 
-    indi.finalMedi, 
-    indi.dosisMedi, 
-    indi.medicina, 
-    indi.detalleindi, 
-    tiem.lapsostiempo, 
-    tiem.frecuenciamedi 
-FROM 
-    tbIndicaciones indi 
-INNER JOIN 
-    tbTiempos tiem ON indi.id_tiempo = tiem.id_tiempo 
-INNER JOIN 
-    tbRecetas rec ON indi.id_receta = rec.id_receta 
-INNER JOIN 
-    tbFichasMedicas fichi ON rec.id_receta = fichi.id_receta 
-INNER JOIN 
+
+
+SELECT
+    indi.ID_Indicacion,
+    indi.inicioMedi,
+    indi.finalMedi,
+    indi.dosisMedi,
+    indi.medicina,
+    indi.detalleindi,
+    tiem.lapsostiempo,
+    tiem.frecuenciamedi
+FROM
+    tbIndicaciones indi
+INNER JOIN
+    tbTiempos tiem ON indi.id_tiempo = tiem.id_tiempo
+INNER JOIN
+    tbRecetas rec ON indi.id_receta = rec.id_receta
+INNER JOIN
+    tbFichasMedicas fichi ON rec.id_receta = fichi.id_receta
+INNER JOIN
     tbcitasmedicas citas ON fichi.id_cita = citas.id_cita
-INNER JOIN 
-    tbUsuarios USUA ON citas.id_usuario = USUA.id_usuario 
-WHERE 
-    USUA.emailusuario = 'mirnix@gmail.com' 
-    AND indi.inicioMedi <= CURRENT_DATE 
+INNER JOIN
+    tbUsuarios USUA ON citas.id_usuario = USUA.id_usuario
+WHERE
+    USUA.emailusuario = 'mirnix@gmail.com'
+    AND indi.inicioMedi <= CURRENT_DATE
     AND indi.finalMedi >= CURRENT_DATE;
     
 SELECT nombreusuario || ' ' || apellidousuario AS nombre_completo FROM tbusuarios;
@@ -1968,7 +1968,40 @@ INNER JOIN tbUsuarios u ON e.ID_Usuario = u.ID_Usuario
 WHERE u.emailUsuario = 'fran@gmail.com';
 SELECT * FROM tbExpedientes WHERE ID_Usuario = 1;
 
-    
+
 select * from tbPropietarios where id_usuario = (select id_usuario from tbUsuarios where emailusuario = 'fran@gmail.com');
+
+select * from tbusuarios;
+select * from tbCitasMedicas;
+
 /*drop table tbpacientes;
 drop table tbcentrosmedicos;*/
+
+SELECT (nombreUsuario || ' ' || ApellidoUsuario) AS "Nombre Usuario",
+    Motivo,
+    HoraCita
+FROM tbCitasMedicas C
+INNER JOIN tbUsuarios U
+ON U.ID_Usuario = C.ID_Usuario
+WHERE ID_Doctor = ?
+AND horacita > CURRENT_TIMESTAMP
+AND ESTADOCITA = 'A';
+
+Select * from tbSucursales;
+
+SELECT s.valoFinal
+FROM tbUsuarios u
+INNER JOIN tbDoctores d ON u.ID_Usuario = d.ID_Usuario
+INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
+WHERE u.emailUsuario = 'xam@gmail.com';
+
+UPDATE tbSucursales s
+SET s.valoFinal = 3.5
+WHERE s.ID_Sucursal = (
+    SELECT d.ID_Sucursal
+    FROM tbUsuarios u
+    JOIN tbDoctores d ON u.ID_Usuario = d.ID_Usuario
+    WHERE u.emailUsuario = 'xam@gmail.com'
+);
+
+COMMIT;

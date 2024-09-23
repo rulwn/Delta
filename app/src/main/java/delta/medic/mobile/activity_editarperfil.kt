@@ -58,6 +58,7 @@ class activity_editarperfil : AppCompatActivity() {
     }
 
     fun validarCorreo(correo: String): String? {
+        // Expresión regular para aceptar correos más complejos con dominios de segundo nivel
         val regex = "[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})?".toRegex()
 
         return when {
@@ -76,15 +77,6 @@ class activity_editarperfil : AppCompatActivity() {
         }
     }
 
-
-    //Este coso lo que hace es si el usuario ha ingresado 4 numeros, le agrega un guión
-    fun formatTelefono(telefono: String): String {
-        return if (telefono.length == 4) {
-            "$telefono-"
-        } else {
-            telefono
-        }
-    }
 
     //Estos son los Listeners por si cambia el texto en los EditText
 
