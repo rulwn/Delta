@@ -61,6 +61,7 @@ class activity_register3 : AppCompatActivity() {
 
         val btnSiguiente3 = findViewById<Button>(R.id.btnSiguiente3)
         val textoGrande = findViewById<TextView>(R.id.txtTextoGrande)
+        val btnFlechaAtras = findViewById<ImageView>(R.id.imgFlechaAtrasRegistro2)
 
 
 
@@ -90,6 +91,11 @@ class activity_register3 : AppCompatActivity() {
 
 
         }
+        btnFlechaAtras.setOnClickListener {
+            val intent = Intent(this, activity_register2::class.java)
+            startActivity(intent)
+        }
+
 /*
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         when (currentNightMode) {

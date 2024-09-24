@@ -60,6 +60,8 @@ class activity_register2 : AppCompatActivity() {
             } // Night mode is active, we're using dark theme.
         }
          */
+        val edit = activity_editarperfil()
+        edit.setTextChangedTelefono(txtTelefono)
 
 
         txtTienesUnaCuenta.setOnClickListener {
@@ -113,7 +115,7 @@ class activity_register2 : AppCompatActivity() {
                 txtFechaNacimientoPaciente.setBackgroundResource(R.drawable.textboxprueba)
             }
 
-            val telefono = txtTelefono.text.toString()
+            /*val telefono = txtTelefono.text.toString()
             if (telefono.isEmpty()) {
                 txtTelefono.error = "Llena este campo"
                 hayVacio = true
@@ -125,7 +127,7 @@ class activity_register2 : AppCompatActivity() {
             } else {
                 txtTelefono.error = null
                 txtTelefono.setBackgroundResource(R.drawable.textboxprueba)
-            }
+            }*/
 
             if (rbTerminos.isChecked.not()) {
                 Toast.makeText(this, "Debes aceptar los términos y condiciones", Toast.LENGTH_LONG).show()

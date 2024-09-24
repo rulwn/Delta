@@ -35,7 +35,7 @@
         android:id="@+id/noNotificacionesView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Al parecer no tienes ninguna notificación"
+        android:text="No tienes ninguna notificación"
         android:textColor="#808080"
         android:textSize="16sp"
         android:visibility="gone" />
