@@ -1633,11 +1633,11 @@ INSERT ALL
     INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Doctor, ID_Usuario)
          VALUES (TO_DATE('2024-10-02', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-02 11:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Revisión anual','A', 4, 2)
     INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Doctor, ID_Usuario)
-         VALUES (TO_DATE('2024-10-03', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-03 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta de seguimiento','A', 3, 3)
+         VALUES (TO_DATE('2024-10-03', 'YYYY-MM-DD'), TO_TIMESTAMP('2024-12-23 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta de seguimiento','A', 3, 3)
     INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Doctor, ID_Usuario)
-         VALUES (TO_DATE('2024-10-04', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-04 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general','A', 2, 4)
+         VALUES (TO_DATE('2024-10-04', 'YYYY-MM-DD'), TO_TIMESTAMP('2024-12-23 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general','A', 2, 4)
     INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Doctor, ID_Usuario)
-         VALUES (TO_DATE('2024-10-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-05 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada','A', 1, 5)
+         VALUES (TO_DATE('2024-10-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2024-12-23 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada','A', 1, 5)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -1983,7 +1983,7 @@ SELECT (nombreUsuario || ' ' || ApellidoUsuario) AS "Nombre Usuario",
 FROM tbCitasMedicas C
 INNER JOIN tbUsuarios U
 ON U.ID_Usuario = C.ID_Usuario
-WHERE ID_Doctor = ?
+WHERE ID_Doctor = 1
 AND horacita > CURRENT_TIMESTAMP
 AND ESTADOCITA = 'A';
 
@@ -2005,3 +2005,32 @@ WHERE s.ID_Sucursal = (
 );
 
 COMMIT;
+
+SELECT (U.nombreUsuario || ' ' || U.apellidoUsuario) AS "Nombre Usuario",
+       C.Motivo,
+       C.HoraCita
+FROM tbCitasMedicas C
+INNER JOIN tbUsuarios U ON U.ID_Usuario = C.ID_Usuario
+WHERE EXISTS (
+    SELECT 1 
+    FROM tbDoctores D
+    INNER JOIN tbUsuarios U2 ON U2.ID_Usuario = D.ID_Usuario
+    WHERE U2.emailUsuario = 'xam@gmail.com'
+    AND D.ID_Doctor = C.ID_Doctor
+)
+AND C.horacita > CURRENT_TIMESTAMP
+AND C.ESTADOCITA = 'A';
+
+SELECT (U.nombreUsuario || ' ' || U.apellidoUsuario) AS NombreUsuario,
+C.Motivo, C.HoraCita, U.imgUsuario
+FROM tbCitasMedicas C
+INNER JOIN tbUsuarios U ON U.ID_Usuario = C.ID_Usuario
+WHERE EXISTS (
+    SELECT 1
+    FROM tbDoctores D
+    INNER JOIN tbUsuarios U2 ON U2.ID_Usuario = D.ID_Usuario
+    WHERE U2.emailUsuario = 'xam@gmail.com'
+    AND D.ID_Doctor = C.ID_Doctor
+)
+AND C.horacita > CURRENT_TIMESTAMP
+AND C.ESTADOCITA = 'A';
