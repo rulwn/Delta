@@ -147,32 +147,39 @@ class HomeFragment : Fragment() {
                 if (objConexion != null) {
                     val statement = objConexion.prepareStatement(
                         """
-SELECT 
-    indi.ID_Indicacion, 
-    indi.inicioMedi, 
-    indi.finalMedi, 
-    indi.dosisMedi, 
-    indi.medicina, 
-    indi.detalleIndi, 
-    tiem.lapsosTiempo, 
-    tiem.frecuenciaMedi
-FROM 
-    tbIndicaciones indi
-INNER JOIN 
-    tbTiempos tiem ON indi.ID_Tiempo = tiem.ID_Tiempo
-INNER JOIN 
-    tbRecetas rec ON indi.ID_Receta = rec.ID_Receta
-INNER JOIN 
-    tbFichasMedicas fichi ON rec.ID_Receta = fichi.ID_Receta
-INNER JOIN 
-    tbCitasMedicas citas ON fichi.ID_Cita = citas.ID_Cita
-INNER JOIN 
-    tbUsuarios usua ON citas.ID_Usuario = usua.ID_Usuario
-WHERE 
-    usua.emailUsuario = ?
-    AND indi.inicioMedi <= CURRENT_DATE
-    AND indi.finalMedi >= CURRENT_DATE
-                 """)!!
+                    SELECT * FROM (
+                        SELECT 
+                            citas.ID_Cita,
+                            citas.diacita,
+                            citas.horacita,
+                            citas.motivo,
+                            citas.estadoCita,
+                            citas.id_usuario,
+                            usua.nombreUsuario,
+                            usua.apellidoUsuario,
+                            esp.nombreespecialidad
+                        FROM 
+                            tbcitasmedicas citas
+                        INNER JOIN 
+                            tbdoctores docs ON citas.id_doctor = docs.id_doctor
+                        INNER JOIN 
+                            tbEspecialidades esp ON docs.id_especialidad = esp.id_especialidad
+                        INNER JOIN 
+                            tbUsuarios usua ON docs.id_usuario = usua.id_usuario
+                        INNER JOIN 
+                            tbUsuarios us ON citas.id_usuario = us.id_usuario
+                        WHERE 
+                            us.emailUsuario = ?
+                            AND citas.diacita >= CURRENT_DATE
+                            AND citas.estadoCita = 'A'
+                        ORDER BY 
+                            citas.diacita ASC, 
+                            citas.horacita ASC
+                    )
+                    WHERE 
+                        ROWNUM = 1
+                    """
+                    )!!
 
                     statement.setString(1, userEmail)  // Se cambia el correo por el parámetro `userEmail`
                     val resultset = statement.executeQuery()

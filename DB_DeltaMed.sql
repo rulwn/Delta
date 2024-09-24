@@ -103,6 +103,16 @@ END;
 /
 
 BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE tbPropietarios CASCADE CONSTRAINTS';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -942 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
     EXECUTE IMMEDIATE 'DROP TABLE tbSeguros CASCADE CONSTRAINTS';
 EXCEPTION
     WHEN OTHERS THEN
@@ -492,7 +502,7 @@ END;
 COMMIT;
 /*******************************************************************************
 
-    ~ CREACIÃ“N DE TABLAS INDEPENDIENTES ~
+    ~ CREACIÓN DE TABLAS INDEPENDIENTES ~
 
 *******************************************************************************/
 
@@ -572,6 +582,15 @@ CREATE TABLE tbUsuarios (
     REFERENCES tbTipoUsuarios(ID_TipoUsuario)
     ON DELETE CASCADE
 );
+
+create table tbPropietarios(
+id_usuario int,
+id_Establecimiento int
+);
+
+alter table tbPropietarios add constraint FKPrimera foreign key (id_usuario) references tbUsuarios(id_usuario);
+alter table tbPropietarios add constraint FKSegunda foreign key (id_establecimiento) references tbEstablecimientos(id_establecimiento);
+
 
 CREATE TABLE tbSeguros (
     ID_Seguro INT PRIMARY KEY,
@@ -751,17 +770,17 @@ CREATE TABLE tbNotis (
 
 CREATE TABLE tbExpedientes (
     ID_Expediente INT PRIMARY KEY,
-    antecedentes VARCHAR2(200) NOT NULL,
+    antecedentes VARCHAR2(200),
     nombrePadre VARCHAR2(50),
     nombreMadre VARCHAR2(50),
     responsable VARCHAR2(50),
-    permaMedicamentos VARCHAR2(100) NOT NULL,
+    permaMedicamentos VARCHAR2(100),
     presionArterial VARCHAR2(20) NOT NULL,
-    peso DECIMAL(4,2) NOT NULL,
+    peso NUMBER NOT NULL,
     altura NUMBER(3) NOT NULL,
     contactoEmer VARCHAR2(12) NOT NULL,
     saturacion NUMBER(3) NOT NULL,
-    historial VARCHAR2(200) NOT NULL,
+    historial VARCHAR2(200),
     tipoSangre VARCHAR2(10) NOT NULL,
     fechaConsultas DATE NOT NULL,
     ID_Usuario INT NOT NULL,
@@ -836,7 +855,7 @@ CREATE TABLE tbFichasMedicas (
 
 /*************************************************************************************************
 
-    ~ CREACIÃ“N DE SECUENCIAS ~
+    ~ CREACIÓN DE SECUENCIAS ~
 
 *************************************************************************************************/
 
@@ -1305,7 +1324,6 @@ END PROC_ADMIN_FAVORITOS;
 ~ PROCEDURE PARA RECIENTES ~
 
 *************************************************************************************************/
-
 CREATE OR REPLACE PROCEDURE PROC_STATE_VALIDATION_RECIENTES (
     arg_email IN tbUsuarios.emailUsuario%TYPE, 
     arg_ID_Sucursal IN INT, 
@@ -1355,6 +1373,7 @@ BEGIN
     COMMIT WORK;
 END;
 /
+
 /*************************************************************************************************
 
 ~ PROCEDURE Y TRIGGER PARA PROMEDIO REVIEW ~
@@ -1415,6 +1434,22 @@ BEGIN
     END LOOP;
 END;
 /
+
+/*************************************************************************************************
+
+~ PROCEDURE PARA PROMEDIO PROPIETARIOS ~
+
+*************************************************************************************************/
+create or replace procedure insertarPropietarios(
+ Usuario in tbUsuarios.id_usuario%type,
+Establecimiento in tbEstablecimientos.id_establecimiento%type
+)
+as
+begin
+insert into tbPropietarios values(Usuario, Establecimiento);
+end insertarPropietarios;
+/
+
 /*************************************************************************************************
 
 ~ INSERTS A CADA TABLA ~
@@ -1699,15 +1734,28 @@ VALUES
 
 INSERT ALL
     INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
-        VALUES(5.0, 'Excelente Servicio!', 3, 5)
-INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
-        VALUES(1.0, 'El doctor no se presento a mi cita', 3, 1)
-INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
+        VALUES(5, 'Excelente Servicio!', 3, 5)
+    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
+        VALUES(1, 'El doctor no se presento a mi cita', 3, 1)
+    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(4.5, 'Muy buen ambiente en esa clinica', 4, 2)
-INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
-        VALUES(3.5, 'Bueno pero pudo ser mejor con el tiempo', 3, 4)
-INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
-        VALUES(4.0, 'Excelente música', 3, 2)
+    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
+        VALUES(3, 'Bueno pero pudo ser mejor con el tiempo', 3, 4)
+    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
+        VALUES(4, 'Excelente música', 3, 2)
+    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
+        VALUES(2, 'Mal Servicio', 1, 2)
+SELECT DUMMY FROM DUAL;
+
+INSERT ALL
+    INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
+        VALUES(1, 1)
+    INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
+        VALUES(3, 3)
+    INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
+        VALUES(5, 4)
+    INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
+        VALUES(9, 5)
 SELECT DUMMY FROM DUAL;
 
 COMMIT;
@@ -1837,178 +1885,20 @@ INNER JOIN
 WHERE
     d.ID_Doctor = 3;
 
-SELECT * FROM tbReviews;
 /*************************************************************************************************
 
     ~ Consultas Inner Extras~
 
 *************************************************************************************************/
-/*
-
-SELECT
-    u.nombreUsuario,
-    u.apellidoUsuario,
-    u.imgUsuario,
-	e.nombreEspecialidad,
-    s.nombreSucursal,
-    s.telefonoSucur,
-    s.direccionSucur,
-    s.ubicacionSucur,
-    srv.nombreServicio,
-    srv.costo,
-    cm.favorito
-FROM
-    tbCentrosMedicos cm
-INNER JOIN
-    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-INNER JOIN
-    tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
-INNER JOIN
-	tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-INNER JOIN
-    tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
-INNER JOIN
-    tbServicios srv ON cm.ID_Centro = srv.ID_Centro
-WHERE
-    u.ID_Usuario IS NOT NULL;
-
-SELECT citas.ID_Cita,
-    citas.diacita,
-    citas.horacita,
-    citas.motivo,
-    citas.id_centro,
-    citas.id_paciente,
-    pacs.nombrepaciente,
-    pacs.parentesco,
-    usua.id_usuario,
-    USUA.nombreUsuario,
-    USUA.apellidoUsuario,
-    esp.nombreespecialidad
-FROM  tbcitasmedicas CITAS
-    INNER JOIN tbcentrosmedicos CENTROS ON CITAS.id_centro=CENTROS.id_centro
-    INNER JOIN tbdoctores DOCS ON CENTROS.id_doctor=DOCS.id_doctor
-    INNER JOIN tbEspecialidades ESP ON docs.id_especialidad = esp.id_especialidad
-    INNER JOIN tbUsuarios USUA ON DOCS.id_usuario = USUA.id_usuario
-    INNER JOIN tbpacientes PACS ON citas.id_paciente = pacs.id_paciente
-        WHERE pacs.id_usuario = 1
-
-
-SELECT indi.ID_Indicacion,
-       indi.inicioMedi,
-       indi.finalMedi,
-       indi.dosisMedi,
-       indi.medicina,
-       indi.detalleindi,
-       tiem.lapsostiempo,
-       tiem.frecuenciamedi
-FROM tbIndicaciones indi
-INNER JOIN tbTiempos tiem ON indi.id_tiempo = tiem.id_tiempo
-INNER JOIN tbRecetas rec ON indi.id_receta = rec.id_receta
-INNER JOIN tbFichasMedicas fichi ON rec.id_receta = fichi.id_receta
-INNER JOIN tbcitasmedicas citas ON fichi.id_cita = citas.id_cita
-INNER JOIN tbpacientes PACS ON citas.id_paciente = PACS.id_paciente
-INNER JOIN tbUsuarios USUA ON PACS.id_usuario = USUA.id_usuario
-WHERE USUA.emailusuario = 'venosin@gmail.com';
-
-    SELECT
-        u.nombreUsuario,
-        u.apellidoUsuario,
-        u.imgUsuario,
-        e.nombreEspecialidad,
-        s.nombreSucursal,
-        s.telefonoSucur,
-        s.direccionSucur,
-        s.longSucur,
-        s.latiSucur,
-        s.imgSucursal,
-        srv.nombreServicio,
-        srv.costo
-    FROM
-        tbCentrosMedicos cm
-    INNER JOIN
-        tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-    INNER JOIN
-        tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
-    INNER JOIN
-        tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-    INNER JOIN
-        tbSucursales s ON cm.ID_Sucursal = s.ID_Sucursal
-    INNER JOIN
-        tbServicios srv ON cm.ID_Centro = srv.ID_Centro
-    WHERE
-        (LOWER(u.nombreUsuario) LIKE LOWER('x%'))
-    AND
-        u.ID_TipoUsuario = 2;
-
-
-SELECT
-    rv.comentario,
-    rv.promEstrellas,
-    u.nombreUsuario,
-    u.apellidoUsuario,
-    u.imgUsuario,
-    d.ID_Doctor
-FROM
-    tbReviews rv
-INNER JOIN
-    tbUsuarios u ON rv.ID_Usuario = u.ID_Usuario
-INNER JOIN
-    tbCentrosMedicos cm ON rv.ID_Centro = cm.ID_Centro
-INNER JOIN
-    tbDoctores d ON cm.ID_Doctor = d.ID_Doctor
-WHERE
-    d.ID_Doctor = 3;
-
-   --seleccion de ids del favorito
-SELECT
-    s.ID_Sucursal AS SucursalID,
-    s.nombreSucursal AS SucursalNombre,
-    u.ID_Usuario AS UsuarioID,
-    u.nombreUsuario AS UsuarioNombre,
-    d.ID_Doctor AS DoctorID,
-    u_doctor.nombreUsuario AS DoctorNombre
-FROM
-    tbFavoritos f
-INNER JOIN tbUsuarios u ON u.ID_Usuario = f.ID_Usuario
-INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal
-INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor
-INNER JOIN tbUsuarios u_doctor ON u_doctor.ID_Usuario = d.ID_Usuario
-WHERE
-    u.emailUsuario = 'fran@gmail.com';
-
-SELECT
-
-                u.nombreUsuario,
-                u.apellidoUsuario,
-                u.imgUsuario,
-                e.nombreEspecialidad,
-                s.ID_Sucursal,
-                s.nombreSucursal,
-                s.telefonoSucur,
-                s.direccionSucur,
-                s.longSucur,
-                s.latiSucur,
-                s.imgSucursal,
-                se.nombreServicio,
-                se.costo
-            FROM
-                tbDoctores d
-            INNER JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
-            INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-            INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
-            INNER JOIN tbCentrosMedicos cm ON d.ID_Doctor = cm.ID_Doctor
-            INNER JOIN tbServicios se ON cm.ID_Centro = se.ID_Centro
-            WHERE
-                d.ID_Doctor = 5;
-
 select * from tbAuditorias;
 select * from tbDoctores;
 select * from tbUsuarios;
 select * from tbFavoritos;
 select * from tbRecientes;
+select * from tbPropietarios;
 select * from tbCitasMedicas;
+select * from tbEstablecimientos;
 
-////////////////////////////////
 SELECT
 u.ID_Usuario,
 u.nombreUsuario,
@@ -2026,7 +1916,6 @@ INNER JOIN tbTipoSucursales ts ON ts.ID_TipoSucursal = s.ID_TipoSucursal
 WHERE
 f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = 'fran@gmail.com');
 
-////////////////////////////////
 SELECT * FROM (
     SELECT
         citas.ID_Cita,
@@ -2058,5 +1947,80 @@ SELECT * FROM (
 )
 WHERE
     ROWNUM = 1;
-*/
-SELECT * FROM tbSucursales;
+
+
+SELECT
+    indi.ID_Indicacion,
+    indi.inicioMedi,
+    indi.finalMedi,
+    indi.dosisMedi,
+    indi.medicina,
+    indi.detalleindi,
+    tiem.lapsostiempo,
+    tiem.frecuenciamedi
+FROM
+    tbIndicaciones indi
+INNER JOIN
+    tbTiempos tiem ON indi.id_tiempo = tiem.id_tiempo
+INNER JOIN
+    tbRecetas rec ON indi.id_receta = rec.id_receta
+INNER JOIN
+    tbFichasMedicas fichi ON rec.id_receta = fichi.id_receta
+INNER JOIN
+    tbcitasmedicas citas ON fichi.id_cita = citas.id_cita
+INNER JOIN
+    tbUsuarios USUA ON citas.id_usuario = USUA.id_usuario
+WHERE
+    USUA.emailusuario = 'mirnix@gmail.com'
+    AND indi.inicioMedi <= CURRENT_DATE
+    AND indi.finalMedi >= CURRENT_DATE;
+
+SELECT nombreusuario || ' ' || apellidousuario AS nombre_completo FROM tbusuarios;
+
+select * from tbIndicaciones;
+SELECT e.ID_Expediente, e.antecedentes, e.nombrePadre, e.nombreMadre, e.responsable,
+       e.permaMedicamentos, e.presionArterial, e.peso, e.altura, e.contactoEmer,
+       e.saturacion, e.historial, e.tipoSangre, e.fechaConsultas,
+       u.emailUsuario
+FROM tbExpedientes e
+INNER JOIN tbUsuarios u ON e.ID_Usuario = u.ID_Usuario
+WHERE u.emailUsuario = 'fran@gmail.com';
+SELECT * FROM tbExpedientes WHERE ID_Usuario = 1;
+
+
+select * from tbPropietarios where id_usuario = (select id_usuario from tbUsuarios where emailusuario = 'fran@gmail.com');
+
+select * from tbusuarios;
+select * from tbCitasMedicas;
+
+/*drop table tbpacientes;
+drop table tbcentrosmedicos;*/
+
+SELECT (nombreUsuario || ' ' || ApellidoUsuario) AS "Nombre Usuario",
+    Motivo,
+    HoraCita
+FROM tbCitasMedicas C
+INNER JOIN tbUsuarios U
+ON U.ID_Usuario = C.ID_Usuario
+WHERE ID_Doctor = ?
+AND horacita > CURRENT_TIMESTAMP
+AND ESTADOCITA = 'A';
+
+Select * from tbSucursales;
+
+SELECT s.valoFinal
+FROM tbUsuarios u
+INNER JOIN tbDoctores d ON u.ID_Usuario = d.ID_Usuario
+INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
+WHERE u.emailUsuario = 'xam@gmail.com';
+
+UPDATE tbSucursales s
+SET s.valoFinal = 3.5
+WHERE s.ID_Sucursal = (
+    SELECT d.ID_Sucursal
+    FROM tbUsuarios u
+    JOIN tbDoctores d ON u.ID_Usuario = d.ID_Usuario
+    WHERE u.emailUsuario = 'xam@gmail.com'
+);
+
+COMMIT;

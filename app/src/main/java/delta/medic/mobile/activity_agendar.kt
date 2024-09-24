@@ -312,8 +312,8 @@ WHERE
                     val insertStatement = objConexion?.prepareStatement(
                         """
                     INSERT INTO tbCitasMedicas 
-                    (diaCita, estadoCita, horaCita, motivo, ID_Doctor, ID_Paciente)
-                    VALUES (?, ?, ?, ?, ?, 1)
+                    (diaCita, estadoCita, horaCita, motivo, ID_Doctor, ID_Usuario)
+                    VALUES (?, ?, ?, ?, ?, ?)
                     """
                     )
                     insertStatement?.setDate(1, java.sql.Date.valueOf(diaSeleccionado.toString())) // diaCita
@@ -321,6 +321,7 @@ WHERE
                     insertStatement?.setTimestamp(3, timestampFinal) // horaCita en el formato correcto
                     insertStatement?.setString(4, motivo) // motivo de la cita
                     insertStatement?.setInt(5, ID_Doctor) // ID_Doctor
+                    insertStatement?.setInt(6, ID_User) // ID_Usuario
 
                     // Ejecutar el INSERT
                     insertStatement?.executeUpdate()
