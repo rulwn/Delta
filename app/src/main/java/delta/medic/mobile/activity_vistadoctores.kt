@@ -239,7 +239,7 @@ WHERE
         val toggleButton = findViewById<ToggleButton>(R.id.toggleButton)
         val button_reservar = findViewById<TextView>(R.id.button_reservar)
         val btnSubir = findViewById<Button>(R.id.btnSubir)
-gi        val RatingBar = findViewById<RatingBar>(R.id.ratingBar2)
+        val RatingBar = findViewById<RatingBar>(R.id.ratingBar2)
         val txtReview = findViewById<TextView>(R.id.txtReview)
         val numeroWha = findViewById<TextView>(R.id.numeroWha)
         val txtRating = findViewById<TextView>(R.id.txtRating)

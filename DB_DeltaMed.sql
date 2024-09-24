@@ -1656,7 +1656,7 @@ INSERT ALL
     INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Doctor, ID_Usuario)
          VALUES (TO_DATE('2024-10-04', 'YYYY-MM-DD'), TO_TIMESTAMP('2024-12-23 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general','A', 2, 4)
     INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Doctor, ID_Usuario)
-         VALUES (TO_DATE('2024-10-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2024-12-23 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada','A', 1, 5)
+         VALUES (TO_DATE('2024-10-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2024-12-23 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Bistec General (Se atragantó con la papa)','A', 1, 5)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL

@@ -1,9 +1,12 @@
 package delta.medic.mobile
 
+import Modelo.ValidationHelper
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -49,6 +52,13 @@ class activity_register1 : AppCompatActivity() {
         val textoGrande = findViewById<TextView>(R.id.txtTextoGrande)
         val frase = findViewById<TextView>(R.id.frase)
 
+        val validar = ValidationHelper()
+
+        validar.setTextChangedNombreApellido(nombreEditText)
+        validar.setTextChangedNombreApellido(apellidoEditText)
+        validar.setTextChangedCorreo(txtEmail)
+        validar.validarContraseña(txtClave)
+
 /*
 val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
 when (currentNightMode) {
@@ -83,12 +93,14 @@ txtTienesUnaCuenta.setOnClickListener {
     startActivity(intent)
 }
 
+
 btnSiguiente.setOnClickListener {
     nombre = nombreEditText.text.toString()
     apellido = apellidoEditText.text.toString()
     email = txtEmail.text.toString()
     direccion = direccionEditText.text.toString()
     clave = txtClave.text.toString()
+
 
     var hayVacio = false
     var hayError = false
