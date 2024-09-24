@@ -2,7 +2,6 @@ package delta.medic.mobile
 
 import Modelo.ClaseConexion
 import Modelo.dataClassCentro
-
 import Modelo.dataClassResena
 import Modelo.dataClassServicios
 import RecycleViewHelper.AdaptadorResenas
@@ -27,17 +26,18 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import com.google.android.material.imageview.ShapeableImageView
 import delta.medic.mobile.activity_login.UserData.userEmail
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.sql.Connection
@@ -239,7 +239,7 @@ WHERE
         val toggleButton = findViewById<ToggleButton>(R.id.toggleButton)
         val button_reservar = findViewById<TextView>(R.id.button_reservar)
         val btnSubir = findViewById<Button>(R.id.btnSubir)
-gi        val RatingBar = findViewById<RatingBar>(R.id.ratingBar2)
+        val RatingBar = findViewById<RatingBar>(R.id.ratingBar2)
         val txtReview = findViewById<TextView>(R.id.txtReview)
         val numeroWha = findViewById<TextView>(R.id.numeroWha)
         val txtRating = findViewById<TextView>(R.id.txtRating)
