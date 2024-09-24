@@ -1,10 +1,12 @@
 package RecycleViewHelper
 
 import Modelo.dataClassMisRecetas
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import delta.medic.mobile.R
+import delta.medic.mobile.activity_PDF_Reader
 
 class AdaptadorMisRecetas(private var Datos: List<dataClassMisRecetas>): RecyclerView.Adapter<ViewHolderMisRecetas>() {
 
@@ -20,7 +22,12 @@ class AdaptadorMisRecetas(private var Datos: List<dataClassMisRecetas>): Recycle
 
         holder.txtNombreDoctor.text = receta.nombreDoctor + " " + receta.apellidoDoctor
         holder.txtFechaReceta.text = receta.fechaReceta
-        holder.txtAbrirPdf.setOnClickListener {}
+        holder.txtAbrirPdf.setOnClickListener {
+            val context = holder.itemView.context
+            val pantallaDetalle = Intent(context, activity_PDF_Reader::class.java)
+            pantallaDetalle.putExtra("pdfReceta", receta.pdfReceta)
+            context.startActivity(pantallaDetalle)
+        }
 
         /*
         holder.itemView.setOnClickListener {

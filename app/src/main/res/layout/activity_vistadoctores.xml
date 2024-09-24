@@ -135,7 +135,7 @@
                 app:srcCompat="@drawable/estrella" />
 
             <TextView
-                android:id="@+id/Rating"
+                android:id="@+id/txtRating"
                 android:layout_width="22dp"
                 android:layout_height="19dp"
                 android:layout_marginStart="3dp"

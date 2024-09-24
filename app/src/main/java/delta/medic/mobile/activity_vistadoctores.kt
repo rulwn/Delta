@@ -241,6 +241,8 @@ WHERE
         val btnSubir = findViewById<Button>(R.id.btnSubir)
         val RatingBar = findViewById<RatingBar>(R.id.ratingBar2)
         val txtReview = findViewById<TextView>(R.id.txtReview)
+        val numeroWha = findViewById<TextView>(R.id.numeroWha)
+        val txtRating = findViewById<TextView>(R.id.txtRating)
 
         var latitud: Double = 0.0;
         var longitud: Double = 0.0;
@@ -252,7 +254,7 @@ WHERE
         var idSucursal = 0
 
         var ID_Doctor = intent.getIntExtra("ID_Doctor", 0)
-        var DoctorExist : Boolean = true
+        var DoctorExist: Boolean = true
         Log.e("ID_Doctor", ID_Doctor.toString())
 
         button_reservar.setOnClickListener {
@@ -263,7 +265,8 @@ WHERE
         }
 
         val rcvServicios = findViewById<RecyclerView>(R.id.rcvServicios)
-        rcvServicios.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        rcvServicios.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         CoroutineScope(Dispatchers.IO).launch {
             val centrosDB = obtenerDatos(ID_Doctor)
             withContext(Dispatchers.Main) {
@@ -301,7 +304,7 @@ WHERE
             val statement = conexion?.prepareStatement(
                 """
 SELECT 
-    (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?) AS ID_Usuario,
+    u.ID_Usuario,
     u.nombreUsuario,
     u.apellidoUsuario,
     u.imgUsuario,
@@ -313,6 +316,8 @@ SELECT
     s.longSucur,
     s.latiSucur,
     s.imgSucursal,
+    s.whatsapp,
+    s.valoFinal,
     se.nombreServicio,
     se.costo
 FROM 
@@ -322,8 +327,8 @@ INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
 INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
 INNER JOIN tbServicios se ON d.ID_Doctor = se.ID_Doctor
 WHERE 
-    d.ID_Doctor = ?
-            """
+    u.emailUsuario = ? AND d.ID_Doctor = ?
+        """
             )!!
             statement.setString(1, userEmail)
             statement.setInt(2, ID_Doctor)
@@ -346,6 +351,10 @@ WHERE
                     Glide.with(img_clinic)
                         .load(imgSucursal)
                         .into(img_clinic)
+                    val wsp = resultSet.getString("whatsapp")
+                    numeroWha.text = wsp
+                    val valoFinal = resultSet.getDouble("valoFinal")
+                    txtRating.text = valoFinal.toString()
                     nombreUsuario = resultSet.getString("nombreUsuario")
                     apellidoUsuario = resultSet.getString("apellidoUsuario")
                     idUsuario = resultSet.getInt("ID_Usuario")
@@ -427,10 +436,12 @@ WHERE
                 withContext(Dispatchers.Main) {
                     if (isFav) {
                         isFav = false
-                        toggleButton.background = getDrawable(R.drawable.corazon_vacio) // Cambia a icono de no favorito
+                        toggleButton.background =
+                            getDrawable(R.drawable.corazon_vacio) // Cambia a icono de no favorito
                     } else {
                         isFav = true
-                        toggleButton.background = getDrawable(R.drawable.corazon_favoritos) // Cambia a icono de favorito
+                        toggleButton.background =
+                            getDrawable(R.drawable.corazon_favoritos) // Cambia a icono de favorito
                     }
                 }
             }
@@ -489,21 +500,94 @@ WHERE
                     ID_Doctor,
                     ID_User
                 )
+
+                // Obtener la lista de reseñas
                 val listaResenas = adaptadorResenas.obtenerLista()
                 insertResenas(nuevaResena, listaResenas)
+
+                // Configurar el RecyclerView
                 rcvResenas.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
                 CoroutineScope(Dispatchers.IO).launch {
-                    val review = obtenerDatosReviews(ID_Doctor)
-                    withContext(Dispatchers.Main) {
-                        if (review.isNullOrEmpty()) {
-                            textViewError.visibility = View.VISIBLE
-                            rcvResenas.visibility = View.GONE
-                        } else {
-                            textViewError.visibility = View.GONE
-                            val miAdapter = AdaptadorResenas(review)
-                            rcvResenas.adapter = miAdapter
-                            rcvResenas.visibility = View.VISIBLE
+                    val conexion = ClaseConexion().cadenaConexion()
+
+                    try {
+                        // Insertar en tbReviews
+                        val insertReviewQuery = """
+                    INSERT INTO tbReviews (ID_Doctor, promEstrellas, comentario, ID_Usuario)
+                    VALUES (?, ?, ?, ?)
+                """
+                        conexion?.prepareStatement(insertReviewQuery).use { statement ->
+                            statement?.setInt(1, ID_Doctor)
+                            statement?.setDouble(2, RatingBar.rating.toDouble())
+                            statement?.setString(3, txtReview.text.toString())
+                            statement?.setInt(4, ID_User)
+                            statement?.executeUpdate()
                         }
+
+                        // Obtener el ID de la sucursal asociada al doctor
+                        val obtenerSucursalQuery = """
+                    SELECT d.ID_Sucursal
+                    FROM tbDoctores d
+                    WHERE d.ID_Doctor = ?
+                """
+                        var idSucursal: Int? = null
+                        conexion?.prepareStatement(obtenerSucursalQuery).use { statement ->
+                            statement?.setInt(1, ID_Doctor)
+                            val resultSet = statement?.executeQuery()
+                            if (resultSet?.next() == true) {
+                                idSucursal = resultSet.getInt("ID_Sucursal")
+                            }
+                        }
+
+                        // Recalcular el valoFinal llamando al procedimiento almacenado
+                        idSucursal?.let {
+                            conexion?.prepareCall("{CALL actualizar_valoFinal_sucursal(?)}").use { callable ->
+                                callable?.setInt(1, it)
+                                callable?.executeUpdate()
+                            }
+                        }
+
+                        // Obtener el valoFinal recalculado
+                        var valoFinalActualizado: Double? = null
+                        idSucursal?.let {
+                            val queryValoFinal = "SELECT valoFinal FROM tbSucursales WHERE ID_Sucursal = ?"
+                            conexion?.prepareStatement(queryValoFinal).use { statement ->
+                                statement?.setInt(1, it)
+                                val resultSet = statement?.executeQuery()
+                                if (resultSet?.next() == true) {
+                                    valoFinalActualizado = resultSet.getDouble("valoFinal")
+                                }
+                            }
+                        }
+
+                        // Cargar las reseñas después de insertar
+                        val review = obtenerDatosReviews(ID_Doctor)
+
+                        withContext(Dispatchers.Main) {
+                            // Actualizar la UI con el valoFinal recalculado
+                            valoFinalActualizado?.let {
+                                txtRating.text = it.toString() // Actualiza el TextView del valoFinal
+                            }
+
+                            // Mostrar las reseñas
+                            if (review.isNullOrEmpty()) {
+                                textViewError.visibility = View.VISIBLE
+                                rcvResenas.visibility = View.GONE
+                            } else {
+                                textViewError.visibility = View.GONE
+                                val miAdapter = AdaptadorResenas(review)
+                                rcvResenas.adapter = miAdapter
+                                rcvResenas.visibility = View.VISIBLE
+                            }
+                        }
+                    } catch (e: Exception) {
+                        withContext(Dispatchers.Main) {
+                            // Manejar el error
+                            Log.e("Error", "Error al insertar la reseña o recalcular el valoFinal", e)
+                        }
+                    } finally {
+                        conexion?.close()
                     }
                 }
             } else {
@@ -511,6 +595,32 @@ WHERE
             }
         }
 
+        CoroutineScope(Dispatchers.IO).launch {
+            val conexion = ClaseConexion().cadenaConexion()
+
+            // Primero ejecutamos el procedimiento para recalcular el valoFinal
+            conexion?.prepareCall("{CALL actualizar_valoFinal_sucursal(?)}").use { callable ->
+                callable?.setInt(1, ID_Sucursal)
+                callable?.executeUpdate()
+            }
+
+            // Luego realizamos la consulta para obtener el valoFinal actualizado
+            val query = "SELECT valoFinal FROM tbSucursales WHERE ID_Sucursal = ?"
+            conexion?.prepareStatement(query).use { statement ->
+                statement?.setInt(1, ID_Sucursal)
+                val resultSet = statement?.executeQuery()
+
+                if (resultSet?.next() == true) {
+                    val valoFinalActualizado = resultSet.getDouble("valoFinal")
+
+                    withContext(Dispatchers.Main) {
+                        // Aquí puedes mostrar el valoFinal actualizado en la interfaz de usuario
+                        Log.d("valoFinalActualizado", valoFinalActualizado.toString())
+                        // Actualiza las vistas o realiza otras acciones necesarias
+                    }
+                }
+            }
+        }
     }
 
     ////////////////////////////Funcion para información de las reseñas//////////////////////////////////

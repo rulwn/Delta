@@ -35,6 +35,8 @@
         <activity
             android:name=".item_recetasPDF"
             android:exported="false" />
+        <activity android:name =".activity_PDF_Reader"
+            android:exported="false"/>
         <activity
             android:name=".item_dia"
             android:exported="false" />

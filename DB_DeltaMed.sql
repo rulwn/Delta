@@ -601,7 +601,7 @@ CREATE TABLE tbSucursales (
     longSucur NUMBER(15,10) NOT NULL,
     whatsapp VARCHAR2(12),
     imgSucursal VARCHAR2(250) NOT NULL,
-    valoFinal NUMBER(3,2) DEFAULT 0.0 NOT NULL,
+    valoFinal NUMBER(5,2) NOT NULL,
     ID_Establecimiento INT NOT NULL,
     ID_TipoSucursal INT NOT NULL,
 
@@ -715,7 +715,7 @@ CREATE TABLE tbServicios (
 
 CREATE TABLE tbReviews (
     ID_Review INT PRIMARY KEY,
-    promEstrellas NUMBER(3,2) NOT NULL,
+    promEstrellas NUMBER(5,2) NOT NULL,
     comentario VARCHAR2(200),
     ID_Doctor INT NOT NULL,
     ID_Usuario INT NOT NULL,
@@ -1357,7 +1357,7 @@ END;
 /
 /*************************************************************************************************
 
-~ TRIGGER PARA PROMEDIO REVIEW ~
+~ PROCEDURE Y TRIGGER PARA PROMEDIO REVIEW ~
 
 *************************************************************************************************/
 CREATE OR REPLACE TRIGGER trg_update_valoFinal
@@ -1379,10 +1379,39 @@ BEGIN
         JOIN tbDoctores d ON r.ID_Doctor = d.ID_Doctor
         WHERE d.ID_Sucursal = rec.ID_Sucursal;
 
+    -- Si no hay valor calculado (es NULL), asignar un valor por defecto, por ejemplo 0
+    IF v_promedio_estrellas IS NULL THEN
+        v_promedio_estrellas := 0.0;
+    END IF;
+
+    -- Limitar el valor promedio si excede el límite de precisión
+    IF v_promedio_estrellas > 99.999 THEN
+        v_promedio_estrellas := 99.999;
+    END IF;
+
+    -- Actualizar el valoFinal en la tabla tbSucursales
+    UPDATE tbSucursales
+    SET valoFinal = v_promedio_estrellas
+    WHERE ID_Sucursal = p_id_sucursal;
+
+END actualizar_valoFinal_sucursal;
+/
+
+CREATE OR REPLACE TRIGGER trg_actualizar_valoFinal_sucursal
+AFTER INSERT ON tbReviews
+DECLARE
+    v_id_sucursal INT;
+BEGIN
+    -- Actualizamos todas las sucursales afectadas después de la inserción
+    FOR rec IN (
+        SELECT DISTINCT d.ID_Sucursal
+        FROM tbDoctores d
+        INNER JOIN tbReviews r ON d.ID_Doctor = r.ID_Doctor
+    )
+    LOOP
+        -- Llamamos al procedimiento para actualizar el valoFinal de cada sucursal
+        actualizar_valoFinal_sucursal(rec.ID_Sucursal);
         -- Actualizar el valoFinal de la sucursal
-        UPDATE tbSucursales
-        SET valoFinal = v_promedioEstrellas
-        WHERE ID_Sucursal = rec.ID_Sucursal;
     END LOOP;
 END;
 /
