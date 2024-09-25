@@ -7,7 +7,7 @@ import android.widget.EditText
 class ValidationHelper {
 
     fun validarContraseña(pass: String): String?{
-        val regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+        val regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$".toRegex()
 
         return when {
             pass.isBlank() -> "La contraseña no puede estar vacía"

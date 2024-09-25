@@ -57,7 +57,7 @@ class activity_register1 : AppCompatActivity() {
         validar.setTextChangedNombreApellido(nombreEditText)
         validar.setTextChangedNombreApellido(apellidoEditText)
         validar.setTextChangedCorreo(txtEmail)
-        validar.validarContraseña(txtClave)
+        validar.validarContraseña(txtClave.text.toString())
 
 /*
 val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
