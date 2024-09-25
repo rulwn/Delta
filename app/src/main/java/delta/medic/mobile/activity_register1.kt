@@ -1,19 +1,15 @@
 package delta.medic.mobile
 
-import Modelo.ValidationHelper
+import Modelo.InputValidator
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
@@ -31,6 +27,10 @@ class activity_register1 : AppCompatActivity() {
         val codigoautenticacion = (100000..999999).random()
     }
 
+    var passValid = false
+    var nameValid = false
+    var lastNameValid = false
+    var emailValid = false
     @SuppressLint("MissingInflatedId", "WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,14 +52,25 @@ class activity_register1 : AppCompatActivity() {
         val textoGrande = findViewById<TextView>(R.id.txtTextoGrande)
         val frase = findViewById<TextView>(R.id.frase)
 
-        val validar = ValidationHelper()
+        val validar = InputValidator()
 
-        validar.setTextChangedNombreApellido(nombreEditText)
-        validar.setTextChangedNombreApellido(apellidoEditText)
-        validar.setTextChangedCorreo(txtEmail)
-        validar.validarContraseña(txtClave.text.toString())
 
-/*
+
+        validar.setTextChangedNombreApellido(nombreEditText) { isValid ->
+            nameValid = isValid
+        }
+        validar.setTextChangedNombreApellido(apellidoEditText) { isValid ->
+            lastNameValid = isValid
+        }
+        validar.setTextChangedCorreo(txtEmail) { isValid ->
+            emailValid = isValid
+
+        }
+        validar.setTextChangedPassword(txtClave) { isValid ->
+            passValid = isValid
+        }
+
+        /*
 val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
 when (currentNightMode) {
     Configuration.UI_MODE_NIGHT_NO -> {
@@ -88,90 +99,46 @@ when (currentNightMode) {
 
  */
 
-txtTienesUnaCuenta.setOnClickListener {
-    val intent = Intent(this, activity_login::class.java)
-    startActivity(intent)
-}
+        txtTienesUnaCuenta.setOnClickListener {
+            val intent = Intent(this, activity_login::class.java)
+            startActivity(intent)
+        }
 
 
-btnSiguiente.setOnClickListener {
-    nombre = nombreEditText.text.toString()
-    apellido = apellidoEditText.text.toString()
-    email = txtEmail.text.toString()
-    direccion = direccionEditText.text.toString()
-    clave = txtClave.text.toString()
+        btnSiguiente.setOnClickListener {
 
+            nombre = nombreEditText.text.toString().trim()
+            apellido = apellidoEditText.text.toString().trim()
+            email = txtEmail.text.toString().trim()
+            direccion = direccionEditText.text.toString().trim()
+            clave = txtClave.text.toString()
 
-    var hayVacio = false
-    var hayError = false
+            var error = false
 
-    if (nombre.isEmpty()) {
-        nombreEditText.error = "Llena este campo"
-        hayVacio = true
-        nombreEditText.setBackgroundResource(R.drawable.textboxpruebarojo)
-    } else if (!nombre.matches(Regex("^[a-zA-Z]+$"))) {
-        nombreEditText.error = "El nombre solo contiene letras"
-        hayError = true
-        nombreEditText.setBackgroundResource(R.drawable.textboxpruebarojo)
-    } else {
-        nombreEditText.error = null
-        nombreEditText.setBackgroundResource(R.drawable.textboxprueba)
+            if (nombre.isEmpty()) {
+                nombreEditText.error = "Este campo no puede estar vacío."
+                nombreEditText.requestFocus()
+                nombreEditText.setBackgroundResource(R.drawable.textboxpruebarojo)
+            } else if (apellido.isEmpty()) {
+                apellidoEditText.error = "Este campo no puede estar vacío."
+                apellidoEditText.requestFocus()
+                apellidoEditText.setBackgroundResource(R.drawable.textboxpruebarojo)
+            } else if (email.isEmpty()) {
+                txtEmail.error = "Este campo no puede estar vacío."
+                txtEmail.requestFocus()
+                txtEmail.setBackgroundResource(R.drawable.textboxpruebarojo)
+            } else if (direccion.isEmpty()) {
+                direccionEditText.error = "Este campo no puede estar vacío."
+                direccionEditText.requestFocus()
+                direccionEditText.setBackgroundResource(R.drawable.textboxpruebarojo)
+            }else if (clave.isEmpty()) {
+                txtClave.error = "Este campo no puede estar vacío."
+                txtClave.requestFocus()
+                txtClave.setBackgroundResource(R.drawable.textboxpruebarojo)
+            }else if (passValid && emailValid && nameValid && lastNameValid) {
+                val intent = Intent(this, activity_register2::class.java)
+                startActivity(intent)
+            }
+        }
     }
-
-    if (apellido.isEmpty()) {
-        apellidoEditText.error = "Llena este campo"
-        hayVacio = true
-        apellidoEditText.setBackgroundResource(R.drawable.textboxpruebarojo)
-    } else if (!apellido.matches(Regex("^[a-zA-Z]+$"))) {
-        apellidoEditText.error = "El apellido solo contiene letras"
-        hayError = true
-        apellidoEditText.setBackgroundResource(R.drawable.textboxpruebarojo)
-    } else {
-        apellidoEditText.error = null
-        apellidoEditText.setBackgroundResource(R.drawable.textboxprueba)
-    }
-
-    if (email.isEmpty()) {
-        txtEmail.error = "Llena este campo"
-        hayVacio = true
-        txtEmail.setBackgroundResource(R.drawable.textboxpruebarojo)
-    } else if (!email.matches(Regex("[a-zA-Z0-9._-]+@[a-z]+[.][a-z]+"))) {
-        txtEmail.error = "El correo no tiene formato válido"
-        hayError = true
-        txtEmail.setBackgroundResource(R.drawable.textboxpruebarojo)
-    } else {
-        txtEmail.error = null
-        txtEmail.setBackgroundResource(R.drawable.textboxprueba)
-    }
-
-    if (direccion.isEmpty()) {
-        direccionEditText.error = "Llena este campo"
-        hayVacio = true
-        direccionEditText.setBackgroundResource(R.drawable.textboxpruebarojo)
-    } else {
-        direccionEditText.error = null
-        direccionEditText.setBackgroundResource(R.drawable.textboxprueba)
-    }
-
-    if (clave.isEmpty()) {
-        txtClave.error = "Llena este campo"
-        hayVacio = true
-        txtClave.setBackgroundResource(R.drawable.textboxpruebarojo)
-    } else if (clave.length < 8) {
-        txtClave.error = "La contraseña debe tener mínimo 8 caracteres"
-        hayError = true
-        txtClave.setBackgroundResource(R.drawable.textboxpruebarojo)
-    } else {
-        txtClave.error = null
-        txtClave.setBackgroundResource(R.drawable.textboxprueba)
-    }
-
-    if (hayVacio || hayError) {
-        Toast.makeText(this, "Verificar todos los campos", Toast.LENGTH_LONG).show()
-    } else {
-        val intent = Intent(this, activity_register2::class.java)
-        startActivity(intent)
-    }
-}
-}
 }

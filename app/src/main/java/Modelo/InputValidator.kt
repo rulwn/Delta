@@ -3,25 +3,42 @@ package Modelo
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
+import delta.medic.mobile.R
 
-class ValidationHelper {
+class InputValidator {
 
-    fun validarContraseña(pass: String): String?{
-        val regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$".toRegex()
 
-        return when {
-            pass.isBlank() -> "La contraseña no puede estar vacía"
-            !pass.matches(regex) -> "Error"
-            else -> null
-        }
+    fun validarContraseña(pass: String): String? {
+        // Validar si la contraseña está vacía
+        if (pass.isBlank()) return "La contraseña no puede estar vacía."
+
+        // Validar la longitud mínima de 8 caracteres
+        if (pass.length < 8) return "La contraseña debe tener al menos 8 caracteres."
+
+        // Validar si contiene al menos una letra minúscula
+        if (!pass.any { it.isLowerCase() }) return "La contraseña debe contener al menos una letra minúscula."
+
+        // Validar si contiene al menos una letra mayúscula
+        if (!pass.any { it.isUpperCase() }) return "La contraseña debe contener al menos una letra mayúscula."
+
+        // Validar si contiene al menos un número
+        if (!pass.any { it.isDigit() }) return "La contraseña debe contener al menos un número."
+
+        // Validar si contiene al menos un carácter especial
+        val specialChars = "@$!%*?&._-"
+        if (!pass.any { it in specialChars }) return "La contraseña debe contener al menos un carácter especial: @$!%*?&._-"
+
+        // Si pasa todas las validaciones, no hay errores
+        return null
     }
+
 
     fun validarNombreApellido(nombre: String): String? {
         val regex = "^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]*(?: [A-ZÁÉÍÓÚÑ][a-záéíóúñ]*)*$".toRegex()
         return when {
-            nombre.isBlank() -> "El nombre no puede estar vacío."
+            nombre.isBlank() -> "Este campo no puede estar vacío."
             nombre.contains("  ") -> "No se permiten dobles espacios."
-            !nombre.matches(regex) -> "El nombre debe comenzar con mayúscula y no contener caracteres especiales."
+            !nombre.matches(regex) -> "Este campo debe comenzar con mayúscula y no contener caracteres especiales."
             else -> null
         }
     }
@@ -48,9 +65,38 @@ class ValidationHelper {
 
     //////////////////////////////////////////////////////
 
+    fun setTextChangedPassword(editText: EditText, onValid: (Boolean) -> Unit) {
+        editText.addTextChangedListener(object : TextWatcher {
+            private var isUpdating = false
 
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
-    fun setTextChangedCorreo(editText: EditText) {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                if (isUpdating) return
+                isUpdating = true
+
+                val input = s.toString()
+                val errorMessage = validarContraseña(input)
+
+                // Mostrar el error correspondiente en el campo de texto
+                if (errorMessage != null) {
+                    editText.error = errorMessage
+                    editText.requestFocus()
+                    editText.setBackgroundResource(R.drawable.textboxpruebarojo)
+                    onValid(false)  // Llamada cuando la contraseña no es válida
+                } else {
+                    editText.setBackgroundResource(R.drawable.textboxprueba)
+                    onValid(true)  // Llamada cuando la contraseña es válida
+                }
+
+                isUpdating = false
+            }
+        })
+    }
+
+    fun setTextChangedCorreo(editText: EditText, onValid: (Boolean) -> Unit) {
         editText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -59,17 +105,22 @@ class ValidationHelper {
             override fun afterTextChanged(s: Editable?) {
                 val input = s.toString().trim()
 
-                // Validar formato
+                // Validar formato del correo
                 val errorMessage = validarCorreo(input)
                 if (errorMessage != null) {
                     editText.error = errorMessage
                     editText.requestFocus()
+                    editText.setBackgroundResource(R.drawable.textboxpruebarojo)
+                    onValid(false)  // No es válido
+                } else {
+                    editText.setBackgroundResource(R.drawable.textboxprueba)
+                    onValid(true)  // Es válido
                 }
             }
         })
     }
 
-    fun setTextChangedTelefono(editText: EditText) {
+    fun setTextChangedTelefono(editText: EditText, onValid: (Boolean) -> Unit) {
         editText.addTextChangedListener(object : TextWatcher {
             private var isUpdating = false
             private var oldText = ""
@@ -101,11 +152,16 @@ class ValidationHelper {
                 editText.setText(input)
                 editText.setSelection(input.length) // Colocamos el cursor al final
 
-                // Validar el formato del número
+                // Validar el formato del número de teléfono
                 val errorMessage = validarTelefono(input)
                 if (errorMessage != null) {
                     editText.error = errorMessage
                     editText.requestFocus()
+                    editText.setBackgroundResource(R.drawable.textboxpruebarojo)
+                    onValid(false)  // No es válido
+                } else {
+                    editText.setBackgroundResource(R.drawable.textboxprueba)
+                    onValid(true)  // Es válido
                 }
 
                 isUpdating = false
@@ -113,7 +169,7 @@ class ValidationHelper {
         })
     }
 
-    fun setTextChangedNombreApellido(editText: EditText) {
+    fun setTextChangedNombreApellido(editText: EditText, onValid: (Boolean) -> Unit) {
         editText.addTextChangedListener(object : TextWatcher {
             private var isUpdating = false
 
@@ -133,20 +189,26 @@ class ValidationHelper {
 
                 // Verificar si hay cambios
                 if (input != sanitizedInput) {
-                    editText.setText(sanitizedInput)
+                    editText.setText(sanitizedInput.trim())
                     editText.setSelection(sanitizedInput.length)  // Coloca el cursor al final
                 }
 
-                // Validar el formato
+                // Validar el formato del nombre o apellido
                 val errorMessage = validarNombreApellido(sanitizedInput.trim())
                 if (errorMessage != null) {
                     editText.error = errorMessage
                     editText.requestFocus()
+                    editText.setBackgroundResource(R.drawable.textboxpruebarojo)
+                    onValid(false)  // No es válido
+                } else {
+                    editText.setBackgroundResource(R.drawable.textboxprueba)
+                    onValid(true)  // Es válido
                 }
 
                 isUpdating = false
             }
         })
     }
+
 
 }
