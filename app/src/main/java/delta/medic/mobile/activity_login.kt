@@ -6,7 +6,6 @@ import Modelo.Encrypter
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.content.res.Configuration
 import android.graphics.drawable.InsetDrawable
 import android.os.Bundle
 import android.util.Log
@@ -187,8 +186,8 @@ txtOlvidarContra.setOnClickListener {
             if (txtEmailRecuperacion.text.isNotEmpty() && withContext(Dispatchers.IO) {
                     verificarCorreo(
                         userEmail
-                    )
-                }) {
+                    ) })
+            {
                 withContext(Dispatchers.IO) {
                     codigoRecu = (1000..9999).random()
                     EmailSender().enviarCorreo(
@@ -299,8 +298,7 @@ txtOlvidarContra.setOnClickListener {
                 dialog2.show()
             } else {
                 // Mostrar mensaje de error si el correo no es válido o está vacío
-                Toast.makeText(this@activity_login, "Correo inválido", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(this@activity_login, "Correo no registrado o incorrecto", Toast.LENGTH_LONG).show()
             }
         }
     }

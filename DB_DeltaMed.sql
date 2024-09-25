@@ -1376,32 +1376,18 @@ END;
 
 /*************************************************************************************************
 
-~ PROCEDURE Y TRIGGER PARA PROMEDIO REVIEW ~
+~ PROCEDURE PARA REVIEWS ~
 
 *************************************************************************************************/
-CREATE OR REPLACE TRIGGER trg_update_valoFinal
-AFTER INSERT ON tbReviews
-DECLARE
-    v_promedioEstrellas NUMBER(5,2);
+CREATE OR REPLACE PROCEDURE actualizar_valoFinal_sucursal(p_id_sucursal INT) IS
+    v_promedio_estrellas NUMBER(5,2);
 BEGIN
-    -- Recalcular el promedio de estrellas para todas las sucursales afectadas
-    FOR rec IN (
-        SELECT d.ID_Sucursal
-        FROM tbDoctores d
-        JOIN tbReviews r ON d.ID_Doctor = r.ID_Doctor
-        GROUP BY d.ID_Sucursal
-    ) LOOP
-        -- Calcular el promedio de estrellas para la sucursal
-        SELECT AVG(r.promEstrellas)
-        INTO v_promedioEstrellas
-        FROM tbReviews r
-        JOIN tbDoctores d ON r.ID_Doctor = d.ID_Doctor
-        WHERE d.ID_Sucursal = rec.ID_Sucursal;
-
-    -- Si no hay valor calculado (es NULL), asignar un valor por defecto, por ejemplo 0
-    IF v_promedio_estrellas IS NULL THEN
-        v_promedio_estrellas := 0.0;
-    END IF;
+    -- Calcular el promedio de estrellas para la sucursal
+    SELECT AVG(r.promEstrellas)
+    INTO v_promedio_estrellas
+    FROM tbReviews r
+    INNER JOIN tbDoctores d ON r.ID_Doctor = d.ID_Doctor
+    WHERE d.ID_Sucursal = p_id_sucursal;
 
     -- Limitar el valor promedio si excede el límite de precisión
     IF v_promedio_estrellas > 99.999 THEN
@@ -1413,6 +1399,7 @@ BEGIN
     SET valoFinal = v_promedio_estrellas
     WHERE ID_Sucursal = p_id_sucursal;
 
+    -- NO SE NECESITA COMMIT AQUÍ
 END actualizar_valoFinal_sucursal;
 /
 
@@ -1430,16 +1417,10 @@ BEGIN
     LOOP
         -- Llamamos al procedimiento para actualizar el valoFinal de cada sucursal
         actualizar_valoFinal_sucursal(rec.ID_Sucursal);
-        -- Actualizar el valoFinal de la sucursal
     END LOOP;
 END;
 /
 
-/*************************************************************************************************
-
-~ PROCEDURE PARA PROMEDIO PROPIETARIOS ~
-
-*************************************************************************************************/
 create or replace procedure insertarPropietarios(
  Usuario in tbUsuarios.id_usuario%type,
 Establecimiento in tbEstablecimientos.id_establecimiento%type
@@ -1448,6 +1429,16 @@ as
 begin
 insert into tbPropietarios values(Usuario, Establecimiento);
 end insertarPropietarios;
+/
+
+create or replace procedure insertarHorarios(
+Turno in tbHorarios.horarioTurno%type,
+Doctor in tbHorarios.ID_Doctor%type
+)
+as
+begin
+insert into tbHorarios values(horarios.NEXTVAL, Turno, Doctor);
+end insertarHorarios;
 /
 
 /*************************************************************************************************
@@ -1652,11 +1643,11 @@ INSERT ALL
     INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Doctor, ID_Usuario)
          VALUES (TO_DATE('2024-10-02', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-02 11:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'RevisiÃ³n anual','A', 4, 2)
     INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Doctor, ID_Usuario)
-         VALUES (TO_DATE('2024-10-03', 'YYYY-MM-DD'), TO_TIMESTAMP('2024-12-23 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta de seguimiento','A', 3, 3)
+         VALUES (TO_DATE('2024-10-03', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-03 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta de seguimiento','A', 3, 3)
     INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Doctor, ID_Usuario)
-         VALUES (TO_DATE('2024-10-04', 'YYYY-MM-DD'), TO_TIMESTAMP('2024-12-23 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general','A', 2, 4)
+         VALUES (TO_DATE('2024-10-04', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-04 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general','A', 2, 4)
     INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Doctor, ID_Usuario)
-         VALUES (TO_DATE('2024-10-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2024-12-23 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Bistec General (Se atragantó con la papa)','A', 1, 5)
+         VALUES (TO_DATE('2024-10-05', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-05 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada','A', 1, 5)
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -1987,69 +1978,7 @@ INNER JOIN tbUsuarios u ON e.ID_Usuario = u.ID_Usuario
 WHERE u.emailUsuario = 'fran@gmail.com';
 SELECT * FROM tbExpedientes WHERE ID_Usuario = 1;
 
-
+select * from tbHorarios;
 select * from tbPropietarios where id_usuario = (select id_usuario from tbUsuarios where emailusuario = 'fran@gmail.com');
-
-select * from tbusuarios;
-select * from tbCitasMedicas;
-
 /*drop table tbpacientes;
 drop table tbcentrosmedicos;*/
-
-SELECT (nombreUsuario || ' ' || ApellidoUsuario) AS "Nombre Usuario",
-    Motivo,
-    HoraCita
-FROM tbCitasMedicas C
-INNER JOIN tbUsuarios U
-ON U.ID_Usuario = C.ID_Usuario
-WHERE ID_Doctor = 1
-AND horacita > CURRENT_TIMESTAMP
-AND ESTADOCITA = 'A';
-
-Select * from tbSucursales;
-
-SELECT s.valoFinal
-FROM tbUsuarios u
-INNER JOIN tbDoctores d ON u.ID_Usuario = d.ID_Usuario
-INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
-WHERE u.emailUsuario = 'xam@gmail.com';
-
-UPDATE tbSucursales s
-SET s.valoFinal = 3.5
-WHERE s.ID_Sucursal = (
-    SELECT d.ID_Sucursal
-    FROM tbUsuarios u
-    JOIN tbDoctores d ON u.ID_Usuario = d.ID_Usuario
-    WHERE u.emailUsuario = 'xam@gmail.com'
-);
-
-COMMIT;
-
-SELECT (U.nombreUsuario || ' ' || U.apellidoUsuario) AS "Nombre Usuario",
-       C.Motivo,
-       C.HoraCita
-FROM tbCitasMedicas C
-INNER JOIN tbUsuarios U ON U.ID_Usuario = C.ID_Usuario
-WHERE EXISTS (
-    SELECT 1 
-    FROM tbDoctores D
-    INNER JOIN tbUsuarios U2 ON U2.ID_Usuario = D.ID_Usuario
-    WHERE U2.emailUsuario = 'xam@gmail.com'
-    AND D.ID_Doctor = C.ID_Doctor
-)
-AND C.horacita > CURRENT_TIMESTAMP
-AND C.ESTADOCITA = 'A';
-
-SELECT (U.nombreUsuario || ' ' || U.apellidoUsuario) AS NombreUsuario,
-C.Motivo, C.HoraCita, U.imgUsuario
-FROM tbCitasMedicas C
-INNER JOIN tbUsuarios U ON U.ID_Usuario = C.ID_Usuario
-WHERE EXISTS (
-    SELECT 1
-    FROM tbDoctores D
-    INNER JOIN tbUsuarios U2 ON U2.ID_Usuario = D.ID_Usuario
-    WHERE U2.emailUsuario = 'xam@gmail.com'
-    AND D.ID_Doctor = C.ID_Doctor
-)
-AND C.horacita > CURRENT_TIMESTAMP
-AND C.ESTADOCITA = 'A';

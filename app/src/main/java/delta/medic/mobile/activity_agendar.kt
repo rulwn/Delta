@@ -253,6 +253,7 @@ WHERE
             lbAgendarCita.setText(Html.fromHtml(getResources().getString(R.string.subrayado)))
             val cardDoctor = findViewById<CardView>(R.id.linearCard)
             val linearNoDoctor = findViewById<LinearLayout>(R.id.linearNoDoctor)
+            val txtSucu = findViewById<TextView>(R.id.txtSucu)
             val doctorExists = checkIfDoctorExists()
 
             if (doctorExists) {
@@ -261,6 +262,8 @@ WHERE
             } else {
                 linearNoDoctor.visibility = View.VISIBLE
                 cardDoctor.visibility = View.GONE
+                rcvDisponibilidad.visibility = View.GONE
+                txtSucu.visibility = View.GONE
             }
 
             btnRegresar.setOnClickListener {
