@@ -12,6 +12,7 @@ import android.widget.CalendarView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import delta.medic.mobile.activity_login.UserData.userEmail
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -114,30 +115,31 @@ class fragment_controlCitas : Fragment() {
                     statement = objConexion.prepareStatement(
                         """
 SELECT 
-    citas.ID_Cita, 
-    citas.diacita, 
-    citas.horacita, 
-    citas.motivo, 
-    citas.estadoCita, 
-    citas.ID_Doctor, 
-    usua.ID_Usuario, 
-    usua.nombreUsuario, 
-    usua.apellidoUsuario, 
-    esp.nombreEspecialidad
-FROM 
-    tbCitasMedicas citas
-INNER JOIN 
-    tbDoctores docs ON citas.ID_Doctor = docs.ID_Doctor
-INNER JOIN 
-    tbEspecialidades esp ON docs.ID_Especialidad = esp.ID_Especialidad
-INNER JOIN 
-    tbUsuarios usua ON docs.ID_Usuario = usua.ID_Usuario
-WHERE 
-    usua.emailUsuario = ?
+                            citas.ID_Cita,
+                            citas.diacita,
+                            citas.horacita,
+                            citas.motivo,
+                            citas.estadoCita,
+                            citas.id_usuario,
+                            usua.nombreUsuario,
+                            usua.apellidoUsuario,
+                            esp.nombreespecialidad
+                        FROM 
+                            tbcitasmedicas citas
+                        INNER JOIN 
+                            tbdoctores docs ON citas.id_doctor = docs.id_doctor
+                        INNER JOIN 
+                            tbEspecialidades esp ON docs.id_especialidad = esp.id_especialidad
+                        INNER JOIN 
+                            tbUsuarios usua ON docs.id_usuario = usua.id_usuario
+                        INNER JOIN 
+                            tbUsuarios us ON citas.id_usuario = us.id_usuario
+                        WHERE  
+    us.emailUsuario = ?
     AND citas.diacita = ?
                         """.trimIndent()
                     )
-                    statement.setString(1, sentEmail)
+                    statement.setString(1, userEmail)
                     statement.setDate(2, Fecha)
                     resultset = statement.executeQuery()
 
@@ -183,30 +185,34 @@ WHERE
                     statement = objConexion.prepareStatement(
                         """
 SELECT 
-    citas.ID_Cita, 
-    citas.diacita, 
-    citas.horacita, 
-    citas.motivo, 
-    citas.estadoCita, 
-    citas.ID_Doctor, 
-    usua.ID_Usuario, 
-    usua.nombreUsuario, 
-    usua.apellidoUsuario, 
-    esp.nombreEspecialidad
-FROM 
-    tbCitasMedicas citas
-INNER JOIN 
-    tbDoctores docs ON citas.ID_Doctor = docs.ID_Doctor
-INNER JOIN 
-    tbEspecialidades esp ON docs.ID_Especialidad = esp.ID_Especialidad
-INNER JOIN 
-    tbUsuarios usua ON docs.ID_Usuario = usua.ID_Usuario
-WHERE 
-    usua.emailUsuario = ?
-    AND citas.estadoCita = 'A'
-    AND citas.diacita >= CURRENT_DATE
+                            citas.ID_Cita,
+                            citas.diacita,
+                            citas.horacita,
+                            citas.motivo,
+                            citas.estadoCita,
+                            citas.id_usuario,
+                            usua.nombreUsuario,
+                            usua.apellidoUsuario,
+                            esp.nombreespecialidad
+                        FROM 
+                            tbcitasmedicas citas
+                        INNER JOIN 
+                            tbdoctores docs ON citas.id_doctor = docs.id_doctor
+                        INNER JOIN 
+                            tbEspecialidades esp ON docs.id_especialidad = esp.id_especialidad
+                        INNER JOIN 
+                            tbUsuarios usua ON docs.id_usuario = usua.id_usuario
+                        INNER JOIN 
+                            tbUsuarios us ON citas.id_usuario = us.id_usuario
+                        WHERE 
+                            us.emailUsuario = ?
+                            AND citas.diacita >= CURRENT_DATE
+                            AND citas.estadoCita = 'A'
+                        ORDER BY 
+                            citas.diacita ASC, 
+                            citas.horacita ASC
     """)
-                    statement.setString(1, sentEmail)
+                    statement.setString(1, userEmail)
                     resultset = statement.executeQuery()
 
                     while (resultset.next()) {
