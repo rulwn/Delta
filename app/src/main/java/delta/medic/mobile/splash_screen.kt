@@ -44,15 +44,18 @@ class splash_screen : AppCompatActivity() {
             if (!isWelcomed) {
                 val intent = Intent(this@splash_screen, activity_bienvenida::class.java)
                 startActivity(intent)
+                finish()
             }
             else if (!isLogedIn || email.isNullOrEmpty()) {
                 val intent = Intent(this@splash_screen, activity_login::class.java)
                 startActivity(intent)
+                finish()
             }
             else {
                 userEmail = email
                 val intent = Intent(this@splash_screen, MainActivity::class.java)
                 startActivity(intent)
+                finish()
             }
         }
     }
