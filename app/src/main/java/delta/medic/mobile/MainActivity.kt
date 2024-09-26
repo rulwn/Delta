@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         //Preferencias de usuario
         val userPreferences = getSharedPreferences("userPreferences", MODE_PRIVATE)
         userEmail = userPreferences.getString("email", null).toString()
-
+        println("userEmail: " + userEmail)
 
 
         super.onCreate(savedInstanceState)

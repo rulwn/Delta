@@ -47,8 +47,8 @@
         android:background="@drawable/textboxprueba"
         android:fontFamily="@font/poppins_regular"
         android:hint="Dirección"
-        android:maxLength="200"
         android:inputType="textPostalAddress"
+        android:maxLength="200"
         android:padding="8dp"
         android:textColor="@color/GrisAzulito"
         android:textSize="16sp"
@@ -56,7 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imgFondo"
-        app:layout_constraintVertical_bias="0.949"
+        app:layout_constraintVertical_bias="0.946"
         tools:ignore="NotSibling" />
 
     <TextView
