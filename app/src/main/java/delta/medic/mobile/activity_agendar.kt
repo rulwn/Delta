@@ -15,7 +15,7 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
-import android.widget.ImageButton
+import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -70,7 +70,6 @@ class activity_agendar : AppCompatActivity() {
         }
         val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
         val btnContinuar = findViewById<Button>(R.id.btnContinuar)
-        val btnSelecSucursal = findViewById<ImageButton>(R.id.btnSelecSucursal)
         val txtFecha = findViewById<TextView>(R.id.txtFecha)
         val rcvDisponibilidad = findViewById<RecyclerView>(R.id.rcvDisponibilidad)
         var imgFotoSucursal = findViewById<ImageView>(R.id.imgSucursal)
@@ -79,6 +78,7 @@ class activity_agendar : AppCompatActivity() {
         val txtEspecialidad = findViewById<TextView>(R.id.txtEspecialidad)
         val txtDireccionSucur = findViewById<TextView>(R.id.txtDireccionSucur)
         txtMotivo = findViewById(R.id.txtMotivo)
+        val txtPressHere = findViewById<TextView>(R.id.txtPressHere)
 
         val diasDelAno = obtenerDiasDelAno(Year.now().value)
         rcvDisponibilidad.layoutManager =
@@ -254,6 +254,10 @@ WHERE
             val cardDoctor = findViewById<CardView>(R.id.linearCard)
             val linearNoDoctor = findViewById<LinearLayout>(R.id.linearNoDoctor)
             val txtSucu = findViewById<TextView>(R.id.txtSucu)
+            val txtdispo = findViewById<TextView>(R.id.txtdispo)
+            val txtespacios = findViewById<TextView>(R.id.txtespacios)
+            val grid = findViewById<GridLayout>(R.id.grid)
+            val textMoti = findViewById<TextView>(R.id.textMoti)
             val doctorExists = checkIfDoctorExists()
 
             if (doctorExists) {
@@ -264,6 +268,15 @@ WHERE
                 cardDoctor.visibility = View.GONE
                 rcvDisponibilidad.visibility = View.GONE
                 txtSucu.visibility = View.GONE
+                cardDoctor.visibility = View.GONE
+                txtdispo.visibility = View.GONE
+                rcvDisponibilidad.visibility = View.GONE
+                txtFecha.visibility = View.GONE
+                txtespacios.visibility = View.GONE
+                grid.visibility = View.GONE
+                textMoti.visibility = View.GONE
+                txtMotivo.visibility = View.GONE
+                btnContinuar.visibility = View.GONE
             }
 
             btnRegresar.setOnClickListener {
@@ -271,10 +284,20 @@ WHERE
             }
 
             btnContinuar.setOnClickListener {
-                showCustomDialog()
+                if (txtMotivo.text.toString().isEmpty()){
+                    txtMotivo.error = "Por favor, escribe un motivo."
+                }
+                else {
+                    if (horaSeleccionada != null && diaSeleccionado != null) {
+                    showCustomDialog()
+                    }
+                    else {
+                        Toast.makeText(this, "Por favor, selecciona una hora y un día.", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
 
-            btnSelecSucursal.setOnClickListener {
+        txtPressHere.setOnClickListener {
                 val intent = Intent(this, activity_busqueda::class.java)
                 startActivity(intent)
             }
@@ -352,7 +375,7 @@ WHERE
     @RequiresApi(Build.VERSION_CODES.O)
     private fun showCustomDialog() {
         if (isFinishing || isDestroyed) {
-            return // No mostrar el diálogo si la actividad se está cerrando
+            return
         }
 
         val dialog = Dialog(this, R.style.CustomDialog)
@@ -400,5 +423,4 @@ WHERE
             val ultimoDia = LocalDate.of(ano, 12, 31)
             return hoy.datesUntil(ultimoDia.plusDays(1)).map { Dia(it) }.toList()
         }
-
     }

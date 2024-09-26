@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,7 +37,6 @@
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
-
         </LinearLayout>
 
         <TextView
@@ -50,7 +48,7 @@
             android:text="Sucursal:"
             android:textColor="@color/black"
             android:textSize="20sp"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -70,7 +68,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:padding="16dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:background="@drawable/estilobordesitems"
                 app:cardCornerRadius="20dp"
                 app:cardPreventCornerOverlap="true"
@@ -181,47 +179,70 @@
             </androidx.cardview.widget.CardView>
         </LinearLayout>
 
-<LinearLayout
-        android:id="@+id/linearNoDoctor"
-        android:layout_marginTop="230dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="10dp"
-        android:orientation="vertical"
-        android:padding="4dp">
-
-        <ImageButton
-            android:id="@+id/btnSelecSucursal"
-            android:layout_width="400px"
-            android:layout_height="350px"
+        <LinearLayout
+            android:id="@+id/linearNoDoctor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@drawable/seleccionar_doctor" />
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical"
+            android:padding="4dp"
+            android:visibility="gone">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/btnSelecSucursal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/buscardoctor">
+
+            </com.airbnb.lottie.LottieAnimationView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="3dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="Selecciona una sucursal"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txtPressHere"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="3dp"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Presiona aquí"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="3dp"
-            android:layout_gravity="center"
-            android:fontFamily="@font/poppins_medium"
-            android:text="Selecciona una sucursal"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
-    </LinearLayout>        <TextView
+            android:id="@+id/txtdispo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_semibold"
             android:text="Disponibilidad:"
             android:textColor="@color/black"
             android:textSize="20sp"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcvDisponibilidad"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <TextView
             android:id="@+id/txtFecha"
@@ -233,9 +254,10 @@
             android:text="Fecha seleccionada..."
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <TextView
+            android:id="@+id/txtespacios"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -243,14 +265,15 @@
             android:text="Espacios de cita:"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <GridLayout
+            android:id="@+id/grid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:columnCount="3"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcvEspacios"
@@ -259,6 +282,7 @@
         </GridLayout>
 
         <TextView
+            android:id="@+id/textMoti"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -268,7 +292,7 @@
             android:text="Motivo de la consulta:"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <EditText
             android:id="@+id/txtMotivo"
@@ -277,10 +301,11 @@
             android:layout_marginBottom="20dp"
             android:background="@drawable/textboxprueba"
             android:hint="Escriba sus motivos y comentarios"
+            android:inputType="textMultiLine"
+            android:lines="3"
+            android:scrollbars="vertical"
             android:textColor="@color/black"
-            android:visibility="gone" />
-
-        <!-- Quien es el paciente? -->
+            android:visibility="visible" />
 
         <Button
             android:id="@+id/btnContinuar"
@@ -294,7 +319,7 @@
             android:text="Continuar"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:cornerRadius="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
