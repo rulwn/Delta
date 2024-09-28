@@ -264,7 +264,7 @@ END;
 
 /*******************************************************************************
 
-    ~ ELIMINACIÃ“N DE SECUENCIAS EXISTENTES ~
+    ~ ELIMINACIÓN DE SECUENCIAS EXISTENTES ~
 
 *******************************************************************************/
 --Este procedimiento PL/SQL ejecuta el comando DROP SEQCUENCE, pero si ocurre un error
@@ -732,9 +732,11 @@ CREATE TABLE tbServicios (
     ON DELETE CASCADE
 );
 
+
+
 CREATE TABLE tbReviews (
     ID_Review INT PRIMARY KEY,
-    promEstrellas NUMBER(5,2) NOT NULL,
+    numEstrellas INT CHECK(numEstrellas IN (1,2,3,4,5)) NOT NULL,
     comentario VARCHAR2(200),
     ID_Doctor INT NOT NULL,
     ID_Usuario INT NOT NULL,
@@ -1383,7 +1385,7 @@ CREATE OR REPLACE PROCEDURE actualizar_valoFinal_sucursal(p_id_sucursal INT) IS
     v_promedio_estrellas NUMBER(5,2);
 BEGIN
     -- Calcular el promedio de estrellas para la sucursal
-    SELECT AVG(r.promEstrellas)
+    SELECT AVG(r.numEstrellas)
     INTO v_promedio_estrellas
     FROM tbReviews r
     INNER JOIN tbDoctores d ON r.ID_Doctor = d.ID_Doctor
@@ -1724,19 +1726,20 @@ VALUES
 
 
 INSERT ALL
-    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
+    INTO tbReviews(numEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(5, 'Excelente Servicio!', 3, 5)
-    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
-        VALUES(1, 'El doctor no se presento a mi cita', 3, 1)
-    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
-        VALUES(4.5, 'Muy buen ambiente en esa clinica', 4, 2)
-    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
-        VALUES(3, 'Bueno pero pudo ser mejor con el tiempo', 3, 4)
-    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
-        VALUES(4, 'Excelente música', 3, 2)
-    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
+    INTO tbReviews(numEstrellas, comentario, ID_Doctor, ID_Usuario)
+        VALUES(1, 'El doctor no se presento a mi cita', 1, 1)
+    INTO tbReviews(numEstrellas, comentario, ID_Doctor, ID_Usuario)
+        VALUES(4, 'Muy buen ambiente en esa clinica', 1, 2)
+    INTO tbReviews(numEstrellas, comentario, ID_Doctor, ID_Usuario)
+        VALUES(3, 'Bueno pero pudo ser mejor con el tiempo', 1, 4)
+    INTO tbReviews(numEstrellas, comentario, ID_Doctor, ID_Usuario)
+        VALUES(4, 'Excelente música', 1, 2)
+    INTO tbReviews(numEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(2, 'Mal Servicio', 1, 2)
 SELECT DUMMY FROM DUAL;
+
 
 INSERT ALL
     INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
@@ -1862,7 +1865,7 @@ SELECT * FROM TBDOCTORES;
 --CONSULTA INNERJOIN REVIEW--
 SELECT
     rv.comentario,
-    rv.promEstrellas,
+    rv.numEstrellas,
     u.nombreUsuario,
     u.apellidoUsuario,
     u.imgUsuario,
@@ -1982,3 +1985,11 @@ select * from tbHorarios;
 select * from tbPropietarios where id_usuario = (select id_usuario from tbUsuarios where emailusuario = 'fran@gmail.com');
 /*drop table tbpacientes;
 drop table tbcentrosmedicos;*/
+
+SELECT 
+    NumEstrellas, 
+    COUNT(*) AS cantidad_reviews
+FROM tbReviews
+WHERE ID_Doctor = 3
+GROUP BY NumEstrellas
+ORDER BY NumEstrellas;
