@@ -74,14 +74,31 @@ class activity_register2 : AppCompatActivity() {
             val anio = calendario.get(java.util.Calendar.YEAR)
             val mes = calendario.get(java.util.Calendar.MONTH)
             val dia = calendario.get(java.util.Calendar.DAY_OF_MONTH)
+
             val datePickerDialog = DatePickerDialog(
                 this,
                 { _, anioSeleccionado, mesSeleccionado, diaSeleccionado ->
-                    val fechaSeleccionada = "$anioSeleccionado/${mesSeleccionado + 1}/$diaSeleccionado"
-                    txtFechaNacimientoPaciente.setText(fechaSeleccionada)
+                    val fechaSeleccionada = java.util.Calendar.getInstance()
+                    fechaSeleccionada.set(anioSeleccionado, mesSeleccionado, diaSeleccionado)
+
+                    val fechaActual = java.util.Calendar.getInstance()
+                    var edad = fechaActual.get(java.util.Calendar.YEAR) - fechaSeleccionada.get(java.util.Calendar.YEAR)
+                    if (fechaActual.get(java.util.Calendar.MONTH) < mesSeleccionado ||
+                        (fechaActual.get(java.util.Calendar.MONTH) == mesSeleccionado && fechaActual.get(java.util.Calendar.DAY_OF_MONTH) < diaSeleccionado)) {
+                        edad--
+                    }
+
+                    if (edad >= 18) {
+                        val fechaTexto = "$anioSeleccionado/${mesSeleccionado + 1}/$diaSeleccionado"
+                        txtFechaNacimientoPaciente.setText(fechaTexto)
+                    } else {
+                        Toast.makeText(this, "Debes ser mayor de 18 años", Toast.LENGTH_LONG).show()
+                        txtFechaNacimientoPaciente.text.clear()
+                    }
                 },
                 anio, mes, dia
             )
+            datePickerDialog.datePicker.maxDate = calendario.timeInMillis
             datePickerDialog.show()
         }
 
@@ -115,22 +132,19 @@ class activity_register2 : AppCompatActivity() {
                 txtFechaNacimientoPaciente.setBackgroundResource(R.drawable.textboxprueba)
             }
 
-            /*val telefono = txtTelefono.text.toString()
+            val telefono = txtTelefono.text.toString()
             if (telefono.isEmpty()) {
                 txtTelefono.error = "Llena este campo"
                 hayVacio = true
                 txtTelefono.setBackgroundResource(R.drawable.textboxpruebarojo)
-            } else if (!telefono.matches(Regex("^[0-9]{4}[0-9]{4}$"))) {
-                txtTelefono.error = "El teléfono está incorrecto"
-                hayError = true
-                txtTelefono.setBackgroundResource(R.drawable.textboxpruebarojo)
             } else {
                 txtTelefono.error = null
                 txtTelefono.setBackgroundResource(R.drawable.textboxprueba)
-            }*/
+            }
 
             if (rbTerminos.isChecked.not()) {
-                Toast.makeText(this, "Debes aceptar los términos y condiciones", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Debes aceptar los términos y condiciones", Toast.LENGTH_LONG)
+                    .show()
                 hayVacio = true
             }
 

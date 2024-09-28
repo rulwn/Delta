@@ -125,6 +125,7 @@
         <activity
             android:name=".activity_vistadoctores"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_editarperfil"
@@ -141,6 +142,7 @@
         <activity
             android:name=".activity_agendar"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_register4"
@@ -177,7 +179,6 @@
             android:resource="@array/preloaded_fonts" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/googleMapsApiKey" />
+            android:value="@string/googleMapsApiKey"/>
     </application>
-
 </manifest>

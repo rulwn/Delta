@@ -732,11 +732,9 @@ CREATE TABLE tbServicios (
     ON DELETE CASCADE
 );
 
-
-
 CREATE TABLE tbReviews (
     ID_Review INT PRIMARY KEY,
-    numEstrellas INT CHECK(numEstrellas IN (1,2,3,4,5)) NOT NULL,
+    promEstrellas NUMBER(5,2) NOT NULL,
     comentario VARCHAR2(200),
     ID_Doctor INT NOT NULL,
     ID_Usuario INT NOT NULL,
@@ -1385,7 +1383,7 @@ CREATE OR REPLACE PROCEDURE actualizar_valoFinal_sucursal(p_id_sucursal INT) IS
     v_promedio_estrellas NUMBER(5,2);
 BEGIN
     -- Calcular el promedio de estrellas para la sucursal
-    SELECT AVG(r.numEstrellas)
+    SELECT AVG(r.promEstrellas)
     INTO v_promedio_estrellas
     FROM tbReviews r
     INNER JOIN tbDoctores d ON r.ID_Doctor = d.ID_Doctor
@@ -1573,6 +1571,7 @@ UPDATE tbUsuarios SET imgUsuario = 'https://static.vecteezy.com/system/resources
 UPDATE tbUsuarios SET imgUsuario = 'https://superdoc.mx/wp-content/uploads/2023/05/doctora-1.png' WHERE ID_Usuario = 6;
 UPDATE tbUsuarios SET imgUsuario = 'https://png.pngtree.com/png-clipart/20230918/ourmid/pngtree-photo-men-doctor-physician-chest-smiling-png-image_10132895.png' WHERE ID_Usuario = 8;
 UPDATE tbUsuarios SET imgUsuario = 'https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg' WHERE ID_Usuario = 9;
+
 INSERT ALL
     INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('TOEWQ12', 'PRIMER2', 1, 1)
     INTO tbSeguros (carnetSeguro, poliza, ID_Aseguradora, ID_Usuario) VALUES ('ABCD1234', 'POLIZA1', 2, 2)
@@ -1585,7 +1584,7 @@ INSERT ALL
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, valoFinal, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
          VALUES ('Clínica Ginecologica', 235656, 'clinica_ginecologica@gmail.com', '2264-7856', '25 Av. Norte, Colonia Médica, San Salvador', 13.709362, -89.202990, '7589-4365', 0.0,'Esta sucursal no posee una fotografia', 1, 2)
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, valoFinal, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
-         VALUES ('Clínica Asistencial Salvadoreña', 675429, 'clinica_asistencial@gmail.com', '2256-6576', 'Calle Libertad y Avenida Independencia, Santa Ana', 13.714547, -89.192849, '5383-4365', 0.0,'Esta sucursal no tiene una fotografÃ­a', 5, 1)
+         VALUES ('Clínica Asistencial Salvadoreña', 675429, 'clinica_asistencial@gmail.com', '2256-6576', 'Calle Libertad y Avenida Independencia, Santa Ana', 13.714547, -89.192849, '5383-4365', 0.0,'Esta sucursal no tiene una fotografía', 5, 1)
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, valoFinal, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
          VALUES ('Hospital de Diagnostico', 990764, 'hospital_diagnostico@gmail.com', '2224-7887', '79 Av. Norte y 11 Calle Poniente, Colonia EscalÃ³n, San Salvador', 13.710252 , -89.202537, '7519-2335', 0.0,'Esta sucursal ha puesto una fotografÃ­a', 3, 1)
     INTO tbSucursales (nombreSucursal, codSucursal, emailSucur, telefonoSucur, direccionSucur, longSucur, latiSucur, whatsapp, valoFinal, imgSucursal, ID_Establecimiento, ID_TipoSucursal)
@@ -1726,20 +1725,19 @@ VALUES
 
 
 INSERT ALL
-    INTO tbReviews(numEstrellas, comentario, ID_Doctor, ID_Usuario)
+    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(5, 'Excelente Servicio!', 3, 5)
-    INTO tbReviews(numEstrellas, comentario, ID_Doctor, ID_Usuario)
-        VALUES(1, 'El doctor no se presento a mi cita', 1, 1)
-    INTO tbReviews(numEstrellas, comentario, ID_Doctor, ID_Usuario)
-        VALUES(4, 'Muy buen ambiente en esa clinica', 1, 2)
-    INTO tbReviews(numEstrellas, comentario, ID_Doctor, ID_Usuario)
-        VALUES(3, 'Bueno pero pudo ser mejor con el tiempo', 1, 4)
-    INTO tbReviews(numEstrellas, comentario, ID_Doctor, ID_Usuario)
-        VALUES(4, 'Excelente música', 1, 2)
-    INTO tbReviews(numEstrellas, comentario, ID_Doctor, ID_Usuario)
+    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
+        VALUES(1, 'El doctor no se presento a mi cita', 3, 1)
+    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
+        VALUES(4.5, 'Muy buen ambiente en esa clinica', 4, 2)
+    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
+        VALUES(3, 'Bueno pero pudo ser mejor con el tiempo', 3, 4)
+    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
+        VALUES(4, 'Excelente música', 3, 2)
+    INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(2, 'Mal Servicio', 1, 2)
 SELECT DUMMY FROM DUAL;
-
 
 INSERT ALL
     INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
@@ -1865,7 +1863,7 @@ SELECT * FROM TBDOCTORES;
 --CONSULTA INNERJOIN REVIEW--
 SELECT
     rv.comentario,
-    rv.numEstrellas,
+    rv.promEstrellas,
     u.nombreUsuario,
     u.apellidoUsuario,
     u.imgUsuario,
@@ -1986,8 +1984,8 @@ select * from tbPropietarios where id_usuario = (select id_usuario from tbUsuari
 /*drop table tbpacientes;
 drop table tbcentrosmedicos;*/
 
-SELECT 
-    NumEstrellas, 
+SELECT
+    promEstrellas,
     COUNT(*) AS cantidad_reviews
 FROM tbReviews
 WHERE ID_Doctor = 3

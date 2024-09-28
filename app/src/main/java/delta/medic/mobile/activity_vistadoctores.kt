@@ -125,9 +125,10 @@ WHERE
                             telefonoSucur = resultSet.getString("telefonoSucur"),
                             direccionSucur = resultSet.getString("direccionSucur"),
                             ID_Doctor = ID_Doctor
-
                         )
                         withContext(Dispatchers.Main) {
+                            latitud = doctorInfo.latiSucur
+                            longitud = doctorInfo.longSucur
                             nombreSucursal.text = doctorInfo.nombreSucursal
                             numeroClinica.text = doctorInfo.telefonoSucur
                             direccion_Clinica.text = doctorInfo.direccionSucur
@@ -244,14 +245,10 @@ WHERE
         val numeroWha = findViewById<TextView>(R.id.numeroWha)
         val txtRating = findViewById<TextView>(R.id.txtRating)
 
-        var latitud: Double = 0.0;
-        var longitud: Double = 0.0;
         var imgSucursal: String = "";
         var nombreUsuario: String = "";
         var apellidoUsuario: String = "";
         var imgUsuario: String = "";
-        var idUsuario: Int = 0;
-        var idSucursal = 0
 
         var ID_Doctor = intent.getIntExtra("ID_Doctor", 0)
         var DoctorExist: Boolean = true
@@ -265,13 +262,21 @@ WHERE
         }
 
         val rcvServicios = findViewById<RecyclerView>(R.id.rcvServicios)
-        rcvServicios.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        val txtNoServices = findViewById<TextView>(R.id.txtNoServices)
+        rcvServicios.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         CoroutineScope(Dispatchers.IO).launch {
             val centrosDB = obtenerDatos(ID_Doctor)
             withContext(Dispatchers.Main) {
-                val miAdapter = AdaptadorServicios(centrosDB)
-                rcvServicios.adapter = miAdapter
+                if (centrosDB.isEmpty()) {
+                    txtNoServices.visibility = View.VISIBLE
+                    rcvServicios.visibility = View.GONE
+                } else {
+                    txtNoServices.visibility = View.GONE
+                    rcvServicios.visibility = View.VISIBLE
+
+                    val miAdapter = AdaptadorServicios(centrosDB)
+                    rcvServicios.adapter = miAdapter
+                }
             }
         }
 
@@ -284,6 +289,7 @@ WHERE
             withContext(Dispatchers.Main) {
                 if (resultSet!!.next()) {
                     ID_User = resultSet.getInt("ID_Usuario")
+                    Log.e("ID_User", ID_User.toString())
                     nombreUser = resultSet.getString("nombreUsuario")
                     apellidoUser = resultSet.getString("apellidoUsuario")
                     imgUser = resultSet.getString("imgUsuario")
@@ -335,13 +341,6 @@ WHERE
             val resultSet = statement.executeQuery()
             withContext(Dispatchers.Main) {
                 if (resultSet.next()) {
-                    latitud = resultSet.getDouble("latiSucur")
-                    longitud = resultSet.getDouble("longSucur")
-                    Log.e("latitud", latitud.toString())
-                    Log.e("longitud", longitud.toString())
-                    nombreSucursal.text = resultSet.getString("nombreSucursal")
-                    numeroClinica.text = resultSet.getString("telefonoSucur")
-                    direccion_Clinica.text = resultSet.getString("direccionSucur")
                     imgSucursal = resultSet.getString("imgSucursal")
                     imgUsuario = resultSet.getString("imgUsuario")
                     Glide.with(imgDoctor)
@@ -353,12 +352,13 @@ WHERE
                         .into(img_clinic)
                     val wsp = resultSet.getString("whatsapp")
                     numeroWha.text = wsp
+                    Log.e("wsp", wsp)
                     val valoFinal = resultSet.getDouble("valoFinal")
                     txtRating.text = valoFinal.toString()
                     nombreUsuario = resultSet.getString("nombreUsuario")
                     apellidoUsuario = resultSet.getString("apellidoUsuario")
-                    idUsuario = resultSet.getInt("ID_Usuario")
                     ID_Sucursal = resultSet.getInt("ID_Sucursal")
+                    Log.e("ID_Sucursal", "$ID_Sucursal")
                     val nombreCompleto =
                         "Dr. ${nombreUsuario ?: ""} ${apellidoUsuario ?: ""}".trim()
                     nombreDoctor.text = nombreCompleto
@@ -422,8 +422,6 @@ WHERE
                 } else {
                     "F"
                 }
-                //println("Estado inicial toggleButton.isChecked: $isFav")
-                println("ID_Sucursal: $ID_Sucursal")
 
                 conexion?.prepareCall("{CALL PROC_ADMIN_FAVORITOS(?,?,?,?)}").use { callable ->
                     callable?.setString(1, userEmail)
@@ -446,8 +444,6 @@ WHERE
                 }
             }
         }
-
-
 
         adaptadorResenas = AdaptadorResenas(mutableListOf())
         fun insertResenas(resena: dataClassResena, lista: MutableList<dataClassResena>) {
@@ -490,108 +486,117 @@ WHERE
         }
 
         btnSubir.setOnClickListener {
-            if (txtReview.text.toString().isNotEmpty() && RatingBar.rating > 0) {
-                val nuevaResena = dataClassResena(
-                    txtReview.text.toString(),
-                    RatingBar.rating,
-                    nombreUser,
-                    apellidoUser,
-                    imgUser,
-                    ID_Doctor,
-                    ID_User
-                )
+            // Validar primero si el campo de texto de la reseña no está vacío
+            if (txtReview.text.toString().isNotEmpty()) {
+                // Si el campo de texto está lleno, validar el RatingBar
+                if (RatingBar.rating > 0f) {
+                    // Si ambas validaciones pasan, ejecutar el resto del código
+                    val nuevaResena = dataClassResena(
+                        txtReview.text.toString(),
+                        RatingBar.rating,
+                        nombreUser,
+                        apellidoUser,
+                        imgUser,
+                        ID_Doctor,
+                        ID_User
+                    )
 
-                // Obtener la lista de reseñas
-                val listaResenas = adaptadorResenas.obtenerLista()
-                insertResenas(nuevaResena, listaResenas)
+                    // Obtener la lista de reseñas
+                    val listaResenas = adaptadorResenas.obtenerLista()
+                    insertResenas(nuevaResena, listaResenas)
 
-                // Configurar el RecyclerView
-                rcvResenas.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+                    // Configurar el RecyclerView
+                    rcvResenas.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-                CoroutineScope(Dispatchers.IO).launch {
-                    val conexion = ClaseConexion().cadenaConexion()
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val conexion = ClaseConexion().cadenaConexion()
 
-                    try {
-                        // Insertar en tbReviews
-                        val insertReviewQuery = """
-                    INSERT INTO tbReviews (ID_Doctor, promEstrellas, comentario, ID_Usuario)
-                    VALUES (?, ?, ?, ?)
-                """
-                        conexion?.prepareStatement(insertReviewQuery).use { statement ->
-                            statement?.setInt(1, ID_Doctor)
-                            statement?.setDouble(2, RatingBar.rating.toDouble())
-                            statement?.setString(3, txtReview.text.toString())
-                            statement?.setInt(4, ID_User)
-                            statement?.executeUpdate()
-                        }
-
-                        // Obtener el ID de la sucursal asociada al doctor
-                        val obtenerSucursalQuery = """
-                    SELECT d.ID_Sucursal
-                    FROM tbDoctores d
-                    WHERE d.ID_Doctor = ?
-                """
-                        var idSucursal: Int? = null
-                        conexion?.prepareStatement(obtenerSucursalQuery).use { statement ->
-                            statement?.setInt(1, ID_Doctor)
-                            val resultSet = statement?.executeQuery()
-                            if (resultSet?.next() == true) {
-                                idSucursal = resultSet.getInt("ID_Sucursal")
+                        try {
+                            // Insertar en tbReviews
+                            val insertReviewQuery = """
+                        INSERT INTO tbReviews (ID_Doctor, promEstrellas, comentario, ID_Usuario)
+                        VALUES (?, ?, ?, ?)
+                    """
+                            conexion?.prepareStatement(insertReviewQuery).use { statement ->
+                                statement?.setInt(1, ID_Doctor)
+                                statement?.setDouble(2, RatingBar.rating.toDouble())
+                                statement?.setString(3, txtReview.text.toString())
+                                statement?.setInt(4, ID_User)
+                                statement?.executeUpdate()
                             }
-                        }
 
-                        // Recalcular el valoFinal llamando al procedimiento almacenado
-                        idSucursal?.let {
-                            conexion?.prepareCall("{CALL actualizar_valoFinal_sucursal(?)}").use { callable ->
-                                callable?.setInt(1, it)
-                                callable?.executeUpdate()
-                            }
-                        }
-
-                        // Obtener el valoFinal recalculado
-                        var valoFinalActualizado: Double? = null
-                        idSucursal?.let {
-                            val queryValoFinal = "SELECT valoFinal FROM tbSucursales WHERE ID_Sucursal = ?"
-                            conexion?.prepareStatement(queryValoFinal).use { statement ->
-                                statement?.setInt(1, it)
+                            // Obtener la sucursal asociada al doctor
+                            val obtenerSucursalQuery = """
+                        SELECT d.ID_Sucursal
+                        FROM tbDoctores d
+                        WHERE d.ID_Doctor = ?
+                    """
+                            var idSucursal: Int? = null
+                            conexion?.prepareStatement(obtenerSucursalQuery).use { statement ->
+                                statement?.setInt(1, ID_Doctor)
                                 val resultSet = statement?.executeQuery()
                                 if (resultSet?.next() == true) {
-                                    valoFinalActualizado = resultSet.getDouble("valoFinal")
+                                    idSucursal = resultSet.getInt("ID_Sucursal")
                                 }
                             }
-                        }
 
-                        // Cargar las reseñas después de insertar
-                        val review = obtenerDatosReviews(ID_Doctor)
-
-                        withContext(Dispatchers.Main) {
-                            // Actualizar la UI con el valoFinal recalculado
-                            valoFinalActualizado?.let {
-                                txtRating.text = it.toString() // Actualiza el TextView del valoFinal
+                            // Recalcular el valoFinal llamando al procedimiento almacenado
+                            idSucursal?.let {
+                                conexion?.prepareCall("{CALL actualizar_valoFinal_sucursal(?)}").use { callable ->
+                                    callable?.setInt(1, it)
+                                    callable?.executeUpdate()
+                                }
                             }
 
-                            // Mostrar las reseñas
-                            if (review.isNullOrEmpty()) {
-                                textViewError.visibility = View.VISIBLE
-                                rcvResenas.visibility = View.GONE
-                            } else {
-                                textViewError.visibility = View.GONE
-                                val miAdapter = AdaptadorResenas(review)
-                                rcvResenas.adapter = miAdapter
-                                rcvResenas.visibility = View.VISIBLE
+                            // Obtener el valoFinal recalculado
+                            var valoFinalActualizado: Double? = null
+                            idSucursal?.let {
+                                val queryValoFinal = "SELECT valoFinal FROM tbSucursales WHERE ID_Sucursal = ?"
+                                conexion?.prepareStatement(queryValoFinal).use { statement ->
+                                    statement?.setInt(1, it)
+                                    val resultSet = statement?.executeQuery()
+                                    if (resultSet?.next() == true) {
+                                        valoFinalActualizado = resultSet.getDouble("valoFinal")
+                                    }
+                                }
                             }
+
+                            // Cargar las reseñas después de insertar
+                            val review = obtenerDatosReviews(ID_Doctor)
+
+                            withContext(Dispatchers.Main) {
+                                // Actualizar la UI con el valoFinal recalculado
+                                valoFinalActualizado?.let {
+                                    txtRating.text = it.toString() // Actualiza el TextView del valoFinal
+                                }
+
+                                // Mostrar las reseñas
+                                if (review.isNullOrEmpty()) {
+                                    textViewError.visibility = View.VISIBLE
+                                    rcvResenas.visibility = View.GONE
+                                } else {
+                                    textViewError.visibility = View.GONE
+                                    val miAdapter = AdaptadorResenas(review)
+                                    rcvResenas.adapter = miAdapter
+                                    rcvResenas.visibility = View.VISIBLE
+                                }
+                            }
+                        } catch (e: Exception) {
+                            withContext(Dispatchers.Main) {
+                                // Manejar el error
+                                Log.e("Error", "Error al insertar la reseña o recalcular el valoFinal", e)
+                            }
+                        } finally {
+                            conexion?.close()
                         }
-                    } catch (e: Exception) {
-                        withContext(Dispatchers.Main) {
-                            // Manejar el error
-                            Log.e("Error", "Error al insertar la reseña o recalcular el valoFinal", e)
-                        }
-                    } finally {
-                        conexion?.close()
                     }
+                } else {
+                    // Si el RatingBar tiene valor 0, mostrar mensaje de error
+                    Toast.makeText(this, "Seleccione una calificación con las estrellas.", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                Toast.makeText(this, "Por favor, llena lo necesario.", Toast.LENGTH_LONG).show()
+                // Si el campo de texto está vacío, mostrar mensaje de error
+                txtReview.error = "Ingrese una reseña"
             }
         }
 
@@ -722,10 +727,14 @@ WHERE
     ///////////////////////////////Funcion del mapa para ubicación//////////////////////////////////////
     override fun onMapReady(googleMap: GoogleMap) {
         this.googleMap = googleMap
-        println("$latitud y $longitud")
-        val location = LatLng(latitud, longitud)
-        this.googleMap.addMarker(MarkerOptions().position(location).title("Ubicación del doctor"))
-        this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
+        if (latitud != 0.0 && longitud != 0.0) {
+            print("$latitud Y $longitud")
+            val location = LatLng(longitud, latitud)
+            googleMap.addMarker(MarkerOptions().position(location).title("Ubicación de Sucursal"))
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
+        } else {
+            Log.e("Map", "Latitud y longitud son cero")
+        }
     }
 
     override fun onResume() {
