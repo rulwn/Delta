@@ -75,13 +75,13 @@ class activity_busqueda_rapida_mujer : AppCompatActivity() {
         val btnLeftLeg = findViewById<Button>(R.id.btnLeftLeg)
         val btnRightLeg = findViewById<Button>(R.id.btnRightLeg)
 
-        btnHead.setOnClickListener { showSpecialties("Cabeza", listOf("Neurología", "Otorrinolaringología", "Cirugía Plástica")) }
-        btnChest.setOnClickListener { showSpecialties("Pecho", listOf("Cardiología", "Cirugía Torácica", "Neumología")) }
-        btnAbdomen.setOnClickListener { showSpecialties("Abdomen", listOf("Gastroenterología", "Cirugía General", "Ginecología")) }
-        btnLeftHand.setOnClickListener { showSpecialties("Brazo Izquierdo", listOf("Traumatología", "Cirugía de Mano", "Rehabilitación")) }
-        btnRightHand.setOnClickListener { showSpecialties("Brazo Derecho", listOf("Traumatología", "Cirugía de Mano", "Rehabilitación")) }
-        btnLeftLeg.setOnClickListener { showSpecialties("Piernas", listOf("Ortopedia", "Cirugía Vascular", "Fisioterapia")) }
-        btnRightLeg.setOnClickListener { showSpecialties("Piernas", listOf("Ortopedia", "Cirugía Vascular", "Fisioterapia")) }
+        btnHead.setOnClickListener { showSpecialties("Cabeza", listOf("Neurología", "Otorrinolaringología", "Dermatologia")) }
+        btnChest.setOnClickListener { showSpecialties("Pecho", listOf("Cardiología", "Mastologo", "Neumología", "Cardiología")) }
+        btnAbdomen.setOnClickListener { showSpecialties("Abdomen", listOf("Gastroenterología", "Nefrólogo ", "Ginecología")) }
+        btnLeftHand.setOnClickListener { showSpecialties("Brazo Izquierdo", listOf("Traumatología", "Reumatologia ", "Rehabilitación")) }
+        btnRightHand.setOnClickListener { showSpecialties("Brazo Derecho", listOf("Traumatología", "Reumatologia ", "Rehabilitación")) }
+        btnLeftLeg.setOnClickListener { showSpecialties("Piernas", listOf("Ortopedia", "Podologia ", "Fisioterapia")) }
+        btnRightLeg.setOnClickListener { showSpecialties("Piernas", listOf("Ortopedia", "Podologia", "Fisioterapia")) }
     }
 
     private fun showSpecialties(bodyArea: String, specialties: List<String>) {
