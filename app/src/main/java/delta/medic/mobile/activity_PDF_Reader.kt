@@ -37,7 +37,7 @@ class activity_PDF_Reader : AppCompatActivity() {
 
         //val PDF = intent.getStringExtra("pdfReceta")!!
         // URL del PDF
-        val PDF = "https://www.orimi.com/pdf-test.pdf"
+        val PDF = "https://www.adobe.com/support/products/enterprise/knowledgecenter/media/c4611_sample_explain.pdf"
         val pdfUrl = PDF
 
         // Extraer el nombre del archivo desde la URL

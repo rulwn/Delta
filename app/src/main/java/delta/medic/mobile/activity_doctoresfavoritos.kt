@@ -3,15 +3,12 @@ package delta.medic.mobile
 import Modelo.ClaseConexion
 import Modelo.dataClassFavoritos
 import RecycleViewHelper.AdaptadorFavoritos
-import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
-import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
@@ -87,22 +84,39 @@ withContext(Dispatchers.IO) {
 
             // Preparar la consulta
             val statement = conexion?.prepareStatement(
-                """SELECT
-                    u.ID_Usuario,
-                    u.nombreUsuario,
-                    u.imgUsuario,
-                    d.ID_Doctor,
-                    s.ID_Sucursal,
-                    s.imgSucursal,
-                    e.nombreEspecialidad
-                    FROM
-                    tbFavoritos f
-                    INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor
-                    INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal
-                    INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario
-                    INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
-                    WHERE
-                    f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?)"""
+                """
+WITH SucursalesFiltradas AS (
+    SELECT
+        f.ID_Doctor,
+        u.ID_Usuario,
+        u.nombreUsuario,
+        u.imgUsuario,
+        s.ID_Sucursal,
+        s.imgSucursal,
+        e.nombreEspecialidad,
+        ROW_NUMBER() OVER (PARTITION BY f.ID_Doctor ORDER BY s.ID_Sucursal) AS rn
+    FROM
+        tbFavoritos f
+    INNER JOIN tbDoctores d ON d.ID_Doctor = f.ID_Doctor
+    INNER JOIN tbSucursales s ON s.ID_Sucursal = f.ID_Sucursal
+    INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario
+    INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+    WHERE
+        f.ID_Usuario = (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?)
+)
+    SELECT
+        ID_Usuario,
+        nombreUsuario,
+        imgUsuario,
+        ID_Doctor,
+        ID_Sucursal,
+        imgSucursal,
+        nombreEspecialidad
+    FROM
+        SucursalesFiltradas
+    WHERE
+        rn = 1
+                """.trimIndent()
             )
 
     // Establecer el parámetro

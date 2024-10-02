@@ -148,7 +148,6 @@ class activity_agendar : AppCompatActivity() {
             )
             statement?.setInt(1, ID_Doctor)
             val resultSet = statement?.executeQuery()
-
             var horaTurno: String? = null
             if (resultSet?.next() == true) {
                 horaTurno = resultSet.getString("horarioTurno")
@@ -185,8 +184,8 @@ class activity_agendar : AppCompatActivity() {
                     rcvEspacios.layoutManager = GridLayoutManager(this@activity_agendar, 3)
                     rcvEspacios.adapter = AdaptadorHorarios(horariosDisponibles, horarioMatutino) { hora ->
                         Log.d("Seleccionar Hora", "Hora seleccionada: $hora")
-                    horaSeleccionada = hora
-                }
+                        horaSeleccionada = hora
+                    }
                 }
             }
         }
@@ -245,72 +244,73 @@ WHERE
                     nombreEspecialidad = resultSet.getString("nombreEspecialidad")
                     txtEspecialidad.text = nombreEspecialidad
                 } else {
-                Log.e("Info", "No se encontraron resultados para el ID_Doctor: $ID_Doctor")                }
+                    Log.e("Info", "No se encontraron resultados para el ID_Doctor: $ID_Doctor")                }
             }
         }
-            val txtMotivo = findViewById<TextView>(R.id.txtMotivo) // Asegúrate de que el ID es correcto
-            val lbAgendarCita = findViewById<TextView>(R.id.lbAgendarCita)
-            lbAgendarCita.setText(Html.fromHtml(getResources().getString(R.string.subrayado)))
-            val cardDoctor = findViewById<CardView>(R.id.linearCard)
-            val linearNoDoctor = findViewById<LinearLayout>(R.id.linearNoDoctor)
-            val txtSucu = findViewById<TextView>(R.id.txtSucu)
-            val txtdispo = findViewById<TextView>(R.id.txtdispo)
-            val txtespacios = findViewById<TextView>(R.id.txtespacios)
-            val grid = findViewById<GridLayout>(R.id.grid)
-            val textMoti = findViewById<TextView>(R.id.textMoti)
-            val doctorExists = checkIfDoctorExists()
+        val txtMotivo = findViewById<TextView>(R.id.txtMotivo) // Asegúrate de que el ID es correcto
+        val lbAgendarCita = findViewById<TextView>(R.id.lbAgendarCita)
+        lbAgendarCita.setText(Html.fromHtml(getResources().getString(R.string.subrayado)))
+        val cardDoctor = findViewById<CardView>(R.id.linearCard)
+        val linearNoDoctor = findViewById<LinearLayout>(R.id.linearNoDoctor)
+        val txtSucu = findViewById<TextView>(R.id.txtSucu)
+        val txtdispo = findViewById<TextView>(R.id.txtdispo)
+        val txtespacios = findViewById<TextView>(R.id.txtespacios)
+        val grid = findViewById<GridLayout>(R.id.grid)
+        val textMoti = findViewById<TextView>(R.id.textMoti)
+        txtPressHere.setText(Html.fromHtml(getResources().getString(R.string.txtPressHere)))
+        val doctorExists = checkIfDoctorExists()
 
-            if (doctorExists) {
-                linearNoDoctor.visibility = View.GONE
-                cardDoctor.visibility = View.VISIBLE
-            } else {
-                linearNoDoctor.visibility = View.VISIBLE
-                cardDoctor.visibility = View.GONE
-                rcvDisponibilidad.visibility = View.GONE
-                txtSucu.visibility = View.GONE
-                cardDoctor.visibility = View.GONE
-                txtdispo.visibility = View.GONE
-                rcvDisponibilidad.visibility = View.GONE
-                txtFecha.visibility = View.GONE
-                txtespacios.visibility = View.GONE
-                grid.visibility = View.GONE
-                textMoti.visibility = View.GONE
-                txtMotivo.visibility = View.GONE
-                btnContinuar.visibility = View.GONE
+        if (doctorExists) {
+            linearNoDoctor.visibility = View.GONE
+            cardDoctor.visibility = View.VISIBLE
+        } else {
+            linearNoDoctor.visibility = View.VISIBLE
+            cardDoctor.visibility = View.GONE
+            rcvDisponibilidad.visibility = View.GONE
+            txtSucu.visibility = View.GONE
+            cardDoctor.visibility = View.GONE
+            txtdispo.visibility = View.GONE
+            rcvDisponibilidad.visibility = View.GONE
+            txtFecha.visibility = View.GONE
+            txtespacios.visibility = View.GONE
+            grid.visibility = View.GONE
+            textMoti.visibility = View.GONE
+            txtMotivo.visibility = View.GONE
+            btnContinuar.visibility = View.GONE
+        }
+
+        btnRegresar.setOnClickListener {
+            finish()
+        }
+
+        btnContinuar.setOnClickListener {
+            if (txtMotivo.text.toString().isEmpty()){
+                txtMotivo.error = "Por favor, escribe un motivo."
             }
-
-            btnRegresar.setOnClickListener {
-                finish()
-            }
-
-            btnContinuar.setOnClickListener {
-                if (txtMotivo.text.toString().isEmpty()){
-                    txtMotivo.error = "Por favor, escribe un motivo."
+            else {
+                if (horaSeleccionada != null && diaSeleccionado != null) {
+                    showCustomDialog()
                 }
                 else {
-                    if (horaSeleccionada != null && diaSeleccionado != null) {
-                    showCustomDialog()
-                    }
-                    else {
-                        Toast.makeText(this, "Por favor, selecciona una hora y un día.", Toast.LENGTH_SHORT).show()
-                    }
+                    Toast.makeText(this, "Por favor, selecciona una hora y un día.", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
 
         txtPressHere.setOnClickListener {
-                val intent = Intent(this, activity_busqueda::class.java)
-                startActivity(intent)
-            }
+            val intent = Intent(this, activity_busqueda::class.java)
+            startActivity(intent)
         }
+    }
 
-        private fun checkIfDoctorExists(): Boolean {
-            val DoctorExist = intent.getBooleanExtra("DoctorExist", false)
-            return DoctorExist
-        }
+    private fun checkIfDoctorExists(): Boolean {
+        val DoctorExist = intent.getBooleanExtra("DoctorExist", false)
+        return DoctorExist
+    }
 
-        private fun actualizarHorarios(dia: LocalDate?) {
-            Log.e("Info", "Actualizando horarios para el día: ${dia}")
-        }
+    private fun actualizarHorarios(dia: LocalDate?) {
+        Log.e("Info", "Actualizando horarios para el día: ${dia}")
+    }
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -417,10 +417,10 @@ WHERE
     }
 /////////////////
 
-        @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-        fun obtenerDiasDelAno(ano: Int): List<Dia> {
-            val hoy = LocalDate.now()
-            val ultimoDia = LocalDate.of(ano, 12, 31)
-            return hoy.datesUntil(ultimoDia.plusDays(1)).map { Dia(it) }.toList()
-        }
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+    fun obtenerDiasDelAno(ano: Int): List<Dia> {
+        val hoy = LocalDate.now()
+        val ultimoDia = LocalDate.of(ano, 12, 31)
+        return hoy.datesUntil(ultimoDia.plusDays(1)).map { Dia(it) }.toList()
     }
+}
