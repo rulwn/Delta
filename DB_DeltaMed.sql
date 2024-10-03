@@ -264,7 +264,7 @@ END;
 
 /*******************************************************************************
 
-    ~ ELIMINACIÃ“N DE SECUENCIAS EXISTENTES ~
+    ~ ELIMINACIÓN DE SECUENCIAS EXISTENTES ~
 
 *******************************************************************************/
 --Este procedimiento PL/SQL ejecuta el comando DROP SEQCUENCE, pero si ocurre un error
@@ -1712,7 +1712,7 @@ INSERT ALL
     INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
         VALUES (4,1,5)
     INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
-        VALUES (1,2,2)
+        VALUES (2,1,2)
 SELECT DUMMY FROM DUAL;
 
 
@@ -1983,3 +1983,51 @@ select * from tbHorarios;
 select * from tbPropietarios where id_usuario = (select id_usuario from tbUsuarios where emailusuario = 'fran@gmail.com');
 /*drop table tbpacientes;
 drop table tbcentrosmedicos;*/
+
+WITH estrellas AS (
+    SELECT LEVEL AS PromEstrellas
+    FROM DUAL
+    CONNECT BY LEVEL <= 5
+)
+SELECT 
+    e.PromEstrellas,
+    NVL(r.cantidad_reviews, 0) AS cantidad_reviews
+FROM estrellas e
+LEFT JOIN (
+    SELECT r.promEstrellas, COUNT(*) AS cantidad_reviews
+    FROM tbReviews r
+    INNER JOIN tbDoctores d ON r.ID_Doctor = d.ID_Doctor
+    INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario
+    WHERE u.emailUsuario = 'xam@gmail.com'
+    GROUP BY r.promEstrellas
+) r ON e.PromEstrellas = r.PromEstrellas
+ORDER BY e.PromEstrellas;
+
+WITH Meses AS (
+    -- Genera 12 meses (5 hacia atrás y 6 hacia adelante incluyendo el actual)
+    SELECT ADD_MONTHS(TRUNC(SYSDATE, 'MM'), LEVEL - 6) AS Mes
+    FROM DUAL
+    CONNECT BY LEVEL <= 12
+)
+SELECT 
+    TO_CHAR(m.Mes, 'YYYY-MM') AS AñoMes,                     -- Año y mes en formato Año-Mes
+    TO_CHAR(m.Mes, 'Month YYYY', 'NLS_DATE_LANGUAGE=SPANISH') AS NombreMes, -- Nombre del mes con año
+    NVL(COUNT(c.ID_Cita), 0) AS Total_Citas,                 -- Total de citas
+    NVL(SUM(CASE WHEN c.estadoCita = 'A' THEN 1 ELSE 0 END), 0) AS Citas_Activas, -- Citas activas
+    NVL(SUM(CASE WHEN c.estadoCita = 'C' THEN 1 ELSE 0 END), 0) AS Citas_Inactivas -- Citas inactivas
+FROM 
+    Meses m
+LEFT JOIN 
+    tbCitasMedicas c 
+ON 
+    TO_CHAR(c.diaCita, 'YYYY-MM') = TO_CHAR(m.Mes, 'YYYY-MM')
+LEFT JOIN 
+    tbDoctores d ON c.ID_Doctor = d.ID_Doctor
+LEFT JOIN 
+    tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
+WHERE 
+    u.emailUsuario = 'xam@gmail.com'  -- Filtra por el correo electrónico del usuario
+GROUP BY 
+    m.Mes
+ORDER BY 
+    m.Mes;
