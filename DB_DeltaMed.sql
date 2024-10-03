@@ -1379,11 +1379,13 @@ END;
 ~ PROCEDURE PARA REVIEWS ~
 
 *************************************************************************************************/
+Exec actualizar_valoFinal_sucursal(1);
+Select * from tbSucursales Where ID_Sucursal = 1;
 CREATE OR REPLACE PROCEDURE actualizar_valoFinal_sucursal(p_id_sucursal INT) IS
     v_promedio_estrellas NUMBER(5,2);
 BEGIN
     -- Calcular el promedio de estrellas para la sucursal
-    SELECT AVG(r.promEstrellas)
+    SELECT NVL(AVG(r.promEstrellas),0.0)
     INTO v_promedio_estrellas
     FROM tbReviews r
     INNER JOIN tbDoctores d ON r.ID_Doctor = d.ID_Doctor
@@ -2024,7 +2026,7 @@ ON
 LEFT JOIN 
     tbDoctores d ON c.ID_Doctor = d.ID_Doctor
 LEFT JOIN 
-    tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
+    tbUsuarios u ON d.ID_Usuario = u.ID_Usuario group by TO_CHAR(m.Mes, 'YYYY-MM'), TO_CHAR(m.Mes, 'Month YYYY', 'NLS_DATE_LANGUAGE=SPANISH')
 WHERE 
     u.emailUsuario = 'xam@gmail.com'  -- Filtra por el correo electrónico del usuario
 GROUP BY 
