@@ -576,20 +576,22 @@ CREATE TABLE tbUsuarios (
     fechaNacimiento VARCHAR2(10) NOT NULL,
     imgUsuario VARCHAR2(250),
     ID_TipoUsuario INT NOT NULL,
-
+    
     --CONSTRAINTS------------------
     CONSTRAINT FK_TipoUsuario FOREIGN KEY (ID_TipoUsuario)
     REFERENCES tbTipoUsuarios(ID_TipoUsuario)
     ON DELETE CASCADE
 );
 
+select * from tbUsuarios;
+
 create table tbPropietarios(
 id_usuario int,
 id_Establecimiento int
 );
-
-alter table tbPropietarios add constraint FKPrimera foreign key (id_usuario) references tbUsuarios(id_usuario);
-alter table tbPropietarios add constraint FKSegunda foreign key (id_establecimiento) references tbEstablecimientos(id_establecimiento);
+select * from tbpropietarios;
+alter table tbPropietarios add constraint FKPrimera foreign key (id_usuario) references tbUsuarios(id_usuario) ON DELETE CASCADE;
+alter table tbPropietarios add constraint FKSegunda foreign key (id_establecimiento) references tbEstablecimientos(id_establecimiento) ON DELETE CASCADE;
 
 
 CREATE TABLE tbSeguros (
@@ -852,6 +854,20 @@ CREATE TABLE tbFichasMedicas (
     REFERENCES tbCitasMedicas(ID_Cita)
     ON DELETE CASCADE
 );
+
+select * from tbFichasmedicas;
+
+DECLARE
+  v_id_receta NUMBER;  -- Declaramos una variable para almacenar el valor retornado
+BEGIN
+  INSERT INTO tbRecetas(fechaReceta, ubicacionPDF)
+  VALUES (TO_DATE('2024-09-01', 'YYYY-MM-DD'), 'DADAD')
+  RETURNING ID_RECETA INTO v_id_receta;  -- Guardamos el valor retornado en la variable
+  DBMS_OUTPUT.PUT_LINE('ID de la receta: ' || v_id_receta);
+END;
+/
+
+SELECT * FROM TBRECETAS;
 
 /*************************************************************************************************
 
@@ -1730,7 +1746,7 @@ INSERT ALL
     INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(1, 'El doctor no se presento a mi cita', 3, 1)
     INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
-        VALUES(4.5, 'Muy buen ambiente en esa clinica', 4, 2)
+        VALUES(4, 'Muy buen ambiente en esa clinica', 4, 2)
     INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(3, 'Bueno pero pudo ser mejor con el tiempo', 3, 4)
     INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
@@ -1743,7 +1759,7 @@ INSERT ALL
     INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
         VALUES(1, 1)
     INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
-        VALUES(3, 3)
+        VALUES(2, 3)
     INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
         VALUES(5, 4)
     INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
@@ -1890,6 +1906,8 @@ select * from tbRecientes;
 select * from tbPropietarios;
 select * from tbCitasMedicas;
 select * from tbEstablecimientos;
+select * from tbExpedientes;
+desc tbExpedientes;
 
 SELECT
 u.ID_Usuario,
@@ -1982,4 +2000,3 @@ SELECT * FROM tbExpedientes WHERE ID_Usuario = 1;
 select * from tbHorarios;
 select * from tbPropietarios where id_usuario = (select id_usuario from tbUsuarios where emailusuario = 'fran@gmail.com');
 /*drop table tbpacientes;
-drop table tbcentrosmedicos;*/
