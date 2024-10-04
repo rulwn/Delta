@@ -34,10 +34,14 @@
         android:theme="@style/Theme.DeltaMedic"
         tools:targetApi="31">
         <activity
+            android:name=".activity_carga_vista"
+            android:exported="false" />
+        <activity
             android:name=".item_recetasPDF"
             android:exported="false" />
-        <activity android:name =".activity_PDF_Reader"
-            android:exported="false"/>
+        <activity
+            android:name=".activity_PDF_Reader"
+            android:exported="false" />
         <activity
             android:name=".item_dia"
             android:exported="false" />
@@ -47,11 +51,11 @@
         <activity
             android:name=".activity_seguro_paciente"
             android:exported="false"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"/>
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_pacientes"
             android:exported="false"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"/>
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".activity_busqueda_rapida_hombre"
             android:exported="false"
@@ -125,8 +129,8 @@
         <activity
             android:name=".activity_vistadoctores"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity_editarperfil"
             android:exported="false"
@@ -142,8 +146,8 @@
         <activity
             android:name=".activity_agendar"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity_register4"
             android:exported="true"
@@ -179,6 +183,7 @@
             android:resource="@array/preloaded_fonts" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/googleMapsApiKey"/>
+            android:value="@string/googleMapsApiKey" />
     </application>
+
 </manifest>

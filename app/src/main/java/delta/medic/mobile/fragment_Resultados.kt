@@ -3,23 +3,21 @@ package delta.medic.mobile
 import Modelo.ClaseConexion
 import Modelo.dataClassCentro
 import RecycleViewHelper.AdaptadorCentro
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import android.util.Log
-import android.widget.EditText
-import android.widget.TextView
-import delta.medic.mobile.activity_login.UserData.userEmail
 
 class fragment_Resultados : Fragment() {
 
@@ -59,6 +57,7 @@ class fragment_Resultados : Fragment() {
         return root
     }
 
+
     private suspend fun obtenerDatos(nombreUsuario: String, apellidoUsuario: String, nombreEspecialidad: String): List<dataClassCentro> {
         val objConexion = ClaseConexion().cadenaConexion()!!
         val centroMedico = mutableListOf<dataClassCentro>()
@@ -68,7 +67,8 @@ class fragment_Resultados : Fragment() {
                 val busqueda = objConexion.prepareStatement("""
     SELECT 
     d.ID_Doctor,
-    (SELECT ID_Usuario FROM tbUsuarios WHERE emailUsuario = ?) AS ID_Usuario,
+    u.ID_Usuario,
+    u.emailUsuario,
     u.nombreUsuario, 
     u.apellidoUsuario, 
     u.imgUsuario, 
@@ -97,14 +97,15 @@ WHERE
 AND
     u.ID_TipoUsuario = 2
 """)
-                busqueda.setString(1, userEmail)
-                busqueda.setString(2, "%${nombreUsuario}%")
-                busqueda.setString(3, "%${apellidoUsuario}%")
-                busqueda.setString(4, "%${nombreEspecialidad}%")
+                busqueda.setString(1, "%${nombreUsuario}%")
+                busqueda.setString(2, "%${apellidoUsuario}%")
+                busqueda.setString(3, "%${nombreEspecialidad}%")
 
                 val resultSet = busqueda.executeQuery()
                 while (resultSet.next()) {
                     val ID_Doctor = resultSet.getInt("ID_Doctor")
+                    val ID_Usuario = resultSet.getInt("ID_Usuario")
+                    val emailUsuario = resultSet.getString("emailUsuario")
                     val nombreUsuario = resultSet.getString("nombreUsuario")
                     val apellidoUsuario = resultSet.getString("apellidoUsuario")
                     val imgUsuario = resultSet.getString("imgUsuario")
@@ -115,16 +116,17 @@ AND
                     val longSucur = resultSet.getDouble("longSucur")
                     val latiSucur = resultSet.getDouble("latiSucur")
                     val imgSucursal = resultSet.getString("imgSucursal")
-                    val ID_Usuario = resultSet.getInt("ID_Usuario")
                     val ID_Sucursal = resultSet.getInt("ID_Sucursal")
 
                     val valoresJuntos = dataClassCentro(
-                        ID_Doctor, ID_Usuario, ID_Sucursal, nombreUsuario, apellidoUsuario, imgUsuario,
+                        ID_Doctor, ID_Usuario, emailUsuario, ID_Sucursal, nombreUsuario, apellidoUsuario, imgUsuario,
                         nombreEspecialidad, nombreSucursal, telefonoSucur, direccionSucur,
                         longSucur, latiSucur, imgSucursal
                     )
 
                     centroMedico.add(valoresJuntos)
+
+                    Log.e("valoresJuntos", valoresJuntos.toString())
                 }
             } catch (e: Exception) {
                 Log.e("obtenerDatos", "Error al obtener datos: ${e.message}")

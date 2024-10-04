@@ -1445,6 +1445,34 @@ end insertarHorarios;
 
 /*************************************************************************************************
 
+~ PROCEDURE PARA DELETE FAVORITOS ~
+
+*************************************************************************************************/
+
+CREATE OR REPLACE PROCEDURE PROC_DELT_FAVORITOS(
+    var_email IN tbUsuarios.EmailUsuario%TYPE,
+    var_ID_Doctor IN tbDoctores.ID_Doctor%TYPE,
+    var_ID_Sucursal IN tbSucursales.ID_Sucursal%TYPE
+)
+IS
+    var_ID_Usuario tbUsuarios.ID_Usuario%TYPE;
+BEGIN
+    SELECT u.ID_Usuario INTO var_ID_Usuario
+    FROM tbUsuarios u
+    WHERE u.EmailUsuario = var_email;
+
+
+    DELETE FROM tbFavoritos
+    WHERE ID_Usuario = var_ID_Usuario
+    AND ID_Sucursal = var_ID_Sucursal
+    AND ID_Doctor = var_ID_Doctor;
+
+    COMMIT WORK;
+END PROC_DELT_FAVORITOS;
+/
+
+/*************************************************************************************************
+
 ~ INSERTS A CADA TABLA ~
 
 *************************************************************************************************/
@@ -2033,3 +2061,4 @@ GROUP BY
     m.Mes
 ORDER BY 
     m.Mes;
+    
