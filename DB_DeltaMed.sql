@@ -587,9 +587,9 @@ create table tbPropietarios(
 id_usuario int,
 id_Establecimiento int
 );
-
-alter table tbPropietarios add constraint FKPrimera foreign key (id_usuario) references tbUsuarios(id_usuario);
-alter table tbPropietarios add constraint FKSegunda foreign key (id_establecimiento) references tbEstablecimientos(id_establecimiento);
+select * from tbpropietarios;
+alter table tbPropietarios add constraint FKPrimera foreign key (id_usuario) references tbUsuarios(id_usuario) ON DELETE CASCADE;
+alter table tbPropietarios add constraint FKSegunda foreign key (id_establecimiento) references tbEstablecimientos(id_establecimiento) ON DELETE CASCADE;
 
 
 CREATE TABLE tbSeguros (
@@ -1379,13 +1379,11 @@ END;
 ~ PROCEDURE PARA REVIEWS ~
 
 *************************************************************************************************/
-Exec actualizar_valoFinal_sucursal(1);
-Select * from tbSucursales Where ID_Sucursal = 1;
 CREATE OR REPLACE PROCEDURE actualizar_valoFinal_sucursal(p_id_sucursal INT) IS
     v_promedio_estrellas NUMBER(5,2);
 BEGIN
     -- Calcular el promedio de estrellas para la sucursal
-    SELECT NVL(AVG(r.promEstrellas),0.0)
+    SELECT AVG(r.promEstrellas)
     INTO v_promedio_estrellas
     FROM tbReviews r
     INNER JOIN tbDoctores d ON r.ID_Doctor = d.ID_Doctor
@@ -1441,34 +1439,6 @@ as
 begin
 insert into tbHorarios values(horarios.NEXTVAL, Turno, Doctor);
 end insertarHorarios;
-/
-
-/*************************************************************************************************
-
-~ PROCEDURE PARA DELETE FAVORITOS ~
-
-*************************************************************************************************/
-
-CREATE OR REPLACE PROCEDURE PROC_DELT_FAVORITOS(
-    var_email IN tbUsuarios.EmailUsuario%TYPE,
-    var_ID_Doctor IN tbDoctores.ID_Doctor%TYPE,
-    var_ID_Sucursal IN tbSucursales.ID_Sucursal%TYPE
-)
-IS
-    var_ID_Usuario tbUsuarios.ID_Usuario%TYPE;
-BEGIN
-    SELECT u.ID_Usuario INTO var_ID_Usuario
-    FROM tbUsuarios u
-    WHERE u.EmailUsuario = var_email;
-
-
-    DELETE FROM tbFavoritos
-    WHERE ID_Usuario = var_ID_Usuario
-    AND ID_Sucursal = var_ID_Sucursal
-    AND ID_Doctor = var_ID_Doctor;
-
-    COMMIT WORK;
-END PROC_DELT_FAVORITOS;
 /
 
 /*************************************************************************************************
@@ -1742,7 +1712,7 @@ INSERT ALL
     INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
         VALUES (4,1,5)
     INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
-        VALUES (2,1,2)
+        VALUES (1,2,2)
 SELECT DUMMY FROM DUAL;
 
 
@@ -1773,7 +1743,7 @@ INSERT ALL
     INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
         VALUES(1, 1)
     INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
-        VALUES(3, 3)
+        VALUES(2, 3)
     INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
         VALUES(5, 4)
     INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
@@ -2014,51 +1984,5 @@ select * from tbPropietarios where id_usuario = (select id_usuario from tbUsuari
 /*drop table tbpacientes;
 drop table tbcentrosmedicos;*/
 
-WITH estrellas AS (
-    SELECT LEVEL AS PromEstrellas
-    FROM DUAL
-    CONNECT BY LEVEL <= 5
-)
-SELECT 
-    e.PromEstrellas,
-    NVL(r.cantidad_reviews, 0) AS cantidad_reviews
-FROM estrellas e
-LEFT JOIN (
-    SELECT r.promEstrellas, COUNT(*) AS cantidad_reviews
-    FROM tbReviews r
-    INNER JOIN tbDoctores d ON r.ID_Doctor = d.ID_Doctor
-    INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario
-    WHERE u.emailUsuario = 'xam@gmail.com'
-    GROUP BY r.promEstrellas
-) r ON e.PromEstrellas = r.PromEstrellas
-ORDER BY e.PromEstrellas;
 
-WITH Meses AS (
-    -- Genera 12 meses (5 hacia atrás y 6 hacia adelante incluyendo el actual)
-    SELECT ADD_MONTHS(TRUNC(SYSDATE, 'MM'), LEVEL - 6) AS Mes
-    FROM DUAL
-    CONNECT BY LEVEL <= 12
-)
-SELECT 
-    TO_CHAR(m.Mes, 'YYYY-MM') AS AñoMes,                     -- Año y mes en formato Año-Mes
-    TO_CHAR(m.Mes, 'Month YYYY', 'NLS_DATE_LANGUAGE=SPANISH') AS NombreMes, -- Nombre del mes con año
-    NVL(COUNT(c.ID_Cita), 0) AS Total_Citas,                 -- Total de citas
-    NVL(SUM(CASE WHEN c.estadoCita = 'A' THEN 1 ELSE 0 END), 0) AS Citas_Activas, -- Citas activas
-    NVL(SUM(CASE WHEN c.estadoCita = 'C' THEN 1 ELSE 0 END), 0) AS Citas_Inactivas -- Citas inactivas
-FROM 
-    Meses m
-LEFT JOIN 
-    tbCitasMedicas c 
-ON 
-    TO_CHAR(c.diaCita, 'YYYY-MM') = TO_CHAR(m.Mes, 'YYYY-MM')
-LEFT JOIN 
-    tbDoctores d ON c.ID_Doctor = d.ID_Doctor
-LEFT JOIN 
-    tbUsuarios u ON d.ID_Usuario = u.ID_Usuario group by TO_CHAR(m.Mes, 'YYYY-MM'), TO_CHAR(m.Mes, 'Month YYYY', 'NLS_DATE_LANGUAGE=SPANISH')
-WHERE 
-    u.emailUsuario = 'xam@gmail.com'  -- Filtra por el correo electrónico del usuario
-GROUP BY 
-    m.Mes
-ORDER BY 
-    m.Mes;
-    
+
