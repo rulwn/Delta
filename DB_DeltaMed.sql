@@ -1,6 +1,6 @@
 /*******************************************************************************
 
-    ~ Creacion del usuario de DeltaMed ~
+    ~ Creacion del usuarigo de DeltaMed ~
 
 *******************************************************************************/
 
@@ -1383,7 +1383,7 @@ CREATE OR REPLACE PROCEDURE actualizar_valoFinal_sucursal(p_id_sucursal INT) IS
     v_promedio_estrellas NUMBER(5,2);
 BEGIN
     -- Calcular el promedio de estrellas para la sucursal
-    SELECT AVG(r.promEstrellas)
+    SELECT NVL(AVG(r.promEstrellas), 9.0)
     INTO v_promedio_estrellas
     FROM tbReviews r
     INNER JOIN tbDoctores d ON r.ID_Doctor = d.ID_Doctor
