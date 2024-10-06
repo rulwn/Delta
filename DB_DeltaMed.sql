@@ -1983,6 +1983,3 @@ select * from tbHorarios;
 select * from tbPropietarios where id_usuario = (select id_usuario from tbUsuarios where emailusuario = 'fran@gmail.com');
 /*drop table tbpacientes;
 drop table tbcentrosmedicos;*/
-
-
-

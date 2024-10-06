@@ -8,20 +8,10 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:background="@drawable/gradient_azul_background"
-    tools:context=".activity_doctoresfavoritos">
-
-    <ImageView
-        android:id="@+id/imgCirculoazul"
-        android:layout_width="342dp"
-        android:layout_height="342dp"
-        android:layout_marginTop="580dp"
-        android:layout_marginEnd="168dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/circulo_azul_bienvenida1" />
+    tools:context=".activity_misresenas">
 
     <LinearLayout
-        android:id="@+id/linearLayout9"
+        android:id="@+id/linearLayout11"
         android:layout_width="match_parent"
         android:layout_height="34dp"
         android:orientation="horizontal"
@@ -42,12 +32,12 @@
             app:srcCompat="@drawable/ic_arrow_back" />
 
         <TextView
-            android:id="@+id/txtFav"
+            android:id="@+id/txtResenas"
             android:layout_width="210dp"
             android:layout_height="25dp"
             android:layout_gravity="center"
             android:fontFamily="@font/poppins_semibold"
-            android:text="Favoritos"
+            android:text="Reseñas"
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="20sp" />
@@ -55,13 +45,14 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcvDoctoresFav"
-        android:layout_width="300dp"
-        android:layout_height="730dp"
+        android:id="@+id/rcvMisResenas"
+        android:layout_width="380dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout9"
-        app:layout_wrapBehaviorInParent="horizontal_only" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout11" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

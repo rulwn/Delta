@@ -6,23 +6,20 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Html
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import delta.medic.mobile.activity_login.UserData.userEmail
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.sql.SQLException
-import delta.medic.mobile.activity_login.UserData.userEmail as sentEmail
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -239,8 +236,7 @@ class fragment_usuario : Fragment() {
             startActivity(activitySeguroPaciente)
         }*/
         imgvDoctoresFavoritos.setOnClickListener {
-            val activityDoctoresFavoritos =
-                Intent(requireContext(), activity_doctoresfavoritos::class.java)
+            val activityDoctoresFavoritos = Intent(requireContext(), activity_doctoresfavoritos::class.java)
             startActivity(activityDoctoresFavoritos)
         }
         imgvRecetas.setOnClickListener {
@@ -248,12 +244,12 @@ class fragment_usuario : Fragment() {
             startActivity(activityRecetas)
         }
         imgvHistorialCitas.setOnClickListener {
-            val activityHistorialCitas =
-                Intent(requireContext(), activity_historialdecitas::class.java)
+            val activityHistorialCitas = Intent(requireContext(), activity_historialdecitas::class.java)
             startActivity(activityHistorialCitas)
         }
         imgvMisReseñas.setOnClickListener {
-            //No estan las reseñas
+            val activityMisReseñas = Intent(requireContext(), activity_misresenas::class.java)
+            startActivity(activityMisReseñas)
         }
 
         return root

@@ -248,7 +248,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
         //Función para mostrar reseñas
         val textViewError = findViewById<TextView>(R.id.lblNoComments)
         val rcvResenas = findViewById<RecyclerView>(R.id.rcvResenas)
-        rcvResenas.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        rcvResenas.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         CoroutineScope(Dispatchers.IO).launch {
             val review = obtenerDatosReviews(ID_Doctor)
             withContext(Dispatchers.Main) {
@@ -442,7 +442,7 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                     val listaResenas = adaptadorResenas.obtenerLista()
                     insertResenas(nuevaResena, listaResenas)
                     // Configurar el RecyclerView
-                    rcvResenas.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+                    rcvResenas.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
                     CoroutineScope(Dispatchers.IO).launch {
                         val conexion = ClaseConexion().cadenaConexion()

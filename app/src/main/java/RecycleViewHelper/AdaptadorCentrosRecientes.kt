@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import delta.medic.mobile.R
+import delta.medic.mobile.activity_carga_vista
 import delta.medic.mobile.activity_login.UserData.userEmail
-import delta.medic.mobile.activity_vistadoctores
 
 class AdaptadorCentrosRecientes(private var Datos: MutableList<dataClassFavoritos>): RecyclerView.Adapter<ViewHolderCentroMini>()  {
     var emailUsuario = userEmail
@@ -47,8 +47,9 @@ class AdaptadorCentrosRecientes(private var Datos: MutableList<dataClassFavorito
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context
             val doctorFavorito = Datos[position]
-            val pantallaDetalle = Intent(context, activity_vistadoctores::class.java)
+            val pantallaDetalle = Intent(context, activity_carga_vista::class.java)
             pantallaDetalle.putExtra("ID_Doctor", doctorFavorito.ID_Doctor)
+            pantallaDetalle.putExtra("doctorEmail", doctorFavorito.emailUsuario)
             pantallaDetalle.putExtra("Fav", true)
             context.startActivity(pantallaDetalle)
         }
