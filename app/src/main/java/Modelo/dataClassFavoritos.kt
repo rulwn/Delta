@@ -7,5 +7,6 @@ data class dataClassFavoritos(
     var nombreUsuario: String,
     var imgUsuario: String,
     var imgSucusal: String,
-    var nombreTipoSucursal: String
+    var nombreTipoSucursal: String,
+    var emailUsuario: String
 )

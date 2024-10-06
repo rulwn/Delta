@@ -107,6 +107,7 @@ class AdaptadorFavoritos(private var Datos: List<dataClassFavoritos>):RecyclerVi
             val doctorFavorito = Datos[position]
             val pantallaDetalle = Intent(context, activity_vistadoctores::class.java)
             pantallaDetalle.putExtra("ID_Doctor", doctorFavorito.ID_Doctor)
+            pantallaDetalle.putExtra("doctorEmail", doctorFavorito.emailUsuario)
             pantallaDetalle.putExtra("Fav", true)
             context.startActivity(pantallaDetalle)
         }

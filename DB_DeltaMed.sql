@@ -588,8 +588,8 @@ id_usuario int,
 id_Establecimiento int
 );
 
-alter table tbPropietarios add constraint FKPrimera foreign key (id_usuario) references tbUsuarios(id_usuario);
-alter table tbPropietarios add constraint FKSegunda foreign key (id_establecimiento) references tbEstablecimientos(id_establecimiento);
+alter table tbPropietarios add constraint FKPrimera foreign key (id_usuario) references tbUsuarios(id_usuario) ON DELETE CASCADE;
+alter table tbPropietarios add constraint FKSegunda foreign key (id_establecimiento) references tbEstablecimientos(id_establecimiento) ON DELETE CASCADE;
 
 
 CREATE TABLE tbSeguros (
@@ -605,7 +605,7 @@ CREATE TABLE tbSeguros (
     ON DELETE CASCADE,
 
     CONSTRAINT FK_Seguro FOREIGN KEY (ID_Usuario)
-    REFERENCES Tbusuarios(ID_Usuario)
+    REFERENCES tbUsuarios(ID_Usuario)
     ON DELETE CASCADE
 );
 
@@ -1379,13 +1379,11 @@ END;
 ~ PROCEDURE PARA REVIEWS ~
 
 *************************************************************************************************/
-Exec actualizar_valoFinal_sucursal(1);
-Select * from tbSucursales Where ID_Sucursal = 1;
 CREATE OR REPLACE PROCEDURE actualizar_valoFinal_sucursal(p_id_sucursal INT) IS
     v_promedio_estrellas NUMBER(5,2);
 BEGIN
     -- Calcular el promedio de estrellas para la sucursal
-    SELECT NVL(AVG(r.promEstrellas),0.0)
+    SELECT NVL(AVG(r.promEstrellas), 9.0)
     INTO v_promedio_estrellas
     FROM tbReviews r
     INNER JOIN tbDoctores d ON r.ID_Doctor = d.ID_Doctor
@@ -1642,9 +1640,9 @@ SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Doctor, ID_Usuario)
-         VALUES (TO_DATE('2024-10-01', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general','A', 1, 1)
+         VALUES (TO_DATE('2024-10-01', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta general','A', 5, 1)
     INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Doctor, ID_Usuario)
-         VALUES (TO_DATE('2024-10-02', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-02 11:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Revisi√≥n anual','A', 1, 2)
+         VALUES (TO_DATE('2024-10-02', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-02 11:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Revisi√≥n anual','A', 4, 2)
     INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Doctor, ID_Usuario)
          VALUES (TO_DATE('2024-10-03', 'YYYY-MM-DD'), TO_TIMESTAMP('2023-01-03 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta de seguimiento','A', 3, 3)
     INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Doctor, ID_Usuario)
@@ -1652,9 +1650,6 @@ INSERT ALL
     INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Doctor, ID_Usuario)
          VALUES (TO_DATE('2024-11-08', 'YYYY-MM-DD'), TO_TIMESTAMP('2024-11-08 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada','A', 1, 5)
 SELECT DUMMY FROM DUAL;
-Insert
-    INTO tbCitasMedicas (diaCita, horaCita, motivo, estadoCita, ID_Doctor, ID_Usuario)
-         VALUES (TO_DATE('2024-11-08', 'YYYY-MM-DD'), TO_TIMESTAMP('2024-11-08 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Consulta especializada','A', 1, 5); commit;
 
 INSERT ALL
     INTO tbNotis (fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti) 
@@ -1717,7 +1712,7 @@ INSERT ALL
     INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
         VALUES (4,1,5)
     INTO TBFAVORITOS(ID_Sucursal, ID_Usuario, ID_Doctor)
-        VALUES (2,1,2)
+        VALUES (1,2,2)
 SELECT DUMMY FROM DUAL;
 
 
@@ -1748,7 +1743,7 @@ INSERT ALL
     INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
         VALUES(1, 1)
     INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
-        VALUES(3, 3)
+        VALUES(2, 3)
     INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
         VALUES(5, 4)
     INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
@@ -2007,83 +2002,83 @@ LEFT JOIN (
     GROUP BY r.promEstrellas
 ) r ON e.PromEstrellas = r.PromEstrellas
 ORDER BY e.PromEstrellas;
-    
+
 WITH Meses AS (
     -- Genera 12 meses (5 hacia atr·s y 6 hacia adelante incluyendo el actual)
     SELECT ADD_MONTHS(TRUNC(SYSDATE, 'MM'), LEVEL - 6) AS Mes
     FROM DUAL
     CONNECT BY LEVEL <= 12
 )
-SELECT 
-    TO_CHAR(m.Mes, 'YYYY-MM') AS AÒoMes,                     
+SELECT
+    TO_CHAR(m.Mes, 'YYYY-MM') AS AÒoMes,
     TO_CHAR(m.Mes, 'Month YYYY', 'NLS_DATE_LANGUAGE=SPANISH') AS NombreMes,
-    NVL(COUNT(c.ID_Cita), 0) AS Total_Citas,                
-    NVL(SUM(CASE WHEN c.estadoCita = 'A' THEN 1 ELSE 0 END), 0) AS Citas_Activas, 
+    NVL(COUNT(c.ID_Cita), 0) AS Total_Citas,
+    NVL(SUM(CASE WHEN c.estadoCita = 'A' THEN 1 ELSE 0 END), 0) AS Citas_Activas,
     NVL(SUM(CASE WHEN c.estadoCita = 'C' THEN 1 ELSE 0 END), 0) AS Citas_Inactivas
-FROM 
+FROM
     Meses m
-LEFT JOIN 
-    tbCitasMedicas c 
-ON 
+LEFT JOIN
+    tbCitasMedicas c
+ON
     TO_CHAR(c.diaCita, 'YYYY-MM') = TO_CHAR(m.Mes, 'YYYY-MM')
-LEFT JOIN 
-    tbDoctores d 
-ON 
+LEFT JOIN
+    tbDoctores d
+ON
     c.ID_Doctor = d.ID_Doctor
-LEFT JOIN 
-    tbUsuarios u 
-ON 
+LEFT JOIN
+    tbUsuarios u
+ON
     d.ID_Usuario = u.ID_Usuario
-WHERE 
+WHERE
     u.emailUsuario = 'xam@gmail.com'  -- Filtro por el correo del doctor
     OR u.emailUsuario IS NULL  -- Esto permite mantener los meses sin citas
-GROUP BY 
+GROUP BY
     m.Mes
-ORDER BY 
+ORDER BY
     m.Mes;
 
-SELECT (U.nombreUsuario || ' ' || U.apellidoUsuario) AS NombreUsuario, 
-       C.Motivo, C.HoraCita, U.imgUsuario 
-FROM tbCitasMedicas C 
-INNER JOIN tbUsuarios U ON U.ID_Usuario = C.ID_Usuario 
-WHERE EXISTS ( 
-    SELECT 1 
-    FROM tbDoctores D 
-    INNER JOIN tbUsuarios U2 ON U2.ID_Usuario = D.ID_Usuario 
-    WHERE U2.emailUsuario = 'xam@gmail.com' 
-    AND D.ID_Doctor = C.ID_Doctor 
-) 
-AND C.horacita > CURRENT_TIMESTAMP 
+SELECT (U.nombreUsuario || ' ' || U.apellidoUsuario) AS NombreUsuario,
+       C.Motivo, C.HoraCita, U.imgUsuario
+FROM tbCitasMedicas C
+INNER JOIN tbUsuarios U ON U.ID_Usuario = C.ID_Usuario
+WHERE EXISTS (
+    SELECT 1
+    FROM tbDoctores D
+    INNER JOIN tbUsuarios U2 ON U2.ID_Usuario = D.ID_Usuario
+    WHERE U2.emailUsuario = 'xam@gmail.com'
+    AND D.ID_Doctor = C.ID_Doctor
+)
+AND C.horacita > CURRENT_TIMESTAMP
 AND C.ESTADOCITA = 'A'
 ORDER BY C.diaCita ASC
 FETCH FIRST 3 ROWS ONLY;
 
 Select ID_Doctor, emailusuario, NombreUsuario from tbDoctores r INNER JOIN tbUSuarios u On u.ID_Usuario = r.ID_Usuario;
 
-    SELECT 
-        (SUM(r.PromEstrellas) / NULLIF(COUNT(r.PromEstrellas), 0)) AS "Promedio", 
-        COUNT(r.PromEstrellas) * 5 AS "Total", 
+    SELECT
+        (SUM(r.PromEstrellas) / NULLIF(COUNT(r.PromEstrellas), 0)) AS "Promedio",
+        COUNT(r.PromEstrellas) * 5 AS "Total",
         (SUM(r.PromEstrellas) * 100 / (COUNT(r.PromEstrellas) * 5)) || '%' AS "Porcentaje"
-    FROM 
+    FROM
         tbReviews r
-    WHERE 
+    WHERE
         EXISTS (
-            SELECT 1 
+            SELECT 1
             FROM tbDoctores d
-            INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario 
-            WHERE u.emailUsuario = 'orantes@gmail.com' 
+            INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario
+            WHERE u.emailUsuario = 'orantes@gmail.com'
             AND d.ID_Doctor = r.ID_Doctor
         );
 
-SELECT 
+SELECT
     u.NombreUsuario || ' ' || u.ApellidoUsuario AS Doctor,
     e.NombreEspecialidad as Especialidad,
     u.ImgUsuario AS ImagenDoctor,
     s.ImgSucursal AS ImagenSucursal,
     s.ID_Sucursal AS Sucursal
-FROM 
+FROM
     tbDoctores d
-INNER JOIN 
+INNER JOIN
     tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
 INNER JOIN
     tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal

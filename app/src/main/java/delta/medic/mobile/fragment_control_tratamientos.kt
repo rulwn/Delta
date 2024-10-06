@@ -77,6 +77,7 @@ class fragment_control_tratamientos : Fragment() {
         }
 
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            txtAunNotienescitas.visibility = View.GONE
             val selectedDate = Calendar.getInstance().apply {
                 set(year, month, dayOfMonth)
                 set(Calendar.HOUR_OF_DAY, 0)

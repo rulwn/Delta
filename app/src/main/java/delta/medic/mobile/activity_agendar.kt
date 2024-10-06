@@ -144,7 +144,7 @@ class activity_agendar : AppCompatActivity() {
             FROM tbHorarios h
             INNER JOIN tbDoctores d ON h.ID_Doctor = d.ID_Doctor
             WHERE d.ID_Doctor = ?
-        """
+        """.trimIndent()
             )
             statement?.setInt(1, ID_Doctor)
             val resultSet = statement?.executeQuery()
