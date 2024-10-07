@@ -1201,6 +1201,41 @@ BEGIN
     FROM DUAL;
 END Trigger_CitaMedica;
 /
+--TRIGGER PARA NOTIFICACION DE TRATAMIENTO--
+CREATE OR REPLACE TRIGGER TRG_InsertarNotificacionTratamiento
+AFTER INSERT ON tbIndicaciones
+FOR EACH ROW
+DECLARE
+    v_mensaje VARCHAR2(255);
+    v_inicio_medicina DATE;
+    v_id_usuario INT;
+BEGIN
+    v_inicio_medicina := :NEW.inicioMedi;
+    BEGIN
+        SELECT c.ID_Usuario
+        INTO v_id_usuario
+        FROM tbCitasMedicas c
+        JOIN tbFichasMedicas f ON f.ID_Cita = c.ID_Cita
+        WHERE f.ID_Receta = :NEW.ID_Receta
+        AND ROWNUM = 1;  
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            v_id_usuario := NULL; 
+            DBMS_OUTPUT.PUT_LINE('No se encontró ningún usuario asociado al ID_Receta.');
+            RETURN; 
+    END;
+
+    
+    v_mensaje := 'Recuerda tomar tu medicina: ' || :NEW.medicina || ' - ' || :NEW.dosisMedi || ' a las ' || TO_CHAR(v_inicio_medicina, 'HH24:MI');
+
+    -- Insertar la notificación en la tabla de notificaciones
+    INSERT INTO tbNotis (
+        ID_Notificacion, fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti
+    ) VALUES (
+        notis.NEXTVAL, SYSDATE, 'R', v_mensaje, 'S', v_id_usuario, 2
+    );
+END;
+/
 
 --TRIGGER PARA CANCELACION DE CITA TBNOTIS--
 CREATE OR REPLACE TRIGGER Trigger_Cancelacion_Cita
@@ -2085,3 +2120,4 @@ INNER JOIN
 INNER JOIN
     tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
 WHERE u.emailUsuario = 'xam@gmail.com';
+
