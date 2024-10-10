@@ -231,6 +231,7 @@ class HomeFragment : Fragment() {
                         u.ID_Usuario,
                         u.nombreUsuario,
                         u.imgUsuario,
+                        u.emailUsuario,
                         d.ID_Doctor,
                         s.ID_Sucursal,
                         s.imgSucursal,
@@ -262,6 +263,7 @@ class HomeFragment : Fragment() {
                 val imgUsuario = resultado.getString("imgUsuario") ?: "no hay"
                 val imgSucursal = resultado.getString("imgSucursal") ?: "no hay"
                 val nombreTipoSucursal = resultado.getString("nombreEspecialidad")
+                val emailUsuario = resultado.getString("emailUsuario")
 
                 // Crear un objeto dataClassFavoritos
                 val favorito = dataClassFavoritos(
@@ -271,7 +273,8 @@ class HomeFragment : Fragment() {
                     nombreUsuario,
                     imgUsuario,
                     imgSucursal,
-                    nombreTipoSucursal
+                    nombreTipoSucursal,
+                    emailUsuario
                 )
 
                 // Agregar el objeto a la lista

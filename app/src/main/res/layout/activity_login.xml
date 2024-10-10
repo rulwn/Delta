@@ -5,18 +5,20 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_azul_background"
     tools:context=".activity_login">
 
+
     <ImageView
-        android:id="@+id/imgFondo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/logo1"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="68dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/gradient_azul_background" />
+        app:srcCompat="@drawable/logo1" />
 
     <Button
         android:id="@+id/btnContinuar"
@@ -33,69 +35,63 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.545" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+        app:layout_constraintVertical_bias="0.103" />
 
     <TextView
         android:id="@+id/txtOnBoard"
         android:layout_width="306dp"
         android:layout_height="44dp"
+        android:layout_marginTop="44dp"
         android:fontFamily="@font/poppins_regular"
         android:text="Actualiza lo que has dejado plantado y aspira a mejorar."
         android:textAlignment="center"
         android:textColor="@color/GrisHumo"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/txtEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.757" />
+        app:layout_constraintTop_toBottomOf="@+id/txtOnBoardTitle" />
 
     <TextView
         android:id="@+id/txtOnBoardTitle"
         android:layout_width="267dp"
         android:layout_height="36dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/poppins_semibold"
         android:text="Bienvenido de nuevo!"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/txtOnBoard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.981" />
+        app:layout_constraintTop_toBottomOf="@+id/logo1" />
 
     <EditText
         android:id="@+id/txtEmail"
         android:layout_width="355dp"
         android:layout_height="54dp"
+        android:layout_marginTop="52dp"
         android:background="@drawable/textboxprueba"
         android:hint=" Email"
         android:inputType="textEmailAddress"
         android:padding="8dp"
         android:textColor="@color/GrisAzulito"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.89" />
+        app:layout_constraintTop_toBottomOf="@+id/txtOnBoard" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
         android:layout_width="355dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="255dp"
+        android:layout_marginTop="25dp"
         app:boxStrokeWidth="0dp"
         app:endIconMode="password_toggle"
-        app:layout_constraintBottom_toTopOf="@+id/btnContinuar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imgFondo"
-        app:layout_constraintVertical_bias="0.748">
+        app:layout_constraintTop_toBottomOf="@+id/txtEmail">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtClave"
@@ -107,12 +103,14 @@
             android:padding="8dp"
             android:textColor="@color/GrisAzulito"
             android:textSize="16sp" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/txtOlvidarContra"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
         android:fontFamily="@font/poppins_regular"
         android:text="¿Olvidaste la contraseña?"
         android:textColor="@color/GrisHumo"
@@ -128,19 +126,19 @@
         android:layout_width="340dp"
         android:layout_height="1dp"
         android:layout_gravity="center"
+        android:layout_marginTop="28dp"
         android:background="@drawable/lineadelgada"
-        app:layout_constraintBottom_toTopOf="@+id/txtNoTienesCuenta"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtOlvidarContra"
-        app:layout_constraintVertical_bias="0.041" />
+        app:layout_constraintTop_toBottomOf="@+id/txtOlvidarContra" />
 
     <Button
         android:id="@+id/btnGoogle"
         style="@style/Widget.Material3.Button.ElevatedButton"
         android:layout_width="295dp"
         android:layout_height="60dp"
+        android:layout_marginBottom="128dp"
         android:backgroundTint="@color/white"
         android:drawableLeft="@drawable/ic_google_icon"
         android:fontFamily="@font/poppins_medium"
@@ -153,8 +151,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.737" />
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="0.961" />
 
     <TextView
         android:id="@+id/txtNoTienesCuenta"
@@ -165,11 +163,18 @@
         android:textAlignment="center"
         android:textColor="@color/GrisHumo"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imgFondo"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtOlvidarContra"
-        app:layout_constraintVertical_bias="0.913" />
+        app:layout_constraintTop_toBottomOf="@+id/btnGoogle"
+        app:layout_constraintVertical_bias="0.232" />
+
+    <ImageView
+        android:id="@+id/imdelti"
+        android:layout_width="71dp"
+        android:layout_height="66dp"
+        app:srcCompat="@drawable/delti2"
+        tools:layout_editor_absoluteX="304dp"
+        tools:layout_editor_absoluteY="717dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,10 +9,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import delta.medic.mobile.R
-
+import delta.medic.mobile.activity_carga_vista
 import delta.medic.mobile.activity_login.UserData.userEmail
-import delta.medic.mobile.activity_vistadoctores
-
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -105,14 +103,11 @@ class AdaptadorFavoritos(private var Datos: List<dataClassFavoritos>):RecyclerVi
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context
             val doctorFavorito = Datos[position]
-            val pantallaDetalle = Intent(context, activity_vistadoctores::class.java)
+            val pantallaDetalle = Intent(context, activity_carga_vista::class.java)
             pantallaDetalle.putExtra("ID_Doctor", doctorFavorito.ID_Doctor)
             pantallaDetalle.putExtra("doctorEmail", doctorFavorito.emailUsuario)
             pantallaDetalle.putExtra("Fav", true)
             context.startActivity(pantallaDetalle)
         }
-
-
-
     }
 }

@@ -52,15 +52,16 @@ when (currentNightMode) {
         rcvDoctoresFav.setBackgroundColor(ContextCompat.getColor(this, R.color.black))
     } // Night mode is active, we're using dark theme.
 }
-
  */
-rcvDoctoresFav.layoutManager = GridLayoutManager(this,2, LinearLayoutManager.VERTICAL, false)
-CoroutineScope(Dispatchers.Main).launch {
-    val listaFavoritos = obtenerFavoritos(emailUsuario)
-    val adapter = AdaptadorFavoritos(listaFavoritos)
-    adapter.emailUsuario = emailUsuario
-    rcvDoctoresFav.adapter = adapter
-}
+
+        rcvDoctoresFav.layoutManager = GridLayoutManager(this,2, LinearLayoutManager.VERTICAL, false)
+        CoroutineScope(Dispatchers.Main).launch {
+            val listaFavoritos = obtenerFavoritos(emailUsuario)
+            val adapter = AdaptadorFavoritos(listaFavoritos)
+            adapter.emailUsuario = emailUsuario
+            rcvDoctoresFav.adapter = adapter
+        }
+
         rcvDoctoresFav.layoutManager =
             GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false)
         CoroutineScope(Dispatchers.Main).launch {
@@ -68,6 +69,17 @@ CoroutineScope(Dispatchers.Main).launch {
             val adapter = AdaptadorFavoritos(listaFavoritos)
             adapter.emailUsuario = emailUsuario
             rcvDoctoresFav.adapter = adapter
+
+        }
+
+        rcvDoctoresFav.layoutManager =
+            GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false)
+        CoroutineScope(Dispatchers.Main).launch {
+            val listaFavoritos = obtenerFavoritos(emailUsuario)
+            val adapter = AdaptadorFavoritos(listaFavoritos)
+            adapter.emailUsuario = emailUsuario
+            rcvDoctoresFav.adapter = adapter
+
         }
 
         btnRegresar.setOnClickListener {
@@ -91,6 +103,7 @@ WITH SucursalesFiltradas AS (
         u.ID_Usuario,
         u.nombreUsuario,
         u.imgUsuario,
+        u.emailUsuario,
         s.ID_Sucursal,
         s.imgSucursal,
         e.nombreEspecialidad,
@@ -107,6 +120,7 @@ WITH SucursalesFiltradas AS (
     SELECT
         ID_Usuario,
         nombreUsuario,
+        emailUsuario,
         imgUsuario,
         ID_Doctor,
         ID_Sucursal,
@@ -134,8 +148,7 @@ WITH SucursalesFiltradas AS (
                 val imgUsuario = resultado.getString("imgUsuario") ?: "no hay"
                 val imgSucursal = resultado.getString("imgSucursal") ?: "no hay"
                 val nombreEspecialidad = resultado.getString("nombreEspecialidad")
-
-                // Crear un objeto dataClassFavoritos
+                val emailUsuario = resultado.getString("emailUsuario")?: ""
                 val favorito = dataClassFavoritos(
                     idUsuario,
                     idDoctor,
@@ -143,19 +156,18 @@ WITH SucursalesFiltradas AS (
                     nombreUsuario,
                     imgUsuario,
                     imgSucursal,
-                    nombreEspecialidad
+                    nombreEspecialidad,
+                    emailUsuario
                 )
 
         // Agregar el objeto a la lista
         listaFavoritos.add(favorito)
     }
-
             // Cerrar la conexión
             resultado?.close()
             statement?.close()
             conexion?.close()
         }
-
         return listaFavoritos
     }
 }

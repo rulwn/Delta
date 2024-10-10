@@ -1201,6 +1201,41 @@ BEGIN
     FROM DUAL;
 END Trigger_CitaMedica;
 /
+--TRIGGER PARA NOTIFICACION DE TRATAMIENTO--
+CREATE OR REPLACE TRIGGER TRG_InsertarNotificacionTratamiento
+AFTER INSERT ON tbIndicaciones
+FOR EACH ROW
+DECLARE
+    v_mensaje VARCHAR2(255);
+    v_inicio_medicina DATE;
+    v_id_usuario INT;
+BEGIN
+    v_inicio_medicina := :NEW.inicioMedi;
+    BEGIN
+        SELECT c.ID_Usuario
+        INTO v_id_usuario
+        FROM tbCitasMedicas c
+        JOIN tbFichasMedicas f ON f.ID_Cita = c.ID_Cita
+        WHERE f.ID_Receta = :NEW.ID_Receta
+        AND ROWNUM = 1;
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            v_id_usuario := NULL;
+            DBMS_OUTPUT.PUT_LINE('No se encontró ningún usuario asociado al ID_Receta.');
+            RETURN;
+    END;
+
+
+    v_mensaje := 'Recuerda tomar tu medicina: ' || :NEW.medicina || ' - ' || :NEW.dosisMedi || ' a las ' || TO_CHAR(v_inicio_medicina, 'HH24:MI');
+
+    -- Insertar la notificación en la tabla de notificaciones
+    INSERT INTO tbNotis (
+        ID_Notificacion, fechaNoti, tipoNoti, mensajeNoti, flag, ID_Usuario, ID_TipoNoti
+    ) VALUES (
+        notis.NEXTVAL, SYSDATE, 'R', v_mensaje, 'S', v_id_usuario, 2
+    );
+END;
+/
 
 --TRIGGER PARA CANCELACION DE CITA TBNOTIS--
 CREATE OR REPLACE TRIGGER Trigger_Cancelacion_Cita
@@ -1566,7 +1601,7 @@ UPDATE tbUsuarios SET imgUsuario = 'https://w7.pngwing.com/pngs/312/283/png-tran
 UPDATE tbUsuarios SET imgUsuario = 'https://st3.depositphotos.com/12985790/15794/i/450/depositphotos_157947226-stock-photo-man-looking-at-camera.jpg' WHERE ID_Usuario = 2;
 UPDATE tbUsuarios SET imgUsuario = 'https://us.123rf.com/450wm/antoniodiaz/antoniodiaz1510/antoniodiaz151000120/47228952-apuesto-joven-m%C3%A9dico-con-una-bata-de-laboratorio-y-un-estetoscopio-con-un-tablet-pc-para-comprobar.jpg' WHERE ID_Usuario = 3;
 UPDATE tbUsuarios SET imgUsuario = 'https://img.freepik.com/fotos-premium/medico-sexo-masculino-bata-laboratorio-estetoscopio-brazos-cruzados-pie-pasillo-hospital_752325-3492.jpg' WHERE ID_Usuario = 4;
-UPDATE tbUsuarios SET imgUsuario = 'https://conimagenes.com/wp-content/uploads/2021/08/retrato-perfil-profesional-1024x1024-1.jpg' WHERE ID_Usuario = 5;
+UPDATE tbUsuarios SET imgUsuario = 'https://plus.unsplash.com/premium_photo-1689568158814-3b8e9c1a9618?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29uYXxlbnwwfHwwfHx8MA%3D%3D' WHERE ID_Usuario = 5;
 UPDATE tbUsuarios SET imgUsuario = 'https://static.vecteezy.com/system/resources/thumbnails/028/287/555/small_2x/an-indian-young-female-doctor-isolated-on-green-ai-generated-photo.jpg' WHERE ID_Usuario = 7;
 UPDATE tbUsuarios SET imgUsuario = 'https://superdoc.mx/wp-content/uploads/2023/05/doctora-1.png' WHERE ID_Usuario = 6;
 UPDATE tbUsuarios SET imgUsuario = 'https://png.pngtree.com/png-clipart/20230918/ourmid/pngtree-photo-men-doctor-physician-chest-smiling-png-image_10132895.png' WHERE ID_Usuario = 8;
@@ -1989,7 +2024,7 @@ WITH estrellas AS (
     FROM DUAL
     CONNECT BY LEVEL <= 5
 )
-SELECT 
+SELECT
     e.PromEstrellas,
     NVL(r.cantidad_reviews, 0) AS cantidad_reviews
 FROM estrellas e
@@ -2085,3 +2120,4 @@ INNER JOIN
 INNER JOIN
     tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
 WHERE u.emailUsuario = 'xam@gmail.com';
+
