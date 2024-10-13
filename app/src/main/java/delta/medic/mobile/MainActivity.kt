@@ -24,6 +24,7 @@ import android.content.Context
 import android.content.IntentFilter
 import android.content.pm.ActivityInfo
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
@@ -144,6 +145,40 @@ class MainActivity : AppCompatActivity() {
                 navView.setBackgroundResource(R.drawable.nav_negra)
                 navView.itemIconTintList = ContextCompat.getColorStateList(this, R.color.iconColorLight)
                 navView.itemTextColor = ContextCompat.getColorStateList(this, R.color.iconColorLight)
+            }
+        }
+    }
+    private fun updateTextViewAppearance() {
+        // Detectamos el modo claro u oscuro
+        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+
+        // Buscamos el fragmento actual, asegurándonos que estamos en el fragmento de inicio
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main)
+        val currentFragment = navHostFragment?.childFragmentManager?.primaryNavigationFragment
+
+        if (currentFragment != null && currentFragment.view != null) {
+            // Referenciamos los TextView del fragmento_home
+            val txtPodriasSentir = currentFragment.view?.findViewById<TextView>(R.id.txtPodriasSentir)
+            val txtTratamientosPrincipal = currentFragment.view?.findViewById<TextView>(R.id.txtTratamientosPrincipal)
+            val txtCitasPrincipal = currentFragment.view?.findViewById<TextView>(R.id.txtCitasPrincipal)
+            val txtCentrosRecientesPrincipal = currentFragment.view?.findViewById<TextView>(R.id.txtCentrosRecientesPrincipal)
+
+            // Según el modo de la UI (claro u oscuro), cambiamos el color de los TextView
+            when (currentNightMode) {
+                Configuration.UI_MODE_NIGHT_NO -> {
+                    // Modo claro: Asignamos colores para texto oscuro (negro o similar)
+                    txtPodriasSentir?.setTextColor(ContextCompat.getColor(this, R.color.textColorDark))
+                    txtTratamientosPrincipal?.setTextColor(ContextCompat.getColor(this, R.color.textColorDark))
+                    txtCitasPrincipal?.setTextColor(ContextCompat.getColor(this, R.color.textColorDark))
+                    txtCentrosRecientesPrincipal?.setTextColor(ContextCompat.getColor(this, R.color.textColorDark))
+                }
+                Configuration.UI_MODE_NIGHT_YES -> {
+                    // Modo oscuro: Asignamos colores para texto claro (blanco o similar)
+                    txtPodriasSentir?.setTextColor(ContextCompat.getColor(this, R.color.textColorLight))
+                    txtTratamientosPrincipal?.setTextColor(ContextCompat.getColor(this, R.color.textColorLight))
+                    txtCitasPrincipal?.setTextColor(ContextCompat.getColor(this, R.color.textColorLight))
+                    txtCentrosRecientesPrincipal?.setTextColor(ContextCompat.getColor(this, R.color.textColorLight))
+                }
             }
         }
     }
