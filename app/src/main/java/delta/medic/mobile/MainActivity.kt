@@ -2,6 +2,7 @@ package delta.medic.mobile
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.BroadcastReceiver
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
@@ -20,6 +21,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import delta.medic.mobile.databinding.ActivityMainBinding
 import android.content.Context
+import android.content.IntentFilter
 import android.content.pm.ActivityInfo
 import android.view.View
 import android.widget.Toast
@@ -38,19 +40,12 @@ import delta.medic.mobile.MainActivity
 class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
-
     private lateinit var binding: ActivityMainBinding
-
-
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        //Preferencias de usuario
         val userPreferences = getSharedPreferences("userPreferences", MODE_PRIVATE)
         userEmail = userPreferences.getString("email", null).toString()
-        println("userEmail: " + userEmail)
-
 
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
@@ -66,34 +61,10 @@ class MainActivity : AppCompatActivity() {
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        val auth = Firebase.auth
-        val user = auth.currentUser
-        user?.let{
-            // Name, email address, and profile photo Url
-            val name = it.displayName
-            val email = it.email
-            val photoUrl = it.photoUrl
-
-            // Check if user's email is verified
-            val emailVerified = it.isEmailVerified
-
-            // The user's ID, unique to the Firebase project. Do NOT use this value to
-            // authenticate with your backend server, if you have one. Use
-            // FirebaseUser.getIdToken() instead.
-            val uid = it.uid
-        }
-
-
-        /*if (user != null) {
-            userEmail = user.email.toString()
-            Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "No se pudo iniciar sesion", Toast.LENGTH_SHORT).show()
-        }*/
+        val user = Firebase.auth.currentUser
 
         val navView: BottomNavigationView = binding.navView
         val tuerquita = findViewById<ImageView>(R.id.imgVSettingsPerfil)
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
         tuerquita.visibility = View.GONE
         tuerquita.setOnClickListener {
             val intent = Intent(this, activity_configuracion::class.java)
@@ -112,21 +83,13 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        updateNavigationBarAppearance(navView)
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.fragment_usuario -> {
-                    tuerquita.visibility = View.VISIBLE
-                }
-                R.id.fragment_inicio -> {
-                    tuerquita.visibility = View.GONE
-                }
-                R.id.fragment_control -> {
-                    tuerquita.visibility = View.GONE
-                }
-                R.id.fragment_notificaciones -> {
-                    tuerquita.visibility = View.GONE
-                }
-
+                R.id.fragment_usuario -> tuerquita.visibility = View.VISIBLE
+                else -> tuerquita.visibility = View.GONE
             }
 
             val icBusqueda = findViewById<ImageView>(R.id.imgIconoSearch)
@@ -143,12 +106,6 @@ class MainActivity : AppCompatActivity() {
 
             val icBusquedaRapida = findViewById<ImageView>(R.id.imgIconoFastSearch)
             icBusquedaRapida.setOnClickListener {
-                //findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.fragment_busquedaRapidaHombre)
-                /*supportFragmentManager.beginTransaction().apply {
-                replace(R.id.nav_host_fragment_activity_main, fragment_busquedaRapidaHombre())
-                addToBackStack(null)
-                commit()
-            }*/
                 val intent = Intent(this, activity_busqueda_rapida_hombre::class.java)
                 startActivity(intent)
             }
@@ -163,6 +120,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     fun signOutAndStartSignInActivity() {
         auth.signOut()
         googleSignInClient.signOut().addOnCompleteListener(this) {
@@ -172,4 +130,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateNavigationBarAppearance(navView: BottomNavigationView) {
+        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        when (currentNightMode) {
+            Configuration.UI_MODE_NIGHT_NO -> {
+
+                navView.setBackgroundResource(R.drawable.fondonav)
+                navView.itemIconTintList = ContextCompat.getColorStateList(this, R.color.iconColorDark)
+                navView.itemTextColor = ContextCompat.getColorStateList(this, R.color.iconColorDark)
+            }
+            Configuration.UI_MODE_NIGHT_YES -> {
+
+                navView.setBackgroundResource(R.drawable.nav_negra)
+                navView.itemIconTintList = ContextCompat.getColorStateList(this, R.color.iconColorLight)
+                navView.itemTextColor = ContextCompat.getColorStateList(this, R.color.iconColorLight)
+            }
+        }
+    }
 }

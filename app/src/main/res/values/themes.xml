@@ -9,8 +9,9 @@
         <item name="colorSecondary">@color/Azul2</item>
         <item name="colorSecondaryVariant">@color/Turquesa2</item>
         <item name="colorOnSecondary">@color/Turquesa3</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+
+        <!-- Iconos y texto para la navegación en modo claro -->
+
+
     </style>
 </resources>
