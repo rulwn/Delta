@@ -41,7 +41,7 @@ class activity_centroadeyuda : AppCompatActivity() {
         val btnEnviarCorreo = findViewById<Button>(R.id.btnEnviarCorreo)
 
 
-        /*
+
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         when (currentNightMode) {
             Configuration.UI_MODE_NIGHT_NO -> {
@@ -72,7 +72,7 @@ class activity_centroadeyuda : AppCompatActivity() {
                 btnEnviarCorreo.setBackgroundColor(ContextCompat.getColor(this, R.color.Turquesa2))
             } // Night mode is active, we're using dark theme.
         }
-         */
+
         btnRegresar.setOnClickListener {
             finish()
         }

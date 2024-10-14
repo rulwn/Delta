@@ -52,7 +52,7 @@ class activity_privacidadyseguridad : AppCompatActivity() {
         val txtTerminos25 = findViewById<TextView>(R.id.txtTerminos25)
 
 
-        /*
+
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         when (currentNightMode) {
             Configuration.UI_MODE_NIGHT_NO -> {
@@ -112,10 +112,10 @@ class activity_privacidadyseguridad : AppCompatActivity() {
                 txtTerminos24.setTextColor(ContextCompat.getColor(this, R.color.white))
                 txtTerminos25.setTextColor(ContextCompat.getColor(this, R.color.white))
                 btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.white))
-            } // Night mode is active, we're using dark theme.
+            }
         }
 
-         */
+
 
         btnRegresar.setOnClickListener {
             finish()

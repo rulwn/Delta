@@ -7,6 +7,7 @@ import RecycleViewHelper.DiasAdapter
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
@@ -24,6 +25,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
@@ -68,6 +70,7 @@ class activity_agendar : AppCompatActivity() {
             insets
 
         }
+
         val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
         val btnContinuar = findViewById<Button>(R.id.btnContinuar)
         val txtFecha = findViewById<TextView>(R.id.txtFecha)
@@ -79,6 +82,7 @@ class activity_agendar : AppCompatActivity() {
         val txtDireccionSucur = findViewById<TextView>(R.id.txtDireccionSucur)
         txtMotivo = findViewById(R.id.txtMotivo)
         val txtPressHere = findViewById<TextView>(R.id.txtPressHere)
+
 
         val diasDelAno = obtenerDiasDelAno(Year.now().value)
         rcvDisponibilidad.layoutManager =
@@ -259,6 +263,71 @@ WHERE
         val textMoti = findViewById<TextView>(R.id.textMoti)
         txtPressHere.setText(Html.fromHtml(getResources().getString(R.string.txtPressHere)))
         val doctorExists = checkIfDoctorExists()
+        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        when (currentNightMode) {
+            Configuration.UI_MODE_NIGHT_NO -> {
+                txtFecha.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtNombreDoctor.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtEspecialidad.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtDireccionSucur.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtMotivo.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtPressHere.setTextColor(ContextCompat.getColor(this, R.color.black))
+                btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.black))
+                btnContinuar.setTextColor(ContextCompat.getColor(this, R.color.white))
+                btnContinuar.setBackgroundColor(ContextCompat.getColor(this, R.color.Turquesa1))
+                txtFecha.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtNombreDoctor.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtEspecialidad.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtDireccionSucur.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtMotivo.setTextColor(ContextCompat.getColor(this, R.color.black))
+                lbAgendarCita.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtSucu.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtdispo.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtespacios.setTextColor(ContextCompat.getColor(this, R.color.black))
+                textMoti.setTextColor(ContextCompat.getColor(this, R.color.black))
+                txtPressHere.setTextColor(ContextCompat.getColor(this, R.color.black))
+
+                cardDoctor.setCardBackgroundColor(ContextCompat.getColor(this, R.color.white))
+                linearNoDoctor.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+                grid.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+
+                btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.black))
+                btnContinuar.setTextColor(ContextCompat.getColor(this, R.color.white))
+                btnContinuar.setBackgroundColor(ContextCompat.getColor(this, R.color.Turquesa1))
+            }
+            Configuration.UI_MODE_NIGHT_YES -> {
+                txtFecha.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtFecha.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtNombreDoctor.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtEspecialidad.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtDireccionSucur.setTextColor(ContextCompat.getColor(this, R.color.GrisPlano))
+                txtMotivo.setTextColor(ContextCompat.getColor(this, R.color.GrisPlano))
+                txtPressHere.setTextColor(ContextCompat.getColor(this, R.color.white))
+                btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.white))
+                btnContinuar.setTextColor(ContextCompat.getColor(this, R.color.black))
+                btnContinuar.setBackgroundColor(ContextCompat.getColor(this, R.color.BlancoHueso))
+                txtFecha.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtNombreDoctor.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtEspecialidad.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtDireccionSucur.setTextColor(ContextCompat.getColor(this, R.color.GrisPlano))
+                txtMotivo.setTextColor(ContextCompat.getColor(this, R.color.GrisPlano))
+                lbAgendarCita.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtSucu.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtdispo.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtespacios.setTextColor(ContextCompat.getColor(this, R.color.white))
+                textMoti.setTextColor(ContextCompat.getColor(this, R.color.white))
+                txtPressHere.setTextColor(ContextCompat.getColor(this, R.color.white))
+
+                cardDoctor.setCardBackgroundColor(ContextCompat.getColor(this, R.color.GrisHumo))
+                linearNoDoctor.setBackgroundColor(ContextCompat.getColor(this, R.color.black))
+                grid.setBackgroundColor(ContextCompat.getColor(this, R.color.GrisHumo))
+
+
+
+
+
+            }
+        }
 
         if (doctorExists) {
             linearNoDoctor.visibility = View.GONE
@@ -284,14 +353,12 @@ WHERE
         }
 
         btnContinuar.setOnClickListener {
-            if (txtMotivo.text.toString().isEmpty()){
+            if (txtMotivo.text.toString().isEmpty()) {
                 txtMotivo.error = "Por favor, escribe un motivo."
-            }
-            else {
+            } else {
                 if (horaSeleccionada != null && diaSeleccionado != null) {
                     showCustomDialog()
-                }
-                else {
+                } else {
                     Toast.makeText(this, "Por favor, selecciona una hora y un día.", Toast.LENGTH_SHORT).show()
                 }
             }

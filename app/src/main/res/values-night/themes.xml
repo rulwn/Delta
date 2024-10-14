@@ -2,15 +2,15 @@
     <!-- Base application theme. -->
     <style name="Theme.DeltaMedic" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/Azul1</item>
-        <item name="colorPrimaryVariant">@color/Azul2</item>
-        <item name="colorOnPrimary">@color/Azul3</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/Turquesa1</item>
-        <item name="colorSecondaryVariant">@color/Turquesa2</item>
-        <item name="colorOnSecondary">@color/Turquesa3</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorOnSecondary">@color/colorOnSecondary</item>
 
-        <!-- Iconos y texto para la navegación en modo oscuro -->
+        <!-- Color de texto -->
+        <item name="android:textColorPrimary">@color/textColorDark</item>
+
 
     </style>
 </resources>

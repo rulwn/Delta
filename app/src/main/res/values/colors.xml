@@ -22,5 +22,12 @@
     <color name="iconColorLight">#82819E</color>
     <color name="textColorLight">#000000</color>
     <color name="textColorDark">#FFFFFF</color>
+    <color name="textColornegro">#BBD1F6</color>
+    <color name="primaryLight">#6200EE</color>
+    <color name="primaryVariantLight">#3700B3</color>
+    <color name="onPrimaryLight">#FFFFFF</color>
+    <color name="secondaryLight">#03DAC6</color>
+    <color name="onSecondaryLight">#000000</color>
+
 
 </resources>

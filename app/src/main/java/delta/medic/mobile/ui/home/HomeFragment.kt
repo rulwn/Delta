@@ -300,18 +300,33 @@ class HomeFragment : Fragment() {
         val txtTratamientosPrincipal = root.findViewById<TextView>(R.id.txtTratamientosPrincipal)
         val txtCitasPrincipal = root.findViewById<TextView>(R.id.txtCitasPrincipal)
         val txtCentrosRecientesPrincipal = root.findViewById<TextView>(R.id.txtCentrosRecientesPrincipal)
+        val btnDolorCabeza = root.findViewById<TextView>(R.id.btnDolordeCabeza)
+        val btnNauseas = root.findViewById<TextView>(R.id.btnNauseas)
+        val btnTemperatura = root.findViewById<TextView>(R.id.btnTemperatura)
         when (currentNightMode) {
             Configuration.UI_MODE_NIGHT_NO -> {
                 txtPodriasSentir?.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorLight))
                 txtTratamientosPrincipal?.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorLight))
                 txtCitasPrincipal?.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorLight))
                 txtCentrosRecientesPrincipal?.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorLight))
+                btnDolorCabeza?.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
+                btnDolorCabeza?.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorLight))
+                btnNauseas?.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
+                btnNauseas?.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorLight))
+                btnTemperatura?.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
+                btnTemperatura?.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorLight))
             }
             Configuration.UI_MODE_NIGHT_YES -> {
                 txtPodriasSentir?.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorDark))
                 txtTratamientosPrincipal?.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorDark))
                 txtCitasPrincipal?.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorDark))
                 txtCentrosRecientesPrincipal?.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorDark))
+                btnDolorCabeza?.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.black))
+                btnDolorCabeza?.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColornegro))
+                btnNauseas?.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.black))
+                btnNauseas?.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColornegro))
+                btnTemperatura?.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.black))
+                btnTemperatura?.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColornegro))
             }
         }
     }
