@@ -11,24 +11,27 @@
         android:id="@+id/lbNotis"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="24dp"
+        android:layout_marginBottom="63dp"
         android:fontFamily="@font/poppins_semibold"
         android:text="Notificaciones"
         android:textColor="@color/Azul1"
         android:textSize="28sp"
         app:layout_constraintBottom_toTopOf="@+id/rcvNotis"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.078"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.032" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvNotis"
-        android:layout_width="400dp"
+        android:layout_width="410dp"
         android:layout_height="607dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
