@@ -18,5 +18,9 @@
     <color name="recordatorio">#1E88E5</color>
     <color name="verde">#337400</color>
     <color name="rojo">#bc2f26</color>
+    <color name="iconColorDark">#042A60</color>  042A60
+    <color name="iconColorLight">#82819E</color>
+    <color name="textColorLight">#000000</color>
+    <color name="textColorDark">#FFFFFF</color>
 
 </resources>

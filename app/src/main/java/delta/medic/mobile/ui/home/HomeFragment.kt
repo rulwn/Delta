@@ -8,11 +8,13 @@ import RecycleViewHelper.AdaptadorCitas
 import RecycleViewHelper.AdaptadorTratamientosChiquito
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -130,6 +132,9 @@ class HomeFragment : Fragment() {
             }
             startActivity(intent)
         }
+        updateTextViewColorsForTheme(root)
+
+
         return root
     }
 
@@ -289,7 +294,27 @@ class HomeFragment : Fragment() {
 
         return listaFavoritos
     }
-
+    private fun updateTextViewColorsForTheme(root: View) {
+        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        val txtPodriasSentir = root.findViewById<TextView>(R.id.txtPodriasSentir)
+        val txtTratamientosPrincipal = root.findViewById<TextView>(R.id.txtTratamientosPrincipal)
+        val txtCitasPrincipal = root.findViewById<TextView>(R.id.txtCitasPrincipal)
+        val txtCentrosRecientesPrincipal = root.findViewById<TextView>(R.id.txtCentrosRecientesPrincipal)
+        when (currentNightMode) {
+            Configuration.UI_MODE_NIGHT_NO -> {
+                txtPodriasSentir?.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorLight))
+                txtTratamientosPrincipal?.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorLight))
+                txtCitasPrincipal?.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorLight))
+                txtCentrosRecientesPrincipal?.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorLight))
+            }
+            Configuration.UI_MODE_NIGHT_YES -> {
+                txtPodriasSentir?.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorDark))
+                txtTratamientosPrincipal?.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorDark))
+                txtCitasPrincipal?.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorDark))
+                txtCentrosRecientesPrincipal?.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorDark))
+            }
+        }
+    }
     fun loadData(lbNombre: TextView) {
         try {
             viewLifecycleOwner.lifecycleScope.launch {
