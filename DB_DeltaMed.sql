@@ -775,14 +775,14 @@ CREATE TABLE tbExpedientes (
     nombreMadre VARCHAR2(50),
     responsable VARCHAR2(50),
     permaMedicamentos VARCHAR2(100),
-    presionArterial VARCHAR2(20) NOT NULL,
-    peso NUMBER NOT NULL,
-    altura NUMBER(3) NOT NULL,
-    contactoEmer VARCHAR2(12) NOT NULL,
-    saturacion NUMBER(3) NOT NULL,
+    presionArterial VARCHAR2(20),
+    peso NUMBER,
+    altura NUMBER(3),
+    contactoEmer VARCHAR2(12),
+    saturacion NUMBER(3),
     historial VARCHAR2(200),
-    tipoSangre VARCHAR2(10) NOT NULL,
-    fechaConsultas DATE NOT NULL,
+    tipoSangre VARCHAR2(10),
+    fechaConsultas DATE,
     ID_Usuario INT NOT NULL,
 
     --CONSTRAINTS------------------
@@ -1601,7 +1601,7 @@ UPDATE tbUsuarios SET imgUsuario = 'https://w7.pngwing.com/pngs/312/283/png-tran
 UPDATE tbUsuarios SET imgUsuario = 'https://st3.depositphotos.com/12985790/15794/i/450/depositphotos_157947226-stock-photo-man-looking-at-camera.jpg' WHERE ID_Usuario = 2;
 UPDATE tbUsuarios SET imgUsuario = 'https://us.123rf.com/450wm/antoniodiaz/antoniodiaz1510/antoniodiaz151000120/47228952-apuesto-joven-m%C3%A9dico-con-una-bata-de-laboratorio-y-un-estetoscopio-con-un-tablet-pc-para-comprobar.jpg' WHERE ID_Usuario = 3;
 UPDATE tbUsuarios SET imgUsuario = 'https://img.freepik.com/fotos-premium/medico-sexo-masculino-bata-laboratorio-estetoscopio-brazos-cruzados-pie-pasillo-hospital_752325-3492.jpg' WHERE ID_Usuario = 4;
-UPDATE tbUsuarios SET imgUsuario = 'https://plus.unsplash.com/premium_photo-1689568158814-3b8e9c1a9618?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29uYXxlbnwwfHwwfHx8MA%3D%3D' WHERE ID_Usuario = 5;
+UPDATE tbUsuarios SET imgUsuario = 'https://conimagenes.com/wp-content/uploads/2021/08/retrato-perfil-profesional-1024x1024-1.jpg' WHERE ID_Usuario = 5;
 UPDATE tbUsuarios SET imgUsuario = 'https://static.vecteezy.com/system/resources/thumbnails/028/287/555/small_2x/an-indian-young-female-doctor-isolated-on-green-ai-generated-photo.jpg' WHERE ID_Usuario = 7;
 UPDATE tbUsuarios SET imgUsuario = 'https://superdoc.mx/wp-content/uploads/2023/05/doctora-1.png' WHERE ID_Usuario = 6;
 UPDATE tbUsuarios SET imgUsuario = 'https://png.pngtree.com/png-clipart/20230918/ourmid/pngtree-photo-men-doctor-physician-chest-smiling-png-image_10132895.png' WHERE ID_Usuario = 8;
@@ -2120,4 +2120,4 @@ INNER JOIN
 INNER JOIN
     tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
 WHERE u.emailUsuario = 'xam@gmail.com';
-
+select * from tbFichasmedicas;
