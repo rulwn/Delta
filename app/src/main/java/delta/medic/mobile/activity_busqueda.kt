@@ -5,11 +5,13 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.view.KeyEvent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.view.MotionEvent
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
@@ -49,19 +51,31 @@ class activity_busqueda : AppCompatActivity() {
         rvRecentSearches.layoutManager = LinearLayoutManager(this)
         rvRecentSearches.adapter = adapter
 
+        // Manejar el botón "chequesito" (Enter) del teclado en móvil
+        txtSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE) {
+                executeSearch()
+                true // Indicamos que hemos manejado el evento
+            } else {
+                false
+            }
+        }
+
+        // Manejar la tecla Enter en computadoras
+        txtSearch.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                executeSearch()
+                true
+            } else {
+                false
+            }
+        }
+
         txtSearch.setOnTouchListener { _, event ->
             try {
                 if (event.action == MotionEvent.ACTION_UP) {
                     if (event.rawX >= (txtSearch.right - txtSearch.compoundDrawables[2].bounds.width())) {
-                        val query = txtSearch.text.toString()
-                        if (query.isNotEmpty()) {
-                            recentSearches.add(query)
-                            adapter.notifyDataSetChanged()
-                            performSearch(query)
-                            getSearchEditText()
-                        } else {
-                            Toast.makeText(this, "Ingrese un término de búsqueda", Toast.LENGTH_SHORT).show()
-                        }
+                        executeSearch()
                         return@setOnTouchListener true
                     }
                 }
@@ -82,6 +96,19 @@ class activity_busqueda : AppCompatActivity() {
         }
     }
 
+    // Función común para ejecutar la búsqueda
+    private fun executeSearch() {
+        val query = txtSearch.text.toString()
+        if (query.isNotEmpty()) {
+            recentSearches.add(query)
+            adapter.notifyDataSetChanged()
+            performSearch(query)
+            getSearchEditText()
+        } else {
+            Toast.makeText(this, "Ingrese un término de búsqueda", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     fun getSearchEditText(): EditText {
         return txtSearch
     }
@@ -97,10 +124,8 @@ class activity_busqueda : AppCompatActivity() {
                 addToBackStack(null)
                 commit()
             }
-
         } catch (e: Exception) {
             println("Este es el error ${e.message}")
         }
     }
-
 }
