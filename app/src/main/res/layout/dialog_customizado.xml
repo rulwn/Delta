@@ -20,6 +20,7 @@
         android:layout_marginTop="20dp"
         android:fontFamily="@font/poppinssemibold"
         android:text="@string/confircita"
+        android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="38sp"
         android:textStyle="bold" />

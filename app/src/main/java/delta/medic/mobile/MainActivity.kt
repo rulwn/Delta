@@ -101,8 +101,13 @@ class MainActivity : AppCompatActivity() {
 
             val btnAgendar = findViewById<ImageButton>(R.id.imgBtnAgendar)
             btnAgendar.setOnClickListener {
-                val intent = Intent(this, activity_agendar::class.java)
-                startActivity(intent)
+                try {
+                    val intent = Intent(this, activity_agendar::class.java)
+                    startActivity(intent)
+                } catch (e: Exception)
+                {
+                    Toast.makeText(this, "Error al abrir la actividad", Toast.LENGTH_SHORT).show()
+                }
             }
 
             val icBusquedaRapida = findViewById<ImageView>(R.id.imgIconoFastSearch)

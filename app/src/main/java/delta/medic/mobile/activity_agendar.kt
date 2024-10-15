@@ -43,6 +43,7 @@ import java.time.LocalDateTime
 import java.time.Year
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class activity_agendar : AppCompatActivity() {
 
@@ -93,14 +94,23 @@ class activity_agendar : AppCompatActivity() {
         }, txtFecha)
 
         fun generarTimestamp(fechaSeleccionada: LocalDate, hora: String): String {
-            val formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-            val formatoHora = DateTimeFormatter.ofPattern("hh:mm a")
+            // Define el formato de fecha
+            val formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.US)
+
+            // Define el formato de hora con Locale.US para asegurar que 'AM'/'PM' sean reconocidos
+            val formatoHora = DateTimeFormatter.ofPattern("hh:mm a", Locale.US)
+
+            // Formatea la fecha seleccionada
             val fechaFormateada = fechaSeleccionada.format(formatoFecha)
+
+            // Combina fecha y hora y analiza usando el formato especificado con Locale.US
             val horaFormateada = LocalDateTime.parse(
-                "${fechaFormateada} ${hora}",
-                DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a")
+                "$fechaFormateada $hora",
+                DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a", Locale.US)
             )
-            return horaFormateada.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+
+            // Devuelve el timestamp en el formato deseado
+            return horaFormateada.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.US))
         }
 
         val diaSeleccionado = LocalDate.now()

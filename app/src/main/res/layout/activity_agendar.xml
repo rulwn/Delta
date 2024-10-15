@@ -62,7 +62,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/linearCard"
                 android:layout_width="match_parent"
-                android:layout_height="125dp"
+                android:layout_height="130dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="8dp"
@@ -71,6 +71,7 @@
                 android:visibility="visible"
                 app:background="@drawable/estilobordesitems"
                 app:cardCornerRadius="20dp"
+
                 app:cardPreventCornerOverlap="true"
                 tools:context=".item_CentroMedico">
 
@@ -84,7 +85,7 @@
                     <ImageView
                         android:id="@+id/imgSucursal"
                         android:layout_width="match_parent"
-                        android:layout_height="120dp"
+                        android:layout_height="match_parent"
                         android:layout_centerInParent="true"
                         android:alpha="0.85"
                         android:scaleType="centerCrop"
@@ -94,7 +95,7 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="1.0" />
+                        app:layout_constraintVertical_bias="0.0" />
 
                     <ImageView
                         android:id="@+id/imgFotoDoctor"
@@ -125,55 +126,60 @@
 
                     <TextView
                         android:id="@+id/txtNombreDoctor"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignTop="@id/imgFotoDoctor"
-                        android:layout_toEndOf="@id/imgFotoDoctor"
+                        android:layout_width="180dp"
+                        android:layout_height="25dp"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/poppins_medium"
+                        android:maxLines="1"
                         android:text="Dra. Luz María"
                         android:textColor="@android:color/white"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@+id/txtEspecialidad"
                         app:layout_constraintEnd_toEndOf="@+id/imgSucursal"
-                        app:layout_constraintHorizontal_bias="0.03"
+                        app:layout_constraintHorizontal_bias="0.061"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/imgSucursal"
                         app:layout_constraintVertical_bias="1.0" />
 
                     <TextView
                         android:id="@+id/txtEspecialidad"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="100dp"
+                        android:layout_height="18dp"
                         android:layout_below="@id/txtNombreDoctor"
                         android:layout_marginTop="30dp"
-                        android:layout_toEndOf="@id/imgFotoDoctor"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/poppins_light"
+                        android:maxLines="1"
                         android:text="Odontología"
                         android:textColor="@android:color/white"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="@+id/imgSucursal"
                         app:layout_constraintEnd_toEndOf="@+id/imgSucursal"
-                        app:layout_constraintHorizontal_bias="0.027"
+                        app:layout_constraintHorizontal_bias="0.044"
                         app:layout_constraintStart_toStartOf="@+id/imgSucursal"
                         app:layout_constraintTop_toTopOf="@+id/imgSucursal"
-                        app:layout_constraintVertical_bias="0.891" />
+                        app:layout_constraintVertical_bias="0.912" />
 
                     <TextView
                         android:id="@+id/txtDireccionSucur"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="160dp"
+                        android:layout_height="21dp"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
                         android:ellipsize="end"
+                        android:fontFamily="@font/poppins_light"
                         android:maxLines="1"
                         android:text="Clinica escalon n97, Av Sur"
+                        android:textAlignment="textEnd"
                         android:textColor="@android:color/white"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/imgSucursal"
-                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintHorizontal_bias="0.935"
                         app:layout_constraintStart_toStartOf="@+id/imgSucursal"
                         app:layout_constraintTop_toTopOf="@+id/imgSucursal"
-                        app:layout_constraintVertical_bias="0.762" />
+                        app:layout_constraintVertical_bias="0.747" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
