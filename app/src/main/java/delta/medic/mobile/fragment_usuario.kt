@@ -3,6 +3,7 @@ package delta.medic.mobile
 import Modelo.ClaseConexion
 import Modelo.dataClassUsuario
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.text.Html
 import android.util.Log
@@ -12,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -47,7 +49,7 @@ class fragment_usuario : Fragment() {
                         objConexion.prepareStatement("SELECT * FROM tbUsuarios WHERE emailUsuario = ?")!!
                     statement.setString(1, userEmail)
                     val resultSet = statement.executeQuery()
-                    // Verifica si hay resultados
+
                     if (resultSet.next()) {
                         val idUsuario = resultSet.getInt("ID_Usuario")
                         val nombreUsuario = resultSet.getString("nombreUsuario")
@@ -76,12 +78,7 @@ class fragment_usuario : Fragment() {
                         )
                         dataUser = userWithFullData
                         listaUsuarios.add(userWithFullData)
-
-                    } else {
-                        println("No se encontraron usuarios con el email ${email}.")
                     }
-
-                    // Cerrar recursos
                     resultSet.close()
                     statement.close()
                     objConexion.close()
@@ -106,19 +103,12 @@ class fragment_usuario : Fragment() {
             val emailUsuario = userEmail
             val fotoUsuario = dataUser.imgUsuario
 
-
-
             withContext(Dispatchers.Main) {
-                val primerNombre =
-                    (nombreCompleto).split(" ").firstOrNull() ?: ""
-                //Hacemos lo mismo de arriba para el apellido
-                val primerApellido =
-                    (apellidoCompleto).split(" ").firstOrNull() ?: ""
+                val primerNombre = (nombreCompleto).split(" ").firstOrNull() ?: ""
+                val primerApellido = (apellidoCompleto).split(" ").firstOrNull() ?: ""
 
-                //Ahora solo ponemos que el lbNombre sea el nombre y apellido.
                 lbNombre.setText("$primerNombre $primerApellido")
                 lbCorreo.setText(emailUsuario)
-
 
                 if (fotoUsuario.isNotEmpty()) {
                     Glide.with(imgvFoto)
@@ -140,63 +130,33 @@ class fragment_usuario : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
 
-
         val root = inflater.inflate(R.layout.fragment_usuario, container, false)
 
-        fun ActivitySettings(activitySettings: Intent): Intent {
-            val idUsuario = dataUser.idUsuario
-            val nombreUsuario = dataUser.nombreUsuario
-            val apellidoUsuario = dataUser.apellidoUsuario
-            val emailUsuario = dataUser.emailUsuario
-            val contraseña = dataUser.contraseña
-            val dirección = dataUser.dirección
-            val teléfono = dataUser.teléfonoUsuario
-            val sexo = dataUser.sexo
-            val fechaNacimiento = dataUser.fechaNacimiento
-            val imgUsuario = dataUser.idUsuario
-            val idTipoUsuario = dataUser.idTipoUsuario
-
-
-            activitySettings.putExtra("idUsuario", idUsuario)
-            activitySettings.putExtra("nombreUsuario", nombreUsuario)
-            activitySettings.putExtra("apellidoUsuario", apellidoUsuario)
-            activitySettings.putExtra("emailUsuario", emailUsuario)
-            activitySettings.putExtra("contraseña", contraseña)
-            activitySettings.putExtra("dirección", dirección)
-            activitySettings.putExtra("teléfono", teléfono)
-            activitySettings.putExtra("sexo", sexo)
-            activitySettings.putExtra("fechaNacimiento", fechaNacimiento)
-            activitySettings.putExtra("imgUsuario", imgUsuario)
-            activitySettings.putExtra("idTipoUsuario", idTipoUsuario)
-
-            return activitySettings
-        }
-
         /******************************************************************************************
-         * Values                                                                                  *
+         * Valores de los componentes
          ******************************************************************************************/
-        //Image View
         val imgvFoto = root.findViewById<ImageView>(R.id.imgvPriv)
         val imgvPersonalizar = root.findViewById<ImageView>(R.id.imgvPerfil)
         val imgvDoctoresFavoritos = root.findViewById<ImageView>(R.id.imgvDocFav)
         val imgvRecetas = root.findViewById<ImageView>(R.id.imgvRecetas)
         val imgvHistorialCitas = root.findViewById<ImageView>(R.id.imgvHistCitas)
         val imgvMisReseñas = root.findViewById<ImageView>(R.id.imgvMisReseñas)
-        //val imgvPacientesPerfil = root.findViewById<ImageView>(R.id.imgvPacientesPerfil)
-        //Labels
+
         val lbNombre = root.findViewById<TextView>(R.id.txtPrivacidadySeguridad)
         val lbCorreo = root.findViewById<TextView>(R.id.txtNotiiii)
         val lbPersonalizar = root.findViewById<TextView>(R.id.lbPersonalizarPerfil)
         val lbPerfil = root.findViewById<TextView>(R.id.lbPerfil)
-        //val lbPacientes = root.findViewById<TextView>(R.id.lbPacientesPerfil)
-
         lbPerfil.setText(Html.fromHtml(getResources().getString(R.string.lbPerfilSub)))
-
 
         loadData(lbNombre, lbCorreo, imgvFoto)
 
         /******************************************************************************************
-         * On Clicks                                                                              *
+         * Cambiar tema (modo claro/oscuro)
+         ******************************************************************************************/
+        applyThemeColors(imgvDoctoresFavoritos, imgvRecetas, imgvHistorialCitas, imgvMisReseñas, lbPersonalizar)
+
+        /******************************************************************************************
+         * OnClick events
          ******************************************************************************************/
         imgvPersonalizar.setOnClickListener {
             val activityEditarPerfil = Intent(requireContext(), activity_editarperfil::class.java)
@@ -206,10 +166,10 @@ class fragment_usuario : Fragment() {
             activityEditarPerfil.putExtra("emailUsuario", dataUser.emailUsuario)
             activityEditarPerfil.putExtra("dirección", dataUser.dirección)
             activityEditarPerfil.putExtra("teléfono", dataUser.teléfonoUsuario)
-            Log.e("ImgUsuario", "${dataUser.imgUsuario}")
             activityEditarPerfil.putExtra("imgUsuario1", dataUser.imgUsuario.toString())
-            startActivity(ActivitySettings(activityEditarPerfil))
+            startActivity(activityEditarPerfil)
         }
+
         lbPersonalizar.setOnClickListener {
             val activityEditarPerfil = Intent(requireContext(), activity_editarperfil::class.java)
             activityEditarPerfil.putExtra("idUsuario", dataUser.idUsuario)
@@ -219,34 +179,24 @@ class fragment_usuario : Fragment() {
             activityEditarPerfil.putExtra("dirección", dataUser.dirección)
             activityEditarPerfil.putExtra("teléfono", dataUser.teléfonoUsuario)
             activityEditarPerfil.putExtra("imgUsuario", dataUser.imgUsuario)
+            startActivity(activityEditarPerfil)
+        }
 
-            startActivity(ActivitySettings(activityEditarPerfil))
-        }
-        /*imgvPacientesPerfil.setOnClickListener {
-            val activityPacientes = Intent(requireContext(), activity_pacientes::class.java)
-            startActivity(activityPacientes)
-        }
-        lbPacientes.setOnClickListener {
-            val activityPacientes = Intent(requireContext(), activity_pacientes::class.java)
-            startActivity(activityPacientes)
-        }*/
-        /*imgvSeguro.setOnClickListener {
-            val activitySeguroPaciente =
-                Intent(requireContext(), activity_seguro_paciente::class.java)
-            startActivity(activitySeguroPaciente)
-        }*/
         imgvDoctoresFavoritos.setOnClickListener {
             val activityDoctoresFavoritos = Intent(requireContext(), activity_doctoresfavoritos::class.java)
             startActivity(activityDoctoresFavoritos)
         }
+
         imgvRecetas.setOnClickListener {
             val activityRecetas = Intent(requireContext(), activity_misrecetas::class.java)
             startActivity(activityRecetas)
         }
+
         imgvHistorialCitas.setOnClickListener {
             val activityHistorialCitas = Intent(requireContext(), activity_historialdecitas::class.java)
             startActivity(activityHistorialCitas)
         }
+
         imgvMisReseñas.setOnClickListener {
             val activityMisReseñas = Intent(requireContext(), activity_misresenas::class.java)
             startActivity(activityMisReseñas)
@@ -255,4 +205,30 @@ class fragment_usuario : Fragment() {
         return root
     }
 
+    private fun applyThemeColors(
+        imgvDocFav: ImageView,
+        imgvRecetas: ImageView,
+        imgvHistCitas: ImageView,
+        imgvMisReseñas: ImageView,
+        lbPersonalizarPerfil: TextView
+    ) {
+        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+
+        when (currentNightMode) {
+            Configuration.UI_MODE_NIGHT_NO -> {
+                imgvDocFav.setImageResource(R.drawable.ic_mdf_perfil)
+                imgvRecetas.setImageResource(R.drawable.ic_mr_perfil)
+                imgvHistCitas.setImageResource(R.drawable.ic_mhdc_perfil)
+                imgvMisReseñas.setImageResource(R.drawable.ic_mir_perfil)
+                lbPersonalizarPerfil.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            }
+            Configuration.UI_MODE_NIGHT_YES -> {
+                imgvDocFav.setImageResource(R.drawable.ic_mdf_perfil_darksito)
+                imgvRecetas.setImageResource(R.drawable.ic_mr_perfil_dark)
+                imgvHistCitas.setImageResource(R.drawable.ic_mhdc_perfil_dark)
+                imgvMisReseñas.setImageResource(R.drawable.ic_mir_perfil_dark)
+                lbPersonalizarPerfil.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            }
+        }
+    }
 }

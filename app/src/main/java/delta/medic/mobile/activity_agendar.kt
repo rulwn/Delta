@@ -70,6 +70,7 @@ class activity_agendar : AppCompatActivity() {
             insets
 
         }
+
         val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
         val btnContinuar = findViewById<Button>(R.id.btnContinuar)
         val txtFecha = findViewById<TextView>(R.id.txtFecha)
@@ -86,7 +87,7 @@ class activity_agendar : AppCompatActivity() {
         rcvDisponibilidad.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         rcvDisponibilidad.adapter = DiasAdapter(diasDelAno, { dia ->
-            diaSeleccionado = dia.fecha // Asignar el día seleccionado
+            diaSeleccionado = dia.fecha
             actualizarHorarios(diaSeleccionado)
 
         }, txtFecha)
@@ -317,16 +318,15 @@ WHERE
                 btnContinuar.setTextColor(ContextCompat.getColor(this, R.color.white))
                 btnContinuar.setBackgroundColor(ContextCompat.getColor(this, R.color.Turquesa1))
                 txtFecha.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtNombreDoctor.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtEspecialidad.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtDireccionSucur.setTextColor(ContextCompat.getColor(this, R.color.black))
-                txtMotivo.setTextColor(ContextCompat.getColor(this, R.color.black))
+
                 lbAgendarCita.setTextColor(ContextCompat.getColor(this, R.color.black))
                 txtSucu.setTextColor(ContextCompat.getColor(this, R.color.black))
                 txtdispo.setTextColor(ContextCompat.getColor(this, R.color.black))
                 txtespacios.setTextColor(ContextCompat.getColor(this, R.color.black))
                 textMoti.setTextColor(ContextCompat.getColor(this, R.color.black))
                 txtPressHere.setTextColor(ContextCompat.getColor(this, R.color.black))
+
+                cardDoctor.setCardBackgroundColor(ContextCompat.getColor(this, R.color.white))
 
                 btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.black))
                 btnContinuar.setTextColor(ContextCompat.getColor(this, R.color.white))
@@ -355,6 +355,7 @@ WHERE
                 textMoti.setTextColor(ContextCompat.getColor(this, R.color.white))
                 txtPressHere.setTextColor(ContextCompat.getColor(this, R.color.white))
 
+                cardDoctor.setCardBackgroundColor(ContextCompat.getColor(this, R.color.GrisHumo))
             }
         }
     }

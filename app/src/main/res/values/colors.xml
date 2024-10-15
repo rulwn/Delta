@@ -28,6 +28,7 @@
     <color name="onPrimaryLight">#FFFFFF</color>
     <color name="secondaryLight">#03DAC6</color>
     <color name="onSecondaryLight">#000000</color>
+    <color name="fondobusqueda">#121212</color>
 
 
 </resources>
