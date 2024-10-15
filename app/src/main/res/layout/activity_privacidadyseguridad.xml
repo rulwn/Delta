@@ -36,8 +36,8 @@
             android:layout_width="128dp"
             android:layout_height="25dp"
             android:layout_gravity="center"
-            android:fontFamily="@font/poppins_semibold"
-            android:text="Privacidad"
+            android:fontFamily="@font/poppinssemibold"
+            android:text="@string/Privacidad"
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="20sp" />
@@ -68,25 +68,25 @@
                 android:id="@+id/txtTerminos1"
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:fontFamily="@font/poppins_semibold"
-                android:text="Términos de Privacidad y Seguridad"
-                android:textSize="16sp"/>
+                android:fontFamily="@font/poppinssemibold"
+                android:text="@string/text1"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/txtTerminos2"
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:text="Última actualización: 11/07/2024"
+                android:text="@string/text2"
                 android:textSize="16sp"
-                android:fontFamily="@font/poppins_semibold" />
+                android:fontFamily="@font/poppinssemibold" />
 
             <TextView
                 android:id="@+id/txtTerminos3"
                 android:layout_width="match_parent"
                 android:layout_height="159dp"
                 android:layout_marginTop="1dp"
-                android:fontFamily="@font/poppins_medium"
-                android:text="Gracias por utilizar nuestra aplicación DeltaMedic. La privacidad y seguridad de sus datos personales son de suma importancia para nosotros. A continuación, detallamos cómo recopilamos, utilizamos y protegemos su información:"
+                android:fontFamily="@font/poppinsmedium"
+                android:text="@string/text3"
                 android:textSize="16sp" />
 
             <TextView
@@ -94,16 +94,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:layout_marginTop="10dp"
-                android:text="1. Información Recopilada:"
+                android:text="@string/text4"
                 android:textSize="16sp"
-                android:fontFamily="@font/poppins_semibold"/>
+                android:fontFamily="@font/poppinssemibold"/>
 
             <TextView
                 android:id="@+id/txtTerminos5"
                 android:layout_width="match_parent"
                 android:layout_height="161dp"
-                android:fontFamily="@font/poppins_medium"
-                android:text="Información Personal: Recopilamos información personal que usted proporciona voluntariamente, como nombre, fecha de nacimiento, dirección de correo electrónico, historial médico, síntomas, y cualquier otra información relevante para su salud."
+                android:fontFamily="@font/poppinsmedium"
+                android:text="@string/txt5"
                 android:textSize="16sp" />
 
             <TextView
@@ -111,8 +111,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="135dp"
                 android:layout_marginTop="5dp"
-                android:fontFamily="@font/poppins_medium"
-                android:text="Información de Uso: Podemos recopilar información sobre cómo interactúa con la aplicación, incluidos registros de acceso, actividades realizadas y preferencias de uso."
+                android:fontFamily="@font/poppinsmedium"
+                android:text="@string/txt6"
                 android:textSize="16sp" />
 
             <TextView
@@ -120,26 +120,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:layout_marginTop="10dp"
-                android:text="2. Uso de la Información:  "
+                android:text="@string/txt7"
                 android:textSize="16sp"
-                android:fontFamily="@font/poppins_semibold"/>
+                android:fontFamily="@font/poppinssemibold"/>
 
             <TextView
                 android:id="@+id/txtTerminos8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Utilizamos la información recopilada para proporcionar servicios médicos personalizados, incluyendo diagnósticos, recomendaciones de salud, recordatorios de medicación y seguimiento de síntomas."
+                android:text="@string/txt8"
                 android:textSize="16sp"
-                android:fontFamily="@font/poppins_medium"/>
+                android:fontFamily="@font/poppinsmedium"/>
 
             <TextView
                 android:id="@+id/txtTerminos9"
                 android:layout_width="match_parent"
                 android:layout_height="153dp"
                 android:layout_marginTop="5dp"
-                android:fontFamily="@font/poppins_medium"
-                android:text="La información también puede ser utilizada para mejorar nuestros servicios, personalizar su experiencia y comunicarnos con usted sobre actualizaciones y novedades de la aplicación."
+                android:fontFamily="@font/poppinsmedium"
+                android:text="@string/txt9"
                 android:textSize="16sp" />
 
             <TextView
@@ -147,26 +147,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="3. Compartición de Información:  "
+                android:text="@string/txt10"
                 android:textSize="16sp"
-                android:fontFamily="@font/poppins_semibold"/>
+                android:fontFamily="@font/poppinssemibold"/>
 
             <TextView
                 android:id="@+id/txtTerminos11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="No compartiremos su información personal con terceros sin su consentimiento explícito, excepto cuando sea necesario para cumplir con la ley, proteger nuestros derechos o en situaciones que requieran asistencia médica urgente. "
+                android:text="@string/txt11"
                 android:textSize="16sp"
-                android:fontFamily="@font/poppins_medium"/>
+                android:fontFamily="@font/poppinsmedium"/>
 
             <TextView
                 android:id="@+id/txtTerminos12"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
                 android:layout_marginTop="5dp"
-                android:fontFamily="@font/poppins_medium"
-                android:text="Podemos compartir datos anónimos y agregados con fines estadísticos y de investigación. "
+                android:fontFamily="@font/poppinsmedium"
+                android:text="@string/txt12"
                 android:textSize="16sp" />
 
             <TextView
@@ -174,26 +174,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="4. Seguridad de los Datos:"
+                android:text="@string/txt13"
                 android:textSize="16sp"
-                android:fontFamily="@font/poppins_semibold"/>
+                android:fontFamily="@font/poppinssemibold"/>
 
             <TextView
                 android:id="@+id/txtTerminos14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Implementamos medidas de seguridad técnicas y organizativas adecuadas para proteger su información personal contra accesos no autorizados, uso indebido o divulgación."
+                android:text="@string/txt14"
                 android:textSize="16sp"
-                android:fontFamily="@font/poppins_medium"/>
+                android:fontFamily="@font/poppinsmedium"/>
 
             <TextView
                 android:id="@+id/txtTerminos15"
                 android:layout_width="match_parent"
                 android:layout_height="112dp"
                 android:layout_marginTop="5dp"
-                android:fontFamily="@font/poppins_medium"
-                android:text="Regularmente revisamos nuestras prácticas de seguridad y actualizamos nuestros sistemas para mantener la integridad y confidencialidad de sus datos."
+                android:fontFamily="@font/poppinsmedium"
+                android:text="@string/txt15"
                 android:textSize="16sp" />
 
             <TextView
@@ -201,26 +201,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="5. Acceso y Control:"
+                android:text="@string/txt16"
                 android:textSize="16sp"
-                android:fontFamily="@font/poppins_semibold"/>
+                android:fontFamily="@font/poppinssemibold"/>
 
             <TextView
                 android:id="@+id/txtTerminos17"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Usted tiene derecho a acceder, corregir o eliminar su información personal en cualquier momento."
+                android:text="@string/txt17"
                 android:textSize="16sp"
-                android:fontFamily="@font/poppins_medium"/>
+                android:fontFamily="@font/poppinsmedium"/>
 
             <TextView
                 android:id="@+id/txtTerminos18"
                 android:layout_width="match_parent"
                 android:layout_height="136dp"
                 android:layout_marginTop="5dp"
-                android:fontFamily="@font/poppins_medium"
-                android:text="Puede optar por no recibir comunicaciones promocionales por correo electrónico siguiendo las instrucciones proporcionadas en dichas comunicaciones."
+                android:fontFamily="@font/poppinsmedium"
+                android:text="@string/txt18"
                 android:textSize="16sp" />
 
             <TextView
@@ -228,17 +228,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="6. Menores de Edad:"
+                android:text="string/txt19"
                 android:textSize="16sp"
-                android:fontFamily="@font/poppins_semibold"/>
+                android:fontFamily="@font/poppinssemibold"/>
 
             <TextView
                 android:id="@+id/txtTerminos20"
                 android:layout_width="match_parent"
                 android:layout_height="155dp"
                 android:layout_marginTop="5dp"
-                android:fontFamily="@font/poppins_medium"
-                android:text="Nuestra aplicación está destinada a personas mayores de 18 años. No recopilamos intencionalmente información de menores sin consentimiento verificable de sus padres o tutores legales."
+                android:fontFamily="@font/poppinsmedium"
+                android:text="@string/txt20"
                 android:textSize="16sp" />
 
             <TextView
@@ -246,17 +246,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="7. Cambios en la Política de Privacidad:"
+                android:text="@string/txt21"
                 android:textSize="16sp"
-                android:fontFamily="@font/poppins_semibold"/>
+                android:fontFamily="@font/poppinssemibold"/>
 
             <TextView
                 android:id="@+id/txtTerminos22"
                 android:layout_width="match_parent"
                 android:layout_height="158dp"
                 android:layout_marginTop="5dp"
-                android:fontFamily="@font/poppins_medium"
-                android:text="Nos reservamos el derecho de modificar esta Política de Privacidad en cualquier momento. Se le notificará cualquier cambio significativo mediante una notificación dentro de la aplicación o por otros medios adecuados."
+                android:fontFamily="@font/poppinsmedium"
+                android:text="@string/txt22"
                 android:textSize="16sp" />
 
             <TextView
@@ -264,27 +264,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="8. Contacto:"
+                android:text="@string/txt23"
                 android:textSize="16sp"
-                android:fontFamily="@font/poppins_semibold"/>
+                android:fontFamily="@font/poppinssemibold"/>
 
             <TextView
                 android:id="@+id/txtTerminos24"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Si tiene preguntas o inquietudes sobre nuestros términos de privacidad y seguridad, o sobre cómo manejamos su información personal, no dude en contactarnos a través de [correo electrónico de contacto]."
+                android:text="@string/txt24"
                 android:textSize="16sp"
-                android:fontFamily="@font/poppins_medium"/>
+                android:fontFamily="@font/poppinsmedium"/>
 
             <TextView
                 android:id="@+id/txtTerminos25"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Al utilizar DeltaMedic, usted acepta los términos de esta Política de Privacidad. Gracias por confiar en nosotros con su información personal y por utilizar nuestros servicios para mejorar su salud y bienestar."
+                android:text="@string/txt25"
                 android:textSize="16sp"
-                android:fontFamily="@font/poppins_medium"/>
+                android:fontFamily="@font/poppinsmedium"/>
         </LinearLayout>
     </ScrollView>
 

@@ -229,7 +229,7 @@ class activity_editarperfil : AppCompatActivity() {
 
             if (fotoUsuario!!.isNotEmpty()) {
                 Glide.with(imgvFoto)
-                    .load(fotoUsuario)
+                    .load(fotoUsuario).circleCrop()
                     .into(imgvFoto)
             } else {
                 Toast.makeText(

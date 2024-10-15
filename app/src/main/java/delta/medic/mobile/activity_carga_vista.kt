@@ -69,15 +69,12 @@ class activity_carga_vista : AppCompatActivity() {
             s.latiSucur,
             s.imgSucursal,
             s.whatsapp,
-            s.valoFinal,
-            se.nombreServicio,
-            se.costo
+            s.valoFinal
         FROM 
             tbDoctores d
         INNER JOIN tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
         INNER JOIN tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
         INNER JOIN tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
-        INNER JOIN tbServicios se ON d.ID_Doctor = se.ID_Doctor
         WHERE 
             u.emailUsuario = ? AND d.ID_Doctor = ?
         """
@@ -106,8 +103,6 @@ class activity_carga_vista : AppCompatActivity() {
                         imgSucursal = resultSet.getString("imgSucursal").toString()
                         whatsapp = resultSet.getString("whatsapp").toString()
                         valoFinal = resultSet.getDouble("valoFinal")
-                        nombreServicio = resultSet.getString("nombreServicio").toString()
-                        costo = resultSet.getDouble("costo")
 
                         Log.d("INFO", "$ID_User $nombreUsuario $apellidoUsuario $imgUsuario $nombreEspecialidad $ID_Sucursal $nombreSucursal $telefonoSucursal $direccionSucursal $longSucursal $latiSucursal $imgSucursal $whatsapp $valoFinal $nombreServicio $costo")
                     } else {
@@ -142,8 +137,6 @@ class activity_carga_vista : AppCompatActivity() {
             intent.putExtra("imgSucursal", imgSucursal)
             intent.putExtra("whatsapp", whatsapp)
             intent.putExtra("valoFinal", valoFinal)
-            intent.putExtra("nombreServicio", nombreServicio)
-            intent.putExtra("costo", costo)
             startActivity(intent)
             finish()
         }

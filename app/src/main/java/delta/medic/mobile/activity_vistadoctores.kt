@@ -238,7 +238,6 @@ class activity_vistadoctores : AppCompatActivity(), OnMapReadyCallback {
                 } else {
                     txtNoServices.visibility = View.GONE
                     rcvServicios.visibility = View.VISIBLE
-
                     val miAdapter = AdaptadorServicios(centrosDB)
                     rcvServicios.adapter = miAdapter
                 }

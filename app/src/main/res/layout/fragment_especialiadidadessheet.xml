@@ -18,10 +18,10 @@
         android:id="@+id/specialtiesTitleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Especialidades:"
+        android:text="@string/espe"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:fontFamily="@font/poppins_semibold"
+        android:fontFamily="@font/poppinssemibold"
         android:textColor="@color/black"/>
 
     <androidx.recyclerview.widget.RecyclerView
