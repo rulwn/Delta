@@ -70,7 +70,6 @@ class activity_agendar : AppCompatActivity() {
             insets
 
         }
-
         val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
         val btnContinuar = findViewById<Button>(R.id.btnContinuar)
         val txtFecha = findViewById<TextView>(R.id.txtFecha)
@@ -82,7 +81,6 @@ class activity_agendar : AppCompatActivity() {
         val txtDireccionSucur = findViewById<TextView>(R.id.txtDireccionSucur)
         txtMotivo = findViewById(R.id.txtMotivo)
         val txtPressHere = findViewById<TextView>(R.id.txtPressHere)
-
 
         val diasDelAno = obtenerDiasDelAno(Year.now().value)
         rcvDisponibilidad.layoutManager =
@@ -263,6 +261,49 @@ WHERE
         val textMoti = findViewById<TextView>(R.id.textMoti)
         txtPressHere.setText(Html.fromHtml(getResources().getString(R.string.txtPressHere)))
         val doctorExists = checkIfDoctorExists()
+
+        if (doctorExists) {
+            linearNoDoctor.visibility = View.GONE
+            cardDoctor.visibility = View.VISIBLE
+        } else {
+            linearNoDoctor.visibility = View.VISIBLE
+            cardDoctor.visibility = View.GONE
+            rcvDisponibilidad.visibility = View.GONE
+            txtSucu.visibility = View.GONE
+            cardDoctor.visibility = View.GONE
+            txtdispo.visibility = View.GONE
+            rcvDisponibilidad.visibility = View.GONE
+            txtFecha.visibility = View.GONE
+            txtespacios.visibility = View.GONE
+            grid.visibility = View.GONE
+            textMoti.visibility = View.GONE
+            txtMotivo.visibility = View.GONE
+            btnContinuar.visibility = View.GONE
+        }
+
+        btnRegresar.setOnClickListener {
+            finish()
+        }
+
+        btnContinuar.setOnClickListener {
+            if (txtMotivo.text.toString().isEmpty()){
+                txtMotivo.error = "Por favor, escribe un motivo."
+            }
+            else {
+                if (horaSeleccionada != null && diaSeleccionado != null) {
+                    showCustomDialog()
+                }
+                else {
+                    Toast.makeText(this, "Por favor, selecciona una hora y un día.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        txtPressHere.setOnClickListener {
+            val intent = Intent(this, activity_busqueda::class.java)
+            startActivity(intent)
+        }
+
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         when (currentNightMode) {
             Configuration.UI_MODE_NIGHT_NO -> {
@@ -286,10 +327,6 @@ WHERE
                 txtespacios.setTextColor(ContextCompat.getColor(this, R.color.black))
                 textMoti.setTextColor(ContextCompat.getColor(this, R.color.black))
                 txtPressHere.setTextColor(ContextCompat.getColor(this, R.color.black))
-
-                cardDoctor.setCardBackgroundColor(ContextCompat.getColor(this, R.color.white))
-                linearNoDoctor.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
-                grid.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
 
                 btnRegresar.setColorFilter(ContextCompat.getColor(this, R.color.black))
                 btnContinuar.setTextColor(ContextCompat.getColor(this, R.color.white))
@@ -318,55 +355,7 @@ WHERE
                 textMoti.setTextColor(ContextCompat.getColor(this, R.color.white))
                 txtPressHere.setTextColor(ContextCompat.getColor(this, R.color.white))
 
-                cardDoctor.setCardBackgroundColor(ContextCompat.getColor(this, R.color.GrisHumo))
-                linearNoDoctor.setBackgroundColor(ContextCompat.getColor(this, R.color.black))
-                grid.setBackgroundColor(ContextCompat.getColor(this, R.color.GrisHumo))
-
-
-
-
-
             }
-        }
-
-        if (doctorExists) {
-            linearNoDoctor.visibility = View.GONE
-            cardDoctor.visibility = View.VISIBLE
-        } else {
-            linearNoDoctor.visibility = View.VISIBLE
-            cardDoctor.visibility = View.GONE
-            rcvDisponibilidad.visibility = View.GONE
-            txtSucu.visibility = View.GONE
-            cardDoctor.visibility = View.GONE
-            txtdispo.visibility = View.GONE
-            rcvDisponibilidad.visibility = View.GONE
-            txtFecha.visibility = View.GONE
-            txtespacios.visibility = View.GONE
-            grid.visibility = View.GONE
-            textMoti.visibility = View.GONE
-            txtMotivo.visibility = View.GONE
-            btnContinuar.visibility = View.GONE
-        }
-
-        btnRegresar.setOnClickListener {
-            finish()
-        }
-
-        btnContinuar.setOnClickListener {
-            if (txtMotivo.text.toString().isEmpty()) {
-                txtMotivo.error = "Por favor, escribe un motivo."
-            } else {
-                if (horaSeleccionada != null && diaSeleccionado != null) {
-                    showCustomDialog()
-                } else {
-                    Toast.makeText(this, "Por favor, selecciona una hora y un día.", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-
-        txtPressHere.setOnClickListener {
-            val intent = Intent(this, activity_busqueda::class.java)
-            startActivity(intent)
         }
     }
 
