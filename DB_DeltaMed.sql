@@ -1518,15 +1518,15 @@ SELECT DUMMY FROM DUAL;
 
 INSERT ALL
     INTO tbEstablecimientos (nombreClinica, imgPrincipal)
-         VALUES ('Sonrisas', 'img.ClinicaSonrisas')
+         VALUES ('Sonrisas', 'https://clinicadentalsonrisas.com/wp-content/uploads/2024/05/Sonrias-logo-1024x921.png')
     INTO tbEstablecimientos (nombreClinica, imgPrincipal)
-         VALUES ('Pronefro', 'img.ClinicaPronefro')
+         VALUES ('Pronefro', 'https://medicosdeelsalvador.com/public/med/168021701632036-01.jpg')
     INTO tbEstablecimientos (nombreClinica, imgPrincipal)
-         VALUES ('Medicare', 'img.ClinicaMedicare')
+         VALUES ('Medicare', 'https://1000marcas.net/wp-content/uploads/2022/04/Medicare-Logo.png')
     INTO tbEstablecimientos (nombreClinica, imgPrincipal)
-         VALUES ('La Plus Belle', 'img.ClinicaLaPlusBelle')
+         VALUES ('La Plus Belle', 'https://seeklogo.com/images/P/plusbelle-logo-7E73D8ACB9-seeklogo.com.png')
     INTO tbEstablecimientos (nombreClinica, imgPrincipal)
-         VALUES ('Ecomedic', 'img.ClinicaEcomedic')
+         VALUES ('Ecomedic', 'https://www.ecomedicoviedo.com/wp-content/uploads/2018/05/logo-ecomedic_1754x1240.png')
 SELECT DUMMY FROM DUAL;
 
 INSERT ALL
@@ -2000,3 +2000,110 @@ SELECT * FROM tbExpedientes WHERE ID_Usuario = 1;
 select * from tbHorarios;
 select * from tbPropietarios where id_usuario = (select id_usuario from tbUsuarios where emailusuario = 'fran@gmail.com');
 /*drop table tbpacientes;
+<<<<<<< Updated upstream
+=======
+drop table tbcentrosmedicos;*/
+
+WITH estrellas AS (
+    SELECT LEVEL AS PromEstrellas
+    FROM DUAL
+    CONNECT BY LEVEL <= 5
+)
+SELECT
+    e.PromEstrellas,
+    NVL(r.cantidad_reviews, 0) AS cantidad_reviews
+FROM estrellas e
+LEFT JOIN (
+    SELECT r.promEstrellas, COUNT(*) AS cantidad_reviews
+    FROM tbReviews r
+    INNER JOIN tbDoctores d ON r.ID_Doctor = d.ID_Doctor
+    INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario
+    WHERE u.emailUsuario = 'xam@gmail.com'
+    GROUP BY r.promEstrellas
+) r ON e.PromEstrellas = r.PromEstrellas
+ORDER BY e.PromEstrellas;
+
+WITH Meses AS (
+    -- Genera 12 meses (5 hacia atrás y 6 hacia adelante incluyendo el actual)
+    SELECT ADD_MONTHS(TRUNC(SYSDATE, 'MM'), LEVEL - 6) AS Mes
+    FROM DUAL
+    CONNECT BY LEVEL <= 12
+)
+SELECT
+    TO_CHAR(m.Mes, 'YYYY-MM') AS AñoMes,
+    TO_CHAR(m.Mes, 'Month YYYY', 'NLS_DATE_LANGUAGE=SPANISH') AS NombreMes,
+    NVL(COUNT(c.ID_Cita), 0) AS Total_Citas,
+    NVL(SUM(CASE WHEN c.estadoCita = 'A' THEN 1 ELSE 0 END), 0) AS Citas_Activas,
+    NVL(SUM(CASE WHEN c.estadoCita = 'C' THEN 1 ELSE 0 END), 0) AS Citas_Inactivas
+FROM
+    Meses m
+LEFT JOIN
+    tbCitasMedicas c
+ON
+    TO_CHAR(c.diaCita, 'YYYY-MM') = TO_CHAR(m.Mes, 'YYYY-MM')
+LEFT JOIN
+    tbDoctores d
+ON
+    c.ID_Doctor = d.ID_Doctor
+LEFT JOIN
+    tbUsuarios u
+ON
+    d.ID_Usuario = u.ID_Usuario
+WHERE
+    u.emailUsuario = 'xam@gmail.com'  -- Filtro por el correo del doctor
+    OR u.emailUsuario IS NULL  -- Esto permite mantener los meses sin citas
+GROUP BY
+    m.Mes
+ORDER BY
+    m.Mes;
+
+SELECT (U.nombreUsuario || ' ' || U.apellidoUsuario) AS NombreUsuario,
+       C.Motivo, C.HoraCita, U.imgUsuario
+FROM tbCitasMedicas C
+INNER JOIN tbUsuarios U ON U.ID_Usuario = C.ID_Usuario
+WHERE EXISTS (
+    SELECT 1
+    FROM tbDoctores D
+    INNER JOIN tbUsuarios U2 ON U2.ID_Usuario = D.ID_Usuario
+    WHERE U2.emailUsuario = 'xam@gmail.com'
+    AND D.ID_Doctor = C.ID_Doctor
+)
+AND C.horacita > CURRENT_TIMESTAMP
+AND C.ESTADOCITA = 'A'
+ORDER BY C.diaCita ASC
+FETCH FIRST 3 ROWS ONLY;
+
+Select ID_Doctor, emailusuario, NombreUsuario from tbDoctores r INNER JOIN tbUSuarios u On u.ID_Usuario = r.ID_Usuario;
+
+    SELECT
+        (SUM(r.PromEstrellas) / NULLIF(COUNT(r.PromEstrellas), 0)) AS "Promedio",
+        COUNT(r.PromEstrellas) * 5 AS "Total",
+        (SUM(r.PromEstrellas) * 100 / (COUNT(r.PromEstrellas) * 5)) || '%' AS "Porcentaje"
+    FROM
+        tbReviews r
+    WHERE
+        EXISTS (
+            SELECT 1
+            FROM tbDoctores d
+            INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario
+            WHERE u.emailUsuario = 'orantes@gmail.com'
+            AND d.ID_Doctor = r.ID_Doctor
+        );
+
+SELECT
+    u.NombreUsuario || ' ' || u.ApellidoUsuario AS Doctor,
+    e.NombreEspecialidad as Especialidad,
+    u.ImgUsuario AS ImagenDoctor,
+    s.ImgSucursal AS ImagenSucursal,
+    s.ID_Sucursal AS Sucursal
+FROM
+    tbDoctores d
+INNER JOIN
+    tbUsuarios u ON d.ID_Usuario = u.ID_Usuario
+INNER JOIN
+    tbSucursales s ON d.ID_Sucursal = s.ID_Sucursal
+INNER JOIN
+    tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
+WHERE u.emailUsuario = 'xam@gmail.com';
+select * from tbServicios
+select s.nombresucursal, s.emailsucur, s.telefonosucur, s.direccionsucur, s.whatsapp from tbdoctores d inner join tbUsuarios u on d.id_usuario = u.id_usuario inner join tbSucursales s on d.id_sucursal = s.id_sucursal where u.emailusuario = 'xam@gmail.com'
