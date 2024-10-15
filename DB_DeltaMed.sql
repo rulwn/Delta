@@ -1765,7 +1765,7 @@ INSERT ALL
     INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(1, 'El doctor no se presento a mi cita', 3, 1)
     INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
-        VALUES(4.5, 'Muy buen ambiente en esa clinica', 4, 2)
+        VALUES(4, 'Muy buen ambiente en esa clinica', 4, 2)
     INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(3, 'Bueno pero pudo ser mejor con el tiempo', 3, 4)
     INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
@@ -1773,6 +1773,10 @@ INSERT ALL
     INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(2, 'Mal Servicio', 1, 2)
 SELECT DUMMY FROM DUAL;
+
+    INSERT INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
+            VALUES(4, 'Mal Servicio', 1, 2); COMMIT;
+        
 
 INSERT ALL
     INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
@@ -2092,8 +2096,7 @@ Select ID_Doctor, emailusuario, NombreUsuario from tbDoctores r INNER JOIN tbUSu
 
     SELECT
         (SUM(r.PromEstrellas) / NULLIF(COUNT(r.PromEstrellas), 0)) AS "Promedio",
-        COUNT(r.PromEstrellas) * 5 AS "Total",
-        (SUM(r.PromEstrellas) * 100 / (COUNT(r.PromEstrellas) * 5)) || '%' AS "Porcentaje"
+        (SUM(r.PromEstrellas) * 100 / (COUNT(r.PromEstrellas) * 5)) AS "Porcentaje"
     FROM
         tbReviews r
     WHERE
