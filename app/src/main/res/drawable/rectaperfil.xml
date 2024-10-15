@@ -1,0 +1,8 @@
+<!-- res/drawable/white_rectangle.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FFFFFF" /> <!-- Color blanco -->
+    <corners android:radius="0dp" />  <!-- Esquinas sin redondear -->
+    <size
+        android:width="200dp"
+        android:height="100dp" /> <!-- Tamaño del rectángulo (puedes ajustarlo) -->
+</shape>

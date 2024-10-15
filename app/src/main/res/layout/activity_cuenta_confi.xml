@@ -35,8 +35,8 @@
             android:layout_width="210dp"
             android:layout_height="27dp"
             android:layout_gravity="center"
-            android:fontFamily="@font/poppins_semibold"
-            android:text="Mi cuenta"
+            android:fontFamily="@font/poppinssemibold"
+            android:text="@string/micuenta"
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="20sp" />
@@ -74,8 +74,8 @@
                     android:id="@+id/txtNombre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:text="Nombre"
+                    android:fontFamily="@font/poppinssemibold"
+                    android:text="@string/Nombre"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
@@ -107,8 +107,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:fontFamily="@font/poppins_semibold"
-                        android:text="Apellido"
+                        android:fontFamily="@font/poppinssemibold"
+                        android:text="@string/Apellido"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -140,8 +140,8 @@
                         android:id="@+id/txtDireccionSucur"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_semibold"
-                        android:text="Dirección"
+                        android:fontFamily="@font/poppinssemibold"
+                        android:text="@string/Dirección"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -172,8 +172,8 @@
                         android:id="@+id/txtCorreo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_semibold"
-                        android:text="Correo"
+                        android:fontFamily="@font/poppinssemibold"
+                        android:text="@string/Correo"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -204,8 +204,8 @@
                         android:id="@+id/txtTelefono"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_semibold"
-                        android:text="Teléfono"
+                        android:fontFamily="@font/poppinssemibold"
+                        android:text="@string/Teléfono"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -237,8 +237,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:fontFamily="@font/poppins_semibold"
-                        android:text="Sexo"
+                        android:fontFamily="@font/poppinssemibold"
+                        android:text="@string/Sexo"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -271,8 +271,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:text="Fecha de Nacimiento"
+                    android:fontFamily="@font/poppinssemibold"
+                    android:text="@string/Fechanaci"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
@@ -301,9 +301,9 @@
         android:backgroundTint="@color/Azul2"
         android:drawableEnd="@drawable/ic_password"
         android:drawableTint="@color/white"
-        android:fontFamily="@font/poppins_medium"
+        android:fontFamily="@font/poppinsmedium"
         android:foregroundTint="#FFFFFF"
-        android:text="Cambiar Contraseña"
+        android:text="@string/cambiar"
         android:textColor="@color/white"
         android:textSize="14dp"
         app:cornerRadius="15dp"
@@ -319,9 +319,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:drawableEnd="@drawable/deleterojo"
-        android:fontFamily="@font/poppins_medium"
+        android:fontFamily="@font/poppinsmedium"
         android:foregroundTint="@color/avisos"
-        android:text="Eliminar Usuario"
+        android:text="@string/eliminaruser"
         android:textAlignment="center"
         android:textColor="@color/avisos"
         android:textSize="16sp"

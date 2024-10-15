@@ -10,8 +10,8 @@
         android:id="@+id/lblBorrar"
         android:layout_width="284dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_bold"
-        android:text="Borrar cuenta"
+        android:fontFamily="@font/poppinsbold"
+        android:text="@string/borrarcu"
         android:textColor="@color/avisos"
         android:textSize="26sp" />
 
@@ -19,8 +19,8 @@
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/rubik"
-        android:text="Para asegurar que quieres borrar tu cuenta verifica tu contraseña"
+        android:fontFamily="@font/poppinsregular"
+        android:text="@string/alerta"
         android:textSize="18sp" />
 
     <TextView
@@ -40,8 +40,8 @@
         android:layout_height="54dp"
         android:background="@drawable/textboxprueba"
         android:ems="10"
-        android:fontFamily="@font/poppins_regular"
-        android:hint="Contraseña"
+        android:fontFamily="@font/poppinsregular"
+        android:hint="@string/Contraseña"
         android:inputType="textEmailAddress"
         android:padding="8dp"
         android:textColor="@color/GrisAzulito"
@@ -58,8 +58,8 @@
         android:layout_height="54dp"
         android:background="@drawable/textboxprueba"
         android:ems="10"
-        android:fontFamily="@font/poppins_regular"
-        android:hint="Repite la contraseña"
+        android:fontFamily="@font/poppinsregular"
+        android:hint="@string/repite"
         android:inputType="textEmailAddress"
         android:padding="8dp"
         android:textColor="@color/GrisAzulito"
@@ -76,9 +76,9 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:backgroundTint="@color/avisos"
-        android:fontFamily="@font/poppins_medium"
+        android:fontFamily="@font/poppinsmedium"
         android:foregroundTint="#FFFFFF"
-        android:text="Borrar"
+        android:text="@string/Borrar"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:cornerRadius="15dp" />

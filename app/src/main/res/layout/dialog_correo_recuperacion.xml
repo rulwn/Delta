@@ -10,8 +10,8 @@
         android:id="@+id/txtaunnotienesTratamientos"
         android:layout_width="284dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_bold"
-        android:text="Recuperación de contraseña"
+        android:fontFamily="@font/poppinsbold"
+        android:text="@string/recupe"
         android:textColor="@color/GrisHumo"
         android:textSize="26sp" />
 
@@ -19,8 +19,8 @@
         android:id="@+id/textView10"
         android:layout_width="288dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/rubik"
-        android:text="Te enviaremos un codigo de 4 digitos a tu correo electronico"
+        android:fontFamily="@font/poppinsregular"
+        android:text="@string/mensajote"
         android:textSize="18sp" />
 
     <TextView
@@ -35,8 +35,8 @@
         android:layout_height="54dp"
         android:ems="10"
         android:background="@drawable/textboxprueba"
-        android:fontFamily="@font/poppins_regular"
-        android:hint="Email"
+        android:fontFamily="@font/poppinsregular"
+        android:hint="@string/Email"
         android:inputType="textEmailAddress"
         android:padding="8dp"
         android:textColor="@color/GrisAzulito"
@@ -53,9 +53,9 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:backgroundTint="@color/Azul2"
-        android:fontFamily="@font/poppins_medium"
+        android:fontFamily="@font/poppinsmedium"
         android:foregroundTint="#FFFFFF"
-        android:text="Siguiente"
+        android:text="@string/btnSiguiente"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:cornerRadius="15dp"/>

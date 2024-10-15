@@ -41,18 +41,17 @@
 
     <TextView
         android:id="@+id/txtOnBoard"
-        android:layout_width="256dp"
-        android:layout_height="47dp"
-        android:fontFamily="@font/poppins_regular"
-        android:text="Lleva todas tus necesidades  medicas en la palma de tu mano"
+        android:layout_width="271dp"
+        android:layout_height="67dp"
+        android:layout_marginBottom="32dp"
+        android:fontFamily="@font/poppinsregular"
+        android:text="@string/txt2bienvenida"
         android:textAlignment="center"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/btnContinuar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.867" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnContinuar"
@@ -60,9 +59,9 @@
         android:layout_width="295dp"
         android:layout_height="60dp"
         android:backgroundTint="@color/Azul2"
-        android:fontFamily="@font/poppins_medium"
+        android:fontFamily="@font/poppinsmedium"
         android:foregroundTint="#FFFFFF"
-        android:text="Continuar"
+        android:text="@string/btnContinuar"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:cornerRadius="15dp"
@@ -70,21 +69,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.88" />
+        app:layout_constraintVertical_bias="0.848" />
 
     <TextView
         android:id="@+id/txtOnBoardTitle"
         android:layout_width="265dp"
         android:layout_height="60dp"
-        android:fontFamily="@font/poppins_semibold"
-        android:text="Encuentra doctores de confianza"
+        android:fontFamily="@font/poppinssemibold"
+        android:text="@string/txt1bienvenida"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/txtOnBoard"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.479"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imgFondo"
-        app:layout_constraintVertical_bias="0.977" />
+        app:layout_constraintVertical_bias="0.942" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

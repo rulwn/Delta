@@ -13,6 +13,7 @@ import delta.medic.mobile.databinding.ActivityConfiguracionBinding
 import android.content.res.Configuration
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.LinearLayout
@@ -38,12 +39,6 @@ class activity_configuracion : AppCompatActivity() {
             insets
         }
 
-        val linearCuenta = findViewById<LinearLayout>(R.id.LinearCuenta)
-        val linearPrivacidad = findViewById<LinearLayout>(R.id.LinearPrivacidad)
-        val linearNotificaciones = findViewById<LinearLayout>(R.id.LinearNotificaciones)
-        val linearCentroAyuda = findViewById<LinearLayout>(R.id.LinearAyuda)
-        val linearApariencia = findViewById<LinearLayout>(R.id.LinearApariencia)
-        val linearCerrarSesion = findViewById<LinearLayout>(R.id.LinearCerrar)
         val btnRegresar = findViewById<ImageView>(R.id.btnRegresar)
         val txtConfi = findViewById<TextView>(R.id.txtConfiguracion)
         val txtCuenta = findViewById<TextView>(R.id.txtCuentaPerfil)
@@ -64,6 +59,14 @@ class activity_configuracion : AppCompatActivity() {
         val imgvApariencia = findViewById<ImageView>(R.id.imgvApariencia)
         val imgvCerrarSesion = findViewById<ImageView>(R.id.imgCerrarSesion)
         val btnCerrarSesion = findViewById<ImageView>(R.id.btnCerrarSesion)
+        val btnIdiomas = findViewById<ImageView>(R.id.btnIdiomas)
+
+        // Configuración para que el botón imvIdiomas abra la sección de idiomas
+        btnIdiomas.setOnClickListener {
+            val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+            startActivity(intent)
+        }
+
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         when (currentNightMode) {
             Configuration.UI_MODE_NIGHT_NO -> {
@@ -118,31 +121,31 @@ class activity_configuracion : AppCompatActivity() {
         }
 
         // Configuración del cambio de apariencia
-        linearApariencia.setOnClickListener {
+        btnApariencia.setOnClickListener {
             showThemeSelectionDialog() // Mostrar un diálogo para que el usuario elija el tema
         }
 
-        linearCuenta.setOnClickListener {
+        btnTuCuenta.setOnClickListener {
             val intent = Intent(this, activity_cuenta_confi::class.java)
             startActivity(intent)
         }
 
-        linearPrivacidad.setOnClickListener {
+        btnPrivacidadySeguridad.setOnClickListener {
             val intent = Intent(this, activity_privacidadyseguridad::class.java)
             startActivity(intent)
         }
 
-        linearNotificaciones.setOnClickListener {
+        btnNotificaciones.setOnClickListener {
             val intent = Intent(this, activity_notificaciones_confi::class.java)
             startActivity(intent)
         }
 
-        linearCentroAyuda.setOnClickListener {
+        btnCentroAyuda.setOnClickListener {
             val intent = Intent(this, activity_centroadeyuda::class.java)
             startActivity(intent)
         }
 
-        linearCerrarSesion.setOnClickListener {
+        btnCerrarSesion.setOnClickListener {
             val sharedPreferences = getSharedPreferences("userPreferences", MODE_PRIVATE)
             val editor = sharedPreferences.edit()
             editor.putString("email", null)
