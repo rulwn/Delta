@@ -10,8 +10,8 @@
         android:id="@+id/textView9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_bold"
-        android:text="Ingrese su codigo"
+        android:fontFamily="@font/poppinsbold"
+        android:text="@string/codiguito"
         android:textColor="@color/GrisHumo"
         android:textSize="26sp" />
 
@@ -19,8 +19,8 @@
         android:id="@+id/textView13"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/rubik"
-        android:text="Ingresa el codigo de 4 dígitos que recibiste en tu correo electronico"
+        android:fontFamily="@font/poppinsregular"
+        android:text="@string/ingresar"
         android:textSize="18sp" />
 
     <TextView
@@ -116,9 +116,9 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:backgroundTint="@color/Azul2"
-        android:fontFamily="@font/poppins_medium"
+        android:fontFamily="@font/poppinsmedium"
         android:foregroundTint="#FFFFFF"
-        android:text="Siguiente"
+        android:text="@string/btnSiguiente"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:cornerRadius="15dp" />

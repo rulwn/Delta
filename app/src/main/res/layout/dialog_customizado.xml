@@ -18,8 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:fontFamily="@font/poppins_semibold"
-        android:text="Confirma la cita"
+        android:fontFamily="@font/poppinssemibold"
+        android:text="@string/confircita"
         android:textColor="@color/black"
         android:textSize="38sp"
         android:textStyle="bold" />
@@ -30,8 +30,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:fontFamily="@font/poppins_medium"
-        android:text="Ya casi estamos.."
+        android:fontFamily="@font/poppinsmedium"
+        android:text="@string/yacasi"
         android:textColor="#677294"
         android:textSize="20sp" />
 
@@ -41,8 +41,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:fontFamily="@font/poppins_medium"
-        android:text="Dale listo para continuar"
+        android:fontFamily="@font/poppinsmedium"
+        android:text="@string/listo"
         android:textAlignment="center"
         android:textSize="16sp" />
 
@@ -53,9 +53,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:textColor="@color/white"
-        android:fontFamily="@font/poppins_bold"
+        android:fontFamily="@font/poppinsbold"
         android:backgroundTint="@color/Turquesa2"
-        android:text="Listo" />
+        android:text="@string/listote" />
 
     <TextView
         android:id="@+id/editButton"
@@ -63,8 +63,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:text="Editar cita"
-        android:fontFamily="@font/poppins_medium"
+        android:text="@string/editarcita"
+        android:fontFamily="@font/poppinsmedium"
         android:textSize="16sp"
         android:textColor="@color/Turquesa2" />
 </LinearLayout>

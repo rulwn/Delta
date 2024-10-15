@@ -33,8 +33,8 @@
             android:layout_width="210dp"
             android:layout_height="27dp"
             android:layout_gravity="center"
-            android:fontFamily="@font/poppins_semibold"
-            android:text="Apariencia"
+            android:fontFamily="@font/poppinssemibold"
+            android:text="@string/Apariencia"
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="20sp" />
@@ -56,23 +56,23 @@
             android:id="@+id/modoClaro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_regular"
-            android:text="Modo Claro" />
+            android:fontFamily="@font/poppinsregular"
+            android:text="@string/Modoclaro" />
 
         <RadioButton
             android:id="@+id/modoOscuro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_regular"
-            android:text="Modo Oscuro" />
+            android:fontFamily="@font/poppinsregular"
+            android:text="@string/Modooscuro" />
 
         <RadioButton
             android:id="@+id/predeterminadoSistema"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_regular"
+            android:fontFamily="@font/poppinsregular"
             android:checked="true"
-            android:text="Predeterminado por el Sistema " />
+            android:text="@string/sistema" />
 
     </RadioGroup>
 

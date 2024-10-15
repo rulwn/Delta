@@ -36,8 +36,8 @@
             android:layout_width="210dp"
             android:layout_height="25dp"
             android:layout_gravity="center"
-            android:fontFamily="@font/poppins_semibold"
-            android:text="Reseñas"
+            android:fontFamily="@font/poppinssemibold"
+            android:text="@string/Reseñas"
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="20sp" />

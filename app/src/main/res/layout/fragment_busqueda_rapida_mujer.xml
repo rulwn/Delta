@@ -29,8 +29,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/poppins_semibold"
-            android:text="Búsqueda rápida"
+            android:fontFamily="@font/poppinssemibold"
+            android:text="@string/busquedadrapida"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
@@ -41,8 +41,8 @@
         android:layout_width="298dp"
         android:layout_height="70dp"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/poppins_semibold"
-        android:text="¿Adónde sientes malestar?"
+        android:fontFamily="@font/poppinssemibold"
+        android:text="@string/molestar"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"

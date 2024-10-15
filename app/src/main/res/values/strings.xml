@@ -1,5 +1,4 @@
 <resources>
-    <string name="default_web_client_id">24080159450-3r7egt0k1497nrpssi731pr7k8pr087i.apps.googleusercontent.com</string>
     <string name="DeltaMedic">DeltaMedic</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
@@ -11,51 +10,175 @@
     <string name="lbPerfilSub"><![CDATA[<u>Perfil</u>]]></string>
     <string name="lbNotificacionesSub"><![CDATA[<u>Notificaciones</u>]]></string>
     <string name="lbControl"><![CDATA[<u>Control</u>]]></string>
-    <string name="lbEditarPErfil"><![CDATA[<u>EditarPerfil</u>]]></string>
     <string name="concatenar2">%1$s %2$s</string>
     <string name="concatenar3">%1$s %2$s %3$s</string>
-    <string name="alert_icon" />
-    <string name="body_image">\n</string>
+    <string name="alert_icon" >.</string>
+    <string name="body_image">" ."</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="lorem_ipsum">"         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus         dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad         litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse blandit eleifend         diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,         ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.           Suspendisse interdum ornare ante. Aliquam nec cursus lorem. Morbi id magna felis. Vivamus         egestas, est a condimentum egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed         neque. Morbi tellus erat, dapibus ut sem a, iaculis tincidunt dui. Interdum et malesuada         fames ac ante ipsum primis in faucibus. Curabitur et eros porttitor, ultricies urna vitae,         molestie nibh. Phasellus at commodo eros, non aliquet metus. Sed maximus nisl nec dolor         bibendum, vel congue leo egestas.           Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit         amet auctor at, mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel,         molestie quam. Fusce blandit tincidunt nulla, quis sollicitudin libero facilisis et. Integer         interdum nunc ligula, et fermentum metus hendrerit id. Vestibulum lectus felis, dictum at         lacinia sit amet, tristique id quam. Cras eu consequat dui. Suspendisse sodales nunc ligula,         in lobortis sem porta sed. Integer id ultrices magna, in luctus elit. Sed a pellentesque         est.           Aenean nunc velit, lacinia sed dolor sed, ultrices viverra nulla. Etiam a venenatis nibh.         Morbi laoreet, tortor sed facilisis varius, nibh orci rhoncus nulla, id elementum leo dui         non lorem. Nam mollis ipsum quis auctor varius. Quisque elementum eu libero sed commodo. In         eros nisl, imperdiet vel imperdiet et, scelerisque a mauris. Pellentesque varius ex nunc,         quis imperdiet eros placerat ac. Duis finibus orci et est auctor tincidunt. Sed non viverra         ipsum. Nunc quis augue egestas, cursus lorem at, molestie sem. Morbi a consectetur ipsum, a         placerat diam. Etiam vulputate dignissim convallis. Integer faucibus mauris sit amet finibus         convallis.           Phasellus in aliquet mi. Pellentesque habitant morbi tristique senectus et netus et         malesuada fames ac turpis egestas. In volutpat arcu ut felis sagittis, in finibus massa         gravida. Pellentesque id tellus orci. Integer dictum, lorem sed efficitur ullamcorper,         libero justo consectetur ipsum, in mollis nisl ex sed nisl. Donec maximus ullamcorper         sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.     "</string>
+    <string name="default_web_client_id">24080159450-3r7egt0k1497nrpssi731pr7k8pr087i.apps.googleusercontent.com</string>
+    <string name="lbEditarPErfil"><![CDATA[<u>EditarPerfil</u>]]></string>
+    <string name="txt1bienvenida">Encuentra doctores de confianza</string>
+    <string name="txt2bienvenida">Lleva todas tus necesidades  médicas en la palma de tu mano</string>
+    <string name="btnContinuar">Continuar</string>
+    <string name="agendarcita">Agendar cita</string>
+    <string name="sucursal">Sucursal:</string>
+    <string name="disponi">Disponibilidad:</string>
+    <string name="fechaselec">Fecha seleccionada...</string>
+    <string name="espacioscitas">Espacios de cita:</string>
+    <string name="motivocita">Motivo de la consulta:</string>
+    <string name="motivosyco"> Escriba sus motivos y comentarios</string>
+    <string name="Apariencia">Apariencia</string>
+    <string name="Modoclaro">Modo Claro</string>
+    <string name="Modooscuro">Modo Oscuro</string>
+    <string name="sistema">Predeterminado por el Sistema</string>
+    <string name="busquedad">Ingresa el nombre o especialidad de tu doctor</string>
+    <string name="busquerecientes">Búsquedas recientes:</string>
+    <string name="busquedadrapida">Búsquedad rápida</string>
+    <string name="molestar">¿Adónde sientes malestar?</string>
+    <string name="centrodeayuda">Centro de ayuda</string>
+    <string name="ayuda">¿Qué podemos ayudarte a encontrar?</string>
+    <string name="txt1contacto">Contáctate con nosotros.</string>
+    <string name="ejemploco">ejemplo@gmail.com</string>
+    <string name="escribaco">Escriba su comentario</string>
+    <string name="enviarco">Enviar Comentario</string>
+    <string name="preguntasfe">Preguntas Frecuentes:</string>
+    <string name="p1">¿Se puede pagar desde la app?</string>
+    <string name="p2">¿Qué pasa si cancelan mi cita?</string>
+    <string name="p3">¿Encontraré aca los mejores doctores?</string>
+    <string name="confi">Configuración</string>
+    <string name="tucuenta">Tu Cuenta</string>
+    <string name="privse">Privacidad y Seguridad</string>
+    <string name="notis">Notificaciones</string>
+    <string name="centroayuda">Centro de Ayuda</string>
+    <string name="cerrarse">Cerrar Sesión</string>
+    <string name="idiomas">Idiomas</string>
+    <string name="micuenta">Mi cuenta</string>
+    <string name="Nombre">Nombre</string>
+    <string name="Apellido">Apellido</string>
+    <string name="Dirección">Dirección</string>
+    <string name="Correo">Correo</string>
+    <string name="Teléfono">Teléfono</string>
+   <string name="Sexo">Sexo</string>
+    <string name="Fechanaci">Fecha de Nacimiento</string>
+    <string name="eliminaruser">Eliminar Usuario</string>
+    <string name="Favoritos">Favoritos</string>
+    <string name="editarperfil">Editar Perfil</string>
+    <string name="cambiarfoto">Cambiar foto de perfil</string>
+    <string name="historialcitas">Historial de citas</string>
+    <string name="nocitas">Aún no tienes citas programadas</string>
+    <string name="bienvenidalogin">Bienvenido de nuevo!</string>
+    <string name="eslogan">Actualiza lo que has dejado plantado y aspira a mejorar.</string>
+    <string name="Contraseña">Contraseña</string>
+    <string name="Iniciar">Iniciar sesión</string>
+    <string name="recucontra">¿Olvidaste la contraseña?</string>
+    <string name="nocuenta">Aún no tienes cuenta? Únete!</string>
+    <string name="Recetas">Recetas</string>
+    <string name="opcionsnotis">¿Deseas recibir notificaciones de DeltaMedic?</string>
+    <string name="mispacientes">Mis pacientes</string>
+    <string name="mensajito">Crea a los integrantes de tu familia que quisieras llevar un control o agendar citas.</string>
+    <string name="nuevopaci">Nuevo paciente</string>
+    <string name="Receta">Receta</string>
+    <string name="Privacidad">Privacidad</string>
+    <string name="text1">Términos de Privacidad y Seguridad</string>
+    <string name="text2">Última actualización: 11/07/2024</string>
+    <string name="text3">Gracias por utilizar nuestra aplicación DeltaMedic. La privacidad y seguridad de sus datos personales son de suma importancia para nosotros. A continuación, detallamos cómo recopilamos, utilizamos y protegemos su información:</string>
+    <string name="text4">1. Información Recopilada:</string>
+    <string name="txt5">Información Personal: Recopilamos información personal que usted proporciona voluntariamente, como nombre, fecha de nacimiento, dirección de correo electrónico, historial médico, síntomas, y cualquier otra información relevante para su salud.</string>
+    <string name="txt6">Información de Uso: Podemos recopilar información sobre cómo interactúa con la aplicación, incluidos registros de acceso, actividades realizadas y preferencias de uso.</string>
+    <string name="txt7">2. Uso de la Información:</string>
+    <string name="txt8">Utilizamos la información recopilada para proporcionar servicios médicos personalizados, incluyendo diagnósticos, recomendaciones de salud, recordatorios de medicación y seguimiento de síntomas.</string>
+    <string name="txt9">La información también puede ser utilizada para mejorar nuestros servicios, personalizar su experiencia y comunicarnos con usted sobre actualizaciones y novedades de la aplicación.</string>
+    <string name="txt10">3. Compartición de Información:</string>
+    <string name="txt11">No compartiremos su información personal con terceros sin su consentimiento explícito, excepto cuando sea necesario para cumplir con la ley, proteger nuestros derechos o en situaciones que requieran asistencia médica urgente. </string>
+    <string name="txt12">Podemos compartir datos anónimos y agregados con fines estadísticos y de investigación.</string>
+    <string name="txt13">4. Seguridad de los Datos:</string>
+    <string name="txt14">Implementamos medidas de seguridad técnicas y organizativas adecuadas para proteger su información personal contra accesos no autorizados, uso indebido o divulgación.</string>
+    <string name="txt15">Regularmente revisamos nuestras prácticas de seguridad y actualizamos nuestros sistemas para mantener la integridad y confidencialidad de sus datos.</string>
+    <string name="txt16">5. Acceso y Control:</string>
+    <string name="txt17">Usted tiene derecho a acceder, corregir o eliminar su información personal en cualquier momento.</string>
+    <string name="txt18">Puede optar por no recibir comunicaciones promocionales por correo electrónico siguiendo las instrucciones proporcionadas en dichas comunicaciones.</string>
+    <string name="txt19">6. Menores de Edad:</string>
+    <string name="txt20">Nuestra aplicación está destinada a personas mayores de 18 años. No recopilamos intencionalmente información de menores sin consentimiento verificable de sus padres o tutores legales.</string>
+    <string name="txt21">7. Cambios en la Política de Privacidad:</string>
+    <string name="txt22">Nos reservamos el derecho de modificar esta Política de Privacidad en cualquier momento. Se le notificará cualquier cambio significativo mediante una notificación dentro de la aplicación o por otros medios adecuados.</string>
+    <string name="txt23">8. Contacto:</string>
+    <string name="txt24">Si tiene preguntas o inquietudes sobre nuestros términos de privacidad y seguridad, o sobre cómo manejamos su información personal, no dude en contactarnos a través de [correo electrónico de contacto.</string>
+    <string name="txt25">Al utilizar DeltaMedic, usted acepta los términos de esta Política de Privacidad. Gracias por confiar en nosotros con su información personal y por utilizar nuestros servicios para mejorar su salud y bienestar.</string>
+    <string name="completaperfil">Completa tu perfil</string>
+    <string name="comencemos">Comencemos con lo básico</string>
+    <string name="btnSiguiente">Siguiente</string>
+    <string name="inicio">Tienes una cuenta? Inicia sesión</string>
+    <string name="pasitos">A pocos pasos de un futuro brillante</string>
+    <string name="viajesito">Comienza un viaje saludable con nosotros.</string>
+    <string name="Hombre">Hombre</string>
+    <string name="Mujer">Mujer</string>
+    <string name="deacuerdoter">Estoy de acuerdo con los Términos y Condiciones.</string>
+    <string name="fotito">Para reconocerte mejor</string>
+    <string name="Omitir">Omitir</string>
+    <string name="codigoveri">Código de Verificación</string>
+    <string name="mensaje">Se ha enviado un código a su email </string>
+    <string name="Registrarse">Registrarse</string>
+    <string name="Ubicación">Ubicación</string>
+    <string name="subir">Subir Reseña</string>
+    <string name="coments">Comentarios de pacientes</string>
+    <string name="myre">Mi Reseña</string>
+    <string name="borrarcu">Borrar cuenta</string>
+    <string name="alerta">Para asegurar que quieres borrar tu cuenta verifica tu contraseña</string>
+    <string name="repite">Repite la contraseña</string>
+    <string name="Borrar">Borrar</string>
+    <string name="reesta">Reestablecer contraseña</string>
+    <string name="newconta">Nueva contraseña</string>
+    <string name="confircontra">Confirmar contraseña</string>
+    <string name="Confirmar">Confirmar</string>
+    <string name="deseas">¿Deseas cerrar sesión?</string>
+    <string name="preguntota">Puedes volver a iniciar sesión en cualquier momento. Si solo quieres cambiar de cuenta, puedes hacerlo agregando una cuenta existente.</string>
+    <string name="Cancelar">Cancelar</string>
+    <string name="codiguito">Ingrese su código</string>
+    <string name="ingresar">Ingresa el código de 4 dígítos que recibiste en tu correo electrónico</string>
+    <string name="Perfil">Perfil</string>
+    <string name="duo">Nombre Apellido</string>
+    <string name="Personalizar">Personalizar</string>
+    <string name="docsfav">Mis doctores favoritos</string>
+    <string name="recupe">Recuperación de contraseña</string>
+    <string name="mensajote">Te enviaremos un codigo de 4 digitos a tu correo electronico.</string>
+    <string name="confircita">Confirma la cita</string>
+    <string name="yacasi">Ya casi estamos..</string>
+    <string name="listo">Dale listo para continuar</string>
+    <string name="listote">Listo</string>
+    <string name="editarcita">Editar cita</string>
+    <string name="recordatorio">Recordatorio de citas próximas</string>
+    <string name="ñocitas">Aún no tienes citas programadas</string>
+    <string name="recortra">Recordatorio de tratamientos</string>
+    <string name="notra">Aún no tienes tratamientos programadas</string>
+    <string name="Control">Control</string>
+    <string name="espe">Especialidades:</string>
+    <string name="docer">Doctores cercanos</string>
+    <string name="resultados">Resultados de:</string>
+    <string name="Bienvenido">Bienvenido</string>
+    <string name="opciones">Podrías sentir</string>
+    <string name="cabeza">Dolor de cabeza</string>
+    <string name="nauseas">Nauseas</string>
+    <string name="fiebre">Temperatura</string>
+    <string name="proxcita">Proxima cita</string>
+    <string name="Recientes">Recientes</string>
+    <string name="centrosvisitados">Aún no tienes centros medicos visitados</string>
+   <string name="citasignadas">Aún no tienes citas asignadas</string>
+    <string name="trata">Aún no tienes tratamientos asignados</string>
+    <string name="misrecetas">Mis recetas</string>
+    <string name="mihisto">Mi historial de citas</string>
+    <string name="misrese">Mis reseñas</string>
+    <string name="Email">Correo</string>
+    <string name="Reseñas">Reseñas</string>
+    <string name="Servicios">Servicios</string>
+    <string name="reservar">Reservar ahora</string>
+    <string name="selecciona">Selecciona una sucursal</string>
+    <string name="presionaaquí">Presiona aquí</string>
+    <string name="nonitis">No tienes ninguna notificación</string>
+    <string name="cambiar">Cambiar Contraseña</string>
 
-    <string name="lorem_ipsum">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
-        volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
-        dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
-        litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse blandit eleifend
-        diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
-        ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.\n\n
-        Suspendisse interdum ornare ante. Aliquam nec cursus lorem. Morbi id magna felis. Vivamus
-        egestas, est a condimentum egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed
-        neque. Morbi tellus erat, dapibus ut sem a, iaculis tincidunt dui. Interdum et malesuada
-        fames ac ante ipsum primis in faucibus. Curabitur et eros porttitor, ultricies urna vitae,
-        molestie nibh. Phasellus at commodo eros, non aliquet metus. Sed maximus nisl nec dolor
-        bibendum, vel congue leo egestas.\n\n
-        Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit
-        amet auctor at, mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel,
-        molestie quam. Fusce blandit tincidunt nulla, quis sollicitudin libero facilisis et. Integer
-        interdum nunc ligula, et fermentum metus hendrerit id. Vestibulum lectus felis, dictum at
-        lacinia sit amet, tristique id quam. Cras eu consequat dui. Suspendisse sodales nunc ligula,
-        in lobortis sem porta sed. Integer id ultrices magna, in luctus elit. Sed a pellentesque
-        est.\n\n
-        Aenean nunc velit, lacinia sed dolor sed, ultrices viverra nulla. Etiam a venenatis nibh.
-        Morbi laoreet, tortor sed facilisis varius, nibh orci rhoncus nulla, id elementum leo dui
-        non lorem. Nam mollis ipsum quis auctor varius. Quisque elementum eu libero sed commodo. In
-        eros nisl, imperdiet vel imperdiet et, scelerisque a mauris. Pellentesque varius ex nunc,
-        quis imperdiet eros placerat ac. Duis finibus orci et est auctor tincidunt. Sed non viverra
-        ipsum. Nunc quis augue egestas, cursus lorem at, molestie sem. Morbi a consectetur ipsum, a
-        placerat diam. Etiam vulputate dignissim convallis. Integer faucibus mauris sit amet finibus
-        convallis.\n\n
-        Phasellus in aliquet mi. Pellentesque habitant morbi tristique senectus et netus et
-        malesuada fames ac turpis egestas. In volutpat arcu ut felis sagittis, in finibus massa
-        gravida. Pellentesque id tellus orci. Integer dictum, lorem sed efficitur ullamcorper,
-        libero justo consectetur ipsum, in mollis nisl ex sed nisl. Donec maximus ullamcorper
-        sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus
-        libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
-        vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
-    </string>
 </resources>
