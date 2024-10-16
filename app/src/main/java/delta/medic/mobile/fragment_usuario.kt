@@ -146,6 +146,10 @@ class fragment_usuario : Fragment() {
         val lbCorreo = root.findViewById<TextView>(R.id.txtNotiiii)
         val lbPersonalizar = root.findViewById<TextView>(R.id.lbPersonalizarPerfil)
         val lbPerfil = root.findViewById<TextView>(R.id.lbPerfil)
+        val lbMisDoctores = root.findViewById<TextView>(R.id.txtMisDoctores)
+        val lbMisRecetas = root.findViewById<TextView>(R.id.txtMisRecetas)
+        val lbMisCitas = root.findViewById<TextView>(R.id.txtMisCitas)
+        val lbMisResenas = root.findViewById<TextView>(R.id.txtMisResenas)
         lbPerfil.setText(Html.fromHtml(getResources().getString(R.string.lbPerfilSub)))
 
         loadData(lbNombre, lbCorreo, imgvFoto)
@@ -153,7 +157,7 @@ class fragment_usuario : Fragment() {
         /******************************************************************************************
          * Cambiar tema (modo claro/oscuro)
          ******************************************************************************************/
-        applyThemeColors(imgvDoctoresFavoritos, imgvRecetas, imgvHistorialCitas, imgvMisReseñas, lbPersonalizar)
+        applyThemeColors(imgvDoctoresFavoritos, imgvRecetas, imgvHistorialCitas, imgvMisReseñas, lbPersonalizar, lbMisDoctores, lbMisRecetas, lbMisCitas, lbMisResenas)
 
         /******************************************************************************************
          * OnClick events
@@ -210,24 +214,36 @@ class fragment_usuario : Fragment() {
         imgvRecetas: ImageView,
         imgvHistCitas: ImageView,
         imgvMisReseñas: ImageView,
-        lbPersonalizarPerfil: TextView
+        lbPersonalizarPerfil: TextView,
+        txtMisDoctores: TextView,
+        txtMisRecetas: TextView,
+        txtMisCitas: TextView,
+        txtMisResenas: TextView
     ) {
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
 
         when (currentNightMode) {
             Configuration.UI_MODE_NIGHT_NO -> {
-                imgvDocFav.setImageResource(R.drawable.ic_mdf_perfil)
-                imgvRecetas.setImageResource(R.drawable.ic_mr_perfil)
-                imgvHistCitas.setImageResource(R.drawable.ic_mhdc_perfil)
-                imgvMisReseñas.setImageResource(R.drawable.ic_mir_perfil)
+                imgvDocFav.setImageResource(R.drawable.misdocsfavs)
+                imgvRecetas.setImageResource(R.drawable.misrecetas)
+                imgvHistCitas.setImageResource(R.drawable.miscitas)
+                imgvMisReseñas.setImageResource(R.drawable.misresenas)
                 lbPersonalizarPerfil.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+                txtMisDoctores.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+                txtMisRecetas.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+                txtMisCitas.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+                txtMisResenas.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
             }
             Configuration.UI_MODE_NIGHT_YES -> {
-                imgvDocFav.setImageResource(R.drawable.ic_mdf_perfil_darksito)
-                imgvRecetas.setImageResource(R.drawable.ic_mr_perfil_dark)
-                imgvHistCitas.setImageResource(R.drawable.ic_mhdc_perfil_dark)
-                imgvMisReseñas.setImageResource(R.drawable.ic_mir_perfil_dark)
+                imgvDocFav.setImageResource(R.drawable.misdocsblack)
+                imgvRecetas.setImageResource(R.drawable.misrecetasblack)
+                imgvHistCitas.setImageResource(R.drawable.miscitasblack)
+                imgvMisReseñas.setImageResource(R.drawable.misresenasblack)
                 lbPersonalizarPerfil.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+                txtMisDoctores.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                txtMisRecetas.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                txtMisCitas.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                txtMisResenas.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
             }
         }
     }
