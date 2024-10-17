@@ -1191,7 +1191,7 @@ BEGIN
 END Trigger_Expediente;
 /
 
--- TRIGGER_CITA_MÃ‰DICA --
+-- TRIGGER_CITA_MÉDICA --
 CREATE OR REPLACE TRIGGER Trigger_CitaMedica
 BEFORE INSERT ON tbCitasMedicas
 FOR EACH ROW
@@ -1773,10 +1773,7 @@ INSERT ALL
     INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
         VALUES(2, 'Mal Servicio', 1, 2)
 SELECT DUMMY FROM DUAL;
-
-    INSERT INTO tbReviews(promEstrellas, comentario, ID_Doctor, ID_Usuario)
-            VALUES(4, 'Mal Servicio', 1, 2); COMMIT;
-        
+       
 
 INSERT ALL
     INTO tbPropietarios(ID_Usuario, ID_Establecimiento)
@@ -2124,3 +2121,25 @@ INNER JOIN
     tbEspecialidades e ON d.ID_Especialidad = e.ID_Especialidad
 WHERE u.emailUsuario = 'xam@gmail.com';
 select * from tbFichasmedicas;
+
+Select * from tbReviews;
+Select * from tbUsuarios;
+--Para las reviews
+SELECT 
+    u.imgUsuario, 
+    (u.nombreUsuario || ' ' || u.apellidoUsuario) AS "Nombre",
+    r.Comentario,
+    r.PromEstrellas
+FROM
+    tbReviews r
+INNER JOIN
+    tbUsuarios u ON r.ID_Usuario = u.ID_Usuario
+WHERE
+    EXISTS (
+        SELECT 1
+        FROM tbDoctores d
+        INNER JOIN tbUsuarios u ON u.ID_Usuario = d.ID_Usuario
+        WHERE u.emailUsuario = 'xam@gmail.com'
+        AND d.ID_Doctor = r.ID_Doctor
+    );
+
